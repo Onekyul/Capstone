@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 141867360}
   - component: {fileID: 141867359}
   - component: {fileID: 141867358}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TemAlchemist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -376,7 +376,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.9245283, g: 0.11774653, b: 0.8738005, a: 1}
   m_FlipX: 0
@@ -413,7 +413,8 @@ GameObject:
   m_Component:
   - component: {fileID: 604402886}
   - component: {fileID: 604402885}
-  m_Layer: 0
+  - component: {fileID: 604402887}
+  m_Layer: 8
   m_Name: TempPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -463,7 +464,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -490,6 +491,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &604402887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604402884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c0cb60f25a15bb4a86be00086f978e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
 --- !u!1 &1502525957
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,7 +516,7 @@ GameObject:
   - component: {fileID: 1502525960}
   - component: {fileID: 1502525959}
   - component: {fileID: 1502525958}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TempWizard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -610,7 +624,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.9716981, g: 0.087086126, b: 0.087086126, a: 1}
   m_FlipX: 0
@@ -648,7 +662,7 @@ GameObject:
   - component: {fileID: 1757844429}
   - component: {fileID: 1757844428}
   - component: {fileID: 1757844427}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TempSwapWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -744,7 +758,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.8867924, g: 0.78269786, b: 0.09620863, a: 1}
   m_FlipX: 0
@@ -781,7 +795,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2021845839}
   - component: {fileID: 2021845838}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TempTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -870,7 +884,7 @@ GameObject:
   - component: {fileID: 2103857445}
   - component: {fileID: 2103857444}
   - component: {fileID: 2103857443}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TempBlacksmith
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -978,7 +992,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.10721393, g: 0.122641504, b: 0.10586507, a: 1}
   m_FlipX: 0
