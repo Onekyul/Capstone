@@ -5,13 +5,29 @@ public class NPCController : MonoBehaviour
 {
     public GameObject interactionPrompt;
 
-    protected bool isPlayerRange = false;
+    protected bool isPlayerInRange = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (interactionPrompt != null)
         {
             interactionPrompt.SetActive(false);
+        }
+    }
+    
+    protected virtual void OnEnable()
+    {
+        if (InputManager.instance != null)
+        {
+            InputManager.instance.OnInteractPressed += HandleInteraction;
+        }
+    }
+    
+    protected virtual void OnDisable()
+    {
+        if (InputManager.instance != null)
+        {
+            InputManager.instance.OnInteractPressed -= HandleInteraction;
         }
     }
 
@@ -23,7 +39,7 @@ public class NPCController : MonoBehaviour
             {
                 interactionPrompt.SetActive(true);
             }
-            isPlayerRange = true;
+            isPlayerInRange = true;
         }
         ;
     }
@@ -36,14 +52,19 @@ public class NPCController : MonoBehaviour
             {
                 interactionPrompt.SetActive(false);
             }
-            isPlayerRange=false;
+            isPlayerInRange=false;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isPlayerRange && Input.GetKeyDown(KeyCode.E))
+     
+    }
+
+    private void HandleInteraction()
+    {
+        if (isPlayerInRange)
         {
             Interact();
         }
