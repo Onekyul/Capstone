@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Wizard : NPCController
+public class SwapWeapon : NPCController
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,6 +15,6 @@ public class Wizard : NPCController
     }
     public override void Interact()
     {
-        Debug.Log("Wizard");
+        Debug.Log("Swap Weapon");
     }
 }
