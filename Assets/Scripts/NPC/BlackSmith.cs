@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class BlackSmith : NPCController
 {
+    private string npcName = "대장장이";
+    [TextArea(3, 10)] public string dialogue;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,6 +18,21 @@ public class BlackSmith : NPCController
 
     public override void Interact()
     {
-        Debug.Log("Black Smith");
+        if (UIManager.instance.IsDialogueOpen)
+        {
+            UIManager.instance.CloseDialoguePanel();
+            if (interactionPrompt != null)
+            {
+                interactionPrompt.SetActive(true);
+            }
+        }
+        else
+        {
+            if (interactionPrompt != null)
+            {
+                interactionPrompt.SetActive(false);
+            }
+            UIManager.instance.OpenDialoguePanel(npcName, dialogue);
+        }
     }
 }
