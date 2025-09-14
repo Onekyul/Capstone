@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3350336043442586408}
   - component: {fileID: 2114487372156166692}
   - component: {fileID: 4013790463242081311}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SwapWeapon
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 4661001307752912011}
+  dialogue: 
 --- !u!1 &4661001307752912011
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,7 +161,7 @@ GameObject:
   - component: {fileID: 3874330583560696072}
   - component: {fileID: 1856486465380450327}
   - component: {fileID: 7116371826537308011}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,7 +298,7 @@ GameObject:
   - component: {fileID: 2441627579110720931}
   - component: {fileID: 5842716857106230478}
   - component: {fileID: 7652141938557900614}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

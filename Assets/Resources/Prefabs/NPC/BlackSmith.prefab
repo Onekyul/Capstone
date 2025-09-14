@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5373125678924488154}
   - component: {fileID: 4208273037673575607}
   - component: {fileID: 90798230412922687}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 6824969037595994481}
   - component: {fileID: 8264345646022088814}
   - component: {fileID: 698379507873695506}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,9 +250,9 @@ GameObject:
   - component: {fileID: 4975777130567080785}
   - component: {fileID: 8515006178806807133}
   - component: {fileID: 5258742818906082317}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BlackSmith
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -387,3 +387,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 3160535110229265650}
+  dialogue: 
