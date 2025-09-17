@@ -19,4 +19,10 @@ public class PlayerController : MonoBehaviour
         Vector3 moveDir = new Vector3(inputX, inputY, 0).normalized;
         transform.position += moveDir * speed * Time.deltaTime;
     }
+
+
+    public void TakeDamage(double damage)
+    {
+        Debug.Log("데미지" + damage);
+    }
 }
