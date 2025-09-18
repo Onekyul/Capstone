@@ -350,9 +350,9 @@ GameObject:
   m_Component:
   - component: {fileID: 714793420}
   - component: {fileID: 714793419}
-  - component: {fileID: 714793418}
   - component: {fileID: 714793417}
   - component: {fileID: 714793421}
+  - component: {fileID: 714793422}
   m_Layer: 0
   m_Name: EnemyExample
   m_TagString: Untagged
@@ -406,19 +406,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &714793418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 714793416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2f0b94c449ab5e4dbbdecbcf8d25faa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 2
 --- !u!212 &714793419
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -516,6 +503,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &714793422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714793416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af085becf5a201b47b6c61d372d07ceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  contactDamage: 5
+  damageInterval: 0.25
+  moveSpeed: 2
 --- !u!1 &1497838274
 GameObject:
   m_ObjectHideFlags: 0
@@ -525,6 +527,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1497838277}
+  - component: {fileID: 1497838279}
   - component: {fileID: 1497838276}
   - component: {fileID: 1497838275}
   - component: {fileID: 1497838278}
@@ -668,6 +671,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1497838279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497838274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c0cb60f25a15bb4a86be00086f978e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

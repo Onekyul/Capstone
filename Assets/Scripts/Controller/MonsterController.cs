@@ -3,52 +3,40 @@ using System.Collections.Generic;
 
 public class MonsterController : MonoBehaviour
 {
-    [SerializeField]
-    private float moveSpeed = 2f; // 적의 이동 속도
 
 
-    protected Transform player; // 현재 타겟(가장 가까운 Player)
+    [SerializeField] private double contactDamage = 5.0;
+    [SerializeField] private float damageInterval = 0.25f;
+    private readonly Dictionary<PlayerController, float> lastDamageTime = new();
+
+    protected Transform player;
     protected SpriteRenderer spriteRenderer;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         player = GetClosestPlayer();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        // 매 프레임 가장 가까운 플레이어 갱신
-        player = GetClosestPlayer();
-        if (player == null)
-        {
-            // 타겟이 없으면 상태 리셋 후 종료
-            return;
-        }
-        //플레이어 위치에 따라 스프라이트 좌우 반전
-        FlipSpriteTowardsPlayer();
-        FollowPlayer();
-    }
+        // 1) 접촉 데미지는 플레이어 유무와 관계없이 매 프레임 처리
+        ProcessContactDamage();
 
+        // 2) 추적/이동 로직
+        player = GetClosestPlayer();
+        if (player == null) return;
+
+        FlipSpriteTowardsPlayer();
+    }
 
     protected void FlipSpriteTowardsPlayer()
     {
-        if (spriteRenderer != null) 
+        if (spriteRenderer != null && player != null)
         {
             spriteRenderer.flipX = player.position.x > transform.position.x;
         }
     }
-
-    protected void FollowPlayer()
-    {
-        if(player == null) return;
-
-        Vector2 targetPosition = new Vector2(player.position.x, player.position.y);
-        transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-    }
-
 
 
     protected Transform GetClosestPlayer()
@@ -73,5 +61,51 @@ public class MonsterController : MonoBehaviour
         return closest;
     }
 
+    // 접촉 중인 플레이어들에게 주기적 데미지
+    private void ProcessContactDamage()
+    {
+        if (lastDamageTime.Count == 0) return;
 
+        var snapshot = new List<PlayerController>(lastDamageTime.Keys);
+        foreach (var pc in snapshot)
+        {
+            if (pc == null || !pc.gameObject.activeInHierarchy)
+            {
+                lastDamageTime.Remove(pc);
+                continue;
+            }
+
+            float last = lastDamageTime[pc];
+            if (Time.time - last >= damageInterval)
+            {
+                pc.TakeDamage(contactDamage);
+                lastDamageTime[pc] = Time.time;
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!other.CompareTag("Player")) return;
+        var pc = other.GetComponent<PlayerController>();
+        if (pc == null) return;
+
+        // 즉시 1틱 (원치 않으면 아래 두 줄 제거)
+        pc.TakeDamage(contactDamage);
+        lastDamageTime[pc] = Time.time;
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (!other.CompareTag("Player")) return;
+        var pc = other.GetComponent<PlayerController>();
+        if (pc == null) return;
+
+        lastDamageTime.Remove(pc);
+    }
+
+    private void OnDisable()
+    {
+        lastDamageTime.Clear();
+    }
 }
