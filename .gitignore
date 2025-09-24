@@ -73,6 +73,9 @@ mono_crash.*
 *.unitypackage.meta
 *.app
 
+# Visual Studio Code settings
+.vscode/
+
 # Crashlytics generated file
 crashlytics-build.properties
 
