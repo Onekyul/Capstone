@@ -5,7 +5,10 @@ public class MonsterController : MonoBehaviour
 {
 
 
-    [SerializeField] private double contactDamage = 5.0;
+    [SerializeField] private float contactDamage = 5.0f;
+
+    public float normalDamage => contactDamage;
+
     [SerializeField] private float damageInterval = 0.25f;
     private readonly Dictionary<PlayerController, float> lastDamageTime = new();
 
@@ -108,4 +111,6 @@ public class MonsterController : MonoBehaviour
     {
         lastDamageTime.Clear();
     }
+    
+    
 }

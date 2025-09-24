@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = movementInput * playerSpeed; //플레이어 이동
     }
 
-    public void takeDamage(float damage) // 데미지 받는 함수
+    public void TakeDamage(float damage) // 데미지 받는 함수
     {
         if (bIsInvulnerable || playerCurHP <= 0) return;
     
@@ -96,8 +96,8 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             // Enemy 스크립트에서 데미지 값을 가져오거나 기본값 사용
-            float damage = other.GetComponent<EnemyController>()?.damageValue ?? 10f;
-            takeDamage(damage);
+            float damage = other.GetComponent<MonsterController>()?.normalDamage ?? 10f;
+            TakeDamage(damage);
         }
     }
 
