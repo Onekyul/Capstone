@@ -53,6 +53,11 @@ public class NPCController : MonoBehaviour
                 interactionPrompt.SetActive(false);
             }
             isPlayerInRange=false;
+            
+            if (UIManager.instance != null)
+            {
+                UIManager.instance.CloseDialoguePanel();
+            }
         }
     }
 
