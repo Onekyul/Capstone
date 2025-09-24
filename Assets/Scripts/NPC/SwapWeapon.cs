@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class BlackSmith : NPCController
+public class SwapWeapon : NPCController
 {
-    private string npcName = "대장장이";
+    private string npcName = "무기 변경";
+
     [TextArea(3, 10)] public string dialogue;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,7 +16,6 @@ public class BlackSmith : NPCController
     {
         
     }
-
     public override void Interact()
     {
         if (UIManager.instance.IsDialogueOpen)
