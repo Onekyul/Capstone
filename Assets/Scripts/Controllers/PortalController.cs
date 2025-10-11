@@ -1,29 +1,19 @@
 using System;
 using UnityEngine;
 
-public class NPCController : MonoBehaviour
+public class PortalController : MonoBehaviour
 {
-    public GameObject interactionPrompt;
+    [SerializeField] private GameObject interactionPrompt;
+    private bool isPlayerInRange = false;
 
-    protected bool isPlayerInRange = false;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        if (interactionPrompt != null)
-        {
-            interactionPrompt.SetActive(false);
-        }
-    }
-    
-    protected virtual void OnEnable()
+    private void OnEnable()
     {
         if (InputManager.instance != null)
         {
             InputManager.instance.OnInteractPressed += HandleInteraction;
         }
     }
-    
-    protected virtual void OnDisable()
+    private void OnDisable()
     {
         if (InputManager.instance != null)
         {
@@ -35,6 +25,7 @@ public class NPCController : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+           
             if (interactionPrompt != null)
             {
                 interactionPrompt.SetActive(true);
@@ -43,7 +34,7 @@ public class NPCController : MonoBehaviour
         }
         ;
     }
-
+    
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -53,30 +44,15 @@ public class NPCController : MonoBehaviour
                 interactionPrompt.SetActive(false);
             }
             isPlayerInRange=false;
-            
-            if (UIManager.instance != null)
-            {
-                UIManager.instance.CloseDialoguePanel();
-            }
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-     
-    }
-
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void HandleInteraction()
     {
         if (isPlayerInRange)
         {
-            Interact();
+            UIManager.instance.OpenDungeonSelectPanel();
         }
-    }
-
-    public virtual void Interact()
-    {
-        Debug.Log("Interact");
     }
 }
