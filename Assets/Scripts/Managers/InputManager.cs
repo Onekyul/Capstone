@@ -47,7 +47,7 @@ public class InputManager : MonoBehaviour
         }
         
 
-        if (Camera.main != null && lookOrigin != null) // 캐릭터가 마우스 커서를 바라보게 하는 방향 계산산       
+        if (Camera.main != null && lookOrigin != null) // 캐릭터가 마우스 커서를 바라보게 하는 방향 계산      
         {
             Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
             mouseWorld.z = 0f;                                 
