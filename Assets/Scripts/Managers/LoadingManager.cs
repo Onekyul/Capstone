@@ -13,7 +13,6 @@ public class LoadingManager : MonoBehaviour
         string targetScene = SceneLoader.Instance.GetNextSceneName();
 
         if (string.IsNullOrEmpty(targetScene)) {
-            Debug.LogError("로드할 씬 이름이 설정되지 않았습니다. 기본 씬으로 돌아갑니다.");
             SceneManager.LoadScene("MainMenu"); 
             return;
         }
