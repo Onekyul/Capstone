@@ -18,8 +18,8 @@ TagManager:
   - Player
   - NPC
   - Ground
+  - Wall
   - 
-  - Arrow
   - 
   - 
   - 

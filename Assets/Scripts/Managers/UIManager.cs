@@ -12,6 +12,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI speakerNameText;
     [SerializeField] private TextMeshProUGUI dialogueText;
     
+    [Header("던전 UI")]
+    [SerializeField] private DungeonSelectPanelController dungeonSelectPanelController;
+
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -47,4 +51,10 @@ public class UIManager : MonoBehaviour
     {
         dialoguePanel.SetActive(false);
     }
+    public void OpenDungeonSelectPanel()
+    {
+        dungeonSelectPanelController.OpenPanel();
+    }
+ 
+    
 }
