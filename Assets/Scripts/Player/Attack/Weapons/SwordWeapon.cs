@@ -39,7 +39,7 @@ public class SwordWeapon : WeaponBase
         {
             if (enemy != null)
             {
-                //enemy.GetComponent<MonsterController>()?.TakeDamage(damage);
+                enemy.GetComponent<MonsterController>()?.TakeDamage(damage);
             }
         }
         
