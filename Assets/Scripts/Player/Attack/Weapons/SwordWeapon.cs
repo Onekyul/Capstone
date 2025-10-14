@@ -12,9 +12,10 @@ public class SwordWeapon : WeaponBase
 
     public override void Attack(Vector2 direction) // WeaponBase.cs 의 Attack 추상 메소드 재정의
     {
-        
+        //Debug.Log("SwordWeapon: Attack called");
         if (Time.time - lastAttackTime < attackCooldown || bIsAttacking) //쿨타임 체크 || 공격 중인치 체크크
         {
+            //Debug.Log("SwordWeapon: Attack blocked - cooldown or already attacking");
             return;
         }
         
@@ -65,21 +66,27 @@ public class SwordWeapon : WeaponBase
         
         // 부채꼴 범위 내의 모든 콜라이더 감지 (모든 레이어)
         Collider2D[] allColliders = Physics2D.OverlapCircleAll(transform.position, swordRange);
+        //Debug.Log($"SwordWeapon: Found {allColliders.Length} total colliders in range");
         
         // Enemy 레이어만 필터링
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, swordRange, enemyLayer);
+        //Debug.Log($"SwordWeapon: Found {colliders.Length} colliders in range (Position: {transform.position}, Range: {swordRange}, Layer: {enemyLayer})");
         
         foreach (Collider2D col in colliders)
         {
             Vector2 enemyDirection = (col.transform.position - transform.position).normalized;
             float angle = Vector2.Angle(lastAttackDir, enemyDirection);
             
+            //Debug.Log($"SwordWeapon: Enemy {col.name} - Angle: {angle}, Required: {attackAngle / 2f}");
+            
             if (angle <= attackAngle / 2f)
             {
                 enemiesInRange.Add(col.gameObject);
-        
+                //Debug.Log($"SwordWeapon: Enemy {col.name} added to attack list");
             }
         }
+        
+        //Debug.Log($"SwordWeapon: Total enemies in attack range: {enemiesInRange.Count}");
 
         // 부채꼴 범위 시각화용 (디버그)
         Debug.DrawRay(transform.position, transform.right * swordRange, Color.red, 0.1f);

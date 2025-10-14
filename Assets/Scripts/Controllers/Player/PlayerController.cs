@@ -57,18 +57,9 @@ public class PlayerController : MonoBehaviour
         movementInput = move;
     }
 
-    void FixedUpdate()
+     void FixedUpdate()
     {
-        //대각선 가속화 해결
-        if (movementInput.sqrMagnitude > 0)
-        {
-            Vector2 moveDirection = movementInput.normalized;
-            rb.linearVelocity = moveDirection * playerSpeed;
-        }
-        else
-        {
-            rb.linearVelocity = Vector2.zero;
-        }
+        rb.linearVelocity = movementInput * playerSpeed; //플레이어 이동
     }
 
     public void TakeDamage(float damage) // 데미지 받는 함수
