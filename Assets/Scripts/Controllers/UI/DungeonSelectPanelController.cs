@@ -42,7 +42,8 @@ public class DungeonSelectPanelController : MonoBehaviour
         if (selectedFloor > 0)
         {
             ClosePanel();
-            SceneManager.LoadScene("BattelTestScene");
+            SceneLoader.Instance.LoadSceneByButton("BattelTestScene");
+
         }
     }
 
