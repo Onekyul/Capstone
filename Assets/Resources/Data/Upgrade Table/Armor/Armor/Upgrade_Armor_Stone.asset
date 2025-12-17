@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30b5b07b3bdaf6345a3504d92a8e7af1, type: 3}
+  m_Name: Upgrade_Armor_Stone
+  m_EditorClassIdentifier: 
+  steps:
+  - successRate: 100
+    requiredMaterial: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
+    materialCount: 5
+    nextTierWeapon: {fileID: 0}
+    nextTierArmor: {fileID: 0}
+  - successRate: 80
+    requiredMaterial: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
+    materialCount: 5
+    nextTierWeapon: {fileID: 0}
+    nextTierArmor: {fileID: 0}
+  - successRate: 70
+    requiredMaterial: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
+    materialCount: 5
+    nextTierWeapon: {fileID: 0}
+    nextTierArmor: {fileID: 0}
+  - successRate: 60
+    requiredMaterial: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
+    materialCount: 20
+    nextTierWeapon: {fileID: 0}
+    nextTierArmor: {fileID: 0}
+  - successRate: 50
+    requiredMaterial: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
+    materialCount: 30
+    nextTierWeapon: {fileID: 0}
+    nextTierArmor: {fileID: 0}
+  - successRate: 100
+    requiredMaterial: {fileID: 11400000, guid: 09c59735580579f448ec6c4a7a9351d8, type: 2}
+    materialCount: 5
+    nextTierWeapon: {fileID: 0}
+    nextTierArmor: {fileID: 11400000, guid: 9d7d41317c6523647955edd922465b60, type: 2}

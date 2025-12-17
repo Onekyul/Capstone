@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d470af0792cbf4344a3cab06c6898b7f, type: 3}
+  m_Name: Enchant_poison
+  m_EditorClassIdentifier: 
+  enchantId: ent_poison
+  enchantName: "\uB9F9\uB3C5\uC758 \uCE68\uC2DD"
+  icon: {fileID: 0}
+  lockedIcon: {fileID: 0}
+  levels:
+  - successRate: 100
+    requiredMaterials:
+    - material: {fileID: 11400000, guid: df2b613dae72c024a8fb75de15499e50, type: 2}
+      count: 1
+    parameters:
+    - type: 1
+      value: 15
+    - type: 3
+      value: 3
+    - type: 2
+      value: 10
+  - successRate: 70
+    requiredMaterials:
+    - material: {fileID: 11400000, guid: df2b613dae72c024a8fb75de15499e50, type: 2}
+      count: 5
+    parameters:
+    - type: 1
+      value: 20
+    - type: 3
+      value: 3
+    - type: 2
+      value: 15
+  - successRate: 50
+    requiredMaterials:
+    - material: {fileID: 11400000, guid: df2b613dae72c024a8fb75de15499e50, type: 2}
+      count: 10
+    parameters:
+    - type: 1
+      value: 25
+    - type: 3
+      value: 3
+    - type: 2
+      value: 20
+  - successRate: 30
+    requiredMaterials:
+    - material: {fileID: 11400000, guid: df2b613dae72c024a8fb75de15499e50, type: 2}
+      count: 20
+    parameters:
+    - type: 1
+      value: 30
+    - type: 3
+      value: 3
+    - type: 2
+      value: 25
+  - successRate: 10
+    requiredMaterials:
+    - material: {fileID: 11400000, guid: df2b613dae72c024a8fb75de15499e50, type: 2}
+      count: 30
+    parameters:
+    - type: 1
+      value: 40
+    - type: 3
+      value: 3
+    - type: 2
+      value: 25
