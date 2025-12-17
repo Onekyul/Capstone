@@ -17,7 +17,7 @@ public class LevelManager : MonoBehaviour
     int curLevel = 0;
     int curExp = 0;
     int[] expTable = { 100, 125, 150, 200 }; // 레벨업에 필요한 경험치 테이블
-    
+
 
     private void Awake()
     {
@@ -115,5 +115,12 @@ public class LevelManager : MonoBehaviour
         }
 
         return results;
+    }
+
+    // 특정 능력의 현재 레벨을 반환하는 함수
+    public int GetAbilityLevel(int id)
+    {
+        if (id < 0 || id >= currentAbilityLevels.Length) return 0;
+        return currentAbilityLevels[id];
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 
 public class UIManager : MonoBehaviour
@@ -83,7 +84,7 @@ public class UIManager : MonoBehaviour
             GameObject newBtn = Instantiate(abilityButtonPrefab, abilityContainer);
 
             // 버튼에 데이터 심어주기 (이 스크립트는 바로 아래 3번에서 만듭니다)
-            AbilityButton buttonScript = newBtn.GetComponent<AbilityButton>();
+            AbilityButtonController buttonScript = newBtn.GetComponent<AbilityButtonController>();
             buttonScript.Setup(ability);
         }
     }
