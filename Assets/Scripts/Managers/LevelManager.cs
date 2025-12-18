@@ -16,6 +16,9 @@ public class LevelManager : MonoBehaviour
     private int[] currentAbilityLevels = new int[40];
     int curLevel = 0;
     int curExp = 0;
+    [SerializeField]
+    [Tooltip("한 번 경험치 획득 시 얻는 경험치 양")]
+    int gainExp = 10;
     int[] expTable = { 100, 125, 150, 200 }; // 레벨업에 필요한 경험치 테이블
 
 
@@ -29,7 +32,7 @@ public class LevelManager : MonoBehaviour
 
     public void GainExperience()
     {
-        curExp += 10;
+        curExp += gainExp;
 
         // 배열 범위를 넘지 않도록 안전장치 추가 (최고 레벨 도달 시 경험치 획득 불가 처리 등)
         if (curLevel >= expTable.Length) return;
@@ -37,7 +40,7 @@ public class LevelManager : MonoBehaviour
         if (curExp >= expTable[curLevel])
         {
             curLevel++;
-            curExp = 0;
+            curExp -= expTable[curLevel - 1];
 
             // [수정됨] 여기서 리턴만 하는 게 아니라, 레벨업 함수를 실행해야 합니다!
             OnLevelUp();
