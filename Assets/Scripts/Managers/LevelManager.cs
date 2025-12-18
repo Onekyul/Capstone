@@ -67,7 +67,7 @@ public class LevelManager : MonoBehaviour
         // 3. UI에 선택지 표시 요청 (옵션이 없으면 바로 종료 처리 등 예외 처리 필요)
         if (options.Count > 0)
         {
-            UIManager.instance.ShowLevelUpScreen(options);
+            DungeonUIManager.instance.ShowLevelUpScreen(options);
         }
         else
         {
@@ -90,7 +90,7 @@ public class LevelManager : MonoBehaviour
         //playerReceiver.ReceiveAbilityUpdate(currentAbilityLevels);
 
         // 3. UI 닫기 및 게임 재개
-        UIManager.instance.HideLevelUpScreen();
+        DungeonUIManager.instance.HideLevelUpScreen();
         Time.timeScale = 1f;
     }
 

@@ -67,33 +67,7 @@ public class UIManager : MonoBehaviour
     {
         dungeonSelectPanelController.OpenPanel();
     }
-    // LevelManager가 호출하는 함수: 화면을 띄우고 버튼을 만듦
-    public void ShowLevelUpScreen(List<AbilityData> options)
-    {
-        levelUpPanel.SetActive(true);
 
-        // 1. 기존에 떠 있던 버튼들이 있다면 싹 지워줍니다. (초기화)
-        foreach (Transform child in abilityContainer)
-        {
-            Destroy(child.gameObject);
-        }
-
-        // 2. 받아온 옵션 개수만큼 버튼을 새로 만듭니다.
-        foreach (AbilityData ability in options)
-        {
-            GameObject newBtn = Instantiate(abilityButtonPrefab, abilityContainer);
-
-            // 버튼에 데이터 심어주기 (이 스크립트는 바로 아래 3번에서 만듭니다)
-            AbilityButtonController buttonScript = newBtn.GetComponent<AbilityButtonController>();
-            buttonScript.Setup(ability);
-        }
-    }
-
-    // LevelManager가 호출하는 함수: 화면 끄기
-    public void HideLevelUpScreen()
-    {
-        levelUpPanel.SetActive(false);
-    }
 }
     
 
