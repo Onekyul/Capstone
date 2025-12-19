@@ -18,8 +18,17 @@ public class PlayerData
 
     //보유 인챈트
     public List<EnchantState> unlockedEnchants = new List<EnchantState>();
-    
 
+    public PlayerData()
+    {
+        ownedWeapons.Add(new EquipmentState("sword_wood",0));
+        ownedArmors.Add(new EquipmentState("helmet_wood",0));
+        ownedArmors.Add(new EquipmentState("armor_wood",0));
+        ownedArmors.Add(new EquipmentState("boots_wood",0));
+    }
+    
+    
+    
     [System.Serializable]
     public class InventorySlot
     {
