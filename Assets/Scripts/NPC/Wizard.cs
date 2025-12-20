@@ -6,10 +6,7 @@ public class Wizard : NPCController
 
     [TextArea(3, 10)] public string dialogue;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+  
 
     // Update is called once per frame
     void Update()
@@ -33,6 +30,65 @@ public class Wizard : NPCController
                 interactionPrompt.SetActive(false);
             }
             UIManager.instance.OpenDialoguePanel(npcName, dialogue);
+        }
+    }
+    
+    public void TryUpgradeCurrentEnchant(string id)
+    {
+        
+        EnchantData currentSelectedEnchant=DataManager.instance.GetEnchantData(id);
+        
+        if (currentSelectedEnchant == null)
+        {
+            Debug.Log("강화할 속성이 선택되지 않았습니다.");
+            return;
+        }
+
+        string enchantId = currentSelectedEnchant.enchantId;
+
+       
+        int currentLevel = DataManager.instance.GetEnchantLevel(enchantId);
+
+       
+        var nextInfo = currentSelectedEnchant.GetNextLevelInfo(currentLevel);
+
+        if (nextInfo == null)
+        {
+            Debug.Log("이미 최고 레벨입니다.");
+            return;
+        }
+
+        // 재료 검사
+        foreach (var req in nextInfo.requiredMaterials)
+        {
+            
+            if (!DataManager.instance.HasInventory(req.material.itemId, req.count))
+            {
+                Debug.Log($"재료 부족: {req.material.itemName} ({req.count}개 필요)");
+                return;
+            }
+        }
+
+        //  강화
+        foreach (var req in nextInfo.requiredMaterials)
+        {
+            DataManager.instance.UseInventory(req.material.itemId, req.count);
+        }
+        
+        int randomVal = Random.Range(0, 100);
+        
+        if (randomVal < nextInfo.successRate)
+        {
+            
+            DataManager.instance.UpgradeEnchant(enchantId);
+            Debug.Log($" [인챈트 성공] ({currentSelectedEnchant.enchantName} +{currentLevel + 1})");
+            
+           
+            // SelectEnchant(currentSelectedEnchant); 
+        }
+        else
+        {
+            Debug.Log("[인챈트 실패]");
         }
     }
 }

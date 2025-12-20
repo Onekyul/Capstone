@@ -63,11 +63,16 @@ public class DataManager : MonoBehaviour
         }
         else
         {
-            currentPlayer.Inventory.Add(new PlayerData.InventorySlot(id, amount)); // 없으면 새로 추가
+            currentPlayer.Inventory.Add(new InventorySlot(id, amount)); // 없으면 새로 추가
         }
         
         // 데이터가 변했으니 저장
         SaveGame();
+    }
+    public bool HasInventory(string id, int amount)
+    {
+        var slot = currentPlayer.Inventory.Find(x => x.itemId == id);
+        return slot != null && slot.count >= amount;// 사용가능인지 판별
     }
     
     public bool UseInventory(string id, int amount)
@@ -127,5 +132,70 @@ public class DataManager : MonoBehaviour
     {
         return Resources.Load<EnchantData>($"Data/Enchants/{id}");
     }
+    
+    //현재 레벨 조회
+    public int GetItemLevel(string id)
+    {
+        var weapon = currentPlayer.ownedWeapons.Find(w => w.itemId == id);
+        if (weapon != null) return weapon.reinforcementLevel;
 
+        var armor = currentPlayer.ownedArmors.Find(a => a.itemId == id);
+        if (armor != null) return armor.reinforcementLevel;
+
+        return 0;
+    }
+
+    public int GetEnchantLevel(string id)
+    {
+        var enchant = currentPlayer.unlockedEnchants.Find(e => e.enchantId == id);
+        return (enchant != null) ? enchant.level : 0;
+    }
+
+    
+    //강화
+    public bool UpgradeEquipment(string id)
+    {
+        var weapon = currentPlayer.ownedWeapons.Find(w => w.itemId == id);
+        if (weapon != null)
+        {
+            weapon.reinforcementLevel++;
+            SaveGame(); 
+            return true;
+        }
+        
+        var armor = currentPlayer.ownedArmors.Find(a => a.itemId == id);
+        if (armor != null)
+        {
+            armor.reinforcementLevel++;
+            SaveGame();
+            return true; 
+        }
+        
+        return false;
+    }
+    
+    //인챈트
+    public void UpgradeEnchant(string id)
+    {
+        var enchant = currentPlayer.unlockedEnchants.Find(e => e.enchantId == id);
+        if (enchant != null) enchant.level++;
+        else currentPlayer.unlockedEnchants.Add(new EnchantState(id,1));
+        
+        SaveGame();
+    }
+    
+    //현재 장착된 ID를 반환
+    public string GetEquippedItemId(EquipmentType type)
+    {
+        switch (type)
+        {
+            case EquipmentType.Weapon: return currentPlayer.equippedWeaponId;
+            case EquipmentType.Helmet: return currentPlayer.equippedHelmetId;
+            case EquipmentType.Armor:  return currentPlayer.equippedArmorId;
+            case EquipmentType.Boots:  return currentPlayer.equippedBootsId;
+            default: return "";
+        }
+    }
+    
+    
 }

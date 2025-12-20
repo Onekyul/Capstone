@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11df4ddc21243924b989b9f26518aa79, type: 3}
+  m_Name: TradeTable
+  m_EditorClassIdentifier: 
+  recipes:
+  - recipeName: wood2stone
+    costItem: {fileID: 11400000, guid: ad7a8e1991b266649b180d0f3a319f05, type: 2}
+    costAmount: 10
+    rewardItem: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
+    rewardAmount: 1
+  - recipeName: stone2iron
+    costItem: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
+    costAmount: 10
+    rewardItem: {fileID: 11400000, guid: 09c59735580579f448ec6c4a7a9351d8, type: 2}
+    rewardAmount: 1
+  - recipeName: iron2diamond
+    costItem: {fileID: 11400000, guid: 09c59735580579f448ec6c4a7a9351d8, type: 2}
+    costAmount: 10
+    rewardItem: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
+    rewardAmount: 1
+  - recipeName: diamond2iron
+    costItem: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
+    costAmount: 1
+    rewardItem: {fileID: 11400000, guid: 09c59735580579f448ec6c4a7a9351d8, type: 2}
+    rewardAmount: 10
+  - recipeName: iron2stone
+    costItem: {fileID: 11400000, guid: 09c59735580579f448ec6c4a7a9351d8, type: 2}
+    costAmount: 1
+    rewardItem: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
+    rewardAmount: 10
+  - recipeName: stone2wood
+    costItem: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
+    costAmount: 1
+    rewardItem: {fileID: 11400000, guid: ad7a8e1991b266649b180d0f3a319f05, type: 2}
+    rewardAmount: 10
+  - recipeName: p2s_fire
+    costItem: {fileID: 11400000, guid: 2df8083dd1a44fc4c907b85cfc7d7fb1, type: 2}
+    costAmount: 10
+    rewardItem: {fileID: 11400000, guid: 0e03e8f7968dda841bb3b746d1fc7494, type: 2}
+    rewardAmount: 1
+  - recipeName: p2s_ice
+    costItem: {fileID: 11400000, guid: 4ee62879083adec4a818e6e8cb5fc825, type: 2}
+    costAmount: 10
+    rewardItem: {fileID: 11400000, guid: c7117540e3811344fbb50421c5d97319, type: 2}
+    rewardAmount: 1
+  - recipeName: p2s_lightning
+    costItem: {fileID: 11400000, guid: 585c0446027dbaf4e82187e2930c5b3b, type: 2}
+    costAmount: 10
+    rewardItem: {fileID: 11400000, guid: a0be7d7eda92a424887a28c6b14937de, type: 2}
+    rewardAmount: 1
+  - recipeName: p2s_poison
+    costItem: {fileID: 11400000, guid: 721eb61ecb3340742a8c74c80649d1a5, type: 2}
+    costAmount: 10
+    rewardItem: {fileID: 11400000, guid: df2b613dae72c024a8fb75de15499e50, type: 2}
+    rewardAmount: 1
+  - recipeName: p2s_water
+    costItem: {fileID: 11400000, guid: 987e3b05ba667bb4eb3b5d5cbf08cd84, type: 2}
+    costAmount: 10
+    rewardItem: {fileID: 11400000, guid: 672d96bafa51afe4494a73df994271b5, type: 2}
+    rewardAmount: 1
