@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aae2f0480c0ff34fbba13c7669ec18e, type: 3}
   m_Name: LifeStealAbility
   m_EditorClassIdentifier: 
-  abilityID: 5
-  maxLevel: 4
+  abilityID: 4
+  maxLevel: 5
   abilityName: "\uD761\uD608"
   icon: {fileID: 3310002292416464744, guid: 33140e5354a0ed94abc36cd25de8d4a2, type: 3}
   description: "\uC801 \uCC98\uCE58 \uC2DC (0)% \uD655\uB960\uB85C \uCCB4\uB825\uC744
