@@ -17,7 +17,6 @@ public class MainMenu : MonoBehaviour
     
     // Main Menu Panel
     public void OnClickStart(){
-        Debug.Log("Start");
         SceneLoader.Instance.LoadSceneByButton("BaseArea");
     }
 
@@ -47,7 +46,6 @@ public class MainMenu : MonoBehaviour
     
     public void OnClickBackToMain()
     {
-        Debug.Log("Back button clicked. Closing settings.");
         if (mainMenuPanel != null && optionPanel != null)
         {
             optionPanel.SetActive(false);
