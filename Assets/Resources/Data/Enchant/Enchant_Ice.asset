@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d470af0792cbf4344a3cab06c6898b7f, type: 3}
+  m_Name: Enchant_Ice
+  m_EditorClassIdentifier: 
+  enchantId: ent_Ice
+  enchantName: "\uBE59\uACB0\uC758 \uC18D\uBC15"
+  icon: {fileID: 0}
+  lockedIcon: {fileID: 0}
+  levels:
+  - successRate: 100
+    requiredMaterials:
+    - material: {fileID: 11400000, guid: c7117540e3811344fbb50421c5d97319, type: 2}
+      count: 1
+    parameters:
+    - type: 7
+      value: 20
+    - type: 1
+      value: 10
+    - type: 3
+      value: 3
+    - type: 10
+      value: 5
+    - type: 11
+      value: 2
+  - successRate: 70
+    requiredMaterials:
+    - material: {fileID: 11400000, guid: c7117540e3811344fbb50421c5d97319, type: 2}
+      count: 5
+    parameters:
+    - type: 7
+      value: 25
+    - type: 1
+      value: 15
+    - type: 3
+      value: 3
+    - type: 10
+      value: 10
+    - type: 11
+      value: 2
+  - successRate: 50
+    requiredMaterials:
+    - material: {fileID: 11400000, guid: c7117540e3811344fbb50421c5d97319, type: 2}
+      count: 10
+    parameters:
+    - type: 7
+      value: 30
+    - type: 1
+      value: 20
+    - type: 3
+      value: 3
+    - type: 10
+      value: 15
+    - type: 11
+      value: 2
+  - successRate: 30
+    requiredMaterials:
+    - material: {fileID: 11400000, guid: c7117540e3811344fbb50421c5d97319, type: 2}
+      count: 20
+    parameters:
+    - type: 7
+      value: 35
+    - type: 1
+      value: 25
+    - type: 3
+      value: 3
+    - type: 10
+      value: 20
+    - type: 11
+      value: 2
+  - successRate: 10
+    requiredMaterials:
+    - material: {fileID: 11400000, guid: c7117540e3811344fbb50421c5d97319, type: 2}
+      count: 30
+    parameters:
+    - type: 7
+      value: 40
+    - type: 1
+      value: 30
+    - type: 3
+      value: 3
+    - type: 10
+      value: 25
+    - type: 11
+      value: 2

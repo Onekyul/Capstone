@@ -7,7 +7,7 @@ public class NPCController : MonoBehaviour
 
     protected bool isPlayerInRange = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
         if (interactionPrompt != null)
         {
