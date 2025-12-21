@@ -17,7 +17,8 @@ public class Arrow : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.AddForce(transform.up * arrowSpeed, ForceMode2D.Impulse); 
+        rb.AddForce(transform.up * arrowSpeed, ForceMode2D.Impulse);
+
         Destroy(gameObject, lifeTime);
     }
 
@@ -25,8 +26,9 @@ public class Arrow : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            //데미지 부여 함수, 아직 MonsterController.cs 에 TakeDamage 함수 구현 안됨
-            // other.GetComponent<MonsterController>()?.TakeDamage(damageValue);
+            // 몬스터에게 데미지 적용
+            other.GetComponent<MonsterController>()?.TakeDamage(damageValue);
+            Debug.Log($"화살이 {other.name}에게 {damageValue} 데미지!");
 
             Destroy(gameObject);
         }

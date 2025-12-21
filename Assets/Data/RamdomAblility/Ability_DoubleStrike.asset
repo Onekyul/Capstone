@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bcecb4a804a77e45b365f512a832543, type: 3}
+  m_Name: Ability_DoubleStrike
+  m_EditorClassIdentifier: 
+  abilityID: 0
+  abilityName: "2\uC5F0\uACA9"
+  description: "\uACF5\uACA9\uB825 60%, \uACF5\uACA9 2\uBC88"
+  icon: {fileID: 0}
+  abilityType: 0
+  canStack: 0
+  hasLevels: 0
+  maxLevel: 1
+  statModifiers:
+  - statType: 0
+    operation: 1
+    valuePerLevel:
+    - 0.6
+  - statType: 3
+    operation: 2
+    valuePerLevel:
+    - 2

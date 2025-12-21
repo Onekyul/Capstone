@@ -9,11 +9,17 @@ public class SwordWeapon : WeaponBase
     [SerializeField] private float swordRange = 1.3f; // 검의 공격 범위
     
     private Vector2 lastAttackDir;
+   
+
+    protected override void Start()
+    {
+        base.Start(); // WeaponBase의 Start 호출 (PlayerStats 초기화)
+    }
 
     public override void Attack(Vector2 direction) // WeaponBase.cs 의 Attack 추상 메소드 재정의
     {
         
-        if (Time.time - lastAttackTime < attackCooldown || bIsAttacking) //쿨타임 체크 || 공격 중인치 체크크
+        if (Time.time - lastAttackTime < GetAttackCooldown() || bIsAttacking) //쿨타임 체크 || 공격 중인치 체크
         {
             return;
         }
@@ -27,18 +33,37 @@ public class SwordWeapon : WeaponBase
         bIsAttacking = true;
         lastAttackTime = Time.time;
         
-        // 부채꼴 범위 내 적들 감지
-       DetectEnemies();
+        // 공격 횟수 확인 (2연격 등)
+        int attackCount = playerStats != null ? playerStats.GetAttackCount() : 1;
         
-        // 공격 이펙트 생성
-        CreateAttackEffect(lastAttackDir);
-        
-        // 범위 내 모든 적에게 데미지
-        foreach (GameObject enemy in enemiesInRange)
+        for (int i = 0; i < attackCount; i++)
         {
-            if (enemy != null)
+            // 부채꼴 범위 내 적들 감지
+            DetectEnemies();
+            
+            // 공격 이펙트 생성
+            CreateAttackEffect(lastAttackDir);
+            
+            // 범위 내 모든 적에게 데미지
+            foreach (GameObject enemy in enemiesInRange)
             {
-                enemy.GetComponent<MonsterController>()?.TakeDamage(damage);
+                if (enemy != null)
+                {
+                    // 인챈트 적용 계산
+                    int[] appliedEnchants = CalculateAppliedEnchants();
+                    
+                    // 인챈트가 적용되었다면 TakeElement 호출
+                    // enemy.GetComponent<MonsterController>()?.TakeElement(appliedEnchants);
+                    
+                    // 기본 데미지 적용
+                    enemy.GetComponent<MonsterController>()?.TakeDamage(GetTotalDamage());
+                }
+            }
+            
+            // 연속 공격 사이에 짧은 딜레이 (2번째 공격부터)
+            if (i < attackCount - 1)
+            {
+                yield return new WaitForSeconds(0.1f);
             }
         }
         

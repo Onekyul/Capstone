@@ -13,32 +13,44 @@ public class SpearWeapon : WeaponBase
 
     public override void Attack(Vector2 direction) // WeaponBase.cs 의 Attack 추상 메소드 재정의
     {
-        if (Time.time - lastAttackTime < attackCooldown || bIsAttacking) //쿨타임 체크 || 공격 중인치 체크
+        if (Time.time - lastAttackTime < GetAttackCooldown() || bIsAttacking) //쿨타임 체크 || 공격 중인치 체크
         {
             return;
         }
         
         lastAttackDir=direction;
-        StartCoroutine(PerformSwordAttack()); // 체크해서 맞으면 코루틴 시작
+        StartCoroutine(PerformSpearAttack()); // 체크해서 맞으면 코루틴 시작
     }
     
-    private IEnumerator PerformSwordAttack()
+    private IEnumerator PerformSpearAttack()
     {
         bIsAttacking = true;
         lastAttackTime = Time.time;
         
-        // 부채꼴 범위 내 적들 감지
-       DetectEnemies();
+        // 공격 횟수 확인 (2연격 등)
+        int attackCount = playerStats != null ? playerStats.GetAttackCount() : 1;
         
-        // 공격 이펙트 생성
-        CreateAttackEffect(lastAttackDir);
-        
-        // 범위 내 모든 적에게 데미지
-        foreach (GameObject enemy in enemiesInRange)
+        for (int i = 0; i < attackCount; i++)
         {
-            if (enemy != null)
+            // 직선 범위 내 적들 감지
+            DetectEnemies();
+            
+            // 공격 이펙트 생성
+            CreateAttackEffect(lastAttackDir);
+            
+            // 범위 내 모든 적에게 데미지
+            foreach (GameObject enemy in enemiesInRange)
             {
-                //enemy.GetComponent<MonsterController>()?.TakeDamage(damage);
+                if (enemy != null)
+                {
+                    enemy.GetComponent<MonsterController>()?.TakeDamage(GetTotalDamage());
+                }
+            }
+            
+            // 연속 공격 사이에 짧은 딜레이 (2번째 공격부터)
+            if (i < attackCount - 1)
+            {
+                yield return new WaitForSeconds(0.12f);
             }
         }
         
@@ -76,7 +88,7 @@ public class SpearWeapon : WeaponBase
         }
     }
     
-    // 부채꼴 공격 범위 시각화
+    
     private void OnDrawGizmosSelected()
     {
         if (Application.isPlaying && Camera.main != null)
