@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class AbilitySystem : MonoBehaviour
 {
     [Header("Ability Settings")]
-    [SerializeField] private List<AbilityData> allAbilities = new List<AbilityData>(); // 모든 능력 목록 (Inspector에서 할당)
+    [SerializeField] private List<AbilityDataSO> allAbilities = new List<AbilityDataSO>(); // 모든 능력 목록 (Inspector에서 할당)
 
     private Dictionary<int, int> abilityLevels = new Dictionary<int, int>(); // Key: 능력ID, Value: 현재레벨
     private PlayerStats playerStats;
@@ -23,7 +23,7 @@ public class AbilitySystem : MonoBehaviour
     /// </summary>
     public void AcquireAbility(int abilityID, int level = 1)
     {
-        AbilityData ability = GetAbilityByID(abilityID);
+        AbilityDataSO ability = GetAbilityByID(abilityID);
         if (ability == null)
         {
             Debug.LogError($"능력 ID {abilityID}를 찾을 수 없습니다!");
@@ -47,7 +47,7 @@ public class AbilitySystem : MonoBehaviour
     /// <summary>
     /// 중복된 능력 처리
     /// </summary>
-    private void HandleDuplicateAbility(AbilityData ability, int newLevel)
+    private void HandleDuplicateAbility(AbilityDataSO ability, int newLevel)
     {
         int currentLevel = abilityLevels[ability.abilityID];
 
@@ -84,7 +84,7 @@ public class AbilitySystem : MonoBehaviour
     /// <summary>
     /// 능력 효과 적용
     /// </summary>
-    private void ApplyAbility(AbilityData ability, int level)
+    private void ApplyAbility(AbilityDataSO ability, int level)
     {
         if (playerStats == null) return;
 
@@ -98,7 +98,7 @@ public class AbilitySystem : MonoBehaviour
     /// <summary>
     /// 능력 효과 제거 (레벨업 시 기존 효과 제거용)
     /// </summary>
-    private void RemoveAbility(AbilityData ability, int level)
+    private void RemoveAbility(AbilityDataSO ability, int level)
     {
         if (playerStats == null) return;
 
@@ -195,7 +195,7 @@ public class AbilitySystem : MonoBehaviour
     /// <summary>
     /// ID로 능력 데이터 찾기
     /// </summary>
-    private AbilityData GetAbilityByID(int abilityID)
+    private AbilityDataSO GetAbilityByID(int abilityID)
     {
         return allAbilities.Find(ability => ability.abilityID == abilityID);
     }

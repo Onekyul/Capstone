@@ -278,7 +278,7 @@ public class MonsterController : MonoBehaviour
     protected virtual void ReturnToPool()
     {
         if (expJewelPrefab != null) Instantiate(expJewelPrefab, transform.position, Quaternion.identity);
-        MonsterPoolingManager.Instance.ReturnToPool(poolTag, this);
+        MonsterPool.Instance.ReturnToPool(poolTag, this);
     }
 
     // IEnumerator FlashColor(Color color, float time)

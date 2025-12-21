@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Ability", menuName = "Scriptable Objects/Ability")]
-public class AbilityData : ScriptableObject
+public class AbilityDataSO : ScriptableObject
 {
     [Header("Basic Info")]
     public int abilityID;           // 능력 고유 ID
