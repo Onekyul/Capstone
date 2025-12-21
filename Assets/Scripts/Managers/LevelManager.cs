@@ -90,7 +90,16 @@ public class LevelManager : MonoBehaviour
 
         // 2. 플레이어 담당자에게 업데이트된 배열을 '던져줌' (통보)
         // (배열을 복사해서 넘길지 참조로 넘길지는 협의, 보통은 그냥 넘겨도 무방)
-        //playerReceiver.ReceiveAbilityUpdate(currentAbilityLevels);
+        //플레이어 태그 붙은 객체를 찾아서 PlayerStats 컴포넌트에서 SetRandomAbility라는 함수 호출.
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        // if (player != null)
+        // {
+        //     PlayerStats playerStats = player.GetComponent<PlayerStats>();
+        //     if (playerStats != null)
+        //     {
+        //         playerStats.SetRandomAbility(currentAbilityLevels);
+        //     }
+        // }
 
         // 3. UI 닫기 및 게임 재개
         DungeonUIManager.instance.HideLevelUpScreen();
