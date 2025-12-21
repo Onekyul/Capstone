@@ -47,11 +47,10 @@ public class MonsterController : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        PlayerController pc = other.GetComponent<PlayerController>();
+        PlayerStats pc = other.GetComponent<PlayerStats>();
         if (pc != null)
         {
             // 몬스터는 계속 데미지를 주려고 시도합니다.
-            // 데미지가 실제로 들어갈지 여부는 PlayerController의 무적 시간 로직이 결정합니다.
             pc.TakeDamage(contactDamage);
         }
     }
@@ -92,6 +91,7 @@ public class MonsterController : MonoBehaviour
     public void TakeDamage(float damage)
     {
         CurHP -= damage;
+
     }
 
     private bool IsDead()
