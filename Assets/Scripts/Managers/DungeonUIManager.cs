@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic; // List 사용을 위해 필수
+using UnityEngine.UI;
 
 public class DungeonUIManager : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class DungeonUIManager : MonoBehaviour
     [Tooltip("생성할 능력 버튼의 프리팹 (AbilityButtonPrefab)")]
     public GameObject abilityButtonPrefab;
 
+    [Header("HUD")]
+    public Slider expSlider; // 인스펙터에서 경험치 슬라이더 연결
 
     void Awake()
     {
@@ -71,5 +74,14 @@ public class DungeonUIManager : MonoBehaviour
     public void HideLevelUpScreen()
     {
         levelUpPanel.SetActive(false);
+    }
+
+    // 경험치 비율(0.0 ~ 1.0)을 받아서 슬라이더에 반영
+    public void UpdateExpBar(float currentExp, float maxExp)
+    {
+        if (expSlider != null)
+        {
+            expSlider.value = currentExp / maxExp;
+        }
     }
 }

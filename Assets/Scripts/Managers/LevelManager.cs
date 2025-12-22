@@ -33,6 +33,8 @@ public class LevelManager : MonoBehaviour
     public void GainExperience()
     {
         curExp += gainExp;
+        // [추가] UI 갱신 호출
+        DungeonUIManager.instance.UpdateExpBar(curExp, expTable[curLevel]);
 
         // 배열 범위를 넘지 않도록 안전장치 추가 (최고 레벨 도달 시 경험치 획득 불가 처리 등)
         if (curLevel >= expTable.Length) return;
@@ -41,6 +43,7 @@ public class LevelManager : MonoBehaviour
         {
             curLevel++;
             curExp -= expTable[curLevel - 1];
+            DungeonUIManager.instance.UpdateExpBar(curExp, expTable[curLevel]);
 
             // [수정됨] 여기서 리턴만 하는 게 아니라, 레벨업 함수를 실행해야 합니다!
             OnLevelUp();
