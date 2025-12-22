@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7167575381351150525}
   - component: {fileID: 1113646424900928300}
   - component: {fileID: -7302594443989870516}
+  - component: {fileID: 5386155338745914617}
   m_Layer: 0
   m_Name: EliteChestExample
   m_TagString: Untagged
@@ -175,3 +176,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6310661d2c8837f4f8237963b0af92ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &5386155338745914617
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6683196885873419278}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: df34350c3dad59144bbeb97592155e5b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

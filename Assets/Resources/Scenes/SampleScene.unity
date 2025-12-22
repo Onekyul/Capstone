@@ -191,6 +191,10 @@ PrefabInstance:
       propertyPath: currentWeapon
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7057338916876114614, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1452302100432107688, guid: 517fb2c326e467b41a8bb9839e1deb81, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -205,6 +209,33 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1952176080}
   m_SourcePrefab: {fileID: 100100000, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+--- !u!1 &510817612 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4198262339682879849, guid: a9955809011c2b34e985c1491c58facb, type: 3}
+  m_PrefabInstance: {fileID: 1914596384}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &510817618
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510817612}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6f9c229fc43e6fe45a3b09ef062e78b6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,21 +518,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: BigEnemyExample
       objectReference: {fileID: 0}
+    - target: {fileID: 6586884628226778607, guid: a9955809011c2b34e985c1491c58facb, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 10.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586884628226778607, guid: a9955809011c2b34e985c1491c58facb, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 6.76
+      objectReference: {fileID: 0}
     - target: {fileID: 7345676790788449708, guid: a9955809011c2b34e985c1491c58facb, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.69401526
+      value: 0.21785139
       objectReference: {fileID: 0}
     - target: {fileID: 7345676790788449708, guid: a9955809011c2b34e985c1491c58facb, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.760537
+      value: 0.23873256
+      objectReference: {fileID: 0}
+    - target: {fileID: 7345676790788449708, guid: a9955809011c2b34e985c1491c58facb, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.3139
       objectReference: {fileID: 0}
     - target: {fileID: 7345676790788449708, guid: a9955809011c2b34e985c1491c58facb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.1643
+      value: 4.9
       objectReference: {fileID: 0}
     - target: {fileID: 7345676790788449708, guid: a9955809011c2b34e985c1491c58facb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.1786
+      value: 2.947
       objectReference: {fileID: 0}
     - target: {fileID: 7345676790788449708, guid: a9955809011c2b34e985c1491c58facb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -535,10 +578,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7416458437829454226, guid: a9955809011c2b34e985c1491c58facb, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -7831765370021395130, guid: ca3a12b6596c7254cb0c57d1ebd9bbc0, type: 3}
+    - target: {fileID: 7416458437829454226, guid: a9955809011c2b34e985c1491c58facb, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7416458437829454226, guid: a9955809011c2b34e985c1491c58facb, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7416458437829454226, guid: a9955809011c2b34e985c1491c58facb, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4198262339682879849, guid: a9955809011c2b34e985c1491c58facb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 510817618}
   m_SourcePrefab: {fileID: 100100000, guid: a9955809011c2b34e985c1491c58facb, type: 3}
 --- !u!1 &1952176060 stripped
 GameObject:
@@ -572,13 +634,6 @@ MonoBehaviour:
   attackSpeedMultiplier: 1
   moveSpeedMultiplier: 3
   attackCount: 1
-  vampireChance: 0
-  vampireHealPercent: 0.5
-  dodgeChance: 0
-  shadowCooldown: 0
-  hasRage: 0
-  hasRevenge: 0
-  revengeEndTime: 0
   damageTickCooldown: 1
   invincibilityDuration: 0.3
 --- !u!114 &1952176074

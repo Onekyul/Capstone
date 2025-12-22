@@ -16,7 +16,7 @@ MonoBehaviour:
   armorId: helmet_diamond
   armorName: "\uB2E4\uC774\uC544\uBAAC\uB4DC \uD22C\uAD6C"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 3707413750030145313, guid: 4436910fee1944b4894d7e8e28d73900, type: 3}
   bonusDef: 40
   bonusHp: 0
   bonusSpeed: 0

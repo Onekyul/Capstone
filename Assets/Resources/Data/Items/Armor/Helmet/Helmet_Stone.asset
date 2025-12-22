@@ -16,7 +16,7 @@ MonoBehaviour:
   armorId: helmet_stone
   armorName: "\uB3CC \uD22C\uAD6C"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: -7138950177754291750, guid: 4436910fee1944b4894d7e8e28d73900, type: 3}
   bonusDef: 20
   bonusHp: 0
   bonusSpeed: 0

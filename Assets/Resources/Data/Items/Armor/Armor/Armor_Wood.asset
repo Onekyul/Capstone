@@ -16,7 +16,7 @@ MonoBehaviour:
   armorId: armor_wood
   armorName: "\uB098\uBB34 \uAC11\uC637"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: -6976473136127931604, guid: 4436910fee1944b4894d7e8e28d73900, type: 3}
   bonusDef: 0
   bonusHp: 20
   bonusSpeed: 0
