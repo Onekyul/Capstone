@@ -15,5 +15,5 @@ MonoBehaviour:
   itemId: mat_iron
   itemName: "\uCCA0"
   description: "\uAC15\uD654\uC5D0 \uC0AC\uC6A9\uB418\uB294 \uCCA0\uC774\uB2E4."
-  icon: {fileID: 0}
+  icon: {fileID: 3120315481769490795, guid: 6191a2dce5930ce4a927d49f243e8ba6, type: 3}
   maxStack: 99

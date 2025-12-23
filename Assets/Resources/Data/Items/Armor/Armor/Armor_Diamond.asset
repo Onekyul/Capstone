@@ -16,7 +16,7 @@ MonoBehaviour:
   armorId: armor_diamond
   armorName: "\uB2E4\uC774\uC544\uBAAC\uB4DC \uAC11\uC637"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: -2947624966835925518, guid: 4436910fee1944b4894d7e8e28d73900, type: 3}
   bonusDef: 0
   bonusHp: 50
   bonusSpeed: 0

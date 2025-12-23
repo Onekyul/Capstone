@@ -16,7 +16,7 @@ MonoBehaviour:
   armorId: helmet_wood
   armorName: "\uB098\uBB34 \uD22C\uAD6C"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: -9174528029325801119, guid: 4436910fee1944b4894d7e8e28d73900, type: 3}
   bonusDef: 10
   bonusHp: 0
   bonusSpeed: 0

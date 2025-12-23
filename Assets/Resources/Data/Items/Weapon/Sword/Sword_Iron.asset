@@ -15,6 +15,6 @@ MonoBehaviour:
   weaponId: sword_iron
   weaponName: "\uCCA0 \uAC80"
   description: "\uB0A0\uCE74\uB85C\uC6B4 \uCCA0 \uAC80\uC774\uB2E4."
-  icon: {fileID: 0}
+  icon: {fileID: -8299965986819772185, guid: 4436910fee1944b4894d7e8e28d73900, type: 3}
   baseAtk: 40
   upgradeTable: {fileID: 11400000, guid: f35844d1e311da14a9171ef951b67ca5, type: 2}
