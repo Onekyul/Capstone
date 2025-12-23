@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using System;
 
 public class MonsterController : MonoBehaviour
 {
@@ -17,8 +18,14 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private string poolTag;
     [SerializeField] private ExpJewelController expJewelPrefab;
 
-    [Header("Skill Settings")]
-    [SerializeField] private float lightningRadius = 5.0f; // 번개 범위
+    [Header("Pool Settings")]
+    [Tooltip("체크하면 풀링 매니저로 반납하고, 체크 해제하면 그냥 Destroy 됩니다.")]
+    [SerializeField] protected bool usePooling = true; // 기본값은 true (일반 몬스터용)
+
+    private float lightningRadius = 5.0f; // 번개 범위
+
+    // ★ [추가] 몬스터가 죽을 때 발동할 이벤트
+    public event Action OnDeath;
 
     protected Transform player;
     protected SpriteRenderer spriteRenderer;
@@ -277,8 +284,29 @@ public class MonsterController : MonoBehaviour
 
     protected virtual void ReturnToPool()
     {
-        if (expJewelPrefab != null) Instantiate(expJewelPrefab, transform.position, Quaternion.identity);
-        MonsterPool.Instance.ReturnToPool(poolTag, this);
+        // 1. 죽음 이벤트 알림 (스테이지 매니저에게 보고)
+        OnDeath?.Invoke();
+
+        // 2. 아이템 드랍
+        if (expJewelPrefab != null)
+        {
+            Instantiate(expJewelPrefab, transform.position, Quaternion.identity);
+        }
+
+        // 3. ★ 여기가 수정된 핵심 로직입니다 ★
+        if (usePooling)
+        {
+            // 풀링을 사용하는 몬스터라면 -> 매니저에게 반납
+            if (MonsterPool.Instance != null)
+                MonsterPool.Instance.ReturnToPool(poolTag, this);
+            else
+                Destroy(gameObject); // 매니저 없으면 파괴
+        }
+        else
+        {
+            // 풀링을 안 쓰는 몬스터(속성 몬스터 등)라면 -> 그냥 파괴
+            Destroy(gameObject);
+        }
     }
 
     // IEnumerator FlashColor(Color color, float time)
