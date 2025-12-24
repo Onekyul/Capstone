@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 8106847201219958441}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.39, y: 5.19, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 7.55, y: 4.82, z: 0}
+  m_LocalScale: {x: 0.1568, y: 0.1568, z: 0.1568}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -79,8 +79,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.79514813, g: 0.11895063, b: 0.11895063, a: 1}
+  m_Sprite: {fileID: 170313271620987468, guid: 9c7d49024568d384ab8f25b6ea7b8277, type: 3}
+  m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -128,7 +128,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 9.46, y: 4}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -178,6 +178,8 @@ MonoBehaviour:
   contactDamage: 5
   MaxHP: 10
   CurHP: 0
+  defaultMoveSpeed: 3
   poolTag: Fast
   expJewelPrefab: {fileID: -5577271535738719069, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
+  lightningRadius: 5
   moveSpeed: 10
