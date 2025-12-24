@@ -1,49 +1,49 @@
 fileFormatVersion: 2
-guid: 96edc6357a93a0640a578873e34c8e17
+guid: f72d1f34284f7b4478acf7fc520d5010
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1238284573835682370
-    second: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_0"
+      213: -4817045417999828777
+    second: Box-4_0
   - first:
-      213: -3984414537919849725
-    second: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_1"
+      213: 8393044891284716425
+    second: Box-4_1
   - first:
-      213: -2147635976229696072
-    second: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_2"
+      213: -736668209055228102
+    second: Box-4_2
   - first:
-      213: 7560733831281891625
-    second: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_3"
+      213: 869925574406399262
+    second: Box-4_3
   - first:
-      213: 5634505375840130060
-    second: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_4"
+      213: 6830902207073512021
+    second: Box-4_4
   - first:
-      213: 6216022757465531913
-    second: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_5"
+      213: -4417425928415100550
+    second: Box-4_5
   - first:
-      213: -4723110723544169371
-    second: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_6"
+      213: -7445547133047895113
+    second: Box-4_6
   - first:
-      213: 4882031030952827149
-    second: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_7"
+      213: -1790661995563523347
+    second: Box-4_7
   - first:
-      213: 1261549321931981067
-    second: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_8"
+      213: -3198260273776445380
+    second: Box-4_8
   - first:
-      213: 2535883580638886414
-    second: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_9"
+      213: -3347755201209416326
+    second: Box-4_9
   - first:
-      213: -4510009044923464159
-    second: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_10"
+      213: -4305063711194317378
+    second: Box-4_10
   - first:
-      213: 4202145271625994119
-    second: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_11"
+      213: -468631471258211800
+    second: Box-4_11
   - first:
-      213: -2637818027399437405
-    second: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_12"
+      213: 3899768450401587798
+    second: Box-4_12
   - first:
-      213: -1682209506662629146
-    second: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_13"
+      213: -599774161435872875
+    second: Box-4_13
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,7 +139,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_0"
+      name: Box-4_0
       rect:
         serializedVersion: 2
         x: 62
@@ -147,21 +147,21 @@ TextureImporter:
         width: 68
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 242625a52454f2110800000000000000
-      internalID: 1238284573835682370
+      spriteID: 7d87231d6ba662db0800000000000000
+      internalID: -4817045417999828777
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_1"
+      name: Box-4_1
       rect:
         serializedVersion: 2
         x: 62
@@ -169,21 +169,21 @@ TextureImporter:
         width: 68
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 30b926d861484b8c0800000000000000
-      internalID: -3984414537919849725
+      spriteID: 98bbee04cd51a7470800000000000000
+      internalID: 8393044891284716425
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_2"
+      name: Box-4_2
       rect:
         serializedVersion: 2
         x: 190
@@ -191,43 +191,43 @@ TextureImporter:
         width: 68
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8bdcaf155701232e0800000000000000
-      internalID: -2147635976229696072
+      spriteID: a3f90f9ba24d6c5f0800000000000000
+      internalID: -736668209055228102
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_3"
+      name: Box-4_3
       rect:
         serializedVersion: 2
         x: 190
         y: 190
         width: 68
-        height: 63
+        height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 929d5de6c5f1de860800000000000000
-      internalID: 7560733831281891625
+      spriteID: e15658b63b8921c00800000000000000
+      internalID: 869925574406399262
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_4"
+      name: Box-4_4
       rect:
         serializedVersion: 2
         x: 318
@@ -235,21 +235,21 @@ TextureImporter:
         width: 68
         height: 66
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c04daf359c8c13e40800000000000000
-      internalID: 5634505375840130060
+      spriteID: 55a6c0c9d5d3cce50800000000000000
+      internalID: 6830902207073512021
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_5"
+      name: Box-4_5
       rect:
         serializedVersion: 2
         x: 318
@@ -257,21 +257,21 @@ TextureImporter:
         width: 68
         height: 68
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9062a7693cfb34650800000000000000
-      internalID: 6216022757465531913
+      spriteID: a71c73bc58622b2c0800000000000000
+      internalID: -4417425928415100550
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_6"
+      name: Box-4_6
       rect:
         serializedVersion: 2
         x: 62
@@ -279,21 +279,21 @@ TextureImporter:
         width: 68
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 564cf4032d3247eb0800000000000000
-      internalID: -4723110723544169371
+      spriteID: 7bb8048a45a1ca890800000000000000
+      internalID: -7445547133047895113
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_7"
+      name: Box-4_7
       rect:
         serializedVersion: 2
         x: 62
@@ -301,21 +301,21 @@ TextureImporter:
         width: 68
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d0990664b5570c340800000000000000
-      internalID: 4882031030952827149
+      spriteID: de2e4a1076a4627e0800000000000000
+      internalID: -1790661995563523347
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_8"
+      name: Box-4_8
       rect:
         serializedVersion: 2
         x: 190
@@ -323,21 +323,21 @@ TextureImporter:
         width: 68
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b010460ac6ce18110800000000000000
-      internalID: 1261549321931981067
+      spriteID: c38bf42e93f7d93d0800000000000000
+      internalID: -3198260273776445380
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_9"
+      name: Box-4_9
       rect:
         serializedVersion: 2
         x: 318
@@ -345,21 +345,21 @@ TextureImporter:
         width: 68
         height: 132
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e0af9bf4ea4413320800000000000000
-      internalID: 2535883580638886414
+      spriteID: a7542f4b1626a81d0800000000000000
+      internalID: -3347755201209416326
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_10"
+      name: Box-4_10
       rect:
         serializedVersion: 2
         x: 62
@@ -367,21 +367,21 @@ TextureImporter:
         width: 68
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 126c98f2baa3961c0800000000000000
-      internalID: -4510009044923464159
+      spriteID: ebd76d62d575144c0800000000000000
+      internalID: -4305063711194317378
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_11"
+      name: Box-4_11
       rect:
         serializedVersion: 2
         x: 62
@@ -389,21 +389,21 @@ TextureImporter:
         width: 68
         height: 62
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 78fcad15cd4015a30800000000000000
-      internalID: 4202145271625994119
+      spriteID: 82ae519e8261f79f0800000000000000
+      internalID: -468631471258211800
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_12"
+      name: Box-4_12
       rect:
         serializedVersion: 2
         x: 190
@@ -411,21 +411,21 @@ TextureImporter:
         width: 68
         height: 126
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3a32cb6da76946bd0800000000000000
-      internalID: -2637818027399437405
+      spriteID: 65256786eb2ce1630800000000000000
+      internalID: 3899768450401587798
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_13"
+      name: Box-4_13
       rect:
         serializedVersion: 2
         x: 318
@@ -433,15 +433,15 @@ TextureImporter:
         width: 68
         height: 130
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6e0c69dcd5797a8e0800000000000000
-      internalID: -1682209506662629146
+      spriteID: 5913822f39c2da7f0800000000000000
+      internalID: -599774161435872875
       vertices: []
       indices: 
       edges: []
@@ -450,7 +450,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 06af7197e3957c347a4d81b25f30fb95
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -460,20 +460,20 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_0": 1238284573835682370
-      "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_1": -3984414537919849725
-      "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_10": -4510009044923464159
-      "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_11": 4202145271625994119
-      "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_12": -2637818027399437405
-      "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_13": -1682209506662629146
-      "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_2": -2147635976229696072
-      "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_3": 7560733831281891625
-      "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_4": 5634505375840130060
-      "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_5": 6216022757465531913
-      "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_6": -4723110723544169371
-      "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_7": 4882031030952827149
-      "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_8": 1261549321931981067
-      "\uBCF4\uBB3C\uC0C1\uC790_4-Photoroom_9": 2535883580638886414
+      Box-4_0: -4817045417999828777
+      Box-4_1: 8393044891284716425
+      Box-4_10: -4305063711194317378
+      Box-4_11: -468631471258211800
+      Box-4_12: 3899768450401587798
+      Box-4_13: -599774161435872875
+      Box-4_2: -736668209055228102
+      Box-4_3: 869925574406399262
+      Box-4_4: 6830902207073512021
+      Box-4_5: -4417425928415100550
+      Box-4_6: -7445547133047895113
+      Box-4_7: -1790661995563523347
+      Box-4_8: -3198260273776445380
+      Box-4_9: -3347755201209416326
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

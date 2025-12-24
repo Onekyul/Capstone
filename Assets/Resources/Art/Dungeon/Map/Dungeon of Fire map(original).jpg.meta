@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2794d9661edc3ea4886919ebe386de59
+guid: be0e94cc81b7d894c828e3d937af1b50
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8134052230915750320
-    second: "\uBCF4\uBB3C\uC0C1\uC790_0"
+      213: -8362914924373953788
+    second: Dungeon of Fire map(original)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_0"
+      name: Dungeon of Fire map(original)_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 448
-        height: 384
+        width: 1200
+        height: 1200
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0560bcf879a0e1f80800000000000000
-      internalID: -8134052230915750320
+      spriteID: 403b0e55f25f0fb80800000000000000
+      internalID: -8362914924373953788
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\uBCF4\uBB3C\uC0C1\uC790_0": -8134052230915750320
+      Dungeon of Fire map(original)_0: -8362914924373953788
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
