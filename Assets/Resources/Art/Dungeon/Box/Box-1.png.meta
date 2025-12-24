@@ -1,61 +1,61 @@
 fileFormatVersion: 2
-guid: 114dacd86f33c784983a9f4d9769a8ed
+guid: c182971c5d0a4aa4c9a78fbdc024222f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6927963021747441002
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_0"
+      213: 4570604035960871653
+    second: Box-1_0
   - first:
-      213: 313218360638674406
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_1"
+      213: 6493240329605497350
+    second: Box-1_1
   - first:
-      213: 8211516236372048857
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_2"
+      213: -625941979216032193
+    second: Box-1_2
   - first:
-      213: 2752188428081055856
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_3"
+      213: -4956549365237351112
+    second: Box-1_3
   - first:
-      213: 4248402748731337491
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_4"
+      213: 1339930717360520600
+    second: Box-1_4
   - first:
-      213: 9064186167249897371
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_5"
+      213: -430550288259216214
+    second: Box-1_5
   - first:
-      213: 5181217758226310960
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_6"
+      213: 5082081350700128114
+    second: Box-1_6
   - first:
-      213: 8866527980047873480
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_7"
+      213: 8751866234558623545
+    second: Box-1_7
   - first:
-      213: 141676301244303185
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_8"
+      213: -951840867418114722
+    second: Box-1_8
   - first:
-      213: -6076938522965962382
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_9"
+      213: -4373827698457071555
+    second: Box-1_9
   - first:
-      213: -4998539428863624761
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_10"
+      213: -6541924478920969115
+    second: Box-1_10
   - first:
-      213: -6263650902279306571
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_11"
+      213: 3771493928838546254
+    second: Box-1_11
   - first:
-      213: -2694913191255945208
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_12"
+      213: -6891889184139656984
+    second: Box-1_12
   - first:
-      213: -4268194301552860567
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_13"
+      213: -4913607540191943745
+    second: Box-1_13
   - first:
-      213: -2339530094214895988
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_14"
+      213: -8067042079571581327
+    second: Box-1_14
   - first:
-      213: -9169177070212278179
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_15"
+      213: -3898495696611667075
+    second: Box-1_15
   - first:
-      213: -6861793968567945375
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_16"
+      213: 135231840165622724
+    second: Box-1_16
   - first:
-      213: 9153085334109962006
-    second: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_17"
+      213: 5604494368830204660
+    second: Box-1_17
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -151,7 +151,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_0"
+      name: Box-1_0
       rect:
         serializedVersion: 2
         x: 62
@@ -166,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a6d4c4099a1152060800000000000000
-      internalID: 6927963021747441002
+      spriteID: 5ea1a64972c0e6f30800000000000000
+      internalID: 4570604035960871653
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_1"
+      name: Box-1_1
       rect:
         serializedVersion: 2
         x: 190
@@ -188,14 +188,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6e59ff28076c85400800000000000000
-      internalID: 313218360638674406
+      spriteID: 60240675daf9c1a50800000000000000
+      internalID: 6493240329605497350
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_2"
+      name: Box-1_2
       rect:
         serializedVersion: 2
         x: 318
@@ -210,14 +210,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9dbfe40b28a25f170800000000000000
-      internalID: 8211516236372048857
+      spriteID: f3ec2d616153057f0800000000000000
+      internalID: -625941979216032193
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_3"
+      name: Box-1_3
       rect:
         serializedVersion: 2
         x: 62
@@ -232,14 +232,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 07846ba2bccb13620800000000000000
-      internalID: 2752188428081055856
+      spriteID: 83df65dfc9cc63bb0800000000000000
+      internalID: -4956549365237351112
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_4"
+      name: Box-1_4
       rect:
         serializedVersion: 2
         x: 190
@@ -254,14 +254,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 31bacec7acb55fa30800000000000000
-      internalID: 4248402748731337491
+      spriteID: 89d78ef53e3689210800000000000000
+      internalID: 1339930717360520600
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_5"
+      name: Box-1_5
       rect:
         serializedVersion: 2
         x: 190
@@ -276,14 +276,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b9780f48b457acd70800000000000000
-      internalID: 9064186167249897371
+      spriteID: aac0e524bc0660af0800000000000000
+      internalID: -430550288259216214
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_6"
+      name: Box-1_6
       rect:
         serializedVersion: 2
         x: 318
@@ -298,14 +298,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 037660f891267e740800000000000000
-      internalID: 5181217758226310960
+      spriteID: 2775e1cff0e278640800000000000000
+      internalID: 5082081350700128114
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_7"
+      name: Box-1_7
       rect:
         serializedVersion: 2
         x: 62
@@ -320,14 +320,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8c5b0d1983c3c0b70800000000000000
-      internalID: 8866527980047873480
+      spriteID: 93f2a9098ffd47970800000000000000
+      internalID: 8751866234558623545
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_8"
+      name: Box-1_8
       rect:
         serializedVersion: 2
         x: 318
@@ -342,14 +342,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 15702c868d557f100800000000000000
-      internalID: 141676301244303185
+      spriteID: e55f7de26c16ac2f0800000000000000
+      internalID: -951840867418114722
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_9"
+      name: Box-1_9
       rect:
         serializedVersion: 2
         x: 318
@@ -364,14 +364,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2711ab04c906aaba0800000000000000
-      internalID: -6076938522965962382
+      spriteID: d30b3bcb1ea0d43c0800000000000000
+      internalID: -4373827698457071555
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_10"
+      name: Box-1_10
       rect:
         serializedVersion: 2
         x: 62
@@ -386,14 +386,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7c9bcc27fde91aab0800000000000000
-      internalID: -4998539428863624761
+      spriteID: 564bb76d85a6635a0800000000000000
+      internalID: -6541924478920969115
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_11"
+      name: Box-1_11
       rect:
         serializedVersion: 2
         x: 190
@@ -408,14 +408,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5b2469cc0ba0319a0800000000000000
-      internalID: -6263650902279306571
+      spriteID: e43c6fcfeb9075430800000000000000
+      internalID: 3771493928838546254
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_12"
+      name: Box-1_12
       rect:
         serializedVersion: 2
         x: 62
@@ -430,14 +430,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 800dca61bbeb99ad0800000000000000
-      internalID: -2694913191255945208
+      spriteID: 8e0cff34d471b50a0800000000000000
+      internalID: -6891889184139656984
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_13"
+      name: Box-1_13
       rect:
         serializedVersion: 2
         x: 190
@@ -452,14 +452,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 962689785e354c4c0800000000000000
-      internalID: -4268194301552860567
+      spriteID: fb3ad21c9fb5fcbb0800000000000000
+      internalID: -4913607540191943745
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_14"
+      name: Box-1_14
       rect:
         serializedVersion: 2
         x: 190
@@ -474,14 +474,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c862cf056c1588fd0800000000000000
-      internalID: -2339530094214895988
+      spriteID: 176e10b38fb1c0090800000000000000
+      internalID: -8067042079571581327
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_15"
+      name: Box-1_15
       rect:
         serializedVersion: 2
         x: 318
@@ -496,14 +496,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d581757f80a80c080800000000000000
-      internalID: -9169177070212278179
+      spriteID: d73921da1d2c5e9c0800000000000000
+      internalID: -3898495696611667075
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_16"
+      name: Box-1_16
       rect:
         serializedVersion: 2
         x: 318
@@ -518,14 +518,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 167f69dadb206c0a0800000000000000
-      internalID: -6861793968567945375
+      spriteID: 4c3f46364a070e100800000000000000
+      internalID: 135231840165622724
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_17"
+      name: Box-1_17
       rect:
         serializedVersion: 2
         x: 62
@@ -540,8 +540,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 61f3672cd9a460f70800000000000000
-      internalID: 9153085334109962006
+      spriteID: 4fa2dcf3fe927cd40800000000000000
+      internalID: 5604494368830204660
       vertices: []
       indices: 
       edges: []
@@ -560,24 +560,24 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_0": 6927963021747441002
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_1": 313218360638674406
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_10": -4998539428863624761
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_11": -6263650902279306571
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_12": -2694913191255945208
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_13": -4268194301552860567
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_14": -2339530094214895988
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_15": -9169177070212278179
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_16": -6861793968567945375
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_17": 9153085334109962006
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_2": 8211516236372048857
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_3": 2752188428081055856
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_4": 4248402748731337491
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_5": 9064186167249897371
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_6": 5181217758226310960
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_7": 8866527980047873480
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_8": 141676301244303185
-      "\uBCF4\uBB3C\uC0C1\uC790_1-Photoroom_9": -6076938522965962382
+      Box-1_0: 4570604035960871653
+      Box-1_1: 6493240329605497350
+      Box-1_10: -6541924478920969115
+      Box-1_11: 3771493928838546254
+      Box-1_12: -6891889184139656984
+      Box-1_13: -4913607540191943745
+      Box-1_14: -8067042079571581327
+      Box-1_15: -3898495696611667075
+      Box-1_16: 135231840165622724
+      Box-1_17: 5604494368830204660
+      Box-1_2: -625941979216032193
+      Box-1_3: -4956549365237351112
+      Box-1_4: 1339930717360520600
+      Box-1_5: -430550288259216214
+      Box-1_6: 5082081350700128114
+      Box-1_7: 8751866234558623545
+      Box-1_8: -951840867418114722
+      Box-1_9: -4373827698457071555
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
