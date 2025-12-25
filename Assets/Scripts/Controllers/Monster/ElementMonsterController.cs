@@ -1,11 +1,12 @@
 using UnityEngine;
 
 // MonsterController를 상속받아 기본 기능(HP, 피격 등)은 가져옵니다.
-public class StaticRangedMonster : MonsterController
+public class ElementMonsterController : MonsterController
 {
-    [Header("Static Monster Settings")]
+    [Header("Element Monster Settings")]
     [SerializeField] protected float attackRange = 10f;
     [SerializeField] protected float attackCooldown = 3f;
+    [SerializeField] private ElementChestController elementChestPrefab;
 
     protected float lastAttackTime;
 
@@ -49,5 +50,15 @@ public class StaticRangedMonster : MonsterController
     {
         // 자식 클래스에서 override해서 사용함
         Debug.Log("기본 원거리 공격 (설정 필요)");
+    }
+
+    protected override void ReturnToPool()
+    {
+        base.ReturnToPool(); // 부모 클래스의 ReturnToPool 메서드 호출
+        // 엘리멘탈 몬스터가 죽을 때 엘리멘탈 상자 드랍
+        if (elementChestPrefab != null)
+        {
+            Instantiate(elementChestPrefab, transform.position + Vector3.down * 0.3f, Quaternion.identity);
+        }
     }
 }

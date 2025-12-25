@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FireMonsterController : StaticRangedMonster
+public class FireMonsterController : ElementMonsterController
 {
     [Header("Fire Mortar Settings")]
     [SerializeField] private GameObject mortarPrefab;

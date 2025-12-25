@@ -25,6 +25,10 @@ public class StageManager : MonoBehaviour
     public TextMeshProUGUI objectiveText; // 예: "남은 보스: 3" 표시용 (선택사항)
     public GameObject clearPanel;
 
+    [Header("Collected Chests")]
+    public int silverChestCount = 0; // 은상자 획득 수
+    public int goldChestCount = 0;   // 금상자 획득 수
+
     void Awake()
     {
         instance = this;
