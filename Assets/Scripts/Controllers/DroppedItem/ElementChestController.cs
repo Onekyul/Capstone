@@ -10,9 +10,8 @@ public class ElementChestController : MonoBehaviour
             PlayerController pc = other.GetComponent<PlayerController>();
             if (pc != null)
             {
-                //pc.GainGold(50); // 골드 50 획득
-
-                Debug.Log("Player gained gold from Elite Chest!");
+                StageManager.instance.CollectElementChest();
+                Debug.Log("Player gained Element Chest!");
                 Destroy(gameObject); // 상자 제거
             }
         }

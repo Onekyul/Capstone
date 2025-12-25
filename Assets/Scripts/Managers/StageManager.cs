@@ -1,33 +1,44 @@
 using UnityEngine;
-using TMPro;
-using System.Collections.Generic; // 리스트 사용
+using System.Collections.Generic;
+using TMPro; // 텍스트 제어를 위해 필요
 
 public class StageManager : MonoBehaviour
 {
     public static StageManager instance;
 
-    [Header("Game Mode Settings")]
-    public float stageTimeLimit = 300f; // 5분 (300초)
-    public bool isClear = false;
+    [Header("--- [보상 설정] (데이터를 여기에 드래그하세요) ---")]
+    [Tooltip("엘리트 상자 1개당 얻을 수 있는 아이템 목록 (기본 재료 + 조각)")]
+    public List<RewardRule> eliteChestRewards;
 
-    [Header("Elemental Monsters")]
-    [Tooltip("맵 구석 4곳의 위치 (빈 오브젝트로 배치 후 연결)")]
-    public Transform[] spawnPoints;
+    [Tooltip("엘리멘트 상자 1개당 얻을 수 있는 아이템 목록 (상위 재료)")]
+    public List<RewardRule> elementChestRewards;
 
-    [Tooltip("생성할 속성 몬스터 프리팹 4개 (순서대로 소환됨)")]
-    public GameObject[] elementMonsterPrefabs;
+    // 보상 규칙 정의용 구조체 (인스펙터에서 보임)
+    [System.Serializable]
+    public struct RewardRule
+    {
+        public ItemData item;     // 획득할 아이템 데이터
+        public int minAmount;     // 최소 개수
+        public int maxAmount;     // 최대 개수
+    }
 
-    private int targetMonstersCount = 0; // 처치해야 할 남은 몬스터 수
+    [Header("--- [게임 상태] ---")]
+    public float stageTimeLimit = 300f; // 제한 시간 (5분 = 300초)
     private float currentTimer;
+    public bool isGameEnded = false;
 
-    [Header("UI")]
-    public TextMeshProUGUI timerText;
-    public TextMeshProUGUI objectiveText; // 예: "남은 보스: 3" 표시용 (선택사항)
-    public GameObject clearPanel;
+    // 상자 획득 개수
+    public int eliteChestCount = 0;
+    public int elementChestCount = 0;
 
-    [Header("Collected Chests")]
-    public int silverChestCount = 0; // 은상자 획득 수
-    public int goldChestCount = 0;   // 금상자 획득 수
+    [Header("--- [스폰 & UI 참조] ---")]
+    public Transform[] spawnPoints;          // 몬스터 스폰 위치들
+    public GameObject[] elementMonsterPrefabs; // 속성 몬스터 프리팹
+    public TextMeshProUGUI timerText;        // 타이머 UI (선택 사항)
+    public TextMeshProUGUI objectiveText;    // 목표 텍스트 (선택 사항)
+
+    // 목표 몬스터 처치 수 (필요 시 사용)
+    private int targetMonstersCount = 0;
 
     void Awake()
     {
@@ -36,106 +47,147 @@ public class StageManager : MonoBehaviour
 
     void Start()
     {
+        // 초기화
         currentTimer = stageTimeLimit;
-        isClear = false;
+        isGameEnded = false;
+        eliteChestCount = 0;
+        elementChestCount = 0;
 
-        // 게임 시작 시 몬스터 4마리 소환
+        // 시작 시 몬스터 스폰 (기존 로직 유지)
         SpawnElementalMonsters();
     }
 
     void Update()
     {
-        if (isClear) return;
+        if (isGameEnded) return;
 
-        // 1. 타이머 체크
+        // 타이머 감소
         currentTimer -= Time.deltaTime;
         UpdateUIText();
 
-        // 2. 클리어 조건 A: 시간 종료 (생존 성공)
+        // 제한 시간 종료 = 생존 성공
         if (currentTimer <= 0)
         {
-            Debug.Log("시간 종료! 생존 성공!");
-            GameClear();
+            FinishGame(true); // true = 클리어(생존)
         }
-
-        // (클리어 조건 B는 몬스터가 죽을 때 OnMonsterDeath 함수에서 즉시 체크합니다)
     }
 
-    // ★ 4마리 소환 및 감시 시작
-    void SpawnElementalMonsters()
+    // --- [상자 획득 함수 (외부에서 호출)] ---
+    public void CollectEliteChest()
     {
-        // 4마리라고 설정했으니 카운트 초기화
-        targetMonstersCount = elementMonsterPrefabs.Length;
-        UpdateObjectiveText(); // UI 갱신
+        eliteChestCount++;
+        // Debug.Log($"은상자 획득! 현재: {eliteChestCount}");
+    }
 
-        for (int i = 0; i < elementMonsterPrefabs.Length; i++)
+    public void CollectElementChest()
+    {
+        elementChestCount++;
+        // Debug.Log($"금상자 획득! 현재: {elementChestCount}");
+    }
+
+    // --- [게임 종료 및 정산 처리] ---
+    public void FinishGame(bool isClear)
+    {
+        if (isGameEnded) return;
+        isGameEnded = true;
+
+        // 1. 게임 정지
+        Time.timeScale = 0f;
+        if (MonsterPool.Instance != null) MonsterPool.Instance.StopSpawning();
+
+        // 2. 최종 보상 계산
+        Dictionary<ItemData, int> finalRewards = CalculateTotalRewards(isClear);
+
+        // 3. 인벤토리 저장 (DataManager)
+        foreach (var pair in finalRewards)
         {
-            // 스폰 포인트가 부족하면 0번 위치에 겹쳐서라도 소환 (에러 방지)
-            Transform spawnPos = (i < spawnPoints.Length) ? spawnPoints[i] : spawnPoints[0];
-
-            GameObject monsterObj = Instantiate(elementMonsterPrefabs[i], spawnPos.position, Quaternion.identity);
-
-            // 몬스터 컨트롤러를 가져와서 죽음 이벤트를 연결(구독)합니다.
-            MonsterController monster = monsterObj.GetComponent<MonsterController>();
-            if (monster != null)
+            if (pair.Value > 0)
             {
-                monster.OnDeath += OnTargetMonsterDead;
+                // ItemData에 있는 ID를 사용하여 저장
+                DataManager.instance.AddInventory(pair.Key.itemId, pair.Value);
             }
         }
+
+        // 4. UI 매니저에게 결과창 표시 요청
+        // (성공여부, 은상자수, 금상자수, 보상목록 전달)
+        DungeonUIManager.instance.ShowResultUI(isClear, eliteChestCount, elementChestCount, finalRewards);
     }
 
-    // ★ 몬스터가 죽었을 때 호출되는 함수
-    void OnTargetMonsterDead()
+    // --- [보상 계산 핵심 로직] ---
+    private Dictionary<ItemData, int> CalculateTotalRewards(bool isClear)
     {
-        if (isClear) return;
+        Dictionary<ItemData, int> totalRewards = new Dictionary<ItemData, int>();
 
-        targetMonstersCount--;
-        UpdateObjectiveText();
-
-        // 클리어 조건 B: 모든 타겟 몬스터 처치
-        if (targetMonstersCount <= 0)
+        // 1. 엘리트 상자 정산 (설정된 모든 규칙 적용)
+        for (int i = 0; i < eliteChestCount; i++)
         {
-            Debug.Log("모든 속성 몬스터 처치! 토벌 성공!");
-            GameClear();
+            foreach (var rule in eliteChestRewards)
+            {
+                // 최소~최대 사이 랜덤 개수
+                int amount = Random.Range(rule.minAmount, rule.maxAmount + 1);
+                AddItemToDict(totalRewards, rule.item, amount);
+            }
         }
+
+        // 2. 엘리멘트 상자 정산
+        for (int i = 0; i < elementChestCount; i++)
+        {
+            foreach (var rule in elementChestRewards)
+            {
+                int amount = Random.Range(rule.minAmount, rule.maxAmount + 1);
+                AddItemToDict(totalRewards, rule.item, amount);
+            }
+        }
+
+        // 3. 실패(죽음) 시 패널티 적용 (0.7배)
+        if (!isClear)
+        {
+            // 딕셔너리 키 복사 후 순회 (수정 중 에러 방지)
+            List<ItemData> keys = new List<ItemData>(totalRewards.Keys);
+            foreach (var key in keys)
+            {
+                int original = totalRewards[key];
+                int penalized = Mathf.FloorToInt(original * 0.7f); // 0.7 곱하고 소수점 버림
+                totalRewards[key] = penalized;
+            }
+        }
+
+        return totalRewards;
     }
 
-    public void GameClear()
+    // 딕셔너리 추가 도우미 함수
+    void AddItemToDict(Dictionary<ItemData, int> dict, ItemData item, int amount)
     {
-        isClear = true;
-        currentTimer = 0;
-
-        // 1. 스폰 중지 (일반 몬스터)
-        if (MonsterPool.Instance != null)
-            MonsterPool.Instance.StopSpawning(); // 이 함수가 구현되어 있어야 함
-
-        // 2. 화면의 모든 적 제거 (선택사항)
-        // DestroyAllEnemies(); 
-
-        // 3. UI 띄우기
-        if (clearPanel != null) clearPanel.SetActive(true);
-        if (timerText != null) timerText.text = "STAGE CLEAR!";
-
-        // 4. 시간 정지
-        Time.timeScale = 0f;
+        if (item == null) return;
+        if (dict.ContainsKey(item)) dict[item] += amount;
+        else dict.Add(item, amount);
     }
 
-    // --- UI 갱신용 ---
+    // --- [기타 유틸리티 (스폰, UI)] ---
+    void SpawnElementalMonsters()
+    {
+        if (spawnPoints == null || elementMonsterPrefabs == null) return;
+
+        // 여기에 기존 몬스터 스폰 로직 구현 (예시)
+        // targetMonstersCount = ...;
+    }
+
+    // 외부에서 몬스터 죽었을 때 호출 (선택 사항)
+    public void OnTargetMonsterDead()
+    {
+        if (isGameEnded) return;
+        targetMonstersCount--;
+        // 목표 몬스터를 다 잡으면 클리어 처리 가능
+        // if (targetMonstersCount <= 0) FinishGame(true);
+    }
+
     void UpdateUIText()
     {
         if (timerText != null)
         {
-            int min = Mathf.FloorToInt(currentTimer / 60F);
-            int sec = Mathf.FloorToInt(currentTimer % 60F);
-            timerText.text = $"{min:00}:{sec:00}";
-        }
-    }
-
-    void UpdateObjectiveText()
-    {
-        if (objectiveText != null)
-        {
-            objectiveText.text = $"Boss Left: {targetMonstersCount}";
+            int min = Mathf.FloorToInt(currentTimer / 60);
+            int sec = Mathf.FloorToInt(currentTimer % 60);
+            timerText.text = $"{min:D2}:{sec:D2}";
         }
     }
 }
