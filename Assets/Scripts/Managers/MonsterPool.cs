@@ -90,4 +90,11 @@ public class MonsterPool : MonoBehaviour
         monster.gameObject.SetActive(false);
         poolDictionary[tag].Enqueue(monster);
     }
+
+    public void StopSpawning()
+    {
+        //스폰을 더 하지 않도록 하는 코드
+        //시간을 멈춰서 스폰을 막고 결과 창이 뜸
+        
+    }
 }
