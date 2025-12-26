@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계도 역할을 하는 추상 클래스 
 {
     [Header("Weapon Identity")]
-    [SerializeField] protected string weaponId = "sword_wood"; // 무기 ID (DataManager에서 불러올 때 사용)
+    [SerializeField] protected string weaponId = ""; // 이 무기의 고유 ID (예: "sword_basic", "spear_01")
     
     [Header("Weapon Stats")]
     [SerializeField] protected float baseDamage = 10f; // 기본 공격력 (DataManager에서 로드됨)
@@ -60,26 +60,24 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
             return;
         }
         
-        // 장착된 무기 ID 가져오기
-        string equippedWeaponId = DataManager.instance.GetEquippedItemId(EquipmentType.Weapon);
-        
-        if (string.IsNullOrEmpty(equippedWeaponId))
+        // 이 무기의 고유 ID가 설정되지 않았다면 경고
+        if (string.IsNullOrEmpty(weaponId))
         {
-            Debug.LogWarning($"{gameObject.name}: 장착된 무기가 없습니다. 기본 공격력 사용.");
+            Debug.LogWarning($"{gameObject.name}: weaponId가 설정되지 않았습니다. Inspector에서 weaponId를 설정하세요. 기본 공격력 사용.");
             return;
         }
         
-        // 무기 데이터 로드
-        WeaponData weaponData = DataManager.instance.GetWeaponData(equippedWeaponId);
+        // 이 무기의 고유 ID로 데이터 로드
+        WeaponData weaponData = DataManager.instance.GetWeaponData(weaponId);
         
         if (weaponData != null)
         {
             // 무기의 기본 공격력 + 강화 레벨 적용
-            int reinforcementLevel = DataManager.instance.GetItemLevel(equippedWeaponId);
-            baseDamage = weaponData.baseAtk + (weaponData.atkPerLevel * reinforcementLevel);
+            int reinforcementLevel = DataManager.instance.GetItemLevel(weaponId);
+            baseDamage = (float)weaponData.baseAtk + (weaponData.atkPerLevel * reinforcementLevel);
             
             Debug.Log($"=== 무기 데이터 로드 ===");
-            Debug.Log($"무기: {weaponData.weaponName} +{reinforcementLevel} (ID: {equippedWeaponId})");
+            Debug.Log($"무기: {weaponData.weaponName} +{reinforcementLevel} (ID: {weaponId})");
             Debug.Log($"기본 공격력: {weaponData.baseAtk}");
             Debug.Log($"강화 보너스: +{weaponData.atkPerLevel * reinforcementLevel} ({weaponData.atkPerLevel} × {reinforcementLevel})");
             Debug.Log($"최종 공격력: {baseDamage}");
@@ -87,7 +85,7 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
         }
         else
         {
-            Debug.LogError($"{gameObject.name}: 무기 데이터를 찾을 수 없습니다 (ID: {equippedWeaponId}). 기본 공격력 사용.");
+            Debug.LogError($"{gameObject.name}: 무기 데이터를 찾을 수 없습니다 (ID: {weaponId}). 기본 공격력 사용.");
         }
     }
     
@@ -287,5 +285,19 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
     public float GetBaseDamage()
     {
         return baseDamage;
+    }
+    
+    /// 무기의 고유 ID를 반환합니다.
+    public string GetWeaponId()
+    {
+        return weaponId;
+    }
+    
+    /// 무기의 고유 ID를 설정합니다. (런타임에서 동적으로 변경 가능)
+    public void SetWeaponId(string newWeaponId)
+    {
+        weaponId = newWeaponId;
+        LoadWeaponData(); // ID 변경 시 데이터를 다시 로드
+        LoadEnchantData();
     }
 }
