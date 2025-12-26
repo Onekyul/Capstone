@@ -131,13 +131,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae1eb105e71eee74caa020cf0b362c40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponId: 
   baseDamage: 10
-  curEnchantment: {fileID: 0}
   attackCooldown: 1
   attackDuration: 0.3
+  finalTotalDamage: 0
+  finalCooldown: 0
   attackEffectPrefab: {fileID: 0}
   attackPoint: {fileID: 0}
   enchantChancePerLevel: 10
+  enchantmentLevels: 00000000000000000000000000000000
   attackAngle: 90
   enemyLayer:
     serializedVersion: 2
@@ -244,13 +247,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98542aff9f3a81b4fa025f960ae08c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponId: 
   baseDamage: 10
-  curEnchantment: {fileID: 0}
   attackCooldown: 0.5
   attackDuration: 0.03
+  finalTotalDamage: 0
+  finalCooldown: 0
   attackEffectPrefab: {fileID: 0}
   attackPoint: {fileID: 2682603067172822643}
   enchantChancePerLevel: 10
+  enchantmentLevels: 00000000000000000000000000000000
   arrowPrefab: {fileID: 1493290291005291568, guid: bbeb226d02dcd094296a10b6125561ce, type: 3}
 --- !u!1 &4567137353947876526
 GameObject:
@@ -385,7 +391,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
@@ -475,16 +481,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc435803fd893524aa1067db3ce82564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 1
-  currentXP: 0
-  nextLevelXP: 100
+  baseMaxHP: 100
   playerMaxHP: 100
   playerCurHP: 0
-  enchantmentLevels: 00000000000000000000000000000000
+  baseDefense: 0
+  totalDefense: 0
   attackDamageMultiplier: 1
   attackSpeedMultiplier: 1
   moveSpeedMultiplier: 1
   attackCount: 1
+  finalAttackMultiplier: 1
+  debugShowRage: 0
+  debugShowRevenge: 0
   damageTickCooldown: 1
   invincibilityDuration: 0.5
 --- !u!1 &6300785288541835649
@@ -587,13 +595,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c124ab1193fa1438e727a41f599ef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponId: 
   baseDamage: 10
-  curEnchantment: {fileID: 0}
   attackCooldown: 1
   attackDuration: 0.3
+  finalTotalDamage: 0
+  finalCooldown: 0
   attackEffectPrefab: {fileID: 0}
   attackPoint: {fileID: 0}
   enchantChancePerLevel: 10
+  enchantmentLevels: 00000000000000000000000000000000
   spearRange: 3
   enemyLayer:
     serializedVersion: 2
