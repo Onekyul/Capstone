@@ -1,0 +1,333 @@
+fileFormatVersion: 2
+guid: bb6936333f09aa9449e361c912dffe69
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7538253547262130296
+    second: spirit of fire_9-Photoroom_0
+  - first:
+      213: -7700087130105841046
+    second: spirit of fire_9-Photoroom_1
+  - first:
+      213: 3807912442067666745
+    second: spirit of fire_9-Photoroom_2
+  - first:
+      213: -7326000489865484882
+    second: spirit of fire_9-Photoroom_3
+  - first:
+      213: 7370665650041348393
+    second: spirit of fire_9-Photoroom_4
+  - first:
+      213: -3105062304125557002
+    second: spirit of fire_9-Photoroom_5
+  - first:
+      213: -281774762265083178
+    second: spirit of fire_9-Photoroom_6
+  - first:
+      213: 8983375079455837635
+    second: spirit of fire_9-Photoroom_7
+  - first:
+      213: -8435836948416297514
+    second: spirit of fire_9-Photoroom_8
+  - first:
+      213: -8574746648417253610
+    second: spirit of fire_9-Photoroom_9
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: spirit of fire_9-Photoroom_0
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 242
+        width: 38
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 887cc90965eb26790800000000000000
+      internalID: -7538253547262130296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spirit of fire_9-Photoroom_1
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 302
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6afb7e4d8bc32590800000000000000
+      internalID: -7700087130105841046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spirit of fire_9-Photoroom_2
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 237
+        width: 157
+        height: 134
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 937cb3dd03c68d430800000000000000
+      internalID: 3807912442067666745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spirit of fire_9-Photoroom_3
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 225
+        width: 205
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea5ea398e51d45a90800000000000000
+      internalID: -7326000489865484882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spirit of fire_9-Photoroom_4
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 36
+        width: 154
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92163e47b5dd94660800000000000000
+      internalID: 7370665650041348393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spirit of fire_9-Photoroom_6
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 33
+        width: 118
+        height: 146
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d2058cb85fe61cf0800000000000000
+      internalID: -281774762265083178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spirit of fire_9-Photoroom_8
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 46
+        width: 37
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d5088a8df2edea80800000000000000
+      internalID: -8435836948416297514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spirit of fire_9-Photoroom_9
+      rect:
+        serializedVersion: 2
+        x: 409
+        y: 46
+        width: 38
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6174e1eaa51600980800000000000000
+      internalID: -8574746648417253610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: e18a50d213a51dd4780311420fef97e0
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      spirit of fire_9-Photoroom_0: -7538253547262130296
+      spirit of fire_9-Photoroom_1: -7700087130105841046
+      spirit of fire_9-Photoroom_2: 3807912442067666745
+      spirit of fire_9-Photoroom_3: -7326000489865484882
+      spirit of fire_9-Photoroom_4: 7370665650041348393
+      spirit of fire_9-Photoroom_5: -3105062304125557002
+      spirit of fire_9-Photoroom_6: -281774762265083178
+      spirit of fire_9-Photoroom_7: 8983375079455837635
+      spirit of fire_9-Photoroom_8: -8435836948416297514
+      spirit of fire_9-Photoroom_9: -8574746648417253610
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

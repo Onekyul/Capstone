@@ -16,9 +16,9 @@ MonoBehaviour:
   armorId: armor_iron
   armorName: "\uCCA0 \uAC11\uC637"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 7964125684815478739, guid: 4436910fee1944b4894d7e8e28d73900, type: 3}
   bonusDef: 0
   bonusHp: 40
   bonusSpeed: 0
   modelprefab: {fileID: 0}
-  upgradeTable: {fileID: 0}
+  upgradeTable: {fileID: 11400000, guid: 4cf51b876dbc9e9428b1fd307421d7fc, type: 2}

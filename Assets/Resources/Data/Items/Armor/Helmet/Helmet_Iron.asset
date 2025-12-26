@@ -16,9 +16,9 @@ MonoBehaviour:
   armorId: helmet_iron
   armorName: "\uCCA0 \uD22C\uAD6C"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 7371258432113257054, guid: 4436910fee1944b4894d7e8e28d73900, type: 3}
   bonusDef: 30
   bonusHp: 0
   bonusSpeed: 0
   modelprefab: {fileID: 0}
-  upgradeTable: {fileID: 0}
+  upgradeTable: {fileID: 11400000, guid: d5102e46b5b788e478a5fd337a5b69c9, type: 2}

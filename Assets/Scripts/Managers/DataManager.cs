@@ -117,56 +117,22 @@ public class DataManager : MonoBehaviour
     //SO getter
     public WeaponData GetWeaponData(string id)
     {
-        // ID에 따라 올바른 폴더 경로 결정
-        string folderPath = "";
-        
-        if (id.StartsWith("sword_"))
-        {
-            folderPath = "Data/Items/Weapon/Sword/";
-        }
-        // 다른 무기 타입이 추가되면 여기에 추가
-        
-        // ID의 첫 글자를 대문자로 변환 (sword_wood -> Sword_wood)
-        string fileName = char.ToUpper(id[0]) + id.Substring(1);
-        
-        WeaponData weaponData = Resources.Load<WeaponData>(folderPath + fileName);
-        
-        if (weaponData == null)
-        {
-            Debug.LogError($"WeaponData를 찾을 수 없습니다: {folderPath + fileName}");
-        }
-        
-        return weaponData;
+        // Resources/Data/Items/Weapons 폴더 안에 있는 파일 로드
+        return Resources.Load<WeaponData>($"Data/Items/Weapon/Sword/{id}");
     }
     public ArmorData GetArmorData(string id)
     {
-        // ID에 따라 올바른 폴더 경로 결정
-        string folderPath = "";
+        ArmorData data = Resources.Load<ArmorData>($"Data/Items/Armor/Helmet/{id}");
+        if (data != null) return data;
         
-        if (id.StartsWith("helmet_"))
-        {
-            folderPath = "Data/Items/Armor/Helmet/";
-        }
-        else if (id.StartsWith("armor_"))
-        {
-            folderPath = "Data/Items/Armor/Armor/";
-        }
-        else if (id.StartsWith("boots_"))
-        {
-            folderPath = "Data/Items/Armor/Boots/";
-        }
+        data = Resources.Load<ArmorData>($"Data/Items/Armor/Armor/{id}");
+        if (data != null) return data;
         
-        // ID의 첫 글자를 대문자로 변환 (helmet_wood -> Helmet_wood)
-        string fileName = char.ToUpper(id[0]) + id.Substring(1);
+        data = Resources.Load<ArmorData>($"Data/Items/Armor/Boots/{id}");
+        if (data != null) return data;
         
-        ArmorData armorData = Resources.Load<ArmorData>(folderPath + fileName);
-        
-        if (armorData == null)
-        {
-            Debug.LogError($"ArmorData를 찾을 수 없습니다: {folderPath + fileName}");
-        }
-        
-        return armorData;
+        Debug.LogError($"[GetArmorData] 방어구 데이터를 찾을 수 없습니다. ID: {id}\n(검색 경로: Data/Items/Armor/ 하위의 Helmet, Armor, Boots 폴더)");
+        return null;
     }
     public ItemData GetMaterialData(string id)
     {
@@ -197,25 +163,85 @@ public class DataManager : MonoBehaviour
 
     
     //강화
-    public bool UpgradeEquipment(string id)
+    public bool TryUpgradeItem(string id)
+    {
+        UpgradeTable table = null;
+        string itemName = "";
+
+       
+        WeaponData wData = GetWeaponData(id);
+        if (wData != null)
+        {
+            table = wData.upgradeTable;
+            itemName = wData.weaponName;
+        }
+        else
+        {
+           
+            ArmorData aData = GetArmorData(id);
+            if (aData != null)
+            {
+                table = aData.upgradeTable;
+                itemName = aData.armorName;
+            }
+        }
+        
+        if (table == null)
+        {
+            Debug.LogError($"강화 테이블을 찾을 수 없습니다: {id}");
+            return false;
+        }
+        
+        int currentLevel = GetItemLevel(id);
+        var nextStep = table.GetNextStep(currentLevel);
+
+        if (nextStep == null)
+        {
+            Debug.Log("이미 최고 레벨입니다.");
+            return false; // 더 이상 강화 불가
+        }
+        
+        string matId = nextStep.requiredMaterial.itemId;
+        int matCount = nextStep.materialCount;
+
+        if (!HasInventory(matId, matCount))
+        {
+            return false;
+        }
+        
+        UseInventory(matId, matCount);
+        
+        int randomVal = UnityEngine.Random.Range(0, 100);
+
+        if (randomVal < nextStep.successRate)
+        {
+            ApplyLevelUpInternal(id);
+            Debug.Log($"[강화 성공] {itemName} (+{currentLevel + 1})");
+        }
+        else
+        {
+            Debug.Log($"[강화 실패] {itemName}...");
+        }
+
+        SaveGame(); 
+        return true;
+    }
+    
+    private void ApplyLevelUpInternal(string id)
     {
         var weapon = currentPlayer.ownedWeapons.Find(w => w.itemId == id);
         if (weapon != null)
         {
             weapon.reinforcementLevel++;
-            SaveGame(); 
-            return true;
+            return;
         }
-        
+
         var armor = currentPlayer.ownedArmors.Find(a => a.itemId == id);
         if (armor != null)
         {
             armor.reinforcementLevel++;
-            SaveGame();
-            return true; 
+            return;
         }
-        
-        return false;
     }
     
     //인챈트

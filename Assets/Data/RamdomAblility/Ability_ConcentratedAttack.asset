@@ -15,7 +15,7 @@ MonoBehaviour:
   abilityID: 1
   abilityName: "\uC6C5\uCD95\uB41C \uACF5\uACA9"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: -1209539930331940954, guid: 37bbb49bea6e6af4e8824b2837588ee7, type: 3}
   abilityType: 0
   canStack: 0
   hasLevels: 0
