@@ -137,4 +137,13 @@ public class LevelManager : MonoBehaviour
         if (id < 0 || id >= currentAbilityLevels.Length) return 0;
         return currentAbilityLevels[id];
     }
+    
+    // ===== 랜덤 능력 초기화 (던전 종료 시 호출) =====
+    public void ResetAbilities()
+    {
+        Debug.Log("[LevelManager] 능력 레벨 배열 초기화");
+        currentAbilityLevels = new int[40];
+        curLevel = 0;
+        curExp = 0;
+    }
 }

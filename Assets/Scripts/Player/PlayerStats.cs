@@ -417,5 +417,39 @@ public class PlayerStats : MonoBehaviour
         return weaponData.baseAtk;
     }
 
+    // ===== 랜덤 능력 초기화 (던전 종료 시 호출) =====
+    public void ResetAbilities()
+    {
+        Debug.Log("[PlayerStats] 랜덤 능력 초기화 시작");
+        
+        // 전투 스탯 배율 초기화
+        attackDamageMultiplier = 1.0f;
+        attackSpeedMultiplier = 1.0f;
+        attackCount = 1;
+        
+        // 특수 능력 초기화
+        vampireChance = 0f;
+        dodgeChance = 0f;
+        shadowCooldown = 0f;
+        nextShadowTime = 0f;
+        shadowInvincibilityEndTime = 0f;
+        hasRage = false;
+        hasRevenge = false;
+        revengeEndTime = 0f;
+        
+        // 디버그 플래그 초기화
+        debugShowRage = false;
+        debugShowRevenge = false;
+        finalAttackMultiplier = 1.0f;
+        
+        // AbilitySystem에도 초기화 요청
+        if (abilitySystem != null)
+        {
+            abilitySystem.ResetAbilities();
+        }
+        
+        Debug.Log("[PlayerStats] 랜덤 능력 초기화 완료");
+    }
+
 }
 
