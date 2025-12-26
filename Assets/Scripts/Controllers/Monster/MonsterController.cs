@@ -259,7 +259,7 @@ public class MonsterController : MonoBehaviour
 
 
     // --- 유틸리티 ---
-    private bool IsDead() => CurHP <= 0;
+    protected bool IsDead() => CurHP <= 0;
 
     protected Transform GetClosestPlayer()
     {

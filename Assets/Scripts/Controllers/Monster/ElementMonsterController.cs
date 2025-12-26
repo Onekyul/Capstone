@@ -40,9 +40,8 @@ public class ElementMonsterController : MonsterController
         }
 
         // ★ 중요: 부모(MonsterController)의 Update를 부르지 않음으로써 이동 로직을 제거합니다.
-        // 대신 사망 체크는 필요하므로 따로 호출하거나 직접 작성합니다.
-        // if (IsDead()) ReturnToPool(); 
-        // (IsDead가 private이면 protected로 바꾸거나 프로퍼티 사용)
+        // 대신 사망 체크는 필요하므로 따로 호출합니다.
+        if (IsDead()) ReturnToPool();
     }
 
     // 자식들이 구체적인 공격을 작성할 빈 함수 (Virtual)
@@ -54,11 +53,12 @@ public class ElementMonsterController : MonsterController
 
     protected override void ReturnToPool()
     {
-        base.ReturnToPool(); // 부모 클래스의 ReturnToPool 메서드 호출
+
         // 엘리멘탈 몬스터가 죽을 때 엘리멘탈 상자 드랍
         if (elementChestPrefab != null)
         {
             Instantiate(elementChestPrefab, transform.position + Vector3.down * 0.3f, Quaternion.identity);
         }
+        base.ReturnToPool(); // 부모 클래스의 ReturnToPool 메서드 호출
     }
 }

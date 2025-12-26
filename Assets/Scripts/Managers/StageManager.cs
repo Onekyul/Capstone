@@ -1,44 +1,66 @@
 using UnityEngine;
-using System.Collections.Generic;
-using TMPro; // 텍스트 제어를 위해 필요
+using TMPro;
+using System.Collections;     // IEnumerator 사용
+using System.Collections.Generic; // List 사용
 
 public class StageManager : MonoBehaviour
 {
     public static StageManager instance;
 
-    [Header("--- [보상 설정] (데이터를 여기에 드래그하세요) ---")]
-    [Tooltip("엘리트 상자 1개당 얻을 수 있는 아이템 목록 (기본 재료 + 조각)")]
-    public List<RewardRule> eliteChestRewards;
+    // =========================================================
+    // [1] 기존 스폰 시스템 (StageSO 웨이브 패턴)
+    // =========================================================
+    [Header("--- [Wave Spawn Settings] ---")]
+    [Tooltip("실행할 스테이지의 설계도 (StageSO 파일을 여기에 연결하세요)")]
+    public StageSO currentStage;
 
-    [Tooltip("엘리멘트 상자 1개당 얻을 수 있는 아이템 목록 (상위 재료)")]
+    [Tooltip("스폰의 기준이 될 플레이어 또는 카메라")]
+    public Transform spawnCenter;
+
+    private float elapsedTime = 0f;       // 경과 시간 (스폰 타이밍 체크용)
+    private int currentPhaseIndex = 0;    // 현재 진행 중인 웨이브 단계
+    private Camera mainCamera;
+
+    // 4개의 대각선 꼭짓점 방향 (대각선 스폰용)
+    private readonly Vector2[] diagonalSpawnPoints =
+    {
+        new Vector2(1, 1).normalized,   // 오른쪽 위
+        new Vector2(1, -1).normalized,  // 오른쪽 아래
+        new Vector2(-1, -1).normalized, // 왼쪽 아래
+        new Vector2(-1, 1).normalized   // 왼쪽 위
+    };
+
+    // =========================================================
+    // [2] 신규 보상 및 게임 모드 시스템
+    // =========================================================
+    [Header("--- [Reward Settings] ---")]
+    public List<RewardRule> eliteChestRewards;
     public List<RewardRule> elementChestRewards;
 
-    // 보상 규칙 정의용 구조체 (인스펙터에서 보임)
     [System.Serializable]
     public struct RewardRule
     {
-        public ItemData item;     // 획득할 아이템 데이터
-        public int minAmount;     // 최소 개수
-        public int maxAmount;     // 최대 개수
+        public ItemData item;
+        public int minAmount;
+        public int maxAmount;
     }
 
-    [Header("--- [게임 상태] ---")]
-    public float stageTimeLimit = 300f; // 제한 시간 (5분 = 300초)
-    private float currentTimer;
+    [Header("--- [Game Mode Settings] ---")]
+    public float stageTimeLimit = 300f; // 제한 시간 (5분)
+    private float currentTimer;         // 남은 시간
     public bool isGameEnded = false;
 
-    // 상자 획득 개수
+    // 상자 획득 카운트
     public int eliteChestCount = 0;
     public int elementChestCount = 0;
 
-    [Header("--- [스폰 & UI 참조] ---")]
-    public Transform[] spawnPoints;          // 몬스터 스폰 위치들
+    [Header("--- [Boss & UI References] ---")]
+    public Transform[] spawnPoints;            // 보스/속성 몬스터 고정 스폰 위치
     public GameObject[] elementMonsterPrefabs; // 속성 몬스터 프리팹
-    public TextMeshProUGUI timerText;        // 타이머 UI (선택 사항)
-    public TextMeshProUGUI objectiveText;    // 목표 텍스트 (선택 사항)
+    public TextMeshProUGUI timerText;
+    public TextMeshProUGUI objectiveText;
 
-    // 목표 몬스터 처치 수 (필요 시 사용)
-    private int targetMonstersCount = 0;
+    private int targetMonstersCount = 0; // 보스 처치 수
 
     void Awake()
     {
@@ -47,13 +69,18 @@ public class StageManager : MonoBehaviour
 
     void Start()
     {
-        // 초기화
+        // 1. 초기화
+        mainCamera = Camera.main;
+        if (spawnCenter == null && mainCamera != null) spawnCenter = mainCamera.transform;
+
         currentTimer = stageTimeLimit;
+        elapsedTime = 0f;
+        currentPhaseIndex = 0;
         isGameEnded = false;
         eliteChestCount = 0;
         elementChestCount = 0;
 
-        // 시작 시 몬스터 스폰 (기존 로직 유지)
+        // 2. 고정형 속성 몬스터(보스급) 4마리 소환 (기존 로직 유지)
         SpawnElementalMonsters();
     }
 
@@ -61,75 +88,155 @@ public class StageManager : MonoBehaviour
     {
         if (isGameEnded) return;
 
-        // 타이머 감소
-        currentTimer -= Time.deltaTime;
+        // --- 타이머 처리 ---
+        float deltaTime = Time.deltaTime;
+        currentTimer -= deltaTime;
+        elapsedTime += deltaTime; // 웨이브 스폰용 경과 시간 증가
+
         UpdateUIText();
 
-        // 제한 시간 종료 = 생존 성공
+        // --- 승리 조건 A: 제한 시간 생존 ---
         if (currentTimer <= 0)
         {
-            FinishGame(true); // true = 클리어(생존)
+            FinishGame(true); // 생존 성공
+            return;
+        }
+
+        // --- 웨이브 스폰 로직 (복구됨!) ---
+        CheckWaveSpawn();
+    }
+
+    // =========================================================
+    // [기능 1] 웨이브 스폰 로직 (복구된 부분)
+    // =========================================================
+    void CheckWaveSpawn()
+    {
+        // 스테이지 정보가 없거나 모든 페이즈가 끝났으면 패스
+        if (currentStage == null || currentPhaseIndex >= currentStage.phases.Count) return;
+
+        // 현재 페이즈의 시작 시간이 되었는지 확인
+        if (elapsedTime >= currentStage.phases[currentPhaseIndex].timestamp)
+        {
+            StartPhase(currentStage.phases[currentPhaseIndex]);
+            currentPhaseIndex++;
         }
     }
 
-    // --- [상자 획득 함수 (외부에서 호출)] ---
-    public void CollectEliteChest()
+    void StartPhase(Phase phase)
     {
-        eliteChestCount++;
-        // Debug.Log($"은상자 획득! 현재: {eliteChestCount}");
+        foreach (SpawnData group in phase.spawnGroups)
+        {
+            StartCoroutine(SpawnMonsterGroup(group));
+        }
     }
 
-    public void CollectElementChest()
+    IEnumerator SpawnMonsterGroup(SpawnData data)
     {
-        elementChestCount++;
-        // Debug.Log($"금상자 획득! 현재: {elementChestCount}");
+        Vector2 spawnDirection = Vector2.zero;
+        Vector3 baseSpawnPosition = Vector3.zero;
+
+        // 그룹의 기준 위치 계산
+        switch (data.spawnPattern)
+        {
+            case SpawnPattern.DiagonalEntrance:
+                spawnDirection = diagonalSpawnPoints[Random.Range(0, diagonalSpawnPoints.Length)];
+                baseSpawnPosition = (Vector2)spawnCenter.position + spawnDirection * data.spawnRadius;
+                break;
+                // Circle, Random은 개별 위치 계산
+        }
+
+        for (int i = 0; i < data.count; i++)
+        {
+            if (isGameEnded) yield break; // 게임 끝나면 스폰 중단
+
+            Vector3 finalSpawnPosition = Vector3.zero;
+
+            switch (data.spawnPattern)
+            {
+                case SpawnPattern.Circle:
+                    float angle = i * (360f / data.count);
+                    Vector3 dir = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad), 0);
+                    finalSpawnPosition = spawnCenter.position + dir * (data.spawnRadius + Random.Range(-data.groupSpread / 2, data.groupSpread / 2));
+                    break;
+
+                case SpawnPattern.RandomOutsideCamera:
+                    Vector3 screenPoint = Vector3.zero;
+                    int edge = Random.Range(0, 4);
+                    // 화면 밖 랜덤 좌표 계산
+                    if (edge == 0) screenPoint = new Vector3(Random.Range(0, Screen.width), -50f, 10f);
+                    else if (edge == 1) screenPoint = new Vector3(Random.Range(0, Screen.width), Screen.height + 50f, 10f);
+                    else if (edge == 2) screenPoint = new Vector3(-50f, Random.Range(0, Screen.height), 10f);
+                    else screenPoint = new Vector3(Screen.width + 50f, Random.Range(0, Screen.height), 10f);
+
+                    finalSpawnPosition = mainCamera.ScreenToWorldPoint(screenPoint);
+                    finalSpawnPosition.z = 0;
+                    break;
+
+                case SpawnPattern.DiagonalEntrance:
+                    Vector2 randomOffset = Random.insideUnitCircle * data.groupSpread;
+                    finalSpawnPosition = baseSpawnPosition + (Vector3)randomOffset;
+                    break;
+            }
+
+            // ★ 중요: MonsterPool 이름 확인 (MonsterPool vs MonsterPoolingManager)
+            if (MonsterPool.Instance != null)
+            {
+                MonsterController monster = MonsterPool.Instance.GetFromPool(data.monsterTag, finalSpawnPosition, Quaternion.identity);
+
+                // 대각선 이동 몬스터인 경우 방향 설정
+                if (monster != null && monster is DiagonalMoveMonsterController diagonalMover)
+                {
+                    diagonalMover.SetDirection(-spawnDirection);
+                }
+            }
+
+            yield return new WaitForSeconds(data.spawnInterval);
+        }
     }
 
-    // --- [게임 종료 및 정산 처리] ---
+    // =========================================================
+    // [기능 2] 보상 및 결과 시스템 (새로 만든 부분)
+    // =========================================================
+    public void CollectEliteChest() { eliteChestCount++; }
+    public void CollectElementChest() { elementChestCount++; }
+
     public void FinishGame(bool isClear)
     {
         if (isGameEnded) return;
         isGameEnded = true;
 
-        // 1. 게임 정지
+        // 1. 게임 정지 및 스폰 중단
         Time.timeScale = 0f;
         if (MonsterPool.Instance != null) MonsterPool.Instance.StopSpawning();
 
-        // 2. 최종 보상 계산
+        // 2. 보상 계산
         Dictionary<ItemData, int> finalRewards = CalculateTotalRewards(isClear);
 
-        // 3. 인벤토리 저장 (DataManager)
+        // 3. 인벤토리 저장
         foreach (var pair in finalRewards)
         {
-            if (pair.Value > 0)
-            {
-                // ItemData에 있는 ID를 사용하여 저장
-                DataManager.instance.AddInventory(pair.Key.itemId, pair.Value);
-            }
+            if (pair.Value > 0) DataManager.instance.AddInventory(pair.Key.itemId, pair.Value);
         }
 
-        // 4. UI 매니저에게 결과창 표시 요청
-        // (성공여부, 은상자수, 금상자수, 보상목록 전달)
+        // 4. UI 표시
         DungeonUIManager.instance.ShowResultUI(isClear, eliteChestCount, elementChestCount, finalRewards);
     }
 
-    // --- [보상 계산 핵심 로직] ---
     private Dictionary<ItemData, int> CalculateTotalRewards(bool isClear)
     {
         Dictionary<ItemData, int> totalRewards = new Dictionary<ItemData, int>();
 
-        // 1. 엘리트 상자 정산 (설정된 모든 규칙 적용)
+        // 엘리트 상자 정산
         for (int i = 0; i < eliteChestCount; i++)
         {
             foreach (var rule in eliteChestRewards)
             {
-                // 최소~최대 사이 랜덤 개수
                 int amount = Random.Range(rule.minAmount, rule.maxAmount + 1);
                 AddItemToDict(totalRewards, rule.item, amount);
             }
         }
 
-        // 2. 엘리멘트 상자 정산
+        // 엘리멘트 상자 정산
         for (int i = 0; i < elementChestCount; i++)
         {
             foreach (var rule in elementChestRewards)
@@ -139,23 +246,19 @@ public class StageManager : MonoBehaviour
             }
         }
 
-        // 3. 실패(죽음) 시 패널티 적용 (0.7배)
+        // 죽음 패널티 (0.7배)
         if (!isClear)
         {
-            // 딕셔너리 키 복사 후 순회 (수정 중 에러 방지)
             List<ItemData> keys = new List<ItemData>(totalRewards.Keys);
             foreach (var key in keys)
             {
-                int original = totalRewards[key];
-                int penalized = Mathf.FloorToInt(original * 0.7f); // 0.7 곱하고 소수점 버림
-                totalRewards[key] = penalized;
+                totalRewards[key] = Mathf.FloorToInt(totalRewards[key] * 0.7f);
             }
         }
 
         return totalRewards;
     }
 
-    // 딕셔너리 추가 도우미 함수
     void AddItemToDict(Dictionary<ItemData, int> dict, ItemData item, int amount)
     {
         if (item == null) return;
@@ -163,22 +266,41 @@ public class StageManager : MonoBehaviour
         else dict.Add(item, amount);
     }
 
-    // --- [기타 유틸리티 (스폰, UI)] ---
+    // =========================================================
+    // [기능 3] 고정형 속성 몬스터 (보스) 스폰
+    // =========================================================
     void SpawnElementalMonsters()
     {
         if (spawnPoints == null || elementMonsterPrefabs == null) return;
 
-        // 여기에 기존 몬스터 스폰 로직 구현 (예시)
-        // targetMonstersCount = ...;
+        targetMonstersCount = elementMonsterPrefabs.Length;
+        UpdateObjectiveText();
+
+        for (int i = 0; i < elementMonsterPrefabs.Length; i++)
+        {
+            Transform spawnPos = (i < spawnPoints.Length) ? spawnPoints[i] : spawnPoints[0];
+            if (spawnPos == null) continue;
+
+            GameObject monsterObj = Instantiate(elementMonsterPrefabs[i], spawnPos.position, Quaternion.identity);
+            MonsterController monster = monsterObj.GetComponent<MonsterController>();
+
+            if (monster != null)
+            {
+                monster.OnDeath += OnTargetMonsterDead;
+            }
+        }
     }
 
-    // 외부에서 몬스터 죽었을 때 호출 (선택 사항)
-    public void OnTargetMonsterDead()
+    void OnTargetMonsterDead()
     {
         if (isGameEnded) return;
         targetMonstersCount--;
-        // 목표 몬스터를 다 잡으면 클리어 처리 가능
-        // if (targetMonstersCount <= 0) FinishGame(true);
+        UpdateObjectiveText();
+
+        if (targetMonstersCount <= 0)
+        {
+            FinishGame(true); // 토벌 성공
+        }
     }
 
     void UpdateUIText()
@@ -189,5 +311,10 @@ public class StageManager : MonoBehaviour
             int sec = Mathf.FloorToInt(currentTimer % 60);
             timerText.text = $"{min:D2}:{sec:D2}";
         }
+    }
+
+    void UpdateObjectiveText()
+    {
+        if (objectiveText != null) objectiveText.text = $"Boss Left: {targetMonstersCount}";
     }
 }

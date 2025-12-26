@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireFieldPrefab: {fileID: 7099330721747652083, guid: ab917528ee4640048ac8fed7a3561ad5, type: 3}
-  speed: 8
+  speed: 2
 --- !u!212 &5370928833900234795
 SpriteRenderer:
   m_ObjectHideFlags: 0
