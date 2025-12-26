@@ -24,7 +24,7 @@ public class ChasingMonsterController : MonsterController
         FollowPlayer();
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
         // 몬스터가 활성화될 때마다 엘리트 여부를 다시 결정
         IsElite = Random.Range(0f, 100f) < eliteSpawnChance;
