@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4c2511d3c4fef34f8a4cc8a6240c0ee, type: 3}
-  m_Name: Stage1
+  m_Name: FireDungeonStage1
   m_EditorClassIdentifier: 
   phases:
   - timestamp: 1
@@ -186,4 +186,190 @@ MonoBehaviour:
       spawnPattern: 2
       spawnRadius: 10
       spawnInterval: 0.01
+      groupSpread: 2
+  - timestamp: 150
+    spawnGroups:
+    - monsterTag: Chasing
+      count: 30
+      spawnPattern: 1
+      spawnRadius: 10
+      spawnInterval: 0.5
+      groupSpread: 2
+    - monsterTag: Fast
+      count: 7
+      spawnPattern: 2
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+  - timestamp: 160
+    spawnGroups:
+    - monsterTag: Fast
+      count: 7
+      spawnPattern: 2
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+  - timestamp: 165
+    spawnGroups:
+    - monsterTag: Big
+      count: 16
+      spawnPattern: 1
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+  - timestamp: 180
+    spawnGroups:
+    - monsterTag: Big
+      count: 16
+      spawnPattern: 1
+      spawnRadius: 10
+      spawnInterval: 1
+      groupSpread: 2
+    - monsterTag: Fast
+      count: 4
+      spawnPattern: 2
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+  - timestamp: 200
+    spawnGroups:
+    - monsterTag: Big
+      count: 16
+      spawnPattern: 1
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+    - monsterTag: Chasing
+      count: 15
+      spawnPattern: 0
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+  - timestamp: 210
+    spawnGroups:
+    - monsterTag: Fast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+  - timestamp: 230
+    spawnGroups:
+    - monsterTag: Fast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+    - monsterTag: Fast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+  - timestamp: 235
+    spawnGroups:
+    - monsterTag: Fast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+    - monsterTag: Big
+      count: 15
+      spawnPattern: 1
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+  - timestamp: 240
+    spawnGroups:
+    - monsterTag: Fast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+    - monsterTag: Big
+      count: 15
+      spawnPattern: 1
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+  - timestamp: 250
+    spawnGroups:
+    - monsterTag: Fast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+    - monsterTag: Chasing
+      count: 20
+      spawnPattern: 0
+      spawnRadius: 10
+      spawnInterval: 0.3
+      groupSpread: 2
+    - monsterTag: Big
+      count: 20
+      spawnPattern: 1
+      spawnRadius: 20
+      spawnInterval: 0.3
+      groupSpread: 2
+  - timestamp: 260
+    spawnGroups:
+    - monsterTag: Fast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+    - monsterTag: Chasing
+      count: 50
+      spawnPattern: 1
+      spawnRadius: 10
+      spawnInterval: 0.7
+      groupSpread: 2
+    - monsterTag: Big
+      count: 40
+      spawnPattern: 1
+      spawnRadius: 20
+      spawnInterval: 1
+      groupSpread: 2
+  - timestamp: 266
+    spawnGroups:
+    - monsterTag: Fast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+  - timestamp: 273
+    spawnGroups:
+    - monsterTag: Fast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+  - timestamp: 280
+    spawnGroups:
+    - monsterTag: Fast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+    - monsterTag: Chasing
+      count: 30
+      spawnPattern: 0
+      spawnRadius: 10
+      spawnInterval: 0.5
+      groupSpread: 2
+  - timestamp: 273
+    spawnGroups:
+    - monsterTag: Big
+      count: 50
+      spawnPattern: 1
+      spawnRadius: 10
+      spawnInterval: 0.5
       groupSpread: 2

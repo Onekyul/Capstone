@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     [Tooltip("한 번 경험치 획득 시 얻는 경험치 양")]
     int gainExp = 10;
-    int[] expTable = { 100, 125, 150, 200 }; // 레벨업에 필요한 경험치 테이블
+    int[] expTable = { 100, 125, 150, 200, 250, 300, 400, 500, 650, 800, 1000, 1300, 1600, 2000 }; // 레벨업에 필요한 경험치 테이블
 
 
     private void Awake()
