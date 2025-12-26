@@ -3,7 +3,7 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
     public float arrowSpeed = 15f;
-    public float lifeTime = 3f;
+    public float lifeTime = 1f;
 
     private Rigidbody2D rb;
     private float damageValue;

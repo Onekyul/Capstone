@@ -205,4 +205,11 @@ public class AbilitySystem : MonoBehaviour
     {
         return abilityLevels.ContainsKey(abilityID);
     }
+    
+    // ===== 랜덤 능력 초기화 (던전 종료 시 호출) =====
+    public void ResetAbilities()
+    {
+        Debug.Log("[AbilitySystem] 모든 능력 초기화");
+        abilityLevels.Clear();
+    }
 }
