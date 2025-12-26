@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2ab8e1c00ccfc6d4a92c6b8518ce14f6
+guid: a6a77d8dd61b6914fab51a9e01cd3a60
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -743952386952330692
-    second: NPC_1-Photoroom_0
+      213: -3809233051643409127
+    second: Alchemist_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: NPC_1-Photoroom_0
+      name: Alchemist_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c3207e5ee33fca5f0800000000000000
-      internalID: -743952386952330692
+      spriteID: 91d0e12c8b2e22bc0800000000000000
+      internalID: -3809233051643409127
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      NPC_1-Photoroom_0: -743952386952330692
+      Alchemist_0: -3809233051643409127
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
