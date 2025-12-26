@@ -3,6 +3,8 @@ using UnityEngine;
 using System.IO;
 using System.Text;
 
+using System.Collections.Generic;
+
 public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
@@ -48,6 +50,12 @@ public class DataManager : MonoBehaviour
         else
         {
             currentPlayer = new PlayerData();
+            //mock data 생성
+            // if (currentPlayer.Inventory == null) currentPlayer.Inventory = new List<InventorySlot>();
+            //
+            // currentPlayer.Inventory.Add(new InventorySlot("ent_fire", 10));       // 화염의 돌 10개
+            // currentPlayer.Inventory.Add(new InventorySlot("ent_lightning", 10));  // 번개의 돌 10개
+            // currentPlayer.Inventory.Add(new InventorySlot("wood", 100));
             SaveGame();
         }
     }
@@ -140,7 +148,7 @@ public class DataManager : MonoBehaviour
     }
     public EnchantData GetEnchantData(string id)
     {
-        return Resources.Load<EnchantData>($"Data/Enchants/{id}");
+        return Resources.Load<EnchantData>($"Data/Enchant/{id}");
     }
     
     //현재 레벨 조회
@@ -244,6 +252,15 @@ public class DataManager : MonoBehaviour
         }
     }
     
+    public int GetInventoryCount(string itemId)
+    {
+        if (currentPlayer == null || currentPlayer.Inventory == null) return 0;
+    
+        var slot = currentPlayer.Inventory.Find(x => x.itemId == itemId);
+        return slot != null ? slot.count : 0;
+    }
+    
+    
     //인챈트
     public bool TryEnhanceEnchant(string enchantId)
     {
@@ -332,7 +349,17 @@ public class DataManager : MonoBehaviour
             currentPlayer.unlockedEnchants.Add(new EnchantState(id, 1));
         }
     }
-    
+    public string GetEquippedItemId(EquipmentType type)
+    {
+        switch (type)
+        {
+            case EquipmentType.Weapon: return currentPlayer.equippedWeaponId;
+            case EquipmentType.Helmet: return currentPlayer.equippedHelmetId;
+            case EquipmentType.Armor:  return currentPlayer.equippedArmorId;
+            case EquipmentType.Boots:  return currentPlayer.equippedBootsId;
+            default: return "";
+        }
+    }
     
     
 }

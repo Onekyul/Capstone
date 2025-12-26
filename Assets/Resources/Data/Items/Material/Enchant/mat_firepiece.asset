@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc50ccf5a1bf35f4f8ef4a7c978627ea, type: 3}
-  m_Name: Material_Stone_Lightning
+  m_Name: mat_firepiece
   m_EditorClassIdentifier: 
-  itemId: mat_lightningstone
-  itemName: "\uBC88\uAC1C\uC758 \uB3CC"
+  itemId: mat_firepiece
+  itemName: "\uBD88\uC758 \uB3CC \uC870\uAC01"
   description: 
   icon: {fileID: 0}
   maxStack: 99

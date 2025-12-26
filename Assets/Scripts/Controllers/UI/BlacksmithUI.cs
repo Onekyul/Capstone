@@ -20,6 +20,7 @@ public class BlacksmithUI : MonoBehaviour
     public Image materialIcon;
     public TextMeshProUGUI materialText; // "철광석 5 / 10"
     public Button upgradeButton;
+    public TextMeshProUGUI materialAmountText;
 
     private EquipmentType currentType = EquipmentType.Weapon;
 
@@ -118,6 +119,7 @@ public class BlacksmithUI : MonoBehaviour
                 int nextLevelVal = currentLevel + 1;
                 Sprite nextIconSprite = icon;
                 float nextStatVal = 0f;
+              
 
                 if (currentType == EquipmentType.Weapon && nextStep.nextTierWeapon != null)
                 {
@@ -165,13 +167,21 @@ public class BlacksmithUI : MonoBehaviour
                 string matName = nextStep.requiredMaterial != null ? nextStep.requiredMaterial.itemName : "재료";
                 string matId = nextStep.requiredMaterial != null ? nextStep.requiredMaterial.itemId : "";
                 int matCount = nextStep.materialCount;
-
-                // 보유량 체크
-                bool hasMaterial = DataManager.instance.HasInventory(matId, matCount);
-
-                materialText.text = $"{matName} {matCount}개 필요";
+                if (nextStep.requiredMaterial != null && materialIcon != null)
+                {
+                    materialIcon.sprite = nextStep.requiredMaterial.icon;
+                    materialIcon.gameObject.SetActive(true); 
+                }
+                
+                int currentCount = DataManager.instance.GetInventoryCount(matId);
+                if (materialAmountText != null) 
+                    materialAmountText.text = currentCount.ToString();
+                materialText.text = $"{matName} ({currentCount}/{matCount})";
+                
+                bool hasMaterial = currentCount >= matCount;
                 materialText.color = hasMaterial ? Color.white : Color.red;
                 upgradeButton.interactable = hasMaterial;
+                
             }
             else
             {
@@ -212,7 +222,6 @@ public class BlacksmithUI : MonoBehaviour
             EquipmentType type = (EquipmentType)i;
             string id = DataManager.instance.GetEquippedItemId(type);
             
-            // 데이터 매니저에서 아이콘만 쏙 빼오기
             Sprite icon = GetItemIcon(type, id);
             if (icon != null) slotImages[i].sprite = icon;
         }

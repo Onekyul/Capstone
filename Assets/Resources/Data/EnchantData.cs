@@ -30,20 +30,8 @@ public class EnchantData : ScriptableObject
         return null;
     }
     
-    public string GetDescription(int level)
-    {
-        var info = GetCurrentLevelInfo(level);
-        if (info == null) return "효과 없음"; // 0레벨일 때
+    
 
-        // 파라미터 값들만 뽑아서 배열로 만듦
-        List<object> values = new List<object>();
-        foreach (var param in info.parameters)
-        {
-            values.Add(param.value);
-        }
-        
-        return string.Format(descriptionTemplate, values.ToArray());
-    }
     
     
     [System.Serializable]
