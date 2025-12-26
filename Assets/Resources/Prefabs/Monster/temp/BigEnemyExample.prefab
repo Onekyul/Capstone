@@ -124,7 +124,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.012802243}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -134,7 +134,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 4.9383135, y: 6.760968}
   m_EdgeRadius: 0
 --- !u!50 &3166880201529586006
 Rigidbody2D:
@@ -176,13 +176,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contactDamage: 5
-  MaxHP: 50
+  MaxHP: 35
   CurHP: 0
-  defaultMoveSpeed: 3
+  defaultMoveSpeed: 1
   poolTag: Big
   expJewelPrefab: {fileID: -5577271535738719069, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
-  lightningRadius: 5
+  usePooling: 1
   eliteChestPrefab: {fileID: -7302594443989870516, guid: ace7d39784493df4692014cc8d62bfb3, type: 3}
-  moveSpeed: 2
+  moveSpeed: 0.00001
   IsElite: 0
   eliteSpawnChance: 80.8

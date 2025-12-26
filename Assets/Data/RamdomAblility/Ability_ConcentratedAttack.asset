@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bcecb4a804a77e45b365f512a832543, type: 3}
   m_Name: Ability_ConcentratedAttack
   m_EditorClassIdentifier: 
-  abilityID: 1
+  abilityID: 3
   abilityName: "\uC6C5\uCD95\uB41C \uACF5\uACA9"
   description: 
   icon: {fileID: -1209539930331940954, guid: 37bbb49bea6e6af4e8824b2837588ee7, type: 3}
