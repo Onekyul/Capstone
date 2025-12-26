@@ -153,6 +153,8 @@ public class MonsterController : MonoBehaviour
 
         for (int i = 0; i < ticks; i++)
         {
+            //화상 데미지 적용 되는지 확인하기 위한 디버그 로그
+            Debug.Log($"Burn Tick {i + 1}/{ticks}: Dealing {tickDamage} damage.");
             yield return new WaitForSeconds(interval);
             TakeDirectDamage(tickDamage);
         }

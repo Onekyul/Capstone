@@ -84,6 +84,16 @@ public class Wizard : NPCController
             DataManager.instance.UpgradeEnchant(enchantId);
             Debug.Log($" [인챈트 성공] ({currentSelectedEnchant.enchantName} +{currentLevel + 1})");
             
+            // 플레이어의 무기에 즉시 반영
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                WeaponBase[] weapons = player.GetComponentsInChildren<WeaponBase>(true);
+                foreach (var weapon in weapons)
+                {
+                    weapon.UpgradeEnchantLevels();
+                }
+            }
            
             // SelectEnchant(currentSelectedEnchant); 
         }
