@@ -245,27 +245,94 @@ public class DataManager : MonoBehaviour
     }
     
     //인챈트
-    public void UpgradeEnchant(string id)
+    public bool TryEnhanceEnchant(string enchantId)
     {
-        var enchant = currentPlayer.unlockedEnchants.Find(e => e.enchantId == id);
-        if (enchant != null) enchant.level++;
-        else currentPlayer.unlockedEnchants.Add(new EnchantState(id,1));
-        
-        SaveGame();
-    }
-    
-    //현재 장착된 ID를 반환
-    public string GetEquippedItemId(EquipmentType type)
-    {
-        switch (type)
+        // 1. 데이터 로드
+        EnchantData data = GetEnchantData(enchantId);
+        if (data == null)
         {
-            case EquipmentType.Weapon: return currentPlayer.equippedWeaponId;
-            case EquipmentType.Helmet: return currentPlayer.equippedHelmetId;
-            case EquipmentType.Armor:  return currentPlayer.equippedArmorId;
-            case EquipmentType.Boots:  return currentPlayer.equippedBootsId;
-            default: return "";
+            Debug.LogError($"[DataManager] 인챈트 데이터를 찾을 수 없음: {enchantId}");
+            return false;
+        }
+
+        // 2. 현재 레벨 확인 (0 = 미해금)
+        int currentLevel = GetEnchantLevel(enchantId);
+
+        // 3. 다음 레벨(목표 레벨) 정보 가져오기
+        // 예: 현재 0레벨 -> 1레벨(해금) 정보를 가져옴
+        var nextStep = data.GetNextLevelInfo(currentLevel);
+
+        // 다음 단계가 없으면 이미 만렙
+        if (nextStep == null)
+        {
+            Debug.Log("이미 최고 레벨입니다.");
+            return false;
+        }
+
+        // 4. 재료 부족 여부 확인 (중요: 소모하기 전에 먼저 검사!)
+        foreach (var matCost in nextStep.requiredMaterials)
+        {
+            // 재료 ID와 개수 체크
+            if (!HasInventory(matCost.material.itemId, matCost.count))
+            {
+                Debug.Log($"재료 부족: {matCost.material.itemName} ({matCost.count}개 필요)");
+                return false;
+            }
+        }
+
+        // =========================================================
+        // [실행] 재료가 모두 있으므로 소모 시작
+        // =========================================================
+        
+        // 5. 재료 소모
+        foreach (var matCost in nextStep.requiredMaterials)
+        {
+            UseInventory(matCost.material.itemId, matCost.count);
+        }
+
+        // 6. 확률 계산 (0 ~ 99)
+        int randomVal = UnityEngine.Random.Range(0, 100);
+
+        if (randomVal < nextStep.successRate)
+        {
+            // [성공] 레벨 업 (또는 해금) 적용
+            ApplyEnchantLevelUp(enchantId);
+            
+            // 로그 메시지 분기 (해금 vs 강화)
+            if (currentLevel == 0)
+                Debug.Log($"[인챈트 해금 성공!] {data.enchantName} 습득!");
+            else
+                Debug.Log($"[인챈트 강화 성공!] {data.enchantName} (+{currentLevel} -> +{currentLevel + 1})");
+        }
+        else
+        {
+            // [실패] (재료만 소모되고 끝)
+            Debug.Log($"[인챈트 실패...] {data.enchantName} 강화에 실패했습니다.");
+        }
+
+        // 7. 결과 저장
+        SaveGame();
+        
+        // 시도는 성공했음 (결과가 성공/실패인지는 별개)
+        return true; 
+    }
+    private void ApplyEnchantLevelUp(string id)
+    {
+        // 이미 보유 중인 인챈트인지 확인
+        var enchant = currentPlayer.unlockedEnchants.Find(e => e.enchantId == id);
+        
+        if (enchant != null)
+        {
+            // 있으면 레벨 증가
+            enchant.level++;
+        }
+        else
+        {
+            // 없으면 새로 추가 (해금, 1레벨 시작)
+            currentPlayer.unlockedEnchants.Add(new EnchantState(id, 1));
         }
     }
+    
     
     
 }

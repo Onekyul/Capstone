@@ -10,6 +10,9 @@ public class EnchantData : ScriptableObject
     public Sprite icon;        
     public Sprite lockedIcon; //해금 전 아이콘
     
+    [TextArea(3, 5)] 
+    public string descriptionTemplate;
+    
     [Header("인챈트 레시피")]
     public List<EnchantLevelInfo> levels;
 
@@ -26,6 +29,22 @@ public class EnchantData : ScriptableObject
         if (currentLevel > 0 && currentLevel <= levels.Count) return levels[currentLevel - 1];
         return null;
     }
+    
+    public string GetDescription(int level)
+    {
+        var info = GetCurrentLevelInfo(level);
+        if (info == null) return "효과 없음"; // 0레벨일 때
+
+        // 파라미터 값들만 뽑아서 배열로 만듦
+        List<object> values = new List<object>();
+        foreach (var param in info.parameters)
+        {
+            values.Add(param.value);
+        }
+        
+        return string.Format(descriptionTemplate, values.ToArray());
+    }
+    
     
     [System.Serializable]
     public class EnchantLevelInfo
