@@ -15,25 +15,61 @@ MonoBehaviour:
   phases:
   - timestamp: 1
     spawnGroups:
-    - monsterTag: Big
-      count: 10
+    - monsterTag: Chasing
+      count: 5
       spawnPattern: 1
       spawnRadius: 10
-      spawnInterval: 0.5
+      spawnInterval: 2
       groupSpread: 2
-  - timestamp: 5
+  - timestamp: 10
     spawnGroups:
     - monsterTag: Fast
-      count: 10
+      count: 1
       spawnPattern: 2
       spawnRadius: 10
       spawnInterval: 0.01
       groupSpread: 2
-  - timestamp: 10
+  - timestamp: 15
+    spawnGroups:
+    - monsterTag: Fast
+      count: 2
+      spawnPattern: 2
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+    - monsterTag: Big
+      count: 2
+      spawnPattern: 0
+      spawnRadius: 20
+      spawnInterval: 1
+      groupSpread: 2
+  - timestamp: 15
     spawnGroups:
     - monsterTag: Chasing
+      count: 40
+      spawnPattern: 1
+      spawnRadius: 10
+      spawnInterval: 1
+      groupSpread: 5
+  - timestamp: 40
+    spawnGroups:
+    - monsterTag: Fast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 10
+      spawnInterval: 0.01
+      groupSpread: 2
+    - monsterTag: Big
       count: 10
+      spawnPattern: 1
+      spawnRadius: 10
+      spawnInterval: 2
+      groupSpread: 2
+  - timestamp: 60
+    spawnGroups:
+    - monsterTag: Chasing
+      count: 7
       spawnPattern: 0
       spawnRadius: 10
-      spawnInterval: 0
+      spawnInterval: 0.01
       groupSpread: 2

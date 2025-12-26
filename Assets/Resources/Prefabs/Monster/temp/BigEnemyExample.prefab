@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -738572095297613877, guid: b13d23c2f1ac0184d91e8232cfdebe35, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -178,11 +178,11 @@ MonoBehaviour:
   contactDamage: 5
   MaxHP: 50
   CurHP: 0
-  defaultMoveSpeed: 3
+  defaultMoveSpeed: 1
   poolTag: Big
   expJewelPrefab: {fileID: -5577271535738719069, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
-  lightningRadius: 5
+  usePooling: 1
   eliteChestPrefab: {fileID: -7302594443989870516, guid: ace7d39784493df4692014cc8d62bfb3, type: 3}
-  moveSpeed: 2
+  moveSpeed: 0.00001
   IsElite: 0
   eliteSpawnChance: 80.8
