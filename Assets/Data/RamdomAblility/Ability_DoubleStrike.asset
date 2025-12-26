@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bcecb4a804a77e45b365f512a832543, type: 3}
   m_Name: Ability_DoubleStrike
   m_EditorClassIdentifier: 
-  abilityID: 0
+  abilityID: 1
   abilityName: "2\uC5F0\uACA9"
   description: "\uACF5\uACA9\uB825 60%, \uACF5\uACA9 2\uBC88"
   icon: {fileID: -3806554874462893998, guid: 310c8f0266f27c140bafa3671496ffee, type: 3}
