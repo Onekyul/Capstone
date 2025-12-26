@@ -97,47 +97,6 @@ public class PlayerStats : MonoBehaviour
         debugShowRage = hasRage;
         debugShowRevenge = hasRevenge && Time.time < revengeEndTime;
         
-        // 테스트용 치트키 - 랜덤 능력
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            SetRandomAbility(new int[] { 1 }); // 2연격
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            SetRandomAbility(new int[] { 3 }); // 응축된 공격
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            SetRandomAbility(new int[] { 4, 1 }); // 흡혈 레벨 1
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SetRandomAbility(new int[] { 7 }); // 회피 기동
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            SetRandomAbility(new int[] { 11 }); // 질주
-        }
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            SetRandomAbility(new int[] { 12, 1 }); // 빠른 손놀림 레벨 1
-        }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            SetRandomAbility(new int[] { 18, 1 }); // 그림자 은신 레벨 1
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            SetRandomAbility(new int[] { 19 }); // 분노
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            SetRandomAbility(new int[] { 21 }); // 죽창
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SetRandomAbility(new int[] { 24 }); // 복수심
-        }
     }
 
     public void TakeDamage(float damage) // 데미지 받는 함수
