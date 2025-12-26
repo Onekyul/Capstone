@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contactDamage: 5
-  MaxHP: 30
+  MaxHP: 25
   CurHP: 0
   defaultMoveSpeed: 2
   poolTag: Chasing

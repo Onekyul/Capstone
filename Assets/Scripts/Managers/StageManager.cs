@@ -220,6 +220,8 @@ public class StageManager : MonoBehaviour
 
         // 4. UI 표시
         DungeonUIManager.instance.ShowResultUI(isClear, eliteChestCount, elementChestCount, finalRewards);
+
+        DataManager.instance.SaveGame();
     }
 
     private Dictionary<ItemData, int> CalculateTotalRewards(bool isClear)
