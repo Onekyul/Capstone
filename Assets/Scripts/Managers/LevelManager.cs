@@ -91,18 +91,15 @@ public class LevelManager : MonoBehaviour
         // 1. 해당 능력의 레벨(배열 값)을 1 증가
         currentAbilityLevels[id]++;
 
-        // 2. 플레이어 담당자에게 업데이트된 배열을 '던져줌' (통보)
-        // (배열을 복사해서 넘길지 참조로 넘길지는 협의, 보통은 그냥 넘겨도 무방)
-        //플레이어 태그 붙은 객체를 찾아서 PlayerStats 컴포넌트에서 SetRandomAbility라는 함수 호출.
+        // 2. 플레이어에게 선택한 능력 ID만 전달
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
             PlayerStats playerStats = player.GetComponent<PlayerStats>();
             if (playerStats != null)
             {
-                //디버그를 위해 선택한 능력과 그 레벨 출력
-                Debug.Log($"선택한 능력: {chosenAbility.abilityName}, 현재 레벨: {currentAbilityLevels[id]}");
-                playerStats.SetRandomAbility(currentAbilityLevels);
+                Debug.Log($"[LevelManager] 선택한 능력: {chosenAbility.abilityName} (ID: {id}), UI 표시 레벨: {currentAbilityLevels[id]}");
+                playerStats.AcquireAbility(id);
             }
         }
 

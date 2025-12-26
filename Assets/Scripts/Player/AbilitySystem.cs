@@ -20,32 +20,32 @@ public class AbilitySystem : MonoBehaviour
 
   
     // 능력을 습득하거나 레벨업
-    public void AcquireAbility(int abilityID, int level = 1)
+    public void AcquireAbility(int abilityID)
     {
         AbilityDataSO ability = GetAbilityByID(abilityID);
         if (ability == null)
         {
-            Debug.LogError($"능력 ID {abilityID}를 찾을 수 없습니다!");
+            Debug.LogError($"[AbilitySystem] 능력 ID {abilityID}를 찾을 수 없습니다!");
             return;
         }
 
         // 이미 보유한 능력인지 확인
         if (abilityLevels.ContainsKey(abilityID))
         {
-            HandleDuplicateAbility(ability, level);
+            HandleDuplicateAbility(ability);
         }
         else
         {
-            // 새로운 능력 습득
-            abilityLevels[abilityID] = level;
-            ApplyAbility(ability, level);
-            Debug.Log($"{ability.abilityName} 레벨 {level} 습득!");
+            // 새로운 능력 습득 (레벨 1로 시작)
+            abilityLevels[abilityID] = 1;
+            ApplyAbility(ability, 1);
+            Debug.Log($"[AbilitySystem] {ability.abilityName} 레벨 1 습득!");
         }
     }
 
    
     // 중복된 능력 처리
-    private void HandleDuplicateAbility(AbilityDataSO ability, int newLevel)
+    private void HandleDuplicateAbility(AbilityDataSO ability)
     {
         int currentLevel = abilityLevels[ability.abilityID];
 
@@ -59,11 +59,11 @@ public class AbilitySystem : MonoBehaviour
                 int nextLevel = currentLevel + 1; // 현재 레벨에서 1 증가
                 abilityLevels[ability.abilityID] = nextLevel;
                 ApplyAbility(ability, nextLevel);
-                Debug.Log($"{ability.abilityName} 레벨업: {currentLevel} → {nextLevel}");
+                Debug.Log($"[AbilitySystem] {ability.abilityName} 레벨업: {currentLevel} → {nextLevel}");
             }
             else
             {
-                Debug.LogWarning($"{ability.abilityName}는 최대 레벨입니다! (레벨 {ability.maxLevel})");
+                Debug.LogWarning($"[AbilitySystem] {ability.abilityName}는 최대 레벨입니다! (레벨 {ability.maxLevel})");
             }
         }
         // 누적 가능한 능력
@@ -71,12 +71,12 @@ public class AbilitySystem : MonoBehaviour
         {
             abilityLevels[ability.abilityID]++;
             ApplyAbility(ability, 1); // 매번 1레벨 효과를 누적
-            Debug.Log($"{ability.abilityName} 추가 습득! (총 {abilityLevels[ability.abilityID]}회)");
+            Debug.Log($"[AbilitySystem] {ability.abilityName} 추가 습득! (총 {abilityLevels[ability.abilityID]}회)");
         }
         // 1회만 습득 가능
         else
         {
-            Debug.LogWarning($"{ability.abilityName}는 이미 습득했습니다!");
+            Debug.LogWarning($"[AbilitySystem] {ability.abilityName}는 이미 습득했습니다!");
         }
     }
 
