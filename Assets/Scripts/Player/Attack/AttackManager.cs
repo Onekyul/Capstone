@@ -47,6 +47,57 @@ public class AttackManager : MonoBehaviour
             Debug.Log("활로 교체!");
         }
 
+        // ===== 무기별 인챈트 테스트 치트키 =====
+        // F1-F4: 현재 무기에 인챈트 추가
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            currentWeapon?.SetEnchantmentLevel(0, 5); // 불 인챈트 5레벨
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            currentWeapon?.SetEnchantmentLevel(1, 5); // 얼음 인챈트 5레벨
+        }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            currentWeapon?.SetEnchantmentLevel(2, 5); // 번개 인챈트 5레벨
+        }
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            currentWeapon?.SetEnchantmentLevel(3, 5); // 독 인챈트 5레벨
+        }
+
+        // F5: 현재 무기의 모든 인챈트 레벨 확인
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            if (currentWeapon != null)
+            {
+                int[] levels = currentWeapon.GetEnchantmentLevels();
+                Debug.Log($"현재 무기 인챈트 레벨 - 불:{levels[0]}, 얼음:{levels[1]}, 번개:{levels[2]}, 독:{levels[3]}");
+            }
+        }
+
+        // F6: 모든 무기에 동일한 인챈트 적용 (테스트용)
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+            int[] allEnchants = new int[] { 3, 3, 3, 3 }; // 모든 인챈트 레벨 3
+            if (swordObject != null) swordObject.GetComponent<SwordWeapon>()?.SetAllEnchantmentLevels(allEnchants);
+            if (spearObject != null) spearObject.GetComponent<SpearWeapon>()?.SetAllEnchantmentLevels(allEnchants);
+            if (bowObject != null) bowObject.GetComponent<BowWeapon>()?.SetAllEnchantmentLevels(allEnchants);
+            Debug.Log("모든 무기에 인챈트 레벨 3 적용!");
+        }
+
+        // F7: 각 무기에 다른 인챈트 적용 (테스트용)
+        if (Input.GetKeyDown(KeyCode.F7))
+        {
+            // 검: 불 인챈트만
+            if (swordObject != null) swordObject.GetComponent<SwordWeapon>()?.SetAllEnchantmentLevels(new int[] { 5, 0, 0, 0 });
+            // 창: 얼음 인챈트만
+            if (spearObject != null) spearObject.GetComponent<SpearWeapon>()?.SetAllEnchantmentLevels(new int[] { 0, 5, 0, 0 });
+            // 활: 번개 인챈트만
+            if (bowObject != null) bowObject.GetComponent<BowWeapon>()?.SetAllEnchantmentLevels(new int[] { 0, 0, 5, 0 });
+            Debug.Log("무기별 고유 인챈트 적용! (검:불, 창:얼음, 활:번개)");
+        }
+
         // 활을 장착하고 있을 때만 회전하도록 처리
         if (bowObject != null && currentWeapon is BowWeapon)
         {
@@ -153,6 +204,36 @@ public class AttackManager : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    // ===== 무기 접근 메서드 (AbilitySystem 등에서 사용) =====
+    
+    /// <summary>
+    /// 현재 활성화된 무기를 반환합니다.
+    /// </summary>
+    public WeaponBase GetCurrentWeapon()
+    {
+        return currentWeapon;
+    }
+
+    /// <summary>
+    /// 모든 무기 오브젝트를 배열로 반환합니다.
+    /// </summary>
+    public GameObject[] GetAllWeaponObjects()
+    {
+        return new GameObject[] { swordObject, spearObject, bowObject };
+    }
+
+    /// <summary>
+    /// 모든 무기의 WeaponBase 컴포넌트를 배열로 반환합니다.
+    /// </summary>
+    public WeaponBase[] GetAllWeapons()
+    {
+        WeaponBase[] weapons = new WeaponBase[3];
+        if (swordObject != null) weapons[0] = swordObject.GetComponent<WeaponBase>();
+        if (spearObject != null) weapons[1] = spearObject.GetComponent<WeaponBase>();
+        if (bowObject != null) weapons[2] = bowObject.GetComponent<WeaponBase>();
+        return weapons;
     }
 
     public enum WeaponType

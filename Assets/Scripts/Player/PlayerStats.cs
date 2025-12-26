@@ -4,17 +4,14 @@ using System.Collections;
 
 public class PlayerStats : MonoBehaviour
 {
-    [Header("Level & XP")]
-    [SerializeField] private int level = 1;
-    [SerializeField] private int currentXP = 0;
-    [SerializeField] private int nextLevelXP = 100;
-
     [Header("Health System")]
-    [SerializeField] private float playerMaxHP = 100f;// 최대 체력
+    [SerializeField] private float baseMaxHP = 100f;// 기본 최대 체력
+    [SerializeField] private float playerMaxHP = 100f;// 최종 최대 체력 (기본 + 장비 보너스)
     [SerializeField] private float playerCurHP; // 현재 체력
 
-    [Header("Enchantment Levels")]
-    [SerializeField] private int[] enchantmentLevels = new int[4]; // [불, 얼음, 번개, 독] 인챈트 강화 수치
+    [Header("Defense System")]
+    [SerializeField] private float baseDefense = 0f; // 기본 방어력
+    [SerializeField] private float totalDefense = 0f; // 최종 방어력 (기본 + 장비 보너스)
 
     [Header("Combat Stats Modifiers")]
     [SerializeField] private float attackDamageMultiplier = 1.0f; // 공격력 배율
@@ -22,11 +19,19 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float moveSpeedMultiplier = 1.0f; // 이동속도 배율
     [SerializeField] private int attackCount = 1; // 공격 횟수 (2연격용)
     
+    [Header("Final Stats (Debug View)")]
+    [SerializeField] private float finalAttackMultiplier = 1.0f; // 최종 공격력 배율 (읽기 전용)
+    [SerializeField] private bool debugShowRage; // 분노 활성화 여부
+    [SerializeField] private bool debugShowRevenge; // 복수심 활성화 여부
+    
     [Header("Special Abilities")]
     private float vampireChance = 0f; // 흡혈 확률 (0~1)
     private float vampireHealPercent = 0.5f; // 흡혈 회복량 (공격력의 %)
     private float dodgeChance = 0f; // 회피 확률 (0~1)
-    private float shadowCooldown = 0f; // 그림자 은신 쿨타임
+    private float shadowCooldown = 0f; // 그림자 은신 쿨타임 (레벨별: 10/9/7/5/2초)
+    private float shadowInvincibilityDuration = 0.2f; // 그림자 은신 무적 지속 시간
+    private float nextShadowTime = 0f; // 다음 그림자 은신 발동 시간
+    private float shadowInvincibilityEndTime = 0f; // 그림자 은신 무적 종료 시간
     private bool hasRage = false; // 분노 보유 여부
     private bool hasRevenge = false; // 복수심 보유 여부
     private float revengeEndTime = 0f; // 복수심 종료 시간
@@ -48,11 +53,8 @@ public class PlayerStats : MonoBehaviour
 
     private AbilitySystem abilitySystem; // 능력 시스템 참조
 
-    void Start()
+    void Awake()
     {
-        playerCurHP = playerMaxHP; // 게임 시작 시 체력을 최대치로 설정
-        OnHealthChanged?.Invoke(playerCurHP); // 초기 체력 UI 업데이트
-        
         // AbilitySystem 참조 가져오기
         abilitySystem = GetComponent<AbilitySystem>();
         if (abilitySystem == null)
@@ -61,76 +63,93 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        // DataManager가 준비될 때까지 대기
+        if (DataManager.instance == null)
+        {
+            Debug.LogError("DataManager가 없습니다! 장비 스탯을 적용할 수 없습니다.");
+            // 기본값으로 초기화
+            playerMaxHP = baseMaxHP;
+            totalDefense = baseDefense;
+        }
+        else
+        {
+            // 장비 보너스를 먼저 적용
+            ApplyEquipmentBonuses();
+        }
+        
+        playerCurHP = playerMaxHP; // 게임 시작 시 체력을 최대치로 설정
+        OnHealthChanged?.Invoke(playerCurHP); // 초기 체력 UI 업데이트
+    }
+
     void Update()
     {
-        // 테스트용 치트키 - 인챈트
-        if (Input.GetKeyDown(KeyCode.F1))
+        // 그림자 은신 주기적 발동
+        if (shadowCooldown > 0 && Time.time >= nextShadowTime)
         {
-            enchantmentLevels[0] = 5; // 불 인챈트 5레벨
-            Debug.Log("불 인챈트 5레벨 활성화! (50% 확률)");
+            ActivateShadowInvincibility();
+            nextShadowTime = Time.time + shadowCooldown;
         }
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            enchantmentLevels[1] = 5; // 얼음 인챈트 5레벨
-            Debug.Log("얼음 인챈트 5레벨 활성화! (50% 확률)");
-        }
-        if (Input.GetKeyDown(KeyCode.F3))
-        {
-            enchantmentLevels[2] = 5; // 번개 인챈트 5레벨
-            Debug.Log("번개 인챈트 5레벨 활성화! (50% 확률)");
-        }
-        if (Input.GetKeyDown(KeyCode.F4))
-        {
-            enchantmentLevels[3] = 5; // 독 인챈트 5레벨
-            Debug.Log("독 인챈트 5레벨 활성화! (50% 확률)");
-        }
+        
+        // 디버그용 최종 스탯 표시 (에디터에서 확인 가능)
+        finalAttackMultiplier = GetAttackDamageMultiplier();
+        debugShowRage = hasRage;
+        debugShowRevenge = hasRevenge && Time.time < revengeEndTime;
         
         // 테스트용 치트키 - 랜덤 능력
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            SetRandomAbility(new int[] { 0 }); // 2연격
+            SetRandomAbility(new int[] { 1 }); // 2연격
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
-            SetRandomAbility(new int[] { 1 }); // 응축된 공격
+            SetRandomAbility(new int[] { 3 }); // 응축된 공격
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            SetRandomAbility(new int[] { 2, 1 }); // 흡혈 레벨 1
+            SetRandomAbility(new int[] { 4, 1 }); // 흡혈 레벨 1
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SetRandomAbility(new int[] { 3 }); // 회피 기동
+            SetRandomAbility(new int[] { 7 }); // 회피 기동
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            SetRandomAbility(new int[] { 4 }); // 질주
+            SetRandomAbility(new int[] { 11 }); // 질주
         }
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            SetRandomAbility(new int[] { 5, 1 }); // 빠른 손놀림 레벨 1
+            SetRandomAbility(new int[] { 12, 1 }); // 빠른 손놀림 레벨 1
         }
         if (Input.GetKeyDown(KeyCode.U))
         {
-            SetRandomAbility(new int[] { 6, 1 }); // 그림자 은신 레벨 1
+            SetRandomAbility(new int[] { 18, 1 }); // 그림자 은신 레벨 1
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            SetRandomAbility(new int[] { 7 }); // 분노
+            SetRandomAbility(new int[] { 19 }); // 분노
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
-            SetRandomAbility(new int[] { 8 }); // 죽창
+            SetRandomAbility(new int[] { 21 }); // 죽창
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
-            SetRandomAbility(new int[] { 9 }); // 복수심
+            SetRandomAbility(new int[] { 24 }); // 복수심
         }
     }
 
     public void TakeDamage(float damage) // 데미지 받는 함수
     {
         if (playerCurHP <= 0) return;
+
+        // 그림자 은신 무적 체크 (최우선)
+        if (Time.time < shadowInvincibilityEndTime)
+        {
+            Debug.Log("그림자 은신 무적 상태! 공격 무효화");
+            return;
+        }
 
         // 무적 시간 체크
         if (Time.time - lastHitTime < invincibilityDuration)
@@ -145,9 +164,16 @@ public class PlayerStats : MonoBehaviour
             return;
         }
 
-        playerCurHP -= damage;
+        // 방어력 적용 (퍼센트 감소 방식)
+        // 공식: 데미지 감소율 = 방어력 / (방어력 + 100)
+        float damageReduction = totalDefense / (totalDefense + 100f);
+        float finalDamage = damage * (1f - damageReduction);
+
+        playerCurHP -= finalDamage;
         playerCurHP = Mathf.Max(0, playerCurHP); // 체력이 음수가 되지 않도록 함
         lastHitTime = Time.time; // 피격 시간 기록
+
+        Debug.Log($"받은 데미지: {damage:F1} → 방어 후: {finalDamage:F1} (방어력: {totalDefense}, 감소율: {damageReduction * 100:F1}%)");
 
         OnHealthChanged?.Invoke(playerCurHP);
 
@@ -201,19 +227,17 @@ public class PlayerStats : MonoBehaviour
         abilitySystem.AcquireAbility(abilityID, level);
     }
 
-    public int[] GetEnchantmentLevels()
-    {
-        return enchantmentLevels;
-    }
 
     // ===== AbilitySystem에서 호출할 스탯 수정 메서드들 =====
-    
     public void ModifyAttackDamage(float value, bool isAdditive)
     {
+        float oldValue = attackDamageMultiplier;
         if (isAdditive)
             attackDamageMultiplier += value;
         else
             attackDamageMultiplier *= value;
+        
+        Debug.Log($"[공격력 변경] {oldValue:F2} → {attackDamageMultiplier:F2} (변화량: {value:F2}, 타입: {(isAdditive ? "덧셈" : "곱셈")})");
     }
 
     public void ModifyAttackSpeed(float value, bool isAdditive)
@@ -239,9 +263,17 @@ public class PlayerStats : MonoBehaviour
 
     public void ModifyMaxHP(float multiplier)
     {
+        float oldMaxHP = playerMaxHP;
+        float healthRatio = playerCurHP / oldMaxHP; // 현재 체력 비율 저장
+        
         playerMaxHP *= multiplier;
-        playerCurHP = Mathf.Min(playerCurHP, playerMaxHP);
+        
+        // 체력 비율 유지 (죽창 같은 대폭 감소 능력 대응)
+        playerCurHP = playerMaxHP * healthRatio;
+        playerCurHP = Mathf.Max(playerCurHP, 1f); // 최소 1의 체력 보장
+        
         OnHealthChanged?.Invoke(playerCurHP);
+        Debug.Log($"최대 체력 변경: {oldMaxHP} → {playerMaxHP} (배율: {multiplier}x, 현재 체력: {playerCurHP})");
     }
 
     public void SetVampireChance(float chance)
@@ -257,6 +289,18 @@ public class PlayerStats : MonoBehaviour
     public void SetShadowCooldown(float cooldown)
     {
         shadowCooldown = cooldown;
+        if (cooldown > 0)
+        {
+            // 그림자 은신 활성화 시 즉시 첫 발동
+            nextShadowTime = Time.time + cooldown;
+            Debug.Log($"그림자 은신 활성화! {cooldown}초마다 0.2초 무적");
+        }
+    }
+
+    private void ActivateShadowInvincibility()
+    {
+        shadowInvincibilityEndTime = Time.time + shadowInvincibilityDuration;
+        Debug.Log($"그림자 은신 발동! {shadowInvincibilityDuration}초간 무적");
     }
 
     public void SetRage(bool enabled)
@@ -309,5 +353,113 @@ public class PlayerStats : MonoBehaviour
             Debug.Log($"흡혈 발동! {healAmount} 체력 회복");
         }
     }
+
+    // 장비 보너스 적용 시스템 
+    public void ApplyEquipmentBonuses()
+    {
+        if (DataManager.instance == null)
+        {
+            Debug.LogWarning("DataManager가 없습니다. 장비 보너스를 적용할 수 없습니다.");
+            return;
+        }
+
+        Debug.Log("=== 장비 보너스 적용 시작 ===");
+
+        // 기본 스탯으로 초기화
+        playerMaxHP = baseMaxHP;
+        totalDefense = baseDefense;
+        moveSpeedMultiplier = 1.0f; // 이동속도 배율 초기화
+
+        Debug.Log($"기본 스탯 - 체력: {baseMaxHP}, 방어력: {baseDefense}");
+
+        // 헬멧 보너스 적용 (방어력만)
+        string helmetId = DataManager.instance.GetEquippedItemId(EquipmentType.Helmet);
+        Debug.Log($"장착된 헬멧 ID: {helmetId}");
+        
+        if (!string.IsNullOrEmpty(helmetId))
+        {
+            ArmorData helmet = DataManager.instance.GetArmorData(helmetId);
+            if (helmet != null)
+            {
+                int helmetLevel = DataManager.instance.GetItemLevel(helmetId);
+                float helmetDefBonus = helmet.bonusDef + (helmet.defPerLevel * helmetLevel);
+                totalDefense += helmetDefBonus;
+                Debug.Log($"헬멧 장착: {helmet.armorName} +{helmetLevel} (방어력 +{helmetDefBonus} = 기본 {helmet.bonusDef} + 강화 {helmet.defPerLevel * helmetLevel})");
+            }
+            else
+            {
+                Debug.LogError($"헬멧 데이터를 찾을 수 없습니다: {helmetId}");
+            }
+        }
+
+        // 갑옷 보너스 적용 (최대 체력만)
+        string armorId = DataManager.instance.GetEquippedItemId(EquipmentType.Armor);
+        Debug.Log($"장착된 갑옷 ID: {armorId}");
+        
+        if (!string.IsNullOrEmpty(armorId))
+        {
+            ArmorData armor = DataManager.instance.GetArmorData(armorId);
+            if (armor != null)
+            {
+                int armorLevel = DataManager.instance.GetItemLevel(armorId);
+                float armorHpBonus = armor.bonusHp + (armor.hpPerLevel * armorLevel);
+                playerMaxHP += armorHpBonus;
+                Debug.Log($"갑옷 장착: {armor.armorName} +{armorLevel} (최대 체력 +{armorHpBonus} = 기본 {armor.bonusHp} + 강화 {armor.hpPerLevel * armorLevel})");
+            }
+            else
+            {
+                Debug.LogError($"갑옷 데이터를 찾을 수 없습니다: {armorId}");
+            }
+        }
+
+        // 신발 보너스 적용 (이동 속도만)
+        string bootsId = DataManager.instance.GetEquippedItemId(EquipmentType.Boots);
+        Debug.Log($"장착된 신발 ID: {bootsId}");
+        
+        if (!string.IsNullOrEmpty(bootsId))
+        {
+            ArmorData boots = DataManager.instance.GetArmorData(bootsId);
+            if (boots != null)
+            {
+                int bootsLevel = DataManager.instance.GetItemLevel(bootsId);
+                float bootsSpeedBonus = boots.bonusSpeed + (boots.speedPerLevel * bootsLevel);
+                moveSpeedMultiplier += bootsSpeedBonus;
+                Debug.Log($"신발 장착: {boots.armorName} +{bootsLevel} (이동 속도 +{bootsSpeedBonus} = 기본 {boots.bonusSpeed} + 강화 {boots.speedPerLevel * bootsLevel})");
+            }
+            else
+            {
+                Debug.LogError($"신발 데이터를 찾을 수 없습니다: {bootsId}");
+            }
+        }
+
+        Debug.Log($"=== 최종 스탯 - 최대 체력: {playerMaxHP}, 방어력: {totalDefense}, 이동 속도 배율: {moveSpeedMultiplier} ===");
+    }
+
+    // NPC가 호출할 장비 강화 함수
+    public void UpgradeEquipmentStats()
+    {
+        ApplyEquipmentBonuses();
+        playerCurHP = Mathf.Min(playerCurHP, playerMaxHP); // 현재 체력이 최대 체력을 넘지 않도록
+        OnHealthChanged?.Invoke(playerCurHP);
+    }
+
+    // 방어력 게터
+    public float GetTotalDefense() => totalDefense;
+    public float GetPlayerMaxHP() => playerMaxHP;
     
+    // 현재 장착된 무기의 기본 공격력 가져오기
+    public float GetEquippedWeaponBaseDamage()
+    {
+        if (DataManager.instance == null) return 0f;
+        
+        string weaponId = DataManager.instance.GetEquippedItemId(EquipmentType.Weapon);
+        if (string.IsNullOrEmpty(weaponId)) return 0f;
+        
+        WeaponData weaponData = DataManager.instance.GetWeaponData(weaponId);
+        if (weaponData == null) return 0f;
+        
+        return weaponData.baseAtk;
+    }
+
 }
+

@@ -18,9 +18,8 @@ public class AbilitySystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 능력을 습득하거나 레벨업합니다.
-    /// </summary>
+  
+    // 능력을 습득하거나 레벨업
     public void AcquireAbility(int abilityID, int level = 1)
     {
         AbilityDataSO ability = GetAbilityByID(abilityID);
@@ -44,9 +43,8 @@ public class AbilitySystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 중복된 능력 처리
-    /// </summary>
+   
+    // 중복된 능력 처리
     private void HandleDuplicateAbility(AbilityDataSO ability, int newLevel)
     {
         int currentLevel = abilityLevels[ability.abilityID];
@@ -58,9 +56,10 @@ public class AbilitySystem : MonoBehaviour
             {
                 // 기존 효과 제거 후 새 레벨 적용
                 RemoveAbility(ability, currentLevel);
-                abilityLevels[ability.abilityID] = newLevel;
-                ApplyAbility(ability, newLevel);
-                Debug.Log($"{ability.abilityName} 레벨업: {currentLevel} → {newLevel}");
+                int nextLevel = currentLevel + 1; // 현재 레벨에서 1 증가
+                abilityLevels[ability.abilityID] = nextLevel;
+                ApplyAbility(ability, nextLevel);
+                Debug.Log($"{ability.abilityName} 레벨업: {currentLevel} → {nextLevel}");
             }
             else
             {
@@ -81,9 +80,8 @@ public class AbilitySystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 능력 효과 적용
-    /// </summary>
+ 
+    // 능력 효과 적용
     private void ApplyAbility(AbilityDataSO ability, int level)
     {
         if (playerStats == null) return;
@@ -95,9 +93,8 @@ public class AbilitySystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 능력 효과 제거 (레벨업 시 기존 효과 제거용)
-    /// </summary>
+
+    // 능력 효과 제거 (레벨업 시 기존 효과 제거용)
     private void RemoveAbility(AbilityDataSO ability, int level)
     {
         if (playerStats == null) return;
@@ -109,9 +106,8 @@ public class AbilitySystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 스탯에 변화 적용
-    /// </summary>
+
+    // 스탯에 변화 적용
     private void ApplyStatModifier(StatType statType, ModifierOperation operation, float value)
     {
         switch (statType)
@@ -168,9 +164,8 @@ public class AbilitySystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 스탯 변화 제거 (레벨업 시 기존 효과 제거용)
-    /// </summary>
+   
+    // 스탯 변화 제거 (레벨업 시 기존 효과 제거용)
     private void RemoveStatModifier(StatType statType, ModifierOperation operation, float value)
     {
         switch (statType)
@@ -192,25 +187,20 @@ public class AbilitySystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// ID로 능력 데이터 찾기
-    /// </summary>
+ 
+    // ID로 능력 데이터 찾기
     private AbilityDataSO GetAbilityByID(int abilityID)
     {
         return allAbilities.Find(ability => ability.abilityID == abilityID);
     }
-
-    /// <summary>
+    
     /// 현재 보유한 능력 레벨 가져오기
-    /// </summary>
     public int GetAbilityLevel(int abilityID)
     {
         return abilityLevels.ContainsKey(abilityID) ? abilityLevels[abilityID] : 0;
     }
 
-    /// <summary>
-    /// 능력 보유 여부 확인
-    /// </summary>
+    // 능력 보유 여부 확인
     public bool HasAbility(int abilityID)
     {
         return abilityLevels.ContainsKey(abilityID);

@@ -117,12 +117,56 @@ public class DataManager : MonoBehaviour
     //SO getter
     public WeaponData GetWeaponData(string id)
     {
-        // Resources/Data/Items/Weapons 폴더 안에 있는 파일 로드
-        return Resources.Load<WeaponData>($"Data/Items/Weapons/{id}");
+        // ID에 따라 올바른 폴더 경로 결정
+        string folderPath = "";
+        
+        if (id.StartsWith("sword_"))
+        {
+            folderPath = "Data/Items/Weapon/Sword/";
+        }
+        // 다른 무기 타입이 추가되면 여기에 추가
+        
+        // ID의 첫 글자를 대문자로 변환 (sword_wood -> Sword_wood)
+        string fileName = char.ToUpper(id[0]) + id.Substring(1);
+        
+        WeaponData weaponData = Resources.Load<WeaponData>(folderPath + fileName);
+        
+        if (weaponData == null)
+        {
+            Debug.LogError($"WeaponData를 찾을 수 없습니다: {folderPath + fileName}");
+        }
+        
+        return weaponData;
     }
     public ArmorData GetArmorData(string id)
     {
-        return Resources.Load<ArmorData>($"Data/Items/Armors/{id}");
+        // ID에 따라 올바른 폴더 경로 결정
+        string folderPath = "";
+        
+        if (id.StartsWith("helmet_"))
+        {
+            folderPath = "Data/Items/Armor/Helmet/";
+        }
+        else if (id.StartsWith("armor_"))
+        {
+            folderPath = "Data/Items/Armor/Armor/";
+        }
+        else if (id.StartsWith("boots_"))
+        {
+            folderPath = "Data/Items/Armor/Boots/";
+        }
+        
+        // ID의 첫 글자를 대문자로 변환 (helmet_wood -> Helmet_wood)
+        string fileName = char.ToUpper(id[0]) + id.Substring(1);
+        
+        ArmorData armorData = Resources.Load<ArmorData>(folderPath + fileName);
+        
+        if (armorData == null)
+        {
+            Debug.LogError($"ArmorData를 찾을 수 없습니다: {folderPath + fileName}");
+        }
+        
+        return armorData;
     }
     public ItemData GetMaterialData(string id)
     {
