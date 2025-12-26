@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30b5b07b3bdaf6345a3504d92a8e7af1, type: 3}
-  m_Name: Upgrade_Helmet_Wood
+  m_Name: Upgrade_Boots_Wood
   m_EditorClassIdentifier: 
   steps:
   - successRate: 100

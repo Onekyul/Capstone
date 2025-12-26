@@ -10,6 +10,7 @@ public class InputManager : MonoBehaviour
 
    // 이벤트 선언
     public event Action OnInteractPressed;
+    public event Action OnExitPressed;
     public event Action<Vector2> OnMove; //
     public event Action<Vector2> OnLook; //플레이어가 바라보는 방향 저장
 
@@ -45,7 +46,10 @@ public class InputManager : MonoBehaviour
         {
             OnInteractPressed?.Invoke();
         }
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OnExitPressed?.Invoke();
+        }
 
         if (Camera.main != null && lookOrigin != null) // 캐릭터가 마우스 커서를 바라보게 하는 방향 계산      
         {

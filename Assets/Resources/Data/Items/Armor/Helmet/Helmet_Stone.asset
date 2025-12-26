@@ -21,4 +21,4 @@ MonoBehaviour:
   bonusHp: 0
   bonusSpeed: 0
   modelprefab: {fileID: 0}
-  upgradeTable: {fileID: 0}
+  upgradeTable: {fileID: 11400000, guid: 0c3050da48049b24b9d09112e3854ee8, type: 2}

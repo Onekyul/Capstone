@@ -16,4 +16,9 @@ public class WeaponData : ScriptableObject
     
     [Header("강화 레시피")]
     public UpgradeTable upgradeTable; 
+    
+    public int GetStat(int level)
+    {
+        return baseAtk + (level * 2);
+    }
 }
