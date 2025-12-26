@@ -203,7 +203,7 @@ public class BlacksmithUI : MonoBehaviour
         }
     }
 
-    public void RefreshAllIcon()
+    public void RefreshAllSlotIcons()
     {
         for (int i = 0; i < 4; i++)
         {

@@ -26,9 +26,9 @@ public class ArmorData : ScriptableObject
     public GameObject modelprefab;
     
     [Header("강화당 증가량")]
-    public int defPerLevel = 2;     // 강화 레벨당 방어력 증가량 (헬멧용)
-    public int hpPerLevel = 5;      // 강화 레벨당 체력 증가량 (갑옷용)
-    public float speedPerLevel = 0.02f; // 강화 레벨당 속도 증가량 (신발용)
+    public int defPerLevel = 1;     // 강화 레벨당 방어력 증가량 (헬멧용)
+    public int hpPerLevel = 1;      // 강화 레벨당 체력 증가량 (갑옷용)
+    public float speedPerLevel = 0.1f; // 강화 레벨당 속도 증가량 (신발용)
     
     [Header("강화 레시피")]
     public UpgradeTable upgradeTable;
