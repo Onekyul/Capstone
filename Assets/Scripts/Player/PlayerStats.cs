@@ -211,21 +211,17 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    public void SetRandomAbility(int[] abilityArray)
+    public void AcquireAbility(int abilityID)
     {
-        // 이 함수를 레벨업매니저가 호출해서 랜덤 능력 전달함.
+        // 레벨업 매니저가 선택한 능력 ID를 전달하면 AbilitySystem에 전달
         if (abilitySystem == null)
         {
             Debug.LogError("AbilitySystem이 없습니다!");
             return;
         }
 
-        if (abilityArray == null || abilityArray.Length == 0) return;
-
-        int abilityID = abilityArray[0];
-        int level = abilityArray.Length > 1 ? abilityArray[1] : 1;
-
-        abilitySystem.AcquireAbility(abilityID, level);
+        abilitySystem.AcquireAbility(abilityID);
+        Debug.Log($"[PlayerStats] 능력 ID {abilityID} 습득 요청");
     }
 
 
