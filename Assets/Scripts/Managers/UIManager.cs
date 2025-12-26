@@ -2,16 +2,26 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.UI; 
+using UnityEngine.Events;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
     public bool IsDialogueOpen => dialoguePanel.activeInHierarchy;
+    private GameObject currentDialoguePanel;
 
     [Header("대화 UI")]
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private TextMeshProUGUI speakerNameText;
     [SerializeField] private TextMeshProUGUI dialogueText;
+    
+    [SerializeField] private Button actionButton;       
+    [SerializeField] private TextMeshProUGUI actionButtonText;
+    
+    [Header("NPC 기능 패널")]
+    public GameObject blacksmithPanel; 
+    public GameObject enchantPanel;     
 
     [Header("던전 UI")]
     [SerializeField]
@@ -45,6 +55,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         dialoguePanel.SetActive(false);
+       
     }
     // Update is called once per frame
     void Update()
@@ -52,21 +63,104 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void OpenDialoguePanel(string speakerName, string dialouge)
+    
+    void OnEnable()
+    {
+        if (InputManager.instance != null)
+        {
+            InputManager.instance.OnExitPressed += HandleExitInput;
+        }
+    }
+    
+    void OnDisable()
+    {
+        if (InputManager.instance != null)
+        {
+            InputManager.instance.OnExitPressed -= HandleExitInput;
+        }
+    }
+    private void HandleExitInput()
+    {
+        // 1. 대화창이 켜져있으면 -> 닫기
+        if (dialoguePanel.activeSelf)
+        {
+            CloseDialoguePanel();
+            return;
+        }
+
+        // 2. 팝업창(강화, 인챈트)이 켜져있으면 -> 닫기
+        if (currentDialoguePanel != null && currentDialoguePanel.activeSelf)
+        {
+            CloseDialoguePanel();
+            return;
+        }
+
+        // 3. (나중에) 게임 일시정지 메뉴 등...
+    }
+    
+    public void OpenDialoguePanel(string speakerName, string dialouge, UnityAction onAction = null, string actionLabel = "")
     {
         speakerNameText.text = speakerName;
         dialogueText.text = dialouge;
         dialoguePanel.SetActive(true);
+        
+        if (onAction != null)
+        {
+            actionButton.gameObject.SetActive(true); 
+            actionButtonText.text = actionLabel;     
+            
+            actionButton.onClick.RemoveAllListeners();
+            actionButton.onClick.AddListener(() =>
+            {
+                CloseDialoguePanel(); 
+                onAction.Invoke();   
+            });
+        }
+        else
+        {
+            actionButton.gameObject.SetActive(false); 
+        }
     }
 
     public void CloseDialoguePanel()
     {
         dialoguePanel.SetActive(false);
     }
+    
+    private void OpenPanel(GameObject panel)
+    {
+        if (currentDialoguePanel != null)
+        {
+            currentDialoguePanel.SetActive(false);
+        }
+
+        currentDialoguePanel = panel;
+        if (currentDialoguePanel != null)
+        {
+            currentDialoguePanel.SetActive(true);
+        }
+    }
+    
+    public void CloseCurrentPanel()
+    {
+        if (currentDialoguePanel != null)
+        {
+            currentDialoguePanel.SetActive(false);
+            currentDialoguePanel = null;
+        }
+    }
+    
     public void OpenDungeonSelectPanel()
     {
         dungeonSelectPanelController.OpenPanel();
     }
+    
+    public void OpenBlacksmithUI() => OpenPanel(blacksmithPanel);
+    public void OpenEnchantUI() => OpenPanel(enchantPanel);
+    
+    // 각 UI의 X(닫기) 버튼에 연결할 때는 이 함수들을 쓰거나, CloseCurrentPanel()을 직접 연결해도 됨
+    public void CloseBlacksmithUI() => CloseCurrentPanel();
+    public void CloseEnchantUI() => CloseCurrentPanel();
 
 }
     

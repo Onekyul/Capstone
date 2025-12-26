@@ -162,6 +162,7 @@ public class PlayerStats : MonoBehaviour
         {
             OnPlayerDied?.Invoke();
             Debug.Log("플레이어 사망!");
+            StageManager.instance.FinishGame(false);
             Destroy(gameObject); // 플레이어 사망 처리
 
         }
