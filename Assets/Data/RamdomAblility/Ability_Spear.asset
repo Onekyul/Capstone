@@ -10,18 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bcecb4a804a77e45b365f512a832543, type: 3}
-  m_Name: Ability_Rage
+  m_Name: Ability_Spear
   m_EditorClassIdentifier: 
-  abilityID: 19
+  abilityID: 8
   abilityName: 
   description: 
   icon: {fileID: 0}
   abilityType: 0
   canStack: 0
   hasLevels: 0
-  maxLevel: 1
+  maxLevel: 5
   statModifiers:
-  - statType: 8
-    operation: 2
+  - statType: 4
+    operation: 1
     valuePerLevel:
-    - 1
+    - 0.01
+  - statType: 0
+    operation: 1
+    valuePerLevel:
+    - 10
