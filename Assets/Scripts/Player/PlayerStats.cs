@@ -188,6 +188,7 @@ public class PlayerStats : MonoBehaviour
         {
             OnPlayerDied?.Invoke();
             Debug.Log("플레이어 사망!");
+            StageManager.instance.FinishGame(false);
             Destroy(gameObject); // 플레이어 사망 처리
 
         }
@@ -198,7 +199,7 @@ public class PlayerStats : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            // 2. 마지막 데미지를 입은 후 'damageTickCooldown' (1초)이 지났는지 확인
+            // 2. 마지막 데미지를 입은 후 'damageTickCooldown'이 지났는지 확인
             if (Time.time - lastDamageTickTime > damageTickCooldown)
             {
                 // 3. 시간이 지났다면, 데미지를 입고 마지막 시간을 지금 시간으로 갱신

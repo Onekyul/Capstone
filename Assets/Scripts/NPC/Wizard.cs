@@ -29,7 +29,8 @@ public class Wizard : NPCController
             {
                 interactionPrompt.SetActive(false);
             }
-            UIManager.instance.OpenDialoguePanel(npcName, dialogue);
+            UIManager.instance.OpenDialoguePanel(npcName,dialogue, 
+                () => UIManager.instance.OpenEnchantUI(), "인챈트");
         }
     }
     

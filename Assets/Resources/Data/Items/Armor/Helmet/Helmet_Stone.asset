@@ -16,9 +16,9 @@ MonoBehaviour:
   armorId: helmet_stone
   armorName: "\uB3CC \uD22C\uAD6C"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: -7138950177754291750, guid: 4436910fee1944b4894d7e8e28d73900, type: 3}
   bonusDef: 20
   bonusHp: 0
   bonusSpeed: 0
   modelprefab: {fileID: 0}
-  upgradeTable: {fileID: 0}
+  upgradeTable: {fileID: 11400000, guid: 0c3050da48049b24b9d09112e3854ee8, type: 2}

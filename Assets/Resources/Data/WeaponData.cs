@@ -16,5 +16,10 @@ public class WeaponData : ScriptableObject
     public int atkPerLevel = 5; // 강화 레벨당 증가하는 공격력
     
     [Header("강화 레시피")]
-    public UpgradeTable upgradeTable;
+    public UpgradeTable upgradeTable; 
+    
+    public int GetStat(int level)
+    {
+        return baseAtk + (level * 2);
+    }
 }
