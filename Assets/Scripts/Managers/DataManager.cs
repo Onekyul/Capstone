@@ -50,12 +50,6 @@ public class DataManager : MonoBehaviour
         else
         {
             currentPlayer = new PlayerData();
-            //mock data 생성
-            // if (currentPlayer.Inventory == null) currentPlayer.Inventory = new List<InventorySlot>();
-            //
-            // currentPlayer.Inventory.Add(new InventorySlot("ent_fire", 10));       // 화염의 돌 10개
-            // currentPlayer.Inventory.Add(new InventorySlot("ent_lightning", 10));  // 번개의 돌 10개
-            // currentPlayer.Inventory.Add(new InventorySlot("wood", 100));
             SaveGame();
         }
     }
