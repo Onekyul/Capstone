@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using System;
+using UnityEngine.UI; // ★ UI 기능을 쓰려면 이게 꼭 필요합니다!
 
 public class MonsterController : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class MonsterController : MonoBehaviour
     [Header("Pool Settings")]
     [Tooltip("체크하면 풀링 매니저로 반납하고, 체크 해제하면 그냥 Destroy 됩니다.")]
     [SerializeField] protected bool usePooling = true; // 기본값은 true (일반 몬스터용)
+
+    [Header("UI")]
+    [SerializeField] private Slider hpSlider; // ★ 체력바 슬라이더 연결용 변수
 
     private float lightningRadius = 5.0f; // 번개 범위
 
@@ -58,6 +62,12 @@ public class MonsterController : MonoBehaviour
     private void ResetStatus()
     {
         CurHP = MaxHP;
+        // ★ 체력바 초기화 (꽉 채우기)
+        if (hpSlider != null)
+        {
+            hpSlider.value = 1.0f;
+            hpSlider.gameObject.SetActive(true); // 혹시 꺼져있으면 켜기
+        }
         currentMoveSpeed = defaultMoveSpeed;
         damageMultiplier = 1.0f;
         storedLastDamage = 0f;
@@ -93,7 +103,13 @@ public class MonsterController : MonoBehaviour
 
         float finalDamage = damage * damageMultiplier; // 썩음 적용
         CurHP -= finalDamage;
-        
+        // ★ 체력바 갱신 로직
+        if (hpSlider != null)
+        {
+            // 현재 체력 비율 계산 (0.0 ~ 1.0)
+            hpSlider.value = CurHP / MaxHP;
+        }
+
         //StartCoroutine(FlashColor(Color.red, 0.1f));
     }
 
@@ -102,6 +118,12 @@ public class MonsterController : MonoBehaviour
     {
         float finalDamage = damage * damageMultiplier; // 번개 데미지도 썩음 증폭을 받을지 선택 (일단 받게 설정)
         CurHP -= finalDamage;
+        // ★ 체력바 갱신 로직
+        if (hpSlider != null)
+        {
+            // 현재 체력 비율 계산 (0.0 ~ 1.0)
+            hpSlider.value = CurHP / MaxHP;
+        }
         //StartCoroutine(FlashColor(Color.yellow, 0.1f));
     }
 
