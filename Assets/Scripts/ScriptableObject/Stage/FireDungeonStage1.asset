@@ -66,7 +66,7 @@ MonoBehaviour:
       spawnInterval: 0.01
       groupSpread: 2
     - monsterTag: Big
-      count: 10
+      count: 30
       spawnPattern: 1
       spawnRadius: 10
       spawnInterval: 2
@@ -74,7 +74,7 @@ MonoBehaviour:
   - timestamp: 60
     spawnGroups:
     - monsterTag: Chasing
-      count: 7
+      count: 35
       spawnPattern: 0
       spawnRadius: 10
       spawnInterval: 0.01
@@ -88,7 +88,7 @@ MonoBehaviour:
   - timestamp: 60
     spawnGroups:
     - monsterTag: Chasing
-      count: 7
+      count: 20
       spawnPattern: 0
       spawnRadius: 10
       spawnInterval: 0.01
@@ -116,7 +116,7 @@ MonoBehaviour:
   - timestamp: 90
     spawnGroups:
     - monsterTag: Chasing
-      count: 10
+      count: 40
       spawnPattern: 2
       spawnRadius: 10
       spawnInterval: 2
@@ -130,7 +130,7 @@ MonoBehaviour:
   - timestamp: 100
     spawnGroups:
     - monsterTag: Big
-      count: 10
+      count: 50
       spawnPattern: 1
       spawnRadius: 10
       spawnInterval: 2
@@ -212,7 +212,7 @@ MonoBehaviour:
   - timestamp: 165
     spawnGroups:
     - monsterTag: Big
-      count: 16
+      count: 50
       spawnPattern: 1
       spawnRadius: 10
       spawnInterval: 0.01
@@ -220,7 +220,7 @@ MonoBehaviour:
   - timestamp: 180
     spawnGroups:
     - monsterTag: Big
-      count: 16
+      count: 40
       spawnPattern: 1
       spawnRadius: 10
       spawnInterval: 1
@@ -234,10 +234,10 @@ MonoBehaviour:
   - timestamp: 200
     spawnGroups:
     - monsterTag: Big
-      count: 16
+      count: 50
       spawnPattern: 1
       spawnRadius: 10
-      spawnInterval: 0.01
+      spawnInterval: 0.5
       groupSpread: 2
     - monsterTag: Chasing
       count: 15
@@ -276,11 +276,11 @@ MonoBehaviour:
       spawnInterval: 0.01
       groupSpread: 2
     - monsterTag: Big
-      count: 15
+      count: 20
       spawnPattern: 1
       spawnRadius: 10
       spawnInterval: 0.01
-      groupSpread: 2
+      groupSpread: 6
   - timestamp: 240
     spawnGroups:
     - monsterTag: Fast
@@ -290,11 +290,11 @@ MonoBehaviour:
       spawnInterval: 0.01
       groupSpread: 2
     - monsterTag: Big
-      count: 15
+      count: 30
       spawnPattern: 1
       spawnRadius: 10
-      spawnInterval: 0.01
-      groupSpread: 2
+      spawnInterval: 1
+      groupSpread: 5
   - timestamp: 250
     spawnGroups:
     - monsterTag: Fast
@@ -304,17 +304,17 @@ MonoBehaviour:
       spawnInterval: 0.01
       groupSpread: 2
     - monsterTag: Chasing
-      count: 20
+      count: 40
       spawnPattern: 0
       spawnRadius: 10
       spawnInterval: 0.3
       groupSpread: 2
     - monsterTag: Big
-      count: 20
+      count: 40
       spawnPattern: 1
       spawnRadius: 20
       spawnInterval: 0.3
-      groupSpread: 2
+      groupSpread: 5
   - timestamp: 260
     spawnGroups:
     - monsterTag: Fast
@@ -324,13 +324,13 @@ MonoBehaviour:
       spawnInterval: 0.01
       groupSpread: 2
     - monsterTag: Chasing
-      count: 50
+      count: 100
       spawnPattern: 1
       spawnRadius: 10
       spawnInterval: 0.7
-      groupSpread: 2
+      groupSpread: 7
     - monsterTag: Big
-      count: 40
+      count: 80
       spawnPattern: 1
       spawnRadius: 20
       spawnInterval: 1
@@ -360,7 +360,7 @@ MonoBehaviour:
       spawnInterval: 0.01
       groupSpread: 2
     - monsterTag: Chasing
-      count: 30
+      count: 60
       spawnPattern: 0
       spawnRadius: 10
       spawnInterval: 0.5
@@ -369,7 +369,7 @@ MonoBehaviour:
     spawnGroups:
     - monsterTag: Big
       count: 50
-      spawnPattern: 1
+      spawnPattern: 0
       spawnRadius: 10
-      spawnInterval: 0.5
+      spawnInterval: 0.1
       groupSpread: 2

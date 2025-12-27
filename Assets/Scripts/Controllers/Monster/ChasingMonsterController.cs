@@ -39,6 +39,11 @@ public class ChasingMonsterController : MonsterController
             CurHP = MaxHP; // 현재 체력을 최대 체력으로 설정
             contactDamage *= 1.5f; // 엘리트 몬스터의 접촉 데미지를 1.5배로 증가
             moveSpeed *= 1.2f; // 엘리트 몬스터의 이동 속도를 20% 증가
+            if (hpSlider != null)
+            {
+                hpSlider.value = 1.0f;
+                hpSlider.gameObject.SetActive(true); // 혹시 꺼져있으면 켜기
+            }
         }
     }
 

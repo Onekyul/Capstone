@@ -24,7 +24,7 @@ public class MonsterController : MonoBehaviour
     [SerializeField] protected bool usePooling = true; // 기본값은 true (일반 몬스터용)
 
     [Header("UI")]
-    [SerializeField] private Slider hpSlider; // ★ 체력바 슬라이더 연결용 변수
+    [SerializeField] protected Slider hpSlider; // ★ 체력바 슬라이더 연결용 변수
 
     private float lightningRadius = 5.0f; // 번개 범위
 
