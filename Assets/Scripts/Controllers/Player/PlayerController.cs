@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
     {
         if (attackManager != null)
             attackManager.StartAutoAttack();
+        
+        
     }
 
      void OnEnable()

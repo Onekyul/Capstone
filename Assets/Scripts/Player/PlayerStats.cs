@@ -198,10 +198,13 @@ public class PlayerStats : MonoBehaviour
 
     public void ModifyAttackSpeed(float value, bool isAdditive)
     {
+        float oldValue = attackSpeedMultiplier;
         if (isAdditive)
             attackSpeedMultiplier += value;
         else
             attackSpeedMultiplier *= value;
+        
+        Debug.Log($"[공격속도 변경] {oldValue:F2} → {attackSpeedMultiplier:F2} (변화량: {value:F2}, 타입: {(isAdditive ? "덧셈" : "곱셈")})");
     }
 
     public void ModifyMoveSpeed(float value, bool isAdditive)
@@ -311,7 +314,7 @@ public class PlayerStats : MonoBehaviour
     }
 
     // 장비 보너스 적용 시스템 
-    public void ApplyEquipmentBonuses()
+    private void ApplyEquipmentBonuses()
     {
         if (DataManager.instance == null)
         {
@@ -402,6 +405,10 @@ public class PlayerStats : MonoBehaviour
     // 방어력 게터
     public float GetTotalDefense() => totalDefense;
     public float GetPlayerMaxHP() => playerMaxHP;
+    
+    // 체력바 UI를 위한 게터 메서드들
+    public float GetMaxHP() => playerMaxHP;
+    public float GetCurrentHP() => playerCurHP;
     
     // 현재 장착된 무기의 기본 공격력 가져오기
     public float GetEquippedWeaponBaseDamage()
