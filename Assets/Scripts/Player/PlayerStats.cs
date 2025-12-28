@@ -97,47 +97,6 @@ public class PlayerStats : MonoBehaviour
         debugShowRage = hasRage;
         debugShowRevenge = hasRevenge && Time.time < revengeEndTime;
         
-        // 테스트용 치트키 - 랜덤 능력
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            SetRandomAbility(new int[] { 1 }); // 2연격
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            SetRandomAbility(new int[] { 3 }); // 응축된 공격
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            SetRandomAbility(new int[] { 4, 1 }); // 흡혈 레벨 1
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SetRandomAbility(new int[] { 7 }); // 회피 기동
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            SetRandomAbility(new int[] { 11 }); // 질주
-        }
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            SetRandomAbility(new int[] { 12, 1 }); // 빠른 손놀림 레벨 1
-        }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            SetRandomAbility(new int[] { 18, 1 }); // 그림자 은신 레벨 1
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            SetRandomAbility(new int[] { 19 }); // 분노
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            SetRandomAbility(new int[] { 21 }); // 죽창
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SetRandomAbility(new int[] { 24 }); // 복수심
-        }
     }
 
     public void TakeDamage(float damage) // 데미지 받는 함수
@@ -211,21 +170,17 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    public void SetRandomAbility(int[] abilityArray)
+    public void AcquireAbility(int abilityID)
     {
-        // 이 함수를 레벨업매니저가 호출해서 랜덤 능력 전달함.
+        // 레벨업 매니저가 선택한 능력 ID를 전달하면 AbilitySystem에 전달
         if (abilitySystem == null)
         {
             Debug.LogError("AbilitySystem이 없습니다!");
             return;
         }
 
-        if (abilityArray == null || abilityArray.Length == 0) return;
-
-        int abilityID = abilityArray[0];
-        int level = abilityArray.Length > 1 ? abilityArray[1] : 1;
-
-        abilitySystem.AcquireAbility(abilityID, level);
+        abilitySystem.AcquireAbility(abilityID);
+        Debug.Log($"[PlayerStats] 능력 ID {abilityID} 습득 요청");
     }
 
 
@@ -460,6 +415,40 @@ public class PlayerStats : MonoBehaviour
         if (weaponData == null) return 0f;
         
         return weaponData.baseAtk;
+    }
+
+    // ===== 랜덤 능력 초기화 (던전 종료 시 호출) =====
+    public void ResetAbilities()
+    {
+        Debug.Log("[PlayerStats] 랜덤 능력 초기화 시작");
+        
+        // 전투 스탯 배율 초기화
+        attackDamageMultiplier = 1.0f;
+        attackSpeedMultiplier = 1.0f;
+        attackCount = 1;
+        
+        // 특수 능력 초기화
+        vampireChance = 0f;
+        dodgeChance = 0f;
+        shadowCooldown = 0f;
+        nextShadowTime = 0f;
+        shadowInvincibilityEndTime = 0f;
+        hasRage = false;
+        hasRevenge = false;
+        revengeEndTime = 0f;
+        
+        // 디버그 플래그 초기화
+        debugShowRage = false;
+        debugShowRevenge = false;
+        finalAttackMultiplier = 1.0f;
+        
+        // AbilitySystem에도 초기화 요청
+        if (abilitySystem != null)
+        {
+            abilitySystem.ResetAbilities();
+        }
+        
+        Debug.Log("[PlayerStats] 랜덤 능력 초기화 완료");
     }
 
 }

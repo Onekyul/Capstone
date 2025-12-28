@@ -26,8 +26,7 @@ public class UIManager : MonoBehaviour
     [Header("던전 UI")]
     [SerializeField]
     private DungeonSelectPanelController dungeonSelectPanelController;
-    [Tooltip("레벨업 시 켜질 전체 패널 (배경 포함)")]
-    public GameObject levelUpPanel;
+
 
     [Tooltip("능력 버튼들이 생성될 부모 오브젝트 (Horizontal Layout Group 추천)")]
     public Transform abilityContainer;
@@ -48,8 +47,6 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        //시작할 때는 레벨업 패널 꺼두기
-        levelUpPanel.SetActive(false);
     }
 
     void Start()

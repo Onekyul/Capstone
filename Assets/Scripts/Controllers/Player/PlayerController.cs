@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     [Header("Attack System")]
     [SerializeField] private AttackManager attackManager;
     
+    [Header("Sprite Flip")]
+    [SerializeField] private SpriteRenderer spriteRenderer; // 스프라이트 렌더러 참조
+    
     private PlayerStats playerStats; // PlayerStats 참조
     
 
@@ -20,6 +23,16 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerStats = GetComponent<PlayerStats>(); // PlayerStats 참조 가져오기
+        
+        // SpriteRenderer 자동 할당
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            if (spriteRenderer == null)
+            {
+                Debug.LogWarning("PlayerController: SpriteRenderer를 찾을 수 없습니다!");
+            }
+        }
     }
 
      void Start()
@@ -33,6 +46,7 @@ public class PlayerController : MonoBehaviour
         if (InputManager.instance != null)
         {
             InputManager.instance.OnMove += HandleMove;
+            InputManager.instance.OnLook += HandleLook; // 마우스 방향 이벤트 구독
         }
             
     }
@@ -42,12 +56,23 @@ public class PlayerController : MonoBehaviour
         if (InputManager.instance != null)
         {
             InputManager.instance.OnMove -= HandleMove;
+            InputManager.instance.OnLook -= HandleLook; // 마우스 방향 이벤트 구독 해제
         }
     }
 
      void HandleMove(Vector2 move)
     {
         movementInput = move;
+    }
+    
+    void HandleLook(Vector2 lookDirection)
+    {
+        // 마우스 방향에 따라 스프라이트 좌우 반전
+        if (spriteRenderer != null && lookDirection.sqrMagnitude > 0.0001f)
+        {
+            // 마우스가 왼쪽에 있으면 flipX = true, 오른쪽에 있으면 flipX = false
+            spriteRenderer.flipX = lookDirection.x < 0;
+        }
     }
      
 

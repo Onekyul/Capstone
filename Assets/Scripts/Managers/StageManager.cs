@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections;     // IEnumerator 사용
 using System.Collections.Generic; // List 사용
+using UnityEngine.SceneManagement; // 씬 전환용
 
 public class StageManager : MonoBehaviour
 {
@@ -220,6 +221,8 @@ public class StageManager : MonoBehaviour
 
         // 4. UI 표시
         DungeonUIManager.instance.ShowResultUI(isClear, eliteChestCount, elementChestCount, finalRewards);
+
+        DataManager.instance.SaveGame();
     }
 
     private Dictionary<ItemData, int> CalculateTotalRewards(bool isClear)
@@ -316,5 +319,17 @@ public class StageManager : MonoBehaviour
     void UpdateObjectiveText()
     {
         if (objectiveText != null) objectiveText.text = $"Boss Left: {targetMonstersCount}";
+    }
+
+
+    // ★ 버튼에 연결할 함수
+    public void ReturnToBase()
+    {
+        // 1. 멈췄던 시간을 다시 흐르게 함 (이거 안 하면 다음 씬에서도 멈춰있음!)
+        Time.timeScale = 1.0f;
+
+        // 2. 'BaseArea' 씬으로 이동
+        // (만약 로딩 화면을 띄워야 한다면 LoadingManager.LoadScene("BaseArea") 등을 사용)
+        SceneManager.LoadScene("BaseArea");
     }
 }
