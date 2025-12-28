@@ -69,8 +69,7 @@ public class AttackManager : MonoBehaviour
             SwitchWeapon(WeaponType.Bow);
             Debug.Log("활로 교체!");
         }
-
-        // ===== 무기별 인챈트 테스트 치트키 =====
+        
         // F1-F4: 현재 무기에 인챈트 추가
         if (Input.GetKeyDown(KeyCode.F1))
         {
@@ -269,27 +268,18 @@ public class AttackManager : MonoBehaviour
         }
     }
 
-    // ===== 무기 접근 메서드 (AbilitySystem 등에서 사용) =====
-    
-    /// <summary>
-    /// 현재 활성화된 무기를 반환합니다.
-    /// </summary>
+ 
     public WeaponBase GetCurrentWeapon()
     {
         return currentWeapon;
     }
 
-    /// <summary>
-    /// 모든 무기 오브젝트를 배열로 반환합니다.
-    /// </summary>
+
     public GameObject[] GetAllWeaponObjects()
     {
         return new GameObject[] { swordObject, spearObject, bowObject };
     }
-
-    /// <summary>
-    /// 모든 무기의 WeaponBase 컴포넌트를 배열로 반환합니다.
-    /// </summary>
+    
     public WeaponBase[] GetAllWeapons()
     {
         WeaponBase[] weapons = new WeaponBase[3];

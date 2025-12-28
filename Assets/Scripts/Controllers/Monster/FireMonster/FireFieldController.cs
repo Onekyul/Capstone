@@ -14,7 +14,7 @@ public class FireFieldController : MonoBehaviour
 
     void Start()
     {
-        // 처음엔 크기가 0에서 시작 (점점 퍼지는 연출)
+        // 처음엔 크기가 0에서 시작 
         transform.localScale = Vector3.zero;
 
         // 3초 뒤에 자동 삭제
@@ -33,7 +33,7 @@ public class FireFieldController : MonoBehaviour
         }
     }
 
-    // 범위 내에 있는 플레이어 감지 (Trigger 필수!)
+    // 범위 내에 있는 플레이어 감지 
     IEnumerator DealDamageRoutine()
     {
         while (true)

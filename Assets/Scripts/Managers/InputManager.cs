@@ -53,7 +53,7 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
-        // lookOrigin이 없으면 Player 태그를 찾아서 자동 할당 (씬 전환 대응)
+        // lookOrigin이 없으면 Player 태그를 찾아서 자동 할당 
         if (lookOrigin == null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");

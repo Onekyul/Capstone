@@ -19,5 +19,5 @@ public class AbilityData : ScriptableObject
 
     [Header("레벨별 수치")]
     [Tooltip("레벨 1, 2, 3... 순서대로 적용될 수치를 입력하세요.")]
-    public List<float> values; // 여기에 5, 10, 20... 을 넣습니다.
+    public List<float> values; 
 }

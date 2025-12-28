@@ -6,9 +6,7 @@ public class ExpJewelController : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // [수정 포인트]
-            // Find 계열 함수를 써서 매니저를 찾을 필요가 없습니다.
-            // LevelManager.instance를 통해 바로 접근합니다.
+           
 
             if (LevelManager.instance != null)
             {

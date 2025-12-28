@@ -50,7 +50,6 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        // 씬마다 새로 생성되므로 추가 초기화 불필요
         Debug.Log($"PlayerController: Start 완료 (씬: {SceneManager.GetActiveScene().name})");
     }
 
@@ -83,7 +82,6 @@ public class PlayerController : MonoBehaviour
         // 마우스 방향에 따라 스프라이트 좌우 반전
         if (spriteRenderer != null && lookDirection.sqrMagnitude > 0.0001f)
         {
-            // 마우스가 왼쪽에 있으면 flipX = true, 오른쪽에 있으면 flipX = false
             spriteRenderer.flipX = lookDirection.x < 0;
         }
     }

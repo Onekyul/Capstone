@@ -8,9 +8,7 @@ public class StageManager : MonoBehaviour
 {
     public static StageManager instance;
 
-    // =========================================================
-    // [1] 기존 스폰 시스템 (StageSO 웨이브 패턴)
-    // =========================================================
+   
     [Header("--- [Wave Spawn Settings] ---")]
     [Tooltip("실행할 스테이지의 설계도 (StageSO 파일을 여기에 연결하세요)")]
     public StageSO currentStage;
@@ -18,7 +16,7 @@ public class StageManager : MonoBehaviour
     [Tooltip("스폰의 기준이 될 플레이어 또는 카메라")]
     public Transform spawnCenter;
 
-    private float elapsedTime = 0f;       // 경과 시간 (스폰 타이밍 체크용)
+    private float elapsedTime = 0f;       // 경과 시간 
     private int currentPhaseIndex = 0;    // 현재 진행 중인 웨이브 단계
     private Camera mainCamera;
 
@@ -81,7 +79,7 @@ public class StageManager : MonoBehaviour
         eliteChestCount = 0;
         elementChestCount = 0;
 
-        // 2. 고정형 속성 몬스터(보스급) 4마리 소환 (기존 로직 유지)
+        // 2. 고정형 속성 몬스터 4마리 소환 
         SpawnElementalMonsters();
     }
 
@@ -96,20 +94,18 @@ public class StageManager : MonoBehaviour
 
         UpdateUIText();
 
-        // --- 승리 조건 A: 제한 시간 생존 ---
+        // --- 제한 시간 생존 ---
         if (currentTimer <= 0)
         {
             FinishGame(true); // 생존 성공
             return;
         }
 
-        // --- 웨이브 스폰 로직 (복구됨!) ---
+        // --- 웨이브 스폰 로직  ---
         CheckWaveSpawn();
     }
 
-    // =========================================================
-    // [기능 1] 웨이브 스폰 로직 (복구된 부분)
-    // =========================================================
+   
     void CheckWaveSpawn()
     {
         // 스테이지 정보가 없거나 모든 페이즈가 끝났으면 패스
@@ -178,8 +174,7 @@ public class StageManager : MonoBehaviour
                     finalSpawnPosition = baseSpawnPosition + (Vector3)randomOffset;
                     break;
             }
-
-            // ★ 중요: MonsterPool 이름 확인 (MonsterPool vs MonsterPoolingManager)
+            
             if (MonsterPool.Instance != null)
             {
                 MonsterController monster = MonsterPool.Instance.GetFromPool(data.monsterTag, finalSpawnPosition, Quaternion.identity);
@@ -194,10 +189,7 @@ public class StageManager : MonoBehaviour
             yield return new WaitForSeconds(data.spawnInterval);
         }
     }
-
-    // =========================================================
-    // [기능 2] 보상 및 결과 시스템 (새로 만든 부분)
-    // =========================================================
+    
     public void CollectEliteChest() { eliteChestCount++; }
     public void CollectElementChest() { elementChestCount++; }
 
@@ -268,10 +260,7 @@ public class StageManager : MonoBehaviour
         if (dict.ContainsKey(item)) dict[item] += amount;
         else dict.Add(item, amount);
     }
-
-    // =========================================================
-    // [기능 3] 고정형 속성 몬스터 (보스) 스폰
-    // =========================================================
+    
     void SpawnElementalMonsters()
     {
         if (spawnPoints == null || elementMonsterPrefabs == null) return;
@@ -329,7 +318,6 @@ public class StageManager : MonoBehaviour
         Time.timeScale = 1.0f;
 
         // 2. 'BaseArea' 씬으로 이동
-        // 씬 전환 시 플레이어는 새로 생성되며 자동으로 초기화됩니다
         SceneManager.LoadScene("BaseArea");
         
         Debug.Log("[StageManager] 거점으로 이동 (플레이어는 씬에서 새로 생성됨)");
