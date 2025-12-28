@@ -9,16 +9,16 @@ public class DungeonUIManager : MonoBehaviour
 
     [Header("--- [패널 참조] ---")]
     public GameObject levelUpPanel; // 레벨업 화면
-    public GameObject resultPanel;  // ★ 결과창 화면 (ResultPanel)
+    public GameObject resultPanel;  //  결과창 화면 
 
     [Header("--- [결과창 UI 컴포넌트] ---")]
-    public TextMeshProUGUI resultTitleText;       // "CLEAR!" or "FAILED"
+    public TextMeshProUGUI resultTitleText;       
 
-    public TextMeshProUGUI eliteChestCountText;   // 은상자 개수 텍스트 (예: "3")
-    public TextMeshProUGUI elementChestCountText; // 금상자 개수 텍스트 (예: "1")
+    public TextMeshProUGUI eliteChestCountText;   // 은상자 개수 텍스트 
+    public TextMeshProUGUI elementChestCountText; // 금상자 개수 텍스트 
 
-    public Transform rewardContentArea;           // 보상 아이콘들이 생성될 부모 (Grid Layout Group)
-    public GameObject rewardSlotPrefab;           // 보상 아이콘 프리팹 (Icon + CountText)
+    public Transform rewardContentArea;           // 보상 아이콘들이 생성될 부모 
+    public GameObject rewardSlotPrefab;           // 보상 아이콘 프리팹 
 
     [Header("--- [레벨업 UI 컴포넌트] ---")]
     public Transform abilityContainer;
@@ -39,7 +39,7 @@ public class DungeonUIManager : MonoBehaviour
     }
 
     
-    // ★ 파라미터 4개: (성공여부, 은상자수, 금상자수, 보상목록)
+    // 파라미터 4개: (성공여부, 은상자수, 금상자수, 보상목록)
     public void ShowResultUI(bool isClear, int eliteCount, int elementCount, Dictionary<ItemData, int> rewards)
     {
         if (resultPanel == null) return;
@@ -74,7 +74,6 @@ public class DungeonUIManager : MonoBehaviour
             GameObject slot = Instantiate(rewardSlotPrefab, rewardContentArea);
 
             // 프리팹 내부의 UI 찾기
-            // (주의: 프리팹 안에 "Icon", "CountText"라는 이름의 오브젝트가 있어야 함)
             Image iconImg = slot.transform.Find("Icon").GetComponent<Image>();
             TextMeshProUGUI countTxt = slot.transform.Find("CountText").GetComponent<TextMeshProUGUI>();
 

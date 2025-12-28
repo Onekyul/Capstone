@@ -18,8 +18,6 @@ public class DiagonalMoveMonsterController : MonsterController
 
         // 지정된 방향으로 moveSpeed에 맞춰 이동
         transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
-
-        // 자식 클래스이므로 부모의 FlipSpriteTowardsPlayer 같은 기능도 사용 가능
-        // 필요하다면 방향에 맞춰 스프라이트 뒤집기 등 구현
+        
     }
 }

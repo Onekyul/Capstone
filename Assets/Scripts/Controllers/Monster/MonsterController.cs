@@ -21,14 +21,14 @@ public class MonsterController : MonoBehaviour
 
     [Header("Pool Settings")]
     [Tooltip("체크하면 풀링 매니저로 반납하고, 체크 해제하면 그냥 Destroy 됩니다.")]
-    [SerializeField] protected bool usePooling = true; // 기본값은 true (일반 몬스터용)
+    [SerializeField] protected bool usePooling = true; // 기본값은 true 
 
     [Header("UI")]
-    [SerializeField] protected Slider hpSlider; // ★ 체력바 슬라이더 연결용 변수
+    [SerializeField] protected Slider hpSlider; // 체력바 슬라이더 연결용 변수
 
     private float lightningRadius = 5.0f; // 번개 범위
 
-    // ★ [추가] 몬스터가 죽을 때 발동할 이벤트
+    // 몬스터가 죽을 때 발동할 이벤트
     public event Action OnDeath;
 
     protected Transform player;
@@ -62,11 +62,11 @@ public class MonsterController : MonoBehaviour
     private void ResetStatus()
     {
         CurHP = MaxHP;
-        // ★ 체력바 초기화 (꽉 채우기)
+        // 체력바 초기화 
         if (hpSlider != null)
         {
             hpSlider.value = 1.0f;
-            hpSlider.gameObject.SetActive(true); // 혹시 꺼져있으면 켜기
+            hpSlider.gameObject.SetActive(true); 
         }
         currentMoveSpeed = defaultMoveSpeed;
         damageMultiplier = 1.0f;
@@ -93,17 +93,14 @@ public class MonsterController : MonoBehaviour
 
         if (IsDead()) ReturnToPool();
     }
-
-    // ====================================================================
-    // 1. 기본 피격 (공격력 스냅샷 저장)
-    // ====================================================================
+    
     public void TakeDamage(float damage)
     {
         storedLastDamage = damage; // 데미지 저장
 
         float finalDamage = damage * damageMultiplier; // 썩음 적용
         CurHP -= finalDamage;
-        // ★ 체력바 갱신 로직
+        // 체력바 갱신 로직
         if (hpSlider != null)
         {
             // 현재 체력 비율 계산 (0.0 ~ 1.0)
@@ -112,13 +109,11 @@ public class MonsterController : MonoBehaviour
 
         //StartCoroutine(FlashColor(Color.red, 0.1f));
     }
-
-    // 상태이상이나 번개로 인한 추가 데미지 (저장된 공격력 갱신 X)
+    
     public void TakeDirectDamage(float damage)
     {
-        float finalDamage = damage * damageMultiplier; // 번개 데미지도 썩음 증폭을 받을지 선택 (일단 받게 설정)
+        float finalDamage = damage * damageMultiplier;
         CurHP -= finalDamage;
-        // ★ 체력바 갱신 로직
         if (hpSlider != null)
         {
             // 현재 체력 비율 계산 (0.0 ~ 1.0)
@@ -127,31 +122,28 @@ public class MonsterController : MonoBehaviour
         //StartCoroutine(FlashColor(Color.yellow, 0.1f));
     }
 
-
-    // ====================================================================
-    // 2. 상태이상 적용 (순서: 화염, 얼음, 번개, 독)
-    // ====================================================================
+    
     public void TakeElement(int[] enchants)
     {
-        // [0] 화염 (Fire)
+        // [0] 화염 
         if (enchants.Length > 0 && enchants[0] > 0)
         {
             ApplyBurn(enchants[0]);
         }
 
-        // [1] 얼음 (Ice: 감속/빙결 통합)
+        // [1] 얼음 
         if (enchants.Length > 1 && enchants[1] > 0)
         {
             ApplyIce(enchants[1]);
         }
 
-        // [2] 번개 (Lightning) - 새로 추가됨!
+        // [2] 번개 
         if (enchants.Length > 2 && enchants[2] > 0)
         {
             ApplyLightning(enchants[2]);
         }
 
-        // [3] 독 (Poison) - 인덱스 밀림
+        // [3] 독 
         if (enchants.Length > 3 && enchants[3] > 0)
         {
             ApplyPoison(enchants[3]);
@@ -175,7 +167,7 @@ public class MonsterController : MonoBehaviour
 
         for (int i = 0; i < ticks; i++)
         {
-            //화상 데미지 적용 되는지 확인하기 위한 디버그 로그
+            //화상 데미지 적용 확인 디버그 
             Debug.Log($"Burn Tick {i + 1}/{ticks}: Dealing {tickDamage} damage.");
             yield return new WaitForSeconds(interval);
             TakeDirectDamage(tickDamage);
@@ -247,14 +239,12 @@ public class MonsterController : MonoBehaviour
             // 몬스터 태그 확인
             if (hit.CompareTag("Monster"))
             {
-                // 자기 자신은 제외 (이미 맞았으니까)
+                // 자기 자신은 제외 
                 if (hit.gameObject == this.gameObject) continue;
 
                 MonsterController otherMonster = hit.GetComponent<MonsterController>();
                 if (otherMonster != null)
                 {
-                    // 주변 몬스터에게 '직접 데미지'만 줍니다.
-                    // (TakeElement를 또 부르면 번개가 무한 전이될 수 있으므로 주의)
                     otherMonster.TakeDirectDamage(lightningDamage);
                 }
             }
@@ -308,13 +298,12 @@ public class MonsterController : MonoBehaviour
 
     protected virtual void ReturnToPool()
     {
-        // 1. 죽음 이벤트 알림 (스테이지 매니저에게 보고)
+        // 1. 죽음 이벤트 알림 
         OnDeath?.Invoke();
 
-        // 2. 흡혈 처리 - 플레이어에게 알림 (싱글톤 인스턴스 사용)
+        // 2. 흡혈 처리
         if (PlayerStats.Instance != null)
         {
-            // 마지막으로 받은 데미지를 전달 (흡혈 계산용)
             Debug.Log($"[몬스터 처치] {gameObject.name} 죽음, 마지막 데미지: {storedLastDamage:F1} → 플레이어 흡혈 체크 호출");
             PlayerStats.Instance.OnEnemyKilled(storedLastDamage);
         }
@@ -328,8 +317,7 @@ public class MonsterController : MonoBehaviour
         {
             Instantiate(expJewelPrefab, transform.position, Quaternion.identity);
         }
-
-        // 4. ★ 여기가 수정된 핵심 로직입니다 ★
+        
         if (usePooling)
         {
             // 풀링을 사용하는 몬스터라면 -> 매니저에게 반납

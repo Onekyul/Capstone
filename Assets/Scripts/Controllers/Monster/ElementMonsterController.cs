@@ -20,13 +20,12 @@ public class ElementMonsterController : MonsterController
     protected override void Update()
     {
         // 1. 상태이상(빙결 등) 체크
-        // (MonsterController의 변수들을 protected로 바꿔주셔야 접근 가능합니다)
         // if (isFrozen) return; 
 
         player = GetClosestPlayer();
         if (player == null) return;
 
-        // 2. 플레이어 바라보기 (고정형이라도 쳐다는 봐야죠)
+        // 2. 플레이어 바라보기 
         FlipSpriteTowardsPlayer();
 
         // 3. 거리 계산
@@ -35,19 +34,16 @@ public class ElementMonsterController : MonsterController
         // 4. 사거리 안이고 + 쿨타임이 돌았으면 -> 공격 실행
         if (distance <= attackRange && Time.time >= lastAttackTime + attackCooldown)
         {
-            PerformAttack(); // 자식이 구현할 함수 호출
+            PerformAttack(); 
             lastAttackTime = Time.time;
         }
-
-        // ★ 중요: 부모(MonsterController)의 Update를 부르지 않음으로써 이동 로직을 제거합니다.
-        // 대신 사망 체크는 필요하므로 따로 호출합니다.
+        
         if (IsDead()) ReturnToPool();
     }
 
-    // 자식들이 구체적인 공격을 작성할 빈 함수 (Virtual)
+    // 자식들이 구체적인 공격
     protected virtual void PerformAttack()
     {
-        // 자식 클래스에서 override해서 사용함
         Debug.Log("기본 원거리 공격 (설정 필요)");
     }
 
