@@ -62,7 +62,6 @@ public class PlayerStats : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else if (Instance != this)
         {
@@ -106,7 +105,7 @@ public class PlayerStats : MonoBehaviour
             ActivateShadowInvincibility();
             nextShadowTime = Time.time + shadowCooldown;
         }
-        
+
         // 디버그용 최종 스탯 표시 (에디터에서 확인 가능)
         finalAttackMultiplier = GetAttackDamageMultiplier();
         debugShowRage = hasRage;
@@ -118,7 +117,7 @@ public class PlayerStats : MonoBehaviour
             Debug.Log("===== [치트키] 응축된 공격 습득 =====");
             AcquireAbility(3); // 응축된 공격 ID = 3
         }
-        
+
         // ===== 치트키: 흡혈 테스트 (F6) =====
         if (Input.GetKeyDown(KeyCode.F6))
         {
@@ -231,13 +230,13 @@ public class PlayerStats : MonoBehaviour
             attackSpeedMultiplier += value;
         else
             attackSpeedMultiplier *= value;
-        
+
         // 쿨타임 예시 계산 (1초 기준)
         float exampleOldCooldown = 1.0f / oldValue;
         float exampleNewCooldown = 1.0f / attackSpeedMultiplier;
         float cooldownChange = exampleNewCooldown - exampleOldCooldown;
         string changeType = cooldownChange > 0 ? "증가(느려짐)" : "감소(빨라짐)";
-        
+
         Debug.Log($"[공격속도 변경] {oldValue:F2} → {attackSpeedMultiplier:F2} (변화량: {value:F2}, 타입: {(isAdditive ? "덧셈" : "곱셈")})");
         Debug.Log($"  → 쿨타임 영향 (1초 기준): {exampleOldCooldown:F2}초 → {exampleNewCooldown:F2}초 ({changeType} {Mathf.Abs(cooldownChange):F2}초)");
     }
@@ -340,12 +339,12 @@ public class PlayerStats : MonoBehaviour
     public void OnEnemyKilled(float attackDamage)
     {
         Debug.Log($"[흡혈 체크] 공격력: {attackDamage:F1}, 흡혈 확률: {vampireChance * 100:F1}%, 현재 체력: {playerCurHP:F1}/{playerMaxHP:F1}");
-        
+
         if (vampireChance > 0)
         {
             float randomValue = UnityEngine.Random.value;
             Debug.Log($"[흡혈 확률 체크] 랜덤값: {randomValue:F3}, 필요값: {vampireChance:F3} → {(randomValue < vampireChance ? "성공" : "실패")}");
-            
+
             if (randomValue < vampireChance)
             {
                 float healAmount = attackDamage * vampireHealPercent;
@@ -383,7 +382,7 @@ public class PlayerStats : MonoBehaviour
         // 헬멧 보너스 적용 (방어력만)
         string helmetId = DataManager.instance.GetEquippedItemId(EquipmentType.Helmet);
         Debug.Log($"장착된 헬멧 ID: {helmetId}");
-        
+
         if (!string.IsNullOrEmpty(helmetId))
         {
             ArmorData helmet = DataManager.instance.GetArmorData(helmetId);
@@ -403,7 +402,7 @@ public class PlayerStats : MonoBehaviour
         // 갑옷 보너스 적용 (최대 체력만)
         string armorId = DataManager.instance.GetEquippedItemId(EquipmentType.Armor);
         Debug.Log($"장착된 갑옷 ID: {armorId}");
-        
+
         if (!string.IsNullOrEmpty(armorId))
         {
             ArmorData armor = DataManager.instance.GetArmorData(armorId);
@@ -423,7 +422,7 @@ public class PlayerStats : MonoBehaviour
         // 신발 보너스 적용 (이동 속도만)
         string bootsId = DataManager.instance.GetEquippedItemId(EquipmentType.Boots);
         Debug.Log($"장착된 신발 ID: {bootsId}");
-        
+
         if (!string.IsNullOrEmpty(bootsId))
         {
             ArmorData boots = DataManager.instance.GetArmorData(bootsId);
@@ -454,27 +453,27 @@ public class PlayerStats : MonoBehaviour
     // 방어력 게터
     public float GetTotalDefense() => totalDefense;
     public float GetPlayerMaxHP() => playerMaxHP;
-    
+
     // 체력바 UI를 위한 게터 메서드들
     public float GetMaxHP() => playerMaxHP;
     public float GetCurrentHP() => playerCurHP;
-    
+
     // 현재 장착된 무기의 기본 공격력 가져오기
     public float GetEquippedWeaponBaseDamage()
     {
         if (DataManager.instance == null) return 0f;
-        
+
         string weaponId = DataManager.instance.GetEquippedItemId(EquipmentType.Weapon);
         if (string.IsNullOrEmpty(weaponId)) return 0f;
-        
+
         WeaponData weaponData = DataManager.instance.GetWeaponData(weaponId);
         if (weaponData == null) return 0f;
-        
+
         return weaponData.baseAtk;
     }
 
-    //랜덤 능력 초기화 (던전 종료 시 호출)
-    /// 던전 담당자가 호출 예시: player.GetComponent PlayerStats ResetAbilities
+    // 랜덤 능력 초기화 (던전 종료 시 호출)
+    // 씬 전환 시 플레이어가 새로 생성되므로 Start()에서 자동으로 초기화됩니다.
     public void ResetAbilities()
     {
         Debug.Log("[PlayerStats] 랜덤 능력 초기화 시작");
@@ -516,8 +515,7 @@ public class PlayerStats : MonoBehaviour
         Debug.Log($"[PlayerStats] 랜덤 능력 초기화 완료 - 체력: {playerCurHP}/{playerMaxHP}, 방어력: {totalDefense}");
     }
     
-    /// 거점 진입 시 플레이어 부활 및 랜덤 능력 초기화
-    /// 던전 담당자가 호출: player.GetComponent<PlayerStats>().RevivePlayer();
+    // 플레이어 부활 (주로 내부 사용 - 필요시 외부에서도 호출 가능)
     public void RevivePlayer()
     {
         Debug.Log("[PlayerStats] 플레이어 부활 시작");
