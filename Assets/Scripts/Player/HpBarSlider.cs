@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI; // Slider를 제어하기 위해 반드시 필요합니다.
+using UnityEngine.SceneManagement; // 씬 관리용
 
 public class HpBarSlider : MonoBehaviour
 {
@@ -24,6 +25,9 @@ public class HpBarSlider : MonoBehaviour
 
     void Start()
     {
+        // 씬 변경 이벤트 구독
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        
         // PlayerStats의 체력 변화 이벤트 구독
         if (playerStats != null)
         {
@@ -32,6 +36,9 @@ public class HpBarSlider : MonoBehaviour
             // 초기 체력바 설정
             InitializeHealthBar();
         }
+        
+        // 현재 씬에 따라 체력바 표시 여부 결정
+        CheckSceneAndToggleHealthBar();
     }
 
     void LateUpdate()
@@ -45,6 +52,33 @@ public class HpBarSlider : MonoBehaviour
         if (playerStats != null)
         {
             playerStats.OnHealthChanged -= UpdateHealthBar;
+        }
+        
+        // 씬 변경 이벤트 구독 해제
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
+    // 씬이 로드될 때마다 호출되는 이벤트 핸들러
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        CheckSceneAndToggleHealthBar();
+    }
+    
+    // 현재 씬에 따라 체력바 표시 여부 결정
+    private void CheckSceneAndToggleHealthBar()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        
+        // 거점 씬에서는 체력바 비활성화
+        if (currentSceneName.Contains("Base"))
+        {
+            gameObject.SetActive(false);
+            Debug.Log("[HpBarSlider] 거점 씬 감지 - 체력바 비활성화");
+        }
+        else
+        {
+            gameObject.SetActive(true);
+            Debug.Log("[HpBarSlider] 던전 씬 감지 - 체력바 활성화");
         }
     }
 
