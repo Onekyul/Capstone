@@ -15,5 +15,5 @@ MonoBehaviour:
   itemId: mat_firestone
   itemName: "\uBD88\uC758 \uB3CC"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: -8474376256108834426, guid: c63410b929613714b8605a4dd39a16b7, type: 3}
   maxStack: 99

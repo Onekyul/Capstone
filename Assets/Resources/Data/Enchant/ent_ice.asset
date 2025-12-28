@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enchantId: ent_ice
   enchantName: "\uBE59\uACB0\uC758 \uC18D\uBC15"
-  icon: {fileID: 0}
+  icon: {fileID: 8719526092174281890, guid: ff807e5f3cf35e043be37ce00c5aff3b, type: 3}
   lockedIcon: {fileID: 0}
   descriptionTemplate: "\uBAAC\uC2A4\uD130\uAC00 \uCE90\uB9AD\uD130\uC758 \uACF5\uACA9\uC5D0
     \uB9DE\uC73C\uBA74 {1}%\uD655\uB960\uB85C \uBAAC\uC2A4\uD130\uC758 \uC774\uB3D9\uC18D\uB3C4

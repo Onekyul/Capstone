@@ -15,5 +15,5 @@ MonoBehaviour:
   itemId: mat_poisonpiece
   itemName: "\uB3C5\uC758 \uB3CC \uC870\uAC01"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 5b7e79a72dcc3014393b429164c64418, type: 3}
   maxStack: 99

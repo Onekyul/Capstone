@@ -15,5 +15,5 @@ MonoBehaviour:
   itemId: mat_lightningstone
   itemName: "\uBC88\uAC1C\uC758 \uB3CC"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: -3381742034668731365, guid: 45bff473cef776a489cf85aff4c1f5c0, type: 3}
   maxStack: 99

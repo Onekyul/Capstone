@@ -15,5 +15,5 @@ MonoBehaviour:
   itemId: mat_waterstone
   itemName: "\uBB3C\uC758 \uB3CC"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: -843890519132500877, guid: d8a52c9d26537a64b9f52bf53f327129, type: 3}
   maxStack: 99

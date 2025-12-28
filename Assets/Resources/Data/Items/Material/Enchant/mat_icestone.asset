@@ -15,5 +15,5 @@ MonoBehaviour:
   itemId: mat_icestone
   itemName: "\uC5BC\uC74C\uC758 \uB3CC"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 8719526092174281890, guid: ff807e5f3cf35e043be37ce00c5aff3b, type: 3}
   maxStack: 99
