@@ -23,7 +23,18 @@ public class MockInjection : MonoBehaviour
         }
 
         Debug.Log("[Test] 모크 데이터 주입 시작...");
-
+        DataManager.instance.currentPlayer.ownedWeapons.Add(new EquipmentState("bow_wood", 0));
+        
+        // 방어구 (3종) 복구
+        DataManager.instance.currentPlayer.ownedArmors.Add(new EquipmentState("helmet_wood", 0));
+        DataManager.instance.currentPlayer.ownedArmors.Add(new EquipmentState("armor_wood", 0));
+        DataManager.instance.currentPlayer.ownedArmors.Add(new EquipmentState("boots_wood", 0));
+        
+        // 현재 장착중인 아이템 ID도 확실하게 지정 (싱크 맞추기)
+        DataManager.instance.currentPlayer.equippedWeaponId = "bow_wood";
+        DataManager.instance.currentPlayer.equippedHelmetId = "helmet_wood";
+        DataManager.instance.currentPlayer.equippedArmorId = "armor_wood";
+        DataManager.instance.currentPlayer.equippedBootsId = "boots_wood";
         // ====================================================
         // [중요] ID 체크 필요!
         // ent_lightning은 '인챈트' ID일 확률이 높음. '재료' ID를 넣어야 함.

@@ -12,7 +12,7 @@ public enum EquipmentType
 public class PlayerData
 {
     //장착 장비
-    public string equippedWeaponId = "sword_wood";
+    public string equippedWeaponId = "bow_wood";
     public string equippedHelmetId = "helmet_wood";
     public string equippedArmorId = "armor_wood";
     public string equippedBootsId = "boots_wood";
@@ -29,7 +29,7 @@ public class PlayerData
 
     public PlayerData()
     {
-        ownedWeapons.Add(new EquipmentState("sword_wood",0));
+        ownedWeapons.Add(new EquipmentState("bow_wood",0));
         ownedArmors.Add(new EquipmentState("helmet_wood",0));
         ownedArmors.Add(new EquipmentState("armor_wood",0));
         ownedArmors.Add(new EquipmentState("boots_wood",0));
