@@ -22,6 +22,8 @@ public class InventoryUI : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("awake");
+        UpdateAllInventory();
         materialSlots = materialGridParent.GetComponentsInChildren<InventorySlotUI>();
     }
 
