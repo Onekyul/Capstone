@@ -271,25 +271,19 @@ public class AttackManager : MonoBehaviour
 
     // ===== 무기 접근 메서드 (AbilitySystem 등에서 사용) =====
     
-    /// <summary>
-    /// 현재 활성화된 무기를 반환합니다.
-    /// </summary>
+    // 현재 활성화된 무기를 반환합니다.
     public WeaponBase GetCurrentWeapon()
     {
         return currentWeapon;
     }
-
-    /// <summary>
-    /// 모든 무기 오브젝트를 배열로 반환합니다.
-    /// </summary>
+    
+    // 모든 무기 오브젝트를 배열로 반환합니다.
     public GameObject[] GetAllWeaponObjects()
     {
         return new GameObject[] { swordObject, spearObject, bowObject };
     }
-
-    /// <summary>
-    /// 모든 무기의 WeaponBase 컴포넌트를 배열로 반환합니다.
-    /// </summary>
+    
+    // 모든 무기의 WeaponBase 컴포넌트를 배열로 반환합니다.
     public WeaponBase[] GetAllWeapons()
     {
         WeaponBase[] weapons = new WeaponBase[3];
