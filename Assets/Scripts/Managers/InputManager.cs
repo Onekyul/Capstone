@@ -10,6 +10,7 @@ public class InputManager : MonoBehaviour
 
    // 이벤트 선언
     public event Action OnInteractPressed;
+    public event Action OnInventoryPressed;
     public event Action OnExitPressed;
     public event Action<Vector2> OnMove; //
     public event Action<Vector2> OnLook; //플레이어가 바라보는 방향 저장
@@ -41,7 +42,10 @@ public class InputManager : MonoBehaviour
             playerMoveInput = newMove;                         
             OnMove?.Invoke(playerMoveInput);                  
         }
-
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            OnInventoryPressed?.Invoke();
+        }
         if (Input.GetKeyDown(KeyCode.E)) // E키 눌렀을 때 
         {
             OnInteractPressed?.Invoke();

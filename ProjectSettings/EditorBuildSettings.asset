@@ -17,5 +17,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Resources/Scenes/LoadingScene.unity
     guid: e58c2024ea36644cc964c4e44c9513a0
+  - enabled: 1
+    path: Assets/Resources/Scenes/FireDungeon/FireDungeonScene1.unity
+    guid: c83826a94d6171a4c900cf0107bf0745
+  - enabled: 1
+    path: Assets/Resources/Scenes/FireDungeon/FireDungeonScene1 1.unity
+    guid: b52ea716478683f47b8757ab476634f9
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

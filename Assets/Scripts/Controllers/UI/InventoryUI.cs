@@ -23,7 +23,6 @@ public class InventoryUI : MonoBehaviour
     void Awake()
     {
         Debug.Log("awake");
-        UpdateAllInventory();
         materialSlots = materialGridParent.GetComponentsInChildren<InventorySlotUI>();
     }
 
@@ -96,7 +95,7 @@ public class InventoryUI : MonoBehaviour
     void UpdateMaterialGrid()
     {
         List<InventorySlot> invList = DataManager.instance.currentPlayer.Inventory;
-
+        Debug.Log($"[InventoryUI] 찾은 재료 슬롯 개수: {materialSlots.Length}");
         for (int i = 0; i < materialSlots.Length; i++)
         {
             if (i < invList.Count)
@@ -114,4 +113,5 @@ public class InventoryUI : MonoBehaviour
             }
         }
     }
+    
 }

@@ -13,7 +13,10 @@ public class InventorySlotUI : MonoBehaviour
         if (data == null) { ClearSlot(); return; }
 
         ShowIcon(data.icon);
-        countText.text = count > 1 ? count.ToString() : ""; 
+        if (countText != null)
+        {
+            countText.text = count > 1 ? count.ToString() : "";
+        }
     }
 
     //장비용
@@ -26,7 +29,10 @@ public class InventorySlotUI : MonoBehaviour
         }
 
         ShowIcon(icon);
-        countText.text = ""; 
+        if (countText != null)
+        {
+            countText.text = "";
+        } 
     }
 
     // 인챈트용
@@ -35,22 +41,31 @@ public class InventorySlotUI : MonoBehaviour
         if (data == null) { ClearSlot(); return; }
 
         ShowIcon(data.icon);
-        countText.text = "";
+        if (countText != null)
+        {
+            countText.text = "";
+        }
     }
 
     //아이콘 켜기
     private void ShowIcon(Sprite sprite)
     {
-        iconImage.sprite = sprite;
-        iconImage.gameObject.SetActive(true);
+        if (iconImage != null)
+        {
+            iconImage.sprite = sprite;
+            iconImage.gameObject.SetActive(true);
+        }
+        
         if (emptyIcon != null) emptyIcon.SetActive(false);
     }
 
     // 슬롯 비우기
     public void ClearSlot()
     {
-        iconImage.gameObject.SetActive(false);
-        countText.text = "";
+        if (iconImage != null) iconImage.gameObject.SetActive(false);
+        
+        if (countText != null) countText.text = "";
+        
         if (emptyIcon != null) emptyIcon.SetActive(true);
     }
 }
