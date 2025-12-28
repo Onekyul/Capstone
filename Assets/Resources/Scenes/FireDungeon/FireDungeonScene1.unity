@@ -1214,8 +1214,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4567137353947876526, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
   m_PrefabInstance: {fileID: 391617239}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &846097385 stripped
-Transform:
+--- !u!224 &846097385 stripped
+RectTransform:
   m_CorrespondingSourceObject: {fileID: 4290561966624896383, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
   m_PrefabInstance: {fileID: 391617239}
   m_PrefabAsset: {fileID: 0}
@@ -1923,7 +1923,7 @@ MonoBehaviour:
   m_text: 5:00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 880201079f5bc4178a4c03cd47ab3037, type: 2}
-  m_sharedMaterial: {fileID: -4445188317489893086, guid: 880201079f5bc4178a4c03cd47ab3037, type: 2}
+  m_sharedMaterial: {fileID: 7720026820411302691, guid: 880201079f5bc4178a4c03cd47ab3037, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

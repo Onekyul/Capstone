@@ -15,5 +15,5 @@ MonoBehaviour:
   itemId: mat_waterpiece
   itemName: "\uBB3C\uC758 \uB3CC \uC870\uAC01"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 0bb6794e9d5c6d541b9ec20d5d39bad0, type: 3}
   maxStack: 99

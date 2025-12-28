@@ -15,5 +15,5 @@ MonoBehaviour:
   itemId: mat_firepiece
   itemName: "\uBD88\uC758 \uB3CC \uC870\uAC01"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 82f439a604e073f4a955e75dfeac6c8b, type: 3}
   maxStack: 99

@@ -15,5 +15,5 @@ MonoBehaviour:
   itemId: mat_poisonstone
   itemName: "\uB3C5\uC758 \uB3CC"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 4473125515283773487, guid: 306fa2859c5d7d74a83becfb95a894f1, type: 3}
   maxStack: 99

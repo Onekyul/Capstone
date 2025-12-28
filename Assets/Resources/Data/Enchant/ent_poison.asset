@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enchantId: ent_poison
   enchantName: "\uB9F9\uB3C5\uC758 \uCE68\uC2DD"
-  icon: {fileID: 0}
+  icon: {fileID: 4473125515283773487, guid: 306fa2859c5d7d74a83becfb95a894f1, type: 3}
   lockedIcon: {fileID: 0}
   descriptionTemplate: "\uBAAC\uC2A4\uD130\uAC00 \uCE90\uB9AD\uD130\uC758 \uACF5\uACA9\uC5D0
     \uB9DE\uC73C\uBA74, {0}%\uD655\uB960\uB85C \uC369\uC74C \uC0C1\uD0DC\uC774\uC0C1
