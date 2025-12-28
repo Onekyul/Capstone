@@ -32,8 +32,7 @@ public class PlayerController : MonoBehaviour
         }
 
         instance = this;
-        DontDestroyOnLoad(gameObject); // 씬 전환 시 플레이어 유지
-        Debug.Log("PlayerController: DontDestroyOnLoad 적용 완료");
+        Debug.Log("PlayerController: 초기화 완료");
 
         rb = GetComponent<Rigidbody2D>();
         playerStats = GetComponent<PlayerStats>(); // PlayerStats 참조 가져오기
