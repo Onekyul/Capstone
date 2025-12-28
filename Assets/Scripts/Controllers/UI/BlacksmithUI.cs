@@ -220,12 +220,27 @@ public class BlacksmithUI : MonoBehaviour
                 GameObject player = GameObject.FindGameObjectWithTag("Player");
                 if (player != null)
                 {
+                    // 현재 장착된 무기 ID 가져오기
+                    string equippedWeaponId = DataManager.instance.GetEquippedItemId(EquipmentType.Weapon);
+                    
+                    // 모든 무기를 찾아서 장착된 무기만 업데이트
                     WeaponBase[] weapons = player.GetComponentsInChildren<WeaponBase>(true);
+                    int updatedCount = 0;
                     foreach (var weapon in weapons)
                     {
-                        weapon.UpgradeWeaponDamage();
+                        // 이 무기가 현재 장착된 무기인지 확인
+                        if (weapon.GetWeaponId() == equippedWeaponId)
+                        {
+                            weapon.UpgradeWeaponDamage();
+                            updatedCount++;
+                            Debug.Log($"[BlacksmithUI] 장착된 무기({equippedWeaponId}) 강화 완료!");
+                        }
                     }
-                    Debug.Log($"[BlacksmithUI] 무기 강화 → {weapons.Length}개 무기 데이터 재적용 완료");
+                    
+                    if (updatedCount == 0)
+                    {
+                        Debug.LogWarning($"[BlacksmithUI] 장착된 무기({equippedWeaponId})를 찾을 수 없습니다!");
+                    }
                 }
             }
             

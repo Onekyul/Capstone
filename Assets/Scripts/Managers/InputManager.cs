@@ -33,8 +33,37 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        // Player 태그를 가진 오브젝트를 찾아서 lookOrigin에 할당
+        if (lookOrigin == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                lookOrigin = player.transform;
+                Debug.Log($"[InputManager] Player를 자동으로 찾아 lookOrigin에 할당: {player.name}");
+            }
+            else
+            {
+                Debug.LogWarning("[InputManager] Player 태그를 가진 오브젝트를 찾을 수 없습니다!");
+            }
+        }
+    }
+
     void Update()
     {
+        // lookOrigin이 없으면 Player 태그를 찾아서 자동 할당 (씬 전환 대응)
+        if (lookOrigin == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                lookOrigin = player.transform;
+                Debug.Log($"[InputManager] Player를 자동으로 찾아 lookOrigin에 할당: {player.name}");
+            }
+        }
+
         Vector2 newMove = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); // WASD 이동 감지
 
         if (newMove != playerMoveInput)    // 입력 값이 달라질 때만 OnMove 이벤트 발생 시켜서 효율성 증가                    
