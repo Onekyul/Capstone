@@ -44,7 +44,7 @@ public class DungeonSelectPanelController : MonoBehaviour
         if (selectedFloor > 0)
         {
             ClosePanel();
-            SceneManager.LoadScene("FireDungeonScene1 1");
+            SceneManager.LoadScene("FireDungeonScene1");
 
         }
     }
