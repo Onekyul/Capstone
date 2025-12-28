@@ -24,7 +24,7 @@ MonoBehaviour:
   - statType: 1
     operation: 1
     valuePerLevel:
-    - 0.3
+    - 0.7
   - statType: 0
     operation: 1
     valuePerLevel:

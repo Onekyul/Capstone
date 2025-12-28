@@ -179,8 +179,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3408465175982068149
 GameObject:
@@ -666,6 +666,11 @@ MonoBehaviour:
   swordObject: {fileID: 1240311521945267506}
   spearObject: {fileID: 6300785288541835649}
   bowObject: {fileID: 3602044010696398648}
+  safeZoneSceneNames:
+  - Base
+  - "\uAC70\uC810"
+  - Town
+  - Village
 --- !u!114 &6615896127895568501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -749,8 +754,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -0}
-  m_SizeDelta: {x: 10, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7201221620915872416
 CanvasRenderer:
