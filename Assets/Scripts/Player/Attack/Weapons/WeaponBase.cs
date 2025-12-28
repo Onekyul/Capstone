@@ -22,7 +22,13 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
 
     [Header("Enchantment Settings")]
     [SerializeField] protected float enchantChancePerLevel = 10f; // 강화 레벨당 적용 확률 (10 = 10%)
-    [SerializeField] protected int[] enchantmentLevels = new int[4]; // [불, 얼음, 번개, 독] 인챈트 강화 수치 (무기별 개별)
+    [SerializeField] protected int[] enchantmentLevels = new int[4]; // [불, 얼음, 번개, 독] 인챈트 강화 수치
+    
+    [Header("Enchantment Debug Info (Read Only)")]
+    [SerializeField] private int debugFireLevel = 0; // 불 인챈트 레벨 (읽기 전용)
+    [SerializeField] private int debugIceLevel = 0; // 얼음 인챈트 레벨 (읽기 전용)
+    [SerializeField] private int debugLightningLevel = 0; // 번개 인챈트 레벨 (읽기 전용)
+    [SerializeField] private int debugPoisonLevel = 0; // 독 인챈트 레벨 (읽기 전용)
 
     protected float lastAttackTime;
     protected bool bIsAttacking = false;
@@ -106,10 +112,16 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
         }
         
         // 4가지 인챈트 레벨 로드 (불, 얼음, 번개, 독)
-        enchantmentLevels[0] = DataManager.instance.GetEnchantLevel("fire");
-        enchantmentLevels[1] = DataManager.instance.GetEnchantLevel("ice");
-        enchantmentLevels[2] = DataManager.instance.GetEnchantLevel("lightning");
-        enchantmentLevels[3] = DataManager.instance.GetEnchantLevel("poison");
+        enchantmentLevels[0] = DataManager.instance.GetEnchantLevel("ent_fire");
+        enchantmentLevels[1] = DataManager.instance.GetEnchantLevel("ent_ice");
+        enchantmentLevels[2] = DataManager.instance.GetEnchantLevel("ent_lightning");
+        enchantmentLevels[3] = DataManager.instance.GetEnchantLevel("ent_poison");
+        
+        // 디버그 필드에도 즉시 반영
+        debugFireLevel = enchantmentLevels[0];
+        debugIceLevel = enchantmentLevels[1];
+        debugLightningLevel = enchantmentLevels[2];
+        debugPoisonLevel = enchantmentLevels[3];
         
         Debug.Log($"=== 인챈트 데이터 로드 ===");
         Debug.Log($"불 인챈트: Lv.{enchantmentLevels[0]} (발동 확률: {enchantmentLevels[0] * enchantChancePerLevel}%)");
@@ -131,6 +143,15 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
         // 디버그용 최종 스탯 표시 (에디터에서 실시간 확인 가능)
         finalTotalDamage = GetTotalDamage();
         finalCooldown = GetAttackCooldown();
+        
+        // 디버그용 인챈트 레벨 표시 (에디터에서 실시간 확인 가능)
+        if (DataManager.instance != null)
+        {
+            debugFireLevel = enchantmentLevels[0];
+            debugIceLevel = enchantmentLevels[1];
+            debugLightningLevel = enchantmentLevels[2];
+            debugPoisonLevel = enchantmentLevels[3];
+        }
     }
     
     public float GetTotalDamage()
@@ -170,11 +191,11 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
             float attackMultiplier = playerStats.GetAttackDamageMultiplier();
             float speedMultiplier = playerStats.GetAttackSpeedMultiplier();
             float finalDamage = baseDamage * attackMultiplier;
-            float finalCooldown = attackCooldown / speedMultiplier;
+            float calculatedCooldown = attackCooldown / speedMultiplier;
             
             Debug.Log($"=== [{weaponId}] 공격 스탯 ===");
             Debug.Log($"공격력: {baseDamage} × {attackMultiplier:F2} = {finalDamage:F2}");
-            Debug.Log($"쿨타임: {attackCooldown:F2}초 ÷ {speedMultiplier:F2} = {finalCooldown:F2}초");
+            Debug.Log($"쿨타임: {attackCooldown:F2}초 ÷ {speedMultiplier:F2} = {calculatedCooldown:F2}초");
             Debug.Log($"========================");
         }
     }

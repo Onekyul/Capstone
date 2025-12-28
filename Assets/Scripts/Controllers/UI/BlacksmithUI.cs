@@ -203,7 +203,33 @@ public class BlacksmithUI : MonoBehaviour
 
         if (isSuccess)
         {
-            // 성공
+            Debug.Log($"[BlacksmithUI] 강화 시도 완료. 플레이어 스탯 및 무기 업데이트 중...");
+            
+            // 방어구 강화 시 플레이어 스탯 재적용
+            if (currentType != EquipmentType.Weapon)
+            {
+                if (PlayerStats.Instance != null)
+                {
+                    PlayerStats.Instance.UpgradeEquipmentStats();
+                    Debug.Log("[BlacksmithUI] 방어구 강화 → 플레이어 스탯 재적용 완료");
+                }
+            }
+            // 무기 강화 시 무기 데이터 재적용
+            else
+            {
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if (player != null)
+                {
+                    WeaponBase[] weapons = player.GetComponentsInChildren<WeaponBase>(true);
+                    foreach (var weapon in weapons)
+                    {
+                        weapon.UpgradeWeaponDamage();
+                    }
+                    Debug.Log($"[BlacksmithUI] 무기 강화 → {weapons.Length}개 무기 데이터 재적용 완료");
+                }
+            }
+            
+            // UI 갱신
             UpdateUI();
         }
         else

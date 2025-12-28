@@ -246,6 +246,24 @@ public class WizardUI : MonoBehaviour
     public void OnClickAction()
     {
         bool isSuccess = DataManager.instance.TryEnhanceEnchant(currentSelectedId);
-        if (isSuccess) UpdateUI();
+        if (isSuccess) 
+        {
+            // 2. UI 갱신
+            UpdateUI();
+
+            // 3. ★ 추가: 플레이어의 무기에 즉시 반영 ★
+            // Wizard.cs에 있던 로직을 여기에 넣어주어야 합니다.
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                // 비활성화된 무기까지 포함해서 찾기 위해 true 전달
+                WeaponBase[] weapons = player.GetComponentsInChildren<WeaponBase>(true);
+                foreach (var weapon in weapons)
+                {
+                    weapon.UpgradeEnchantLevels();
+                    Debug.Log($"{weapon.gameObject.name}의 인챈트 수치를 갱신했습니다.");
+                }
+            }
+        }
     }
 }

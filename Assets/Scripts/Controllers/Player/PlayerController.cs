@@ -30,11 +30,11 @@ public class PlayerController : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
+
         instance = this;
         DontDestroyOnLoad(gameObject); // 씬 전환 시 플레이어 유지
         Debug.Log("PlayerController: DontDestroyOnLoad 적용 완료");
-        
+
         rb = GetComponent<Rigidbody2D>();
         playerStats = GetComponent<PlayerStats>(); // PlayerStats 참조 가져오기
         
@@ -48,35 +48,11 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    
+
     void Start()
     {
-        // 씬 로드 이벤트 구독
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-    
-    void OnDestroy()
-    {
-        // 씬 로드 이벤트 구독 해제
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-    
-    // 씬 로드 시 플레이어 위치 재설정
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        Debug.Log($"PlayerController: 씬 로드됨 - {scene.name}");
-        
-        // 플레이어 스폰 지점 찾기
-        GameObject spawnPoint = GameObject.Find("PlayerSpawnPoint");
-        if (spawnPoint != null)
-        {
-            transform.position = spawnPoint.transform.position;
-            Debug.Log($"PlayerController: 스폰 지점으로 이동 - {spawnPoint.transform.position}");
-        }
-        else
-        {
-            Debug.LogWarning($"PlayerController: PlayerSpawnPoint를 찾을 수 없습니다. (씬: {scene.name})");
-        }
+        // 씬마다 새로 생성되므로 추가 초기화 불필요
+        Debug.Log($"PlayerController: Start 완료 (씬: {SceneManager.GetActiveScene().name})");
     }
 
     void OnEnable()

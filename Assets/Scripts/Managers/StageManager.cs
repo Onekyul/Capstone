@@ -325,22 +325,13 @@ public class StageManager : MonoBehaviour
     // ★ 버튼에 연결할 함수
     public void ReturnToBase()
     {
-        // 1. 플레이어 랜덤 능력 초기화 및 부활 (싱글톤 인스턴스 사용)
-        if (PlayerStats.Instance != null)
-        {
-            PlayerStats.Instance.RevivePlayer(); // 부활 + 랜덤 능력 초기화 + 체력 풀 회복
-            Debug.Log("[StageManager] 플레이어 부활 및 랜덤 능력 초기화 완료");
-        }
-        else
-        {
-            Debug.LogWarning("[StageManager] PlayerStats 인스턴스를 찾을 수 없습니다!");
-        }
-
-        // 2. 멈췄던 시간을 다시 흐르게 함 (이거 안 하면 다음 씬에서도 멈춰있음!)
+        // 1. 멈췄던 시간을 다시 흐르게 함 (이거 안 하면 다음 씬에서도 멈춰있음!)
         Time.timeScale = 1.0f;
 
-        // 3. 'BaseArea' 씬으로 이동
-        // (만약 로딩 화면을 띄워야 한다면 LoadingManager.LoadScene("BaseArea") 등을 사용)
+        // 2. 'BaseArea' 씬으로 이동
+        // 씬 전환 시 플레이어는 새로 생성되며 자동으로 초기화됩니다
         SceneManager.LoadScene("BaseArea");
+        
+        Debug.Log("[StageManager] 거점으로 이동 (플레이어는 씬에서 새로 생성됨)");
     }
 }
