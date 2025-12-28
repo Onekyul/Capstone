@@ -21,7 +21,8 @@ public class UIManager : MonoBehaviour
     
     [Header("NPC 기능 패널")]
     public GameObject blacksmithPanel; 
-    public GameObject enchantPanel;     
+    public GameObject enchantPanel;    
+    public GameObject inventoryPanel; 
 
     [Header("던전 UI")]
     [SerializeField]
@@ -52,7 +53,9 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         dialoguePanel.SetActive(false);
-       
+        if(inventoryPanel != null) inventoryPanel.SetActive(false);
+        if(blacksmithPanel != null) blacksmithPanel.SetActive(false);
+        if(enchantPanel != null) enchantPanel.SetActive(false);
     }
     // Update is called once per frame
     void Update()
@@ -66,6 +69,7 @@ public class UIManager : MonoBehaviour
         if (InputManager.instance != null)
         {
             InputManager.instance.OnExitPressed += HandleExitInput;
+            InputManager.instance.OnInventoryPressed += ToggleInventoryUI;
         }
     }
     
@@ -74,6 +78,7 @@ public class UIManager : MonoBehaviour
         if (InputManager.instance != null)
         {
             InputManager.instance.OnExitPressed -= HandleExitInput;
+            InputManager.instance.OnInventoryPressed -= ToggleInventoryUI;
         }
     }
     private void HandleExitInput()
@@ -84,15 +89,51 @@ public class UIManager : MonoBehaviour
             CloseDialoguePanel();
             return;
         }
-
-        // 2. 팝업창(강화, 인챈트)이 켜져있으면 -> 닫기
+        
         if (currentDialoguePanel != null && currentDialoguePanel.activeSelf)
         {
-            CloseDialoguePanel();
+            CloseCurrentPanel();
+            return;
+        }
+        
+        
+        // 대장간 닫기
+        if (blacksmithPanel != null && blacksmithPanel.activeSelf)
+        {
+            blacksmithPanel.SetActive(false);
+            currentDialoguePanel = null; // 상태 초기화
             return;
         }
 
-        // 3. (나중에) 게임 일시정지 메뉴 등...
+        // 인챈트 닫기
+        if (enchantPanel != null && enchantPanel.activeSelf)
+        {
+            enchantPanel.SetActive(false);
+            currentDialoguePanel = null;
+            return;
+        }
+        
+        // 인벤토리 닫기
+        if (inventoryPanel != null && inventoryPanel.activeSelf)
+        {
+            inventoryPanel.SetActive(false);
+            currentDialoguePanel = null;
+            return;
+        }
+    }
+    
+    private void ToggleInventoryUI()
+    {
+        if (IsDialogueOpen) return;
+        
+        if (inventoryPanel.activeSelf)
+        {
+            CloseCurrentPanel();
+        }
+        else
+        {
+            OpenInventoryUI();
+        }
     }
     
     public void OpenDialoguePanel(string speakerName, string dialouge, UnityAction onAction = null, string actionLabel = "")
@@ -154,6 +195,7 @@ public class UIManager : MonoBehaviour
     
     public void OpenBlacksmithUI() => OpenPanel(blacksmithPanel);
     public void OpenEnchantUI() => OpenPanel(enchantPanel);
+    public void OpenInventoryUI() => OpenPanel(inventoryPanel);
     
     // 각 UI의 X(닫기) 버튼에 연결할 때는 이 함수들을 쓰거나, CloseCurrentPanel()을 직접 연결해도 됨
     public void CloseBlacksmithUI() => CloseCurrentPanel();

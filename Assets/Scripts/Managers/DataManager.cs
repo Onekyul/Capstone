@@ -138,7 +138,21 @@ public class DataManager : MonoBehaviour
     }
     public ItemData GetMaterialData(string id)
     {
-        return Resources.Load<ItemData>($"Data/Items/Materials/{id}");
+        ItemData data = null;
+        data = Resources.Load<ItemData>($"Data/Items/Material/Enchant/{id}");
+        if (data != null) return data;
+        
+        data = Resources.Load<ItemData>($"Data/Items/Material/Equip/{id}");
+        if (data != null) return data;
+        
+        data = Resources.Load<ItemData>($"Data/Items/Material/{id}");
+        
+        if (data == null)
+        {
+            Debug.LogWarning($"[DataManager] 재료 아이템을 찾을 수 없습니다. ID: {id}, 경로들을 확인해보세요.");
+        }
+
+        return data;
     }
     public EnchantData GetEnchantData(string id)
     {
@@ -353,6 +367,13 @@ public class DataManager : MonoBehaviour
             case EquipmentType.Boots:  return currentPlayer.equippedBootsId;
             default: return "";
         }
+    }
+
+    public void ClearALlData()
+    {
+        currentPlayer.ownedArmors.Clear();
+        currentPlayer.ownedWeapons.Clear();
+        currentPlayer.unlockedEnchants.Clear();
     }
     
     

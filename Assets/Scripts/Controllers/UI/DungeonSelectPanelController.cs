@@ -35,6 +35,8 @@ public class DungeonSelectPanelController : MonoBehaviour
         selectedFloor = floorNumber;
         floor1Button.image.color = Color.yellow;
         enterButton.interactable = true;
+
+        Debug.Log("SElectd");
     }
 
     public void EnterDungeon()
@@ -42,7 +44,7 @@ public class DungeonSelectPanelController : MonoBehaviour
         if (selectedFloor > 0)
         {
             ClosePanel();
-            SceneLoader.Instance.LoadSceneByButton("BattelTestScene");
+            SceneManager.LoadScene("FireDungeonScene1 1");
 
         }
     }
