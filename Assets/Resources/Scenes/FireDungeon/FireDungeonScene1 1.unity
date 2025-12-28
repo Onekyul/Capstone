@@ -599,17 +599,25 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3013062047767341552, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013062047767341552, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3602044010696398648, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4290561966624896383, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4290561966624896383, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.22
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4290561966624896383, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: m_LocalPosition.z
