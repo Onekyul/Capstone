@@ -127,7 +127,29 @@ public class DataManager : MonoBehaviour
         if (data != null) return data;
         data= Resources.Load<WeaponData>($"Data/Items/Weapon/Bow/{id}");
         if (data != null) return data;
+        data= Resources.Load<WeaponData>($"Data/Items/Weapon/Spear/{id}");
+        if (data != null) return data;
         return null;
+    }
+    
+    // 무기 ID로 무기 타입 판단 (0=Sword, 1=Spear, 2=Bow)
+    public int GetWeaponTypeFromId(string weaponId)
+    {
+        // Sword 폴더에서 찾기
+        WeaponData data = Resources.Load<WeaponData>($"Data/Items/Weapon/Sword/{weaponId}");
+        if (data != null) return 0; // Sword
+        
+        // Spear 폴더에서 찾기
+        data = Resources.Load<WeaponData>($"Data/Items/Weapon/Spear/{weaponId}");
+        if (data != null) return 1; // Spear
+        
+        // Bow 폴더에서 찾기
+        data = Resources.Load<WeaponData>($"Data/Items/Weapon/Bow/{weaponId}");
+        if (data != null) return 2; // Bow
+        
+        // 못 찾으면 기본값 0 (Sword) 반환
+        Debug.LogWarning($"[DataManager] 무기 타입을 찾을 수 없음: {weaponId}, 기본값(Sword) 반환");
+        return 0;
     }
     public ArmorData GetArmorData(string id)
     {

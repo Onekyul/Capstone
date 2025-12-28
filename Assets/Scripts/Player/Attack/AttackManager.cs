@@ -24,8 +24,20 @@ public class AttackManager : MonoBehaviour
     
     void Start()
     {
-        // 기본 무기 설정
-        SwitchWeapon(WeaponType.Sword);
+        // DataManager에서 장착된 무기 ID를 읽어와서 해당 무기로 자동 장착
+        if (DataManager.instance != null)
+        {
+            string equippedWeaponId = DataManager.instance.currentPlayer.equippedWeaponId;
+            int weaponType = DataManager.instance.GetWeaponTypeFromId(equippedWeaponId);
+            SwitchWeapon((WeaponType)weaponType);
+            Debug.Log($"AttackManager: 저장된 무기 자동 장착 - {equippedWeaponId} (타입: {(WeaponType)weaponType})");
+        }
+        else
+        {
+            // DataManager가 없으면 기본 무기(검)로 시작
+            SwitchWeapon(WeaponType.Sword);
+            Debug.LogWarning("AttackManager: DataManager가 없어 기본 무기(검)로 시작합니다.");
+        }
 
         // 현재 씬이 안전 지역(거점)이 아니면 자동 공격 시작
         if (!IsInSafeZone())
@@ -207,6 +219,8 @@ public class AttackManager : MonoBehaviour
         if (bowObject != null) bowObject.SetActive(false);
 
         // 2. 선택한 무기만 활성화하고 currentWeapon으로 설정 (벨트에서 꺼내기)
+        string equippedWeaponId = "";
+        
         switch (weaponType)
         {
             case WeaponType.Sword:
@@ -214,6 +228,11 @@ public class AttackManager : MonoBehaviour
                 {
                     swordObject.SetActive(true);
                     currentWeapon = swordObject.GetComponent<SwordWeapon>();
+                    // 검의 weaponId 가져오기
+                    if (currentWeapon != null)
+                    {
+                        equippedWeaponId = currentWeapon.GetWeaponId();
+                    }
                 }
                 break;
             case WeaponType.Spear:
@@ -221,6 +240,11 @@ public class AttackManager : MonoBehaviour
                 {
                     spearObject.SetActive(true);
                     currentWeapon = spearObject.GetComponent<SpearWeapon>();
+                    // 창의 weaponId 가져오기
+                    if (currentWeapon != null)
+                    {
+                        equippedWeaponId = currentWeapon.GetWeaponId();
+                    }
                 }
                 break;
             case WeaponType.Bow:
@@ -228,8 +252,20 @@ public class AttackManager : MonoBehaviour
                 {
                     bowObject.SetActive(true);
                     currentWeapon = bowObject.GetComponent<BowWeapon>();
+                    // 활의 weaponId 가져오기
+                    if (currentWeapon != null)
+                    {
+                        equippedWeaponId = currentWeapon.GetWeaponId();
+                    }
                 }
                 break;
+        }
+        
+        // 3. DataManager에 현재 무기 저장
+        if (DataManager.instance != null && !string.IsNullOrEmpty(equippedWeaponId))
+        {
+            DataManager.instance.EquipWeapon(equippedWeaponId);
+            Debug.Log($"AttackManager: 무기 변경 저장 - {equippedWeaponId}");
         }
     }
 
