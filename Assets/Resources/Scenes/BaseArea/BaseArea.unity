@@ -922,6 +922,61 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d4909deddf154d44aa5703cfad4bf2c, type: 3}
+--- !u!1 &149259223
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 149259225}
+  - component: {fileID: 149259224}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &149259224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149259223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7361a5c3044feb4438bc59033fd8a440, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialoguePanel: {fileID: 239395484}
+  speakerNameText: {fileID: 1784400625}
+  dialogueText: {fileID: 643697593}
+  actionButton: {fileID: 1323661274}
+  actionButtonText: {fileID: 1369530205}
+  blacksmithPanel: {fileID: 308726213}
+  enchantPanel: {fileID: 1617340617}
+  inventoryPanel: {fileID: 1958141100}
+  dungeonSelectPanelController: {fileID: 1791435819}
+  abilityContainer: {fileID: 0}
+  abilityButtonPrefab: {fileID: 0}
+--- !u!4 &149259225
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149259223}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &175789000
 GameObject:
   m_ObjectHideFlags: 0
@@ -7434,7 +7489,6 @@ GameObject:
   m_Component:
   - component: {fileID: 940826052}
   - component: {fileID: 940826051}
-  - component: {fileID: 940826053}
   - component: {fileID: 940826054}
   m_Layer: 0
   m_Name: '@Manager'
@@ -7471,29 +7525,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &940826053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 940826050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7361a5c3044feb4438bc59033fd8a440, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialoguePanel: {fileID: 239395484}
-  speakerNameText: {fileID: 1784400625}
-  dialogueText: {fileID: 643697593}
-  actionButton: {fileID: 1323661274}
-  actionButtonText: {fileID: 1369530205}
-  blacksmithPanel: {fileID: 308726213}
-  enchantPanel: {fileID: 1617340617}
-  inventoryPanel: {fileID: 1958141100}
-  dungeonSelectPanelController: {fileID: 1791435819}
-  abilityContainer: {fileID: 0}
-  abilityButtonPrefab: {fileID: 0}
 --- !u!114 &940826054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9606,7 +9637,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 940826053}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: OpenBlacksmithUI
         m_Mode: 1
@@ -16425,3 +16456,4 @@ SceneRoots:
   - {fileID: 366459577}
   - {fileID: 1072329928}
   - {fileID: 1704871048}
+  - {fileID: 149259225}
