@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d470af0792cbf4344a3cab06c6898b7f, type: 3}
-  m_Name: Enchant_Ice
+  m_Name: ent_ice
   m_EditorClassIdentifier: 
-  enchantId: ent_Ice
+  enchantId: ent_ice
   enchantName: "\uBE59\uACB0\uC758 \uC18D\uBC15"
   icon: {fileID: 0}
   lockedIcon: {fileID: 0}

@@ -81,7 +81,7 @@ public class Wizard : NPCController
         if (randomVal < nextInfo.successRate)
         {
             
-            DataManager.instance.UpgradeEnchant(enchantId);
+           // DataManager.instance.UpgradeEnchant(enchantId);
             Debug.Log($" [인챈트 성공] ({currentSelectedEnchant.enchantName} +{currentLevel + 1})");
             
             // 플레이어의 무기에 즉시 반영

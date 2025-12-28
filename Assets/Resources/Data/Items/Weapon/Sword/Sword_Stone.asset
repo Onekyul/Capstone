@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64c660a6774105149aeb178ea5565fe2, type: 3}
-  m_Name: Sword_Stone
+  m_Name: sword_stone
   m_EditorClassIdentifier: 
   weaponId: sword_stone
   weaponName: "\uB3CC \uAC80"
