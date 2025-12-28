@@ -311,13 +311,25 @@ public class MonsterController : MonoBehaviour
         // 1. 죽음 이벤트 알림 (스테이지 매니저에게 보고)
         OnDeath?.Invoke();
 
-        // 2. 아이템 드랍
+        // 2. 흡혈 처리 - 플레이어에게 알림 (싱글톤 인스턴스 사용)
+        if (PlayerStats.Instance != null)
+        {
+            // 마지막으로 받은 데미지를 전달 (흡혈 계산용)
+            Debug.Log($"[몬스터 처치] {gameObject.name} 죽음, 마지막 데미지: {storedLastDamage:F1} → 플레이어 흡혈 체크 호출");
+            PlayerStats.Instance.OnEnemyKilled(storedLastDamage);
+        }
+        else
+        {
+            Debug.LogWarning("[몬스터 처치] PlayerStats 인스턴스를 찾을 수 없음!");
+        }
+
+        // 3. 아이템 드랍
         if (expJewelPrefab != null)
         {
             Instantiate(expJewelPrefab, transform.position, Quaternion.identity);
         }
 
-        // 3. ★ 여기가 수정된 핵심 로직입니다 ★
+        // 4. ★ 여기가 수정된 핵심 로직입니다 ★
         if (usePooling)
         {
             // 풀링을 사용하는 몬스터라면 -> 매니저에게 반납

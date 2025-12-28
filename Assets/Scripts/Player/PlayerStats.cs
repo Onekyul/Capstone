@@ -4,6 +4,9 @@ using System.Collections;
 
 public class PlayerStats : MonoBehaviour
 {
+    // 싱글톤 인스턴스 (비활성화 상태에서도 접근 가능)
+    public static PlayerStats Instance { get; private set; }
+
     [Header("Health System")]
     [SerializeField] private float baseMaxHP = 100f;// 기본 최대 체력
     [SerializeField] private float playerMaxHP = 100f;// 최종 최대 체력 (기본 + 장비 보너스)
@@ -55,6 +58,18 @@ public class PlayerStats : MonoBehaviour
 
     void Awake()
     {
+        // 싱글톤 설정
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         // AbilitySystem 참조 가져오기
         abilitySystem = GetComponent<AbilitySystem>();
         if (abilitySystem == null)
@@ -102,6 +117,13 @@ public class PlayerStats : MonoBehaviour
         {
             Debug.Log("===== [치트키] 응축된 공격 습득 =====");
             AcquireAbility(3); // 응축된 공격 ID = 3
+        }
+        
+        // ===== 치트키: 흡혈 테스트 (F6) =====
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+            SetVampireChance(1.0f); // 100% 확률 흡혈
+            Debug.Log("===== [치트키] 흡혈 100% 적용 (확률: 100%, 회복량: 공격력의 50%) =====");
         }
     }
 
@@ -317,12 +339,26 @@ public class PlayerStats : MonoBehaviour
     // 흡혈 회복 처리 (적 처치 시 호출)
     public void OnEnemyKilled(float attackDamage)
     {
-        if (vampireChance > 0 && UnityEngine.Random.value < vampireChance)
+        Debug.Log($"[흡혈 체크] 공격력: {attackDamage:F1}, 흡혈 확률: {vampireChance * 100:F1}%, 현재 체력: {playerCurHP:F1}/{playerMaxHP:F1}");
+        
+        if (vampireChance > 0)
         {
-            float healAmount = attackDamage * vampireHealPercent;
-            playerCurHP = Mathf.Min(playerCurHP + healAmount, playerMaxHP);
-            OnHealthChanged?.Invoke(playerCurHP);
-            Debug.Log($"흡혈 발동! {healAmount} 체력 회복");
+            float randomValue = UnityEngine.Random.value;
+            Debug.Log($"[흡혈 확률 체크] 랜덤값: {randomValue:F3}, 필요값: {vampireChance:F3} → {(randomValue < vampireChance ? "성공" : "실패")}");
+            
+            if (randomValue < vampireChance)
+            {
+                float healAmount = attackDamage * vampireHealPercent;
+                float oldHP = playerCurHP;
+                playerCurHP = Mathf.Min(playerCurHP + healAmount, playerMaxHP);
+                float actualHeal = playerCurHP - oldHP;
+                OnHealthChanged?.Invoke(playerCurHP);
+                Debug.Log($"★ 흡혈 발동! 회복량: {healAmount:F1} → 실제 회복: {actualHeal:F1} (체력: {oldHP:F1} → {playerCurHP:F1})");
+            }
+        }
+        else
+        {
+            Debug.Log("[흡혈] 흡혈 확률이 0이므로 발동하지 않음");
         }
     }
 
