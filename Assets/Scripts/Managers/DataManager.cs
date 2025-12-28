@@ -24,10 +24,12 @@ public class DataManager : MonoBehaviour
         }
 
         savePath = Path.Combine(Application.persistentDataPath, "save.dat");
+        Debug.Log($"세이브 파일 위치: {savePath}");
         LoadGame();
     }
-
-
+    
+    
+    
     //데이터 세이브 및 로드 
     public void SaveGame()
     {
@@ -40,6 +42,7 @@ public class DataManager : MonoBehaviour
 
     public void LoadGame()
     {
+        // 1. 저장된 파일이 있으면 불러오기
         if (File.Exists(savePath))
         {
             string code = File.ReadAllText(savePath);
@@ -53,7 +56,7 @@ public class DataManager : MonoBehaviour
             SaveGame();
         }
     }
-
+  
     //인벤토리 추가 및 사용
     public void AddInventory(string id, int amount)
     {
@@ -119,8 +122,12 @@ public class DataManager : MonoBehaviour
     //SO getter
     public WeaponData GetWeaponData(string id)
     {
-        // Resources/Data/Items/Weapons 폴더 안에 있는 파일 로드
-        return Resources.Load<WeaponData>($"Data/Items/Weapon/Sword/{id}");
+        WeaponData data = null;
+        data= Resources.Load<WeaponData>($"Data/Items/Weapon/Sword/{id}");
+        if (data != null) return data;
+        data= Resources.Load<WeaponData>($"Data/Items/Weapon/Bow/{id}");
+        if (data != null) return data;
+        return null;
     }
     public ArmorData GetArmorData(string id)
     {
@@ -376,5 +383,46 @@ public class DataManager : MonoBehaviour
         currentPlayer.unlockedEnchants.Clear();
     }
     
-    
+    [ContextMenu("데이터 강제 수리 (Fix Data)")]
+    public void ForceFixData()
+    {
+        Debug.Log("🛠️ 데이터 강제 수리를 시작합니다...");
+
+        if (currentPlayer == null) currentPlayer = new PlayerData();
+        if (currentPlayer.ownedArmors == null) currentPlayer.ownedArmors = new List<EquipmentState>();
+        if (currentPlayer.ownedWeapons == null) currentPlayer.ownedWeapons = new List<EquipmentState>();
+
+        // 1. 방어구 3종 강제 주입
+        if (!currentPlayer.ownedArmors.Exists(a => a.itemId == "helmet_wood"))
+        {
+            currentPlayer.ownedArmors.Add(new EquipmentState("helmet_wood", 0));
+            Debug.Log(" - 'helmet_wood' 생성 완료");
+        }
+        if (!currentPlayer.ownedArmors.Exists(a => a.itemId == "armor_wood"))
+        {
+            currentPlayer.ownedArmors.Add(new EquipmentState("armor_wood", 0));
+            Debug.Log(" - 'armor_wood' 생성 완료");
+        }
+        if (!currentPlayer.ownedArmors.Exists(a => a.itemId == "boots_wood"))
+        {
+            currentPlayer.ownedArmors.Add(new EquipmentState("boots_wood", 0));
+            Debug.Log(" - 'boots_wood' 생성 완료");
+        }
+
+        // 2. 무기 강제 주입
+        if (!currentPlayer.ownedWeapons.Exists(w => w.itemId == "sword_wood"))
+        {
+            currentPlayer.ownedWeapons.Add(new EquipmentState("sword_wood", 0));
+            Debug.Log(" - 'bow_wood' 생성 완료");
+        }
+        
+        // 3. 현재 장비 상태 리셋 (꼬임 방지)
+        currentPlayer.equippedWeaponId = "sword_wood";
+        currentPlayer.equippedHelmetId = "helmet_wood";
+        currentPlayer.equippedArmorId = "armor_wood";
+        currentPlayer.equippedBootsId = "boots_wood";
+
+        SaveGame();
+        Debug.Log("✅ [수리 완료] 데이터가 정상적으로 복구되고 저장되었습니다!");
+    }
 }

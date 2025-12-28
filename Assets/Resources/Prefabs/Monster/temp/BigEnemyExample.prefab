@@ -341,7 +341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contactDamage: 5
-  MaxHP: 35
+  MaxHP: 70
   CurHP: 0
   defaultMoveSpeed: 1
   poolTag: Big
