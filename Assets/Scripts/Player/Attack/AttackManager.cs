@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class AttackManager : MonoBehaviour
@@ -14,8 +15,10 @@ public class AttackManager : MonoBehaviour
 
     private float bowOrbitDistance = 0.5f; //활이 플레이어 주위를 도는 거리 설정 변수
 
+    [Header("Auto Attack Settings")]
+    [SerializeField] private string[] safeZoneSceneNames = { "Base", "거점", "Town", "Village" }; // 자동 공격이 비활성화될 씬 이름들
 
-    private bool bIsAutoAttacking = false; //공격 코루틴이 실행 중인지 확인 여부
+    private bool bIsAutoAttacking; //공격 코루틴이 실행 중인지 확인 여부
     private Coroutine autoAttackCoroutine; // 실행 중인 코루틴 자체를 저장하는 변수
     private Vector2 curLookDir = Vector2.right; // 현재 플레이어가 바라보는 방향 저장
     
@@ -24,8 +27,16 @@ public class AttackManager : MonoBehaviour
         // 기본 무기 설정
         SwitchWeapon(WeaponType.Sword);
 
-        // 자동 공격 시작
-        StartAutoAttack();
+        // 현재 씬이 안전 지역(거점)이 아니면 자동 공격 시작
+        if (!IsInSafeZone())
+        {
+            StartAutoAttack();
+            Debug.Log("AttackManager: 전투 지역 - 자동 공격 활성화");
+        }
+        else
+        {
+            Debug.Log("AttackManager: 안전 지역(거점) - 자동 공격 비활성화");
+        }
     }
 
     void Update()
@@ -137,6 +148,7 @@ public class AttackManager : MonoBehaviour
         {
             bIsAutoAttacking = true;
             autoAttackCoroutine = StartCoroutine(AutoAttackCoroutine());
+            Debug.Log("AttackManager: 자동 공격 시작");
         }
     }
     
@@ -148,8 +160,23 @@ public class AttackManager : MonoBehaviour
             if (autoAttackCoroutine != null)
             {
                 StopCoroutine(autoAttackCoroutine);
+                Debug.Log("AttackManager: 자동 공격 정지");
             }
         }
+    }
+    
+    // 현재 씬이 거점인지 확인합니다.
+    private bool IsInSafeZone()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        foreach (string safeName in safeZoneSceneNames)
+        {
+            if (currentSceneName.Contains(safeName))
+            {
+                return true;
+            }
+        }
+        return false;
     }
     
     private IEnumerator AutoAttackCoroutine()

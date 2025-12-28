@@ -141,7 +141,8 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
         // PlayerStats의 공격력 배율 적용
         if (playerStats != null)
         {
-            totalDamage *= playerStats.GetAttackDamageMultiplier();
+            float multiplier = playerStats.GetAttackDamageMultiplier();
+            totalDamage *= multiplier;
         }
         
         return totalDamage;
@@ -154,10 +155,28 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
         // PlayerStats의 공격속도 배율 적용 (배율이 높을수록 쿨타임 감소)
         if (playerStats != null)
         {
-            cooldown /= playerStats.GetAttackSpeedMultiplier();
+            float speedMultiplier = playerStats.GetAttackSpeedMultiplier();
+            cooldown /= speedMultiplier;
         }
         
         return cooldown;
+    }
+    
+    // 디버그용: 공격 시 한 번만 로그 출력
+    protected void LogAttackStats()
+    {
+        if (playerStats != null)
+        {
+            float attackMultiplier = playerStats.GetAttackDamageMultiplier();
+            float speedMultiplier = playerStats.GetAttackSpeedMultiplier();
+            float finalDamage = baseDamage * attackMultiplier;
+            float finalCooldown = attackCooldown / speedMultiplier;
+            
+            Debug.Log($"=== [{weaponId}] 공격 스탯 ===");
+            Debug.Log($"공격력: {baseDamage} × {attackMultiplier:F2} = {finalDamage:F2}");
+            Debug.Log($"쿨타임: {attackCooldown:F2}초 ÷ {speedMultiplier:F2} = {finalCooldown:F2}초");
+            Debug.Log($"========================");
+        }
     }
 
     // 인챈트 적용 여부를 확률로 계산하는 메서드

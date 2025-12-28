@@ -97,6 +97,12 @@ public class PlayerStats : MonoBehaviour
         debugShowRage = hasRage;
         debugShowRevenge = hasRevenge && Time.time < revengeEndTime;
         
+        // ===== 치트키: 응축된 공격 테스트 (F5) =====
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            Debug.Log("===== [치트키] 응축된 공격 습득 =====");
+            AcquireAbility(3); // 응축된 공격 ID = 3
+        }
     }
 
     public void TakeDamage(float damage) // 데미지 받는 함수
@@ -148,7 +154,7 @@ public class PlayerStats : MonoBehaviour
             OnPlayerDied?.Invoke();
             Debug.Log("플레이어 사망!");
             StageManager.instance.FinishGame(false);
-            Destroy(gameObject); // 플레이어 사망 처리
+            gameObject.SetActive(false);
 
         }
 
@@ -198,10 +204,20 @@ public class PlayerStats : MonoBehaviour
 
     public void ModifyAttackSpeed(float value, bool isAdditive)
     {
+        float oldValue = attackSpeedMultiplier;
         if (isAdditive)
             attackSpeedMultiplier += value;
         else
             attackSpeedMultiplier *= value;
+        
+        // 쿨타임 예시 계산 (1초 기준)
+        float exampleOldCooldown = 1.0f / oldValue;
+        float exampleNewCooldown = 1.0f / attackSpeedMultiplier;
+        float cooldownChange = exampleNewCooldown - exampleOldCooldown;
+        string changeType = cooldownChange > 0 ? "증가(느려짐)" : "감소(빨라짐)";
+        
+        Debug.Log($"[공격속도 변경] {oldValue:F2} → {attackSpeedMultiplier:F2} (변화량: {value:F2}, 타입: {(isAdditive ? "덧셈" : "곱셈")})");
+        Debug.Log($"  → 쿨타임 영향 (1초 기준): {exampleOldCooldown:F2}초 → {exampleNewCooldown:F2}초 ({changeType} {Mathf.Abs(cooldownChange):F2}초)");
     }
 
     public void ModifyMoveSpeed(float value, bool isAdditive)
@@ -311,7 +327,7 @@ public class PlayerStats : MonoBehaviour
     }
 
     // 장비 보너스 적용 시스템 
-    public void ApplyEquipmentBonuses()
+    private void ApplyEquipmentBonuses()
     {
         if (DataManager.instance == null)
         {
@@ -403,6 +419,10 @@ public class PlayerStats : MonoBehaviour
     public float GetTotalDefense() => totalDefense;
     public float GetPlayerMaxHP() => playerMaxHP;
     
+    // 체력바 UI를 위한 게터 메서드들
+    public float GetMaxHP() => playerMaxHP;
+    public float GetCurrentHP() => playerCurHP;
+    
     // 현재 장착된 무기의 기본 공격력 가져오기
     public float GetEquippedWeaponBaseDamage()
     {
@@ -417,17 +437,19 @@ public class PlayerStats : MonoBehaviour
         return weaponData.baseAtk;
     }
 
-    // ===== 랜덤 능력 초기화 (던전 종료 시 호출) =====
+    //랜덤 능력 초기화 (던전 종료 시 호출)
+    /// 던전 담당자가 호출 예시: player.GetComponent PlayerStats ResetAbilities
     public void ResetAbilities()
     {
         Debug.Log("[PlayerStats] 랜덤 능력 초기화 시작");
         
-        // 전투 스탯 배율 초기화
+        // 1. 전투 스탯 배율 초기화
         attackDamageMultiplier = 1.0f;
         attackSpeedMultiplier = 1.0f;
+        moveSpeedMultiplier = 1.0f; // 이동속도도 초기화
         attackCount = 1;
         
-        // 특수 능력 초기화
+        // 2. 특수 능력 초기화
         vampireChance = 0f;
         dodgeChance = 0f;
         shadowCooldown = 0f;
@@ -437,18 +459,47 @@ public class PlayerStats : MonoBehaviour
         hasRevenge = false;
         revengeEndTime = 0f;
         
-        // 디버그 플래그 초기화
+        // 3. 디버그 플래그 초기화
         debugShowRage = false;
         debugShowRevenge = false;
         finalAttackMultiplier = 1.0f;
         
-        // AbilitySystem에도 초기화 요청
+        // 4. AbilitySystem에도 초기화 요청
         if (abilitySystem != null)
         {
             abilitySystem.ResetAbilities();
         }
         
-        Debug.Log("[PlayerStats] 랜덤 능력 초기화 완료");
+        // 5. 장비 보너스 재적용 (랜덤 능력으로 변경된 최대 체력/방어력/이동속도를 장비 스탯으로 복원)
+        ApplyEquipmentBonuses();
+        
+        // 6. 체력 풀로 회복
+        playerCurHP = playerMaxHP;
+        OnHealthChanged?.Invoke(playerCurHP);
+        
+        Debug.Log($"[PlayerStats] 랜덤 능력 초기화 완료 - 체력: {playerCurHP}/{playerMaxHP}, 방어력: {totalDefense}");
+    }
+    
+    /// 거점 진입 시 플레이어 부활 및 랜덤 능력 초기화
+    /// 던전 담당자가 호출: player.GetComponent<PlayerStats>().RevivePlayer();
+    public void RevivePlayer()
+    {
+        Debug.Log("[PlayerStats] 플레이어 부활 시작");
+        
+        // 1. 랜덤 능력 초기화 (장비 보너스 재적용 + 체력 풀 회복 포함)
+        ResetAbilities();
+        
+        // 2. 무적 시간 초기화
+        lastHitTime = -10f;
+        lastDamageTickTime = 0f;
+        
+        // 3. 오브젝트 활성화
+        if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+        }
+        
+        Debug.Log("[PlayerStats] 플레이어 부활 완료");
     }
 
 }

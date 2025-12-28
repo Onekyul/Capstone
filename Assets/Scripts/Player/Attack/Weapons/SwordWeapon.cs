@@ -32,6 +32,9 @@ public class SwordWeapon : WeaponBase
     {
         bIsAttacking = true;
         lastAttackTime = Time.time;
+        
+        // 디버그: 공격 스탯 로그 출력
+        LogAttackStats();
 
         // 공격 횟수 확인 (2연격 등)
         int attackCount = playerStats != null ? playerStats.GetAttackCount() : 1;

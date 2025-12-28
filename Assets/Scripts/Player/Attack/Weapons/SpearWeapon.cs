@@ -27,6 +27,9 @@ public class SpearWeapon : WeaponBase
         bIsAttacking = true;
         lastAttackTime = Time.time;
         
+        // 디버그: 공격 스탯 로그 출력
+        LogAttackStats();
+        
         // 공격 횟수 확인 (2연격 등)
         int attackCount = playerStats != null ? playerStats.GetAttackCount() : 1;
         
@@ -99,7 +102,7 @@ public class SpearWeapon : WeaponBase
         
             // 2. 계산된 마우스 방향으로 기즈모를 그립니다.
             DrawBoxGizmo(direction, Color.red);
-            }
+        }
         else
         {
             // 게임 실행 중이 아닐 때는 기본 방향(오른쪽)으로 그립니다.
