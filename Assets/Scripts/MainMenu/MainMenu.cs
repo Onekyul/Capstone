@@ -8,7 +8,6 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        // 씬 시작 시 OptionPanel을 숨깁니다.
         if (optionPanel != null)
         {
             optionPanel.SetActive(false);
@@ -40,7 +39,6 @@ public class MainMenu : MonoBehaviour
     // Option Panel
     public void SetVolumeSlider(float value)
     {
-        // 실제 오디오 로직은 없고, 슬라이더의 움직임만 콘솔에 표시합니다.
         Debug.Log("Slider Value Changed: " + value.ToString("F2")); 
     }
     

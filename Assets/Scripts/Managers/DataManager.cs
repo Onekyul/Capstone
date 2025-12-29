@@ -301,29 +301,23 @@ public class DataManager : MonoBehaviour
     //인챈트
     public bool TryEnhanceEnchant(string enchantId)
     {
-        // 1. 데이터 로드
         EnchantData data = GetEnchantData(enchantId);
         if (data == null)
         {
             Debug.LogError($"[DataManager] 인챈트 데이터를 찾을 수 없음: {enchantId}");
             return false;
         }
-
-        // 2. 현재 레벨 확인 (0 = 미해금)
+        
         int currentLevel = GetEnchantLevel(enchantId);
-
-        // 3. 다음 레벨(목표 레벨) 정보 가져오기
-        // 예: 현재 0레벨 -> 1레벨(해금) 정보를 가져옴
+        
         var nextStep = data.GetNextLevelInfo(currentLevel);
-
-        // 다음 단계가 없으면 이미 만렙
+        
         if (nextStep == null)
         {
             Debug.Log("이미 최고 레벨입니다.");
             return false;
         }
-
-        // 4. 재료 부족 여부 확인 (중요: 소모하기 전에 먼저 검사!)
+        
         foreach (var matCost in nextStep.requiredMaterials)
         {
             // 재료 ID와 개수 체크
@@ -333,26 +327,18 @@ public class DataManager : MonoBehaviour
                 return false;
             }
         }
-
-        // =========================================================
-        // [실행] 재료가 모두 있으므로 소모 시작
-        // =========================================================
         
-        // 5. 재료 소모
         foreach (var matCost in nextStep.requiredMaterials)
         {
             UseInventory(matCost.material.itemId, matCost.count);
         }
-
-        // 6. 확률 계산 (0 ~ 99)
+        
         int randomVal = UnityEngine.Random.Range(0, 100);
 
         if (randomVal < nextStep.successRate)
         {
-            // [성공] 레벨 업 (또는 해금) 적용
             ApplyEnchantLevelUp(enchantId);
             
-            // 로그 메시지 분기 (해금 vs 강화)
             if (currentLevel == 0)
                 Debug.Log($"[인챈트 해금 성공!] {data.enchantName} 습득!");
             else
@@ -360,14 +346,11 @@ public class DataManager : MonoBehaviour
         }
         else
         {
-            // [실패] (재료만 소모되고 끝)
             Debug.Log($"[인챈트 실패...] {data.enchantName} 강화에 실패했습니다.");
         }
-
-        // 7. 결과 저장
+        
         SaveGame();
         
-        // 시도는 성공했음 (결과가 성공/실패인지는 별개)
         return true; 
     }
     private void ApplyEnchantLevelUp(string id)
@@ -405,46 +388,5 @@ public class DataManager : MonoBehaviour
         currentPlayer.unlockedEnchants.Clear();
     }
     
-    [ContextMenu("데이터 강제 수리 (Fix Data)")]
-    public void ForceFixData()
-    {
-        Debug.Log("🛠️ 데이터 강제 수리를 시작합니다...");
-
-        if (currentPlayer == null) currentPlayer = new PlayerData();
-        if (currentPlayer.ownedArmors == null) currentPlayer.ownedArmors = new List<EquipmentState>();
-        if (currentPlayer.ownedWeapons == null) currentPlayer.ownedWeapons = new List<EquipmentState>();
-
-        // 1. 방어구 3종 강제 주입
-        if (!currentPlayer.ownedArmors.Exists(a => a.itemId == "helmet_wood"))
-        {
-            currentPlayer.ownedArmors.Add(new EquipmentState("helmet_wood", 0));
-            Debug.Log(" - 'helmet_wood' 생성 완료");
-        }
-        if (!currentPlayer.ownedArmors.Exists(a => a.itemId == "armor_wood"))
-        {
-            currentPlayer.ownedArmors.Add(new EquipmentState("armor_wood", 0));
-            Debug.Log(" - 'armor_wood' 생성 완료");
-        }
-        if (!currentPlayer.ownedArmors.Exists(a => a.itemId == "boots_wood"))
-        {
-            currentPlayer.ownedArmors.Add(new EquipmentState("boots_wood", 0));
-            Debug.Log(" - 'boots_wood' 생성 완료");
-        }
-
-        // 2. 무기 강제 주입
-        if (!currentPlayer.ownedWeapons.Exists(w => w.itemId == "sword_wood"))
-        {
-            currentPlayer.ownedWeapons.Add(new EquipmentState("sword_wood", 0));
-            Debug.Log(" - 'bow_wood' 생성 완료");
-        }
-        
-        // 3. 현재 장비 상태 리셋 (꼬임 방지)
-        currentPlayer.equippedWeaponId = "sword_wood";
-        currentPlayer.equippedHelmetId = "helmet_wood";
-        currentPlayer.equippedArmorId = "armor_wood";
-        currentPlayer.equippedBootsId = "boots_wood";
-
-        SaveGame();
-        Debug.Log("✅ [수리 완료] 데이터가 정상적으로 복구되고 저장되었습니다!");
-    }
+    
 }
