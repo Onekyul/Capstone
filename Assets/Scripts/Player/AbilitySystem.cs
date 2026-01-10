@@ -5,7 +5,9 @@ public class AbilitySystem : MonoBehaviour
 {
     [Header("Ability Settings")]
     [SerializeField] private List<AbilityDataSO> allAbilities = new List<AbilityDataSO>(); // 모든 능력 목록 (Inspector에서 할당)
-
+    [SerializeField] private GameObject shieldAbilityPrefab; // 인스펙터에서 위에서 만든 프리팹 할당
+    
+    private List<GameObject> activeAbilityObjects = new List<GameObject>(); // 관리용 리스트
     private Dictionary<int, int> abilityLevels = new Dictionary<int, int>(); // Key: 능력ID, Value: 현재레벨
     private PlayerStats playerStats;
 
@@ -15,6 +17,16 @@ public class AbilitySystem : MonoBehaviour
         if (playerStats == null)
         {
             Debug.LogError("AbilitySystem: PlayerStats를 찾을 수 없습니다!");
+        }
+    }
+
+    private void Update()
+    {
+        // ===== 치트키: 방패 능력 초기화 (F8) =====
+        if (Input.GetKeyDown(KeyCode.F8))
+        {
+            Debug.Log("===== [치트키] 랜덤 능력 초기화 (방패 파괴) =====");
+            ResetAbilities();
         }
     }
 
@@ -91,6 +103,32 @@ public class AbilitySystem : MonoBehaviour
             float value = modifier.GetValue(level);
             ApplyStatModifier(modifier.statType, modifier.operation, value);
         }
+        
+        // 능력 ID 13 (방패 소환)인 경우 특수 처리
+        if (ability.abilityID == 13)
+        {
+            SpawnShieldAbility();
+        }
+        
+        // 능력 ID 17 (자석)인 경우 특수 처리
+        if (ability.abilityID == 16)
+        {
+            Debug.Log("[AbilitySystem] 자석 능력 활성화! 경험치가 플레이어에게 끌려옵니다.");
+        }
+        
+        // 능력 ID 8 (급소 공격)인 경우 특수 처리
+        if (ability.abilityID == 8)
+        {
+            playerStats.SetCriticalStrike(true);
+            Debug.Log("[AbilitySystem] 급소 공격 활성화! 10% 확률로 공격력 150% 적용");
+        }
+        
+        // 능력 ID 10 (불굴의 의지)인 경우 특수 처리
+        if (ability.abilityID == 10)
+        {
+            playerStats.SetLastStand(true);
+            Debug.Log("[AbilitySystem] 불굴의 의지 활성화! 사망 시 체력 1%로 회복 및 3초 무적 (1회용)");
+        }
     }
 
 
@@ -161,7 +199,40 @@ public class AbilitySystem : MonoBehaviour
             case StatType.HasRevenge:
                 playerStats.SetRevenge(value > 0);
                 break;
+
+            case StatType.HasCriticalStrike:
+                playerStats.SetCriticalStrike(value > 0);
+                break;
+
+            case StatType.HasLastStand:
+                playerStats.SetLastStand(value > 0);
+                break;
         }
+    }
+
+    public void SpawnShieldAbility()
+    {
+        // 이미 방패가 소환되어 있으면 중복 소환 방지
+        if (activeAbilityObjects.Count > 0)
+        {
+            Debug.LogWarning("[AbilitySystem] 방패는 이미 소환되어 있습니다!");
+            return;
+        }
+
+        if (shieldAbilityPrefab == null)
+        {
+            Debug.LogError("[AbilitySystem] 방패 프리팹이 할당되지 않았습니다!");
+            return;
+        }
+
+        // 프리팹 생성 및 플레이어 자식으로 설정
+        GameObject shieldObj = Instantiate(shieldAbilityPrefab, transform.position, Quaternion.identity);
+        shieldObj.transform.SetParent(this.transform);
+        shieldObj.transform.localPosition = Vector3.zero; // 플레이어 중심에 배치
+    
+        // 리스트에 추가하여 나중에 초기화할 때 사용
+        activeAbilityObjects.Add(shieldObj);
+        Debug.Log("[AbilitySystem] 방패 3개 소환 완료!");
     }
 
    
@@ -210,6 +281,19 @@ public class AbilitySystem : MonoBehaviour
     public void ResetAbilities()
     {
         Debug.Log("[AbilitySystem] 모든 능력 초기화");
+        
+        // 생성된 능력 오브젝트 파괴 (방패 등)
+        foreach (GameObject obj in activeAbilityObjects)
+        {
+            if (obj != null)
+            {
+                Destroy(obj);
+                Debug.Log($"[AbilitySystem] 능력 오브젝트 파괴: {obj.name}");
+            }
+        }
+        activeAbilityObjects.Clear();
+        
+        // 능력 레벨 딕셔너리 초기화
         abilityLevels.Clear();
     }
 }

@@ -6,7 +6,7 @@ public class SwordWeapon : WeaponBase
     [Header("Sword Specific")]
     [SerializeField] private float attackAngle = 90f;   // 부채꼴 각도
     [SerializeField] private LayerMask enemyLayer = 128; // Layer 7 (Enemy) - 2^7 = 128
-    [SerializeField] private float swordRange = 1.3f; // 검의 공격 범위
+    [SerializeField] private float swordRange = 2.0f; // 검의 공격 범위
 
     private Vector2 lastAttackDir;
 

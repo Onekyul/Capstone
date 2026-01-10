@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.Collections;
 
 public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계도 역할을 하는 추상 클래스 
 {
     [Header("Weapon Identity")]
-    [SerializeField] protected string weaponId = ""; // 이 무기의 고유 ID (예: "sword_basic", "spear_01")
+    [ReadOnly] [SerializeField] protected string weaponId = ""; // 이 무기의 고유 ID (런타임 자동 설정 - 읽기 전용)
     
     [Header("Weapon Stats")]
     [SerializeField] protected float baseDamage = 10f; // 기본 공격력 (DataManager에서 로드됨)
@@ -13,8 +14,8 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
     [SerializeField] protected float attackDuration = 0.3f; // 검 휘두르는 동작이 0.3초 동안 유지
     
     [Header("Final Stats (Debug View)")]
-    [SerializeField] private float finalTotalDamage; // 최종 공격력 (읽기 전용 - 디버그용)
-    [SerializeField] private float finalCooldown; // 최종 쿨타임 (읽기 전용 - 디버그용) 
+    [ReadOnly] [SerializeField] private float finalTotalDamage; // 최종 공격력 (읽기 전용 - 디버그용)
+    [ReadOnly] [SerializeField] private float finalCooldown; // 최종 쿨타임 (읽기 전용 - 디버그용) 
 
     [Header("Visual Effects")]
     [SerializeField] protected GameObject attackEffectPrefab; // 공격 효과 프리펩
@@ -25,10 +26,10 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
     [SerializeField] protected int[] enchantmentLevels = new int[4]; // [불, 얼음, 번개, 독] 인챈트 강화 수치
     
     [Header("Enchantment Debug Info (Read Only)")]
-    [SerializeField] private int debugFireLevel = 0; // 불 인챈트 레벨 (읽기 전용)
-    [SerializeField] private int debugIceLevel = 0; // 얼음 인챈트 레벨 (읽기 전용)
-    [SerializeField] private int debugLightningLevel = 0; // 번개 인챈트 레벨 (읽기 전용)
-    [SerializeField] private int debugPoisonLevel = 0; // 독 인챈트 레벨 (읽기 전용)
+    [ReadOnly] [SerializeField] private int debugFireLevel = 0; // 불 인챈트 레벨 (읽기 전용)
+    [ReadOnly] [SerializeField] private int debugIceLevel = 0; // 얼음 인챈트 레벨 (읽기 전용)
+    [ReadOnly] [SerializeField] private int debugLightningLevel = 0; // 번개 인챈트 레벨 (읽기 전용)
+    [ReadOnly] [SerializeField] private int debugPoisonLevel = 0; // 독 인챈트 레벨 (읽기 전용)
 
     protected float lastAttackTime;
     protected bool bIsAttacking = false;
@@ -164,6 +165,12 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
         {
             float multiplier = playerStats.GetAttackDamageMultiplier();
             totalDamage *= multiplier;
+            
+            // 급소 공격 체크
+            if (playerStats.CheckCriticalStrike())
+            {
+                totalDamage *= playerStats.GetCriticalStrikeMultiplier();
+            }
         }
         
         return totalDamage;

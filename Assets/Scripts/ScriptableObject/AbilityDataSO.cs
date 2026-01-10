@@ -56,7 +56,9 @@ public enum StatType
     DodgeChance,                // 회피 확률
     ShadowCooldown,             // 그림자 은신 쿨타임
     HasRage,                    // 분노 보유
-    HasRevenge                  // 복수심 보유
+    HasRevenge,                 // 복수심 보유
+    HasCriticalStrike,          // 급소 공격 보유
+    HasLastStand                // 불굴의 의지 보유
 }
 
 // 연산 타입

@@ -38,6 +38,13 @@ public class PlayerStats : MonoBehaviour
     private bool hasRage = false; // 분노 보유 여부
     private bool hasRevenge = false; // 복수심 보유 여부
     private float revengeEndTime = 0f; // 복수심 종료 시간
+    private bool hasCriticalStrike = false; // 급소 공격 보유 여부
+    private float criticalStrikeChance = 0.1f; // 급소 공격 확률 (10%)
+    private float criticalStrikeMultiplier = 1.5f; // 급소 공격 배율 (150%)
+    private bool hasLastStand = false; // 불굴의 의지 보유 여부
+    private bool lastStandUsed = false; // 불굴의 의지 사용 여부 (1회용)
+    private float lastStandInvincibilityDuration = 3f; // 불굴의 의지 무적 시간 (3초)
+    private float lastStandInvincibilityEndTime = 0f; // 불굴의 의지 무적 종료 시간
 
     [Header("Collision Damage")]
     [SerializeField] private float damageTickCooldown = 1.0f; // 1초에 한 번씩만 겹침 데미지를 받음
@@ -124,13 +131,85 @@ public class PlayerStats : MonoBehaviour
             SetVampireChance(1.0f); // 100% 확률 흡혈
             Debug.Log("===== [치트키] 흡혈 100% 적용 (확률: 100%, 회복량: 공격력의 50%) =====");
         }
+
+        // ===== 치트키: 방패 소환 테스트 (F7) =====
+        if (Input.GetKeyDown(KeyCode.F7))
+        {
+            Debug.Log("===== [치트키] 방패 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(13); // 방패 능력 ID = 13
+        }
+
+        // ===== 치트키: 자석 능력 테스트 (F9) =====
+        if (Input.GetKeyDown(KeyCode.F9))
+        {
+            Debug.Log("===== [치트키] 자석 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(16); // 자석 능력 ID = 17
+        }
+
+        // ===== 치트키: 급소 공격 테스트 (F10) =====
+        if (Input.GetKeyDown(KeyCode.F10))
+        {
+            Debug.Log("===== [치트키] 급소 공격 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(8); // 급소 공격 능력 ID = 8
+        }
+
+        // ===== 치트키: 불굴의 의지 테스트 (F11) =====
+        if (Input.GetKeyDown(KeyCode.F11))
+        {
+            Debug.Log("===== [치트키] 불굴의 의지 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(10); // 불굴의 의지 능력 ID = 10
+        }
     }
 
     public void TakeDamage(float damage) // 데미지 받는 함수
     {
+        TakeDamage(damage, null);
+    }
+
+    public void TakeDamage(float damage, Collider2D attackerCollider) // 반사 데미지 지원
+    {
         if (playerCurHP <= 0) return;
 
-        // 그림자 은신 무적 체크 (최우선)
+        // 불굴의 의지 무적 체크 (최우선)
+        if (Time.time < lastStandInvincibilityEndTime)
+        {
+            Debug.Log("불굴의 의지 무적 상태! 공격 무효화");
+            return;
+        }
+
+        // 그림자 은신 무적 체크
         if (Time.time < shadowInvincibilityEndTime)
         {
             Debug.Log("그림자 은신 무적 상태! 공격 무효화");
@@ -156,10 +235,30 @@ public class PlayerStats : MonoBehaviour
         float finalDamage = damage * (1f - damageReduction);
 
         playerCurHP -= finalDamage;
-        playerCurHP = Mathf.Max(0, playerCurHP); // 체력이 음수가 되지 않도록 함
         lastHitTime = Time.time; // 피격 시간 기록
 
         Debug.Log($"받은 데미지: {damage:F1} → 방어 후: {finalDamage:F1} (방어력: {totalDefense}, 감소율: {damageReduction * 100:F1}%)");
+
+        // 불굴의 의지 체크 (체력이 0 이하가 되었을 때)
+        if (playerCurHP <= 0 && hasLastStand && !lastStandUsed)
+        {
+            // 불굴의 의지 발동
+            playerCurHP = playerMaxHP * 0.01f; // 체력 1%로 회복
+            lastStandUsed = true; // 1회용 사용 완료
+            lastStandInvincibilityEndTime = Time.time + lastStandInvincibilityDuration; // 3초 무적
+            Debug.Log("불굴의 의지 발동! 체력 1%로 회복 및 3초 무적!");
+            OnHealthChanged?.Invoke(playerCurHP);
+            return; // 사망 처리 방지
+        }
+
+        playerCurHP = Mathf.Max(0, playerCurHP); // 체력이 음수가 되지 않도록 함
+
+        // 반사 데미지 처리 (능력 ID 6: 저주받은 방패)
+        if (HasCursedShield() && attackerCollider != null)
+        {
+            float reflectDamage = finalDamage * GetReflectPercent();
+            ReflectDamageToAttacker(attackerCollider, reflectDamage);
+        }
 
         OnHealthChanged?.Invoke(playerCurHP);
 
@@ -181,10 +280,76 @@ public class PlayerStats : MonoBehaviour
 
     }
 
+    //저주받은 방패 능력 보유 확인 (능력 ID 6)
+    private bool HasCursedShield()
+    {
+        if (abilitySystem != null)
+        {
+            return abilitySystem.HasAbility(6);
+        }
+        return false;
+    }
+
+    //반사 비율 계산
+    private float GetReflectPercent()
+    {
+        if (abilitySystem == null) return 0.3f;
+        
+        // 저주받은 방패는 1회만 습득 가능 (레벨업 불가)
+        // 고정 반사율: 30%
+        if (abilitySystem.HasAbility(6))
+        {
+            return 0.3f;
+        }
+        
+        return 0f;
+    }
+
+    //공격자에게 반사 데미지 전달
+    private void ReflectDamageToAttacker(Collider2D attackerCollider, float reflectDamage)
+    {
+        MonsterController monster = attackerCollider.GetComponent<MonsterController>();
+        if (monster != null)
+        {
+            monster.TakeDamage(reflectDamage);
+            Debug.Log($"[반사 데미지] {attackerCollider.name}에게 {reflectDamage:F1} 데미지 반사!");
+            
+            // TODO: 반사 이펙트 추가 (번개, 빛나는 효과 등)
+        }
+        else
+        {
+            Debug.LogWarning($"[반사 데미지] {attackerCollider.name}에 MonsterController가 없습니다!");
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Enemy"))
         {
+            // 방패와 충돌 중인 적은 플레이어 데미지로 계산하지 않음
+            // 방패는 레이어 2 (Ignore Raycast)로 설정되어 있음
+            Collider2D[] shieldColliders = GetComponentsInChildren<Collider2D>();
+            bool isTouchingShield = false;
+            
+            foreach (Collider2D shieldCollider in shieldColliders)
+            {
+                // Shield 컴포넌트가 있는 Collider인지 확인
+                if (shieldCollider.GetComponent<Shield>() != null)
+                {
+                    if (shieldCollider.IsTouching(other))
+                    {
+                        isTouchingShield = true;
+                        break;
+                    }
+                }
+            }
+            
+            // 방패와 닿아있으면 플레이어는 데미지를 받지 않음
+            if (isTouchingShield)
+            {
+                return;
+            }
+            
             // 2. 마지막 데미지를 입은 후 'damageTickCooldown'이 지났는지 확인
             if (Time.time - lastDamageTickTime > damageTickCooldown)
             {
@@ -192,7 +357,8 @@ public class PlayerStats : MonoBehaviour
                 lastDamageTickTime = Time.time;
 
                 float damage = other.GetComponent<MonsterController>()?.normalDamage ?? 10f;
-                TakeDamage(damage);
+                // 공격자 정보 전달하여 반사 데미지 작동
+                TakeDamage(damage, other);
             }
         }
     }
@@ -304,6 +470,46 @@ public class PlayerStats : MonoBehaviour
     public void SetRevenge(bool enabled)
     {
         hasRevenge = enabled;
+    }
+
+    public void SetCriticalStrike(bool enabled)
+    {
+        hasCriticalStrike = enabled;
+        if (enabled)
+        {
+            Debug.Log($"급소 공격 활성화! 확률: {criticalStrikeChance * 100}%, 배율: {criticalStrikeMultiplier * 100}%");
+        }
+    }
+
+    public void SetLastStand(bool enabled)
+    {
+        hasLastStand = enabled;
+        lastStandUsed = false; // 능력 습득 시 사용 여부 초기화
+        if (enabled)
+        {
+            Debug.Log("불굴의 의지 활성화! 치명타 방어 시 체력 1%로 회복 및 3초 무적 (1회용)");
+        }
+    }
+
+    // 급소 공격 체크 (무기에서 호출)
+    public bool CheckCriticalStrike()
+    {
+        if (!hasCriticalStrike) return false;
+        
+        float randomValue = UnityEngine.Random.value;
+        bool isCritical = randomValue < criticalStrikeChance;
+        
+        if (isCritical)
+        {
+            Debug.Log($"★ 급소 공격 발동! (확률: {criticalStrikeChance * 100}%, 랜덤값: {randomValue:F3})");
+        }
+        
+        return isCritical;
+    }
+
+    public float GetCriticalStrikeMultiplier()
+    {
+        return criticalStrikeMultiplier;
     }
 
     // ===== 스탯 게터 메서드들 (다른 클래스에서 참조용) =====
@@ -419,7 +625,7 @@ public class PlayerStats : MonoBehaviour
             }
         }
 
-        // 신발 보너스 적용 (이동 속도만)
+        // 신발 보너스 적용 (공격 속도만)
         string bootsId = DataManager.instance.GetEquippedItemId(EquipmentType.Boots);
         Debug.Log($"장착된 신발 ID: {bootsId}");
 
@@ -429,9 +635,9 @@ public class PlayerStats : MonoBehaviour
             if (boots != null)
             {
                 int bootsLevel = DataManager.instance.GetItemLevel(bootsId);
-                float bootsSpeedBonus = boots.bonusSpeed + (boots.speedPerLevel * bootsLevel);
-                moveSpeedMultiplier += bootsSpeedBonus;
-                Debug.Log($"신발 장착: {boots.armorName} +{bootsLevel} (이동 속도 +{bootsSpeedBonus} = 기본 {boots.bonusSpeed} + 강화 {boots.speedPerLevel * bootsLevel})");
+                float bootsAttackSpeedBonus = boots.bonusAttackSpeed + (boots.attackSpeedPerLevel * bootsLevel);
+                attackSpeedMultiplier += bootsAttackSpeedBonus;
+                Debug.Log($"신발 장착: {boots.armorName} +{bootsLevel} (공격 속도 +{bootsAttackSpeedBonus} = 기본 {boots.bonusAttackSpeed} + 강화 {boots.attackSpeedPerLevel * bootsLevel})");
             }
             else
             {
@@ -439,7 +645,7 @@ public class PlayerStats : MonoBehaviour
             }
         }
 
-        Debug.Log($"=== 최종 스탯 - 최대 체력: {playerMaxHP}, 방어력: {totalDefense}, 이동 속도 배율: {moveSpeedMultiplier} ===");
+        Debug.Log($"=== 최종 스탯 - 최대 체력: {playerMaxHP}, 방어력: {totalDefense}, 이동 속도 배율: {moveSpeedMultiplier}, 공격 속도 배율: {attackSpeedMultiplier} ===");
     }
 
     // NPC가 호출할 장비 강화 함수
@@ -493,6 +699,10 @@ public class PlayerStats : MonoBehaviour
         hasRage = false;
         hasRevenge = false;
         revengeEndTime = 0f;
+        hasCriticalStrike = false;
+        hasLastStand = false;
+        lastStandUsed = false;
+        lastStandInvincibilityEndTime = 0f;
         
         // 3. 디버그 플래그 초기화
         debugShowRage = false;
