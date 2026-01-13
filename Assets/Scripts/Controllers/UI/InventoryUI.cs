@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class InventoryUI : MonoBehaviour
     public Transform materialGridParent;
     private InventorySlotUI[] materialSlots;
 
+    
+    public string hubSceneName = "BaseArea";
+    
     void Awake()
     {
         Debug.Log("awake");
@@ -28,9 +32,10 @@ public class InventoryUI : MonoBehaviour
 
     void OnEnable()
     {
+        Debug.Log("OnEnable");
         UpdateAllInventory();
     }
-
+    
     public void UpdateAllInventory()
     {
         if (DataManager.instance == null) return;

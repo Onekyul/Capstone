@@ -90,6 +90,10 @@ public class DataManager : MonoBehaviour
         }
 
         slot.count -= amount;
+        if (slot.count <= 0)
+        {
+            currentPlayer.Inventory.Remove(slot);
+        }
         SaveGame();
         return true;
     }
