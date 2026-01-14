@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &92329631
 RectTransform:
   m_ObjectHideFlags: 0
@@ -942,7 +942,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1184,7 +1184,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: 0.1716919, y: -0.70000076}
+  m_AnchoredPosition: {x: 0.171875, y: -0.7000046}
   m_SizeDelta: {x: 189.1432, y: 196.4663}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &688451747
@@ -1726,7 +1726,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f340959714293e54a9e4436262ba3e61, type: 2}
   - {fileID: 11400000, guid: df119a8dcf0479c4785954a2b62c45ae, type: 2}
   - {fileID: 11400000, guid: df8e94723e9e9ff4a8fc93f326155cff, type: 2}
-  gainExp: 7
+  expMultiplier: 1
+  gainExp: 5
 --- !u!4 &1166515835
 Transform:
   m_ObjectHideFlags: 0
@@ -2042,7 +2043,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 440}
+  m_AnchoredPosition: {x: 0, y: 413}
   m_SizeDelta: {x: 200, y: 43.0918}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1293363641
@@ -2092,8 +2093,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34
-  m_fontSizeBase: 34
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2191,13 +2192,13 @@ MonoBehaviour:
   poolList:
   - tag: Chasing
     prefab: {fileID: 6862495101598163473, guid: 7dfa3507a849e614f93faeaddbdd1eb2, type: 3}
-    size: 10
+    size: 500
   - tag: Big
     prefab: {fileID: 2530604871420806504, guid: a9955809011c2b34e985c1491c58facb, type: 3}
-    size: 10
+    size: 500
   - tag: Fast
     prefab: {fileID: 4886667370626680955, guid: 7cc94579ad27d6044ab83ecc9d2cb9c5, type: 3}
-    size: 10
+    size: 500
 --- !u!1 &1496849695
 GameObject:
   m_ObjectHideFlags: 0
@@ -2573,8 +2574,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 51.1288}
+  m_AnchoredPosition: {x: 6.5151367, y: 28}
+  m_SizeDelta: {x: 413.0391, y: 129.7855}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1906575908
 GameObject:

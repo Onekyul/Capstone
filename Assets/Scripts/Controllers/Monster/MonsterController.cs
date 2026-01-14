@@ -26,9 +26,17 @@ public class MonsterController : MonoBehaviour
     [Header("UI")]
     [SerializeField] protected Slider hpSlider; // 체력바 슬라이더 연결용 변수
 
+
     [Header("Lightning Enchantment")]
     [SerializeField] private GameObject lightningFieldPrefab; // 번개 필드 프리팹
-    private float lightningRadius = 5.0f; // 번개 범위 (즉발 데미지용)
+
+    [Header("Visual Effects")]
+    [SerializeField] private GameObject burnEffectObject;   // 화상 이펙트 (자식 오브젝트 연결)
+    [SerializeField] private GameObject poisonEffectObject; // 독 이펙트 (자식 오브젝트 연결)
+    // 얼음 이펙트는 색깔로 처리하므로 필요 없음 (또는 얼음 조각 이펙트 추가 가능)
+
+    private float lightningRadius = 5.0f; // 번개 범위
+
 
     // 몬스터가 죽을 때 발동할 이벤트
     public event Action OnDeath;
@@ -80,7 +88,11 @@ public class MonsterController : MonoBehaviour
         if (iceCoroutine != null) StopCoroutine(iceCoroutine);
         if (poisonCoroutine != null) StopCoroutine(poisonCoroutine);
 
-        if(spriteRenderer != null) spriteRenderer.color = Color.white;
+        // ★ 이펙트 끄기 (초기화)
+        if (burnEffectObject != null) burnEffectObject.SetActive(false);
+        if (poisonEffectObject != null) poisonEffectObject.SetActive(false);
+        
+        UpdateColor(); // 색상 초기화
     }
 
     protected virtual void Update()
@@ -95,7 +107,35 @@ public class MonsterController : MonoBehaviour
 
         if (IsDead()) ReturnToPool();
     }
-    
+
+
+    // ★ 상태에 따라 색상을 결정하는 함수 (우선순위 로직)
+    private void UpdateColor()
+    {
+        if (spriteRenderer == null) return;
+
+        // 1순위: 빙결 (진한 파랑)
+        if (isFrozen) 
+        {
+            spriteRenderer.color = new Color(0.3f, 0.3f, 1f);
+        }
+        // 2순위: 감속 (하늘색)
+        else if (isSlowed) 
+        {
+            spriteRenderer.color = Color.cyan;
+        }
+        // 3순위: 일반 (흰색)
+        else 
+        {
+            spriteRenderer.color = Color.white;
+        }
+        
+        // *참고: 독(보라색)이나 화상(빨간색)은 이제 색깔을 바꾸지 않습니다. 이펙트로 보여줍니다.
+    }
+
+    // ====================================================================
+    // 1. 기본 피격 (공격력 스냅샷 저장)
+    // ====================================================================
     public void TakeDamage(float damage)
     {
         storedLastDamage = damage; // 데미지 저장
@@ -162,6 +202,9 @@ public class MonsterController : MonoBehaviour
 
     IEnumerator BurnRoutine(int level)
     {
+        // ★ 화상 이펙트 켜기
+        if (burnEffectObject != null) burnEffectObject.SetActive(true);
+
         int ticks = 6; 
         float interval = 0.5f;
         // 화상 데미지: 본체 데미지의 10% * 레벨
@@ -174,6 +217,9 @@ public class MonsterController : MonoBehaviour
             yield return new WaitForSeconds(interval);
             TakeDirectDamage(tickDamage);
         }
+        
+        // ★ 화상 이펙트 끄기
+        if (burnEffectObject != null) burnEffectObject.SetActive(false);
         burnCoroutine = null;
     }
 
@@ -201,13 +247,13 @@ public class MonsterController : MonoBehaviour
         
         float slowPercent = Mathf.Clamp(level * 0.15f, 0.1f, 0.9f);
         currentMoveSpeed = defaultMoveSpeed * (1.0f - slowPercent);
-        spriteRenderer.color = Color.cyan;
+        UpdateColor(); // ★ 색상 갱신 (Cyan)
 
         yield return new WaitForSeconds(3.0f);
 
         currentMoveSpeed = defaultMoveSpeed;
         isSlowed = false;
-        spriteRenderer.color = Color.white;
+        UpdateColor(); // ★ 색상 복구 (White or Frozen)
         iceCoroutine = null;
     }
 
@@ -216,14 +262,14 @@ public class MonsterController : MonoBehaviour
         isFrozen = true;
         isSlowed = false; 
         currentMoveSpeed = 0f;
-        spriteRenderer.color = new Color(0.3f, 0.3f, 1f); 
+        UpdateColor(); // ★ 색상 갱신 (Blue)
 
         float duration = 1.5f + (level * 0.2f);
         yield return new WaitForSeconds(duration);
 
         isFrozen = false;
         currentMoveSpeed = defaultMoveSpeed;
-        spriteRenderer.color = Color.white;
+        UpdateColor(); // ★ 색상 복구 (White)
         iceCoroutine = null;
     }
 
@@ -283,14 +329,19 @@ public class MonsterController : MonoBehaviour
 
     IEnumerator RotRoutine(int level)
     {
+        // ★ 독 이펙트 켜기
+        if (poisonEffectObject != null) poisonEffectObject.SetActive(true);
+
         // 받는 피해량 증폭
         damageMultiplier = 1.0f + (level * 0.2f);
-        spriteRenderer.color = new Color(0.7f, 0f, 1f); 
+        // 독은 색깔을 바꾸지 않으므로 UpdateColor 호출 안 함 (또는 약간의 틴트만 추가 가능)
 
         yield return new WaitForSeconds(3.0f);
 
         damageMultiplier = 1.0f;
-        spriteRenderer.color = Color.white;
+        
+        // ★ 독 이펙트 끄기
+        if (poisonEffectObject != null) poisonEffectObject.SetActive(false);
         poisonCoroutine = null;
     }
 
