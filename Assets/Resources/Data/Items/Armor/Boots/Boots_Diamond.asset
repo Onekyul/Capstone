@@ -21,6 +21,9 @@ MonoBehaviour:
   bonusHp: 0
   bonusAttackSpeed: 0.45
   modelprefab: {fileID: 0}
+  defPerLevel: 1
+  hpPerLevel: 1
+  speedPerLevel: 1
   upgradeTable: {fileID: 11400000, guid: 6d824e2f48136364388dab36ad811250, type: 2}
 
 
