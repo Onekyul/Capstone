@@ -10,22 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bcecb4a804a77e45b365f512a832543, type: 3}
-  m_Name: Ability_ConcentratedAttack
+  m_Name: Ability_ExtraHealth
   m_EditorClassIdentifier: 
-  abilityID: 3
-  abilityName: "\uC6C5\uCD95\uB41C \uACF5\uACA9"
-  description: 
-  icon: {fileID: -1209539930331940954, guid: 37bbb49bea6e6af4e8824b2837588ee7, type: 3}
-  abilityType: 0
+  abilityID: 29
+  abilityName: "\uCD94\uAC00 \uCCB4\uB825"
+  description: "\uCD5C\uB300 \uCCB4\uB825 +50"
+  icon: {fileID: 0}
+  abilityType: 1
   canStack: 0
   hasLevels: 0
   maxLevel: 1
   statModifiers:
-  - statType: 1
-    operation: 1
+  - statType: 4
+    operation: 0
     valuePerLevel:
-    - 0.3
-  - statType: 0
-    operation: 1
-    valuePerLevel:
-    - 4
+    - 50

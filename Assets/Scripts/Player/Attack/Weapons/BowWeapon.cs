@@ -40,6 +40,10 @@ public class BowWeapon : WeaponBase
             {
                 // 3. 활의 데미지(damage) 값을 화살에게 전달
                 arrow.setDamage(GetTotalDamage());
+                
+                // 4. 인챈트 레벨 계산 및 전달
+                int[] appliedEnchants = CalculateAppliedEnchants();
+                arrow.SetEnchants(appliedEnchants);
             }
 
             // 공격 애니메이션이나 사운드 재생 등을 여기서 처리

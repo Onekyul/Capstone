@@ -104,7 +104,54 @@ public class DataManager : MonoBehaviour
         if (currentPlayer.ownedWeapons.Exists(w => w.itemId == weaponId))
         {
             currentPlayer.equippedWeaponId = weaponId;
+            
+            //무기 타입 판단하여 해당 타입의 equippedId도 업데이트
+            int weaponType = GetWeaponTypeFromId(weaponId);
+            switch (weaponType)
+            {
+                case 0: currentPlayer.equippedSwordId = weaponId; break;
+                case 1: currentPlayer.equippedSpearId = weaponId; break;
+                case 2: currentPlayer.equippedBowId = weaponId; break;
+            }
+            
             SaveGame();
+        }
+    }
+    
+    //무기 타입별 장착 메서드 
+    public void EquipWeaponByType(string weaponId, int weaponType)
+    {
+        if (!currentPlayer.ownedWeapons.Exists(w => w.itemId == weaponId))
+        {
+            Debug.LogWarning($"[DataManager] 보유하지 않은 무기: {weaponId}");
+            return;
+        }
+        
+        switch (weaponType)
+        {
+            case 0: currentPlayer.equippedSwordId = weaponId; break;
+            case 1: currentPlayer.equippedSpearId = weaponId; break;
+            case 2: currentPlayer.equippedBowId = weaponId; break;
+        }
+        
+        // 하위 호환성을 위해 equippedWeaponId도 업데이트
+        currentPlayer.equippedWeaponId = weaponId;
+        SaveGame();
+        
+        Debug.Log($"[DataManager] 무기 장착: {weaponId} (타입: {weaponType})");
+    }
+    
+    // 무기 타입별 현재 장착 무기 ID 조회
+    public string GetEquippedWeaponId(int weaponType)
+    {
+        switch (weaponType)
+        {
+            case 0: return currentPlayer.equippedSwordId;
+            case 1: return currentPlayer.equippedSpearId;
+            case 2: return currentPlayer.equippedBowId;
+            default: 
+                Debug.LogWarning($"[DataManager] 잘못된 무기 타입: {weaponType}");
+                return "";
         }
     }
     
@@ -208,6 +255,26 @@ public class DataManager : MonoBehaviour
     {
         var enchant = currentPlayer.unlockedEnchants.Find(e => e.enchantId == id);
         return (enchant != null) ? enchant.level : 0;
+    }
+
+    // 인챈트 레벨 직접 설정 (치트키용)
+    public void SetEnchantLevel(string id, int level)
+    {
+        var enchant = currentPlayer.unlockedEnchants.Find(e => e.enchantId == id);
+        
+        if (enchant != null)
+        {
+            // 이미 존재하면 레벨 변경
+            enchant.level = Mathf.Max(0, level); // 음수 방지
+        }
+        else if (level > 0)
+        {
+            // 존재하지 않고 레벨이 0보다 크면 새로 추가
+            currentPlayer.unlockedEnchants.Add(new EnchantState(id, level));
+        }
+        
+        SaveGame();
+        Debug.Log($"[DataManager] {id} 인챈트 레벨 설정: {level}");
     }
 
     

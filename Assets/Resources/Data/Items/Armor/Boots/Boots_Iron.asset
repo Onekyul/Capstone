@@ -19,9 +19,11 @@ MonoBehaviour:
   icon: {fileID: 6052069418717082861, guid: 4436910fee1944b4894d7e8e28d73900, type: 3}
   bonusDef: 0
   bonusHp: 0
-  bonusAtkSpeed: 20
+  bonusAttackSpeed: 0.35
   modelprefab: {fileID: 0}
   defPerLevel: 1
   hpPerLevel: 1
   speedPerLevel: 1
   upgradeTable: {fileID: 11400000, guid: b7b7f9dac12b1404494e32164e157187, type: 2}
+
+

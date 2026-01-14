@@ -53,73 +53,6 @@ public class AttackManager : MonoBehaviour
 
     void Update()
     {
-        // 무기 교체 키 입력 (1, 2, 3 키)
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SwitchWeapon(WeaponType.Sword);
-            Debug.Log("검으로 교체!");
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SwitchWeapon(WeaponType.Spear);
-            Debug.Log("창으로 교체!");
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            SwitchWeapon(WeaponType.Bow);
-            Debug.Log("활로 교체!");
-        }
-        
-        // F1-F4: 현재 무기에 인챈트 추가
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            currentWeapon?.SetEnchantmentLevel(0, 5); // 불 인챈트 5레벨
-        }
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            currentWeapon?.SetEnchantmentLevel(1, 5); // 얼음 인챈트 5레벨
-        }
-        if (Input.GetKeyDown(KeyCode.F3))
-        {
-            currentWeapon?.SetEnchantmentLevel(2, 5); // 번개 인챈트 5레벨
-        }
-        if (Input.GetKeyDown(KeyCode.F4))
-        {
-            currentWeapon?.SetEnchantmentLevel(3, 5); // 독 인챈트 5레벨
-        }
-
-        // F5: 현재 무기의 모든 인챈트 레벨 확인
-        if (Input.GetKeyDown(KeyCode.F5))
-        {
-            if (currentWeapon != null)
-            {
-                int[] levels = currentWeapon.GetEnchantmentLevels();
-                Debug.Log($"현재 무기 인챈트 레벨 - 불:{levels[0]}, 얼음:{levels[1]}, 번개:{levels[2]}, 독:{levels[3]}");
-            }
-        }
-
-        // F6: 모든 무기에 동일한 인챈트 적용 (테스트용)
-        if (Input.GetKeyDown(KeyCode.F6))
-        {
-            int[] allEnchants = new int[] { 3, 3, 3, 3 }; // 모든 인챈트 레벨 3
-            if (swordObject != null) swordObject.GetComponent<SwordWeapon>()?.SetAllEnchantmentLevels(allEnchants);
-            if (spearObject != null) spearObject.GetComponent<SpearWeapon>()?.SetAllEnchantmentLevels(allEnchants);
-            if (bowObject != null) bowObject.GetComponent<BowWeapon>()?.SetAllEnchantmentLevels(allEnchants);
-            Debug.Log("모든 무기에 인챈트 레벨 3 적용!");
-        }
-
-        // F7: 각 무기에 다른 인챈트 적용 (테스트용)
-        if (Input.GetKeyDown(KeyCode.F7))
-        {
-            // 검: 불 인챈트만
-            if (swordObject != null) swordObject.GetComponent<SwordWeapon>()?.SetAllEnchantmentLevels(new int[] { 5, 0, 0, 0 });
-            // 창: 얼음 인챈트만
-            if (spearObject != null) spearObject.GetComponent<SpearWeapon>()?.SetAllEnchantmentLevels(new int[] { 0, 5, 0, 0 });
-            // 활: 번개 인챈트만
-            if (bowObject != null) bowObject.GetComponent<BowWeapon>()?.SetAllEnchantmentLevels(new int[] { 0, 0, 5, 0 });
-            Debug.Log("무기별 고유 인챈트 적용! (검:불, 창:얼음, 활:번개)");
-        }
-
         // 활을 장착하고 있을 때만 회전하도록 처리
         if (bowObject != null && currentWeapon is BowWeapon)
         {
@@ -129,7 +62,6 @@ public class AttackManager : MonoBehaviour
             // 2. 회전 설정: curLookDir 방향을 바라보도록 회전
             bowObject.transform.rotation = Quaternion.LookRotation(Vector3.forward, curLookDir);
         }
-            
     }
     
     private void OnEnable()
@@ -219,6 +151,13 @@ public class AttackManager : MonoBehaviour
 
         // 2. 선택한 무기만 활성화하고 currentWeapon으로 설정 (벨트에서 꺼내기)
         string equippedWeaponId = "";
+        int weaponTypeIndex = (int)weaponType;
+        
+        //무기 타입별로 해당 타입의 마지막 사용 무기 ID 가져오기
+        if (DataManager.instance != null)
+        {
+            equippedWeaponId = DataManager.instance.GetEquippedWeaponId(weaponTypeIndex);
+        }
         
         switch (weaponType)
         {
@@ -227,44 +166,53 @@ public class AttackManager : MonoBehaviour
                 {
                     swordObject.SetActive(true);
                     currentWeapon = swordObject.GetComponent<SwordWeapon>();
-                    // 검의 weaponId 가져오기
-                    if (currentWeapon != null)
+                    
+                    // 무기 ID가 비어있지 않으면 설정 (강화/인챈트 데이터 로드)
+                    if (currentWeapon != null && !string.IsNullOrEmpty(equippedWeaponId))
                     {
-                        equippedWeaponId = currentWeapon.GetWeaponId();
+                        currentWeapon.SetWeaponId(equippedWeaponId);
+                        Debug.Log($"AttackManager: 검에 weaponId 설정 - {equippedWeaponId}");
                     }
                 }
                 break;
+                
             case WeaponType.Spear:
                 if (spearObject != null)
                 {
                     spearObject.SetActive(true);
                     currentWeapon = spearObject.GetComponent<SpearWeapon>();
-                    // 창의 weaponId 가져오기
-                    if (currentWeapon != null)
+                    
+                    // 무기 ID가 비어있지 않으면 설정 (강화/인챈트 데이터 로드)
+                    if (currentWeapon != null && !string.IsNullOrEmpty(equippedWeaponId))
                     {
-                        equippedWeaponId = currentWeapon.GetWeaponId();
+                        currentWeapon.SetWeaponId(equippedWeaponId);
+                        Debug.Log($"AttackManager: 창에 weaponId 설정 - {equippedWeaponId}");
                     }
                 }
                 break;
+                
             case WeaponType.Bow:
                 if (bowObject != null)
                 {
                     bowObject.SetActive(true);
                     currentWeapon = bowObject.GetComponent<BowWeapon>();
-                    // 활의 weaponId 가져오기
-                    if (currentWeapon != null)
+                    
+                    // 무기 ID가 비어있지 않으면 설정 (강화/인챈트 데이터 로드)
+                    if (currentWeapon != null && !string.IsNullOrEmpty(equippedWeaponId))
                     {
-                        equippedWeaponId = currentWeapon.GetWeaponId();
+                        currentWeapon.SetWeaponId(equippedWeaponId);
+                        Debug.Log($"AttackManager: 활에 weaponId 설정 - {equippedWeaponId}");
                     }
                 }
                 break;
         }
         
-        // 3. DataManager에 현재 무기 저장
+        //DataManager에 현재 무기 저장 (하위 호환성)
         if (DataManager.instance != null && !string.IsNullOrEmpty(equippedWeaponId))
         {
-            DataManager.instance.EquipWeapon(equippedWeaponId);
-            Debug.Log($"AttackManager: 무기 변경 저장 - {equippedWeaponId}");
+            DataManager.instance.currentPlayer.equippedWeaponId = equippedWeaponId;
+            DataManager.instance.SaveGame();
+            Debug.Log($"AttackManager: 무기 변경 저장 완료 - {equippedWeaponId}");
         }
     }
 

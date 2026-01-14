@@ -105,3 +105,4 @@ InitTestScene*.unity*
 
 # Mac OS-specific files
 .DS_Store
+*.md

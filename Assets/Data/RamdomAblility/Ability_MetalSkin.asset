@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bcecb4a804a77e45b365f512a832543, type: 3}
-  m_Name: Ability_ConcentratedAttack
+  m_Name: Ability_MetalSkin
   m_EditorClassIdentifier: 
-  abilityID: 3
-  abilityName: "\uC6C5\uCD95\uB41C \uACF5\uACA9"
-  description: 
-  icon: {fileID: -1209539930331940954, guid: 37bbb49bea6e6af4e8824b2837588ee7, type: 3}
-  abilityType: 0
+  abilityID: 22
+  abilityName: "\uAC15\uCCA0\uD53C\uBD80"
+  description: "\uBC29\uC5B4\uB825\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4. (\uCD5C\uB300 5\uD68C)"
+  icon: {fileID: 0}
+  abilityType: 1
   canStack: 0
-  hasLevels: 0
-  maxLevel: 1
+  hasLevels: 1
+  maxLevel: 5
   statModifiers:
-  - statType: 1
-    operation: 1
+  - statType: 5
+    operation: 0
     valuePerLevel:
-    - 0.3
-  - statType: 0
-    operation: 1
-    valuePerLevel:
-    - 4
+    - 3
+    - 6
+    - 9
+    - 12
+    - 15

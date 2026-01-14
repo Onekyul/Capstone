@@ -26,12 +26,17 @@ public class MonsterController : MonoBehaviour
     [Header("UI")]
     [SerializeField] protected Slider hpSlider; // 체력바 슬라이더 연결용 변수
 
+
+    [Header("Lightning Enchantment")]
+    [SerializeField] private GameObject lightningFieldPrefab; // 번개 필드 프리팹
+
     [Header("Visual Effects")]
     [SerializeField] private GameObject burnEffectObject;   // 화상 이펙트 (자식 오브젝트 연결)
     [SerializeField] private GameObject poisonEffectObject; // 독 이펙트 (자식 오브젝트 연결)
     // 얼음 이펙트는 색깔로 처리하므로 필요 없음 (또는 얼음 조각 이펙트 추가 가능)
 
     private float lightningRadius = 5.0f; // 번개 범위
+
 
     // 몬스터가 죽을 때 발동할 이벤트
     public event Action OnDeath;
@@ -271,16 +276,17 @@ public class MonsterController : MonoBehaviour
     // --- [2] 번개 (Lightning) ---
     private void ApplyLightning(int level)
     {
-        // 1. 데미지 계산 (예: 본체 데미지의 50% * 레벨)
+        // 1. 즉발 데미지 계산 (본체 데미지의 50% * 레벨)
         float lightningDamage = storedLastDamage * (level * 0.5f);
 
-        // 2. 주변 몬스터 탐색
+        // 2. 주변 몬스터에게 즉발 데미지
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, lightningRadius);
 
+        int hitCount = 0;
         foreach (var hit in hits)
         {
             // 몬스터 태그 확인
-            if (hit.CompareTag("Monster"))
+            if (hit.CompareTag("Enemy"))
             {
                 // 자기 자신은 제외 
                 if (hit.gameObject == this.gameObject) continue;
@@ -289,8 +295,28 @@ public class MonsterController : MonoBehaviour
                 if (otherMonster != null)
                 {
                     otherMonster.TakeDirectDamage(lightningDamage);
+                    hitCount++;
                 }
             }
+        }
+        
+        Debug.Log($"[Lightning Enchant] 즉발 데미지: {lightningDamage}, {hitCount}마리 타격");
+
+        // 3. 번개 필드 생성 (프리팹이 있는 경우)
+        if (lightningFieldPrefab != null)
+        {
+            GameObject fieldObj = Instantiate(lightningFieldPrefab, transform.position, Quaternion.identity);
+            LightningFieldController fieldController = fieldObj.GetComponent<LightningFieldController>();
+            
+            if (fieldController != null)
+            {
+                // LightningFieldController가 자동으로 플레이어 공격력 × 30%를 계산합니다
+                Debug.Log($"[Lightning Enchant] 번개 필드 생성 - 플레이어 현재 공격력의 30%로 지속 데미지");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("[Lightning Enchant] lightningFieldPrefab이 할당되지 않았습니다!");
         }
     }
 

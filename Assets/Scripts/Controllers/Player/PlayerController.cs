@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     public static PlayerController instance; // 싱글톤
     
     [SerializeField]
-    private float playerSpeed=3.5f;
+    private float playerSpeed=2.5f;
     private Rigidbody2D rb;
     private Vector2 movementInput;  // InputManager 로부터 전달받은 현재 이동 입력 값을 저장
     
