@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: f4dcfc95dea44409f8206ae9fe3fec79
+guid: 68013c8bf24374edd8114093aeeae702
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5675857372675088757
-    second: image-Photoroom_0
-  - first:
-      213: -4569816562517377100
-    second: image-Photoroom_1
+      213: -630485259183010229
+    second: AirAttackFX_2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -103,45 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: image-Photoroom_0
+      name: AirAttackFX_2_0
       rect:
         serializedVersion: 2
-        x: 333
-        y: 28
-        width: 156
-        height: 455
+        x: 0
+        y: 0
+        width: 60
+        height: 47
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 571a41e5532b4ce40800000000000000
-      internalID: 5675857372675088757
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: image-Photoroom_1
-      rect:
-        serializedVersion: 2
-        x: 549
-        y: 44
-        width: 110
-        height: 408
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4bf747e5c00c490c0800000000000000
-      internalID: -4569816562517377100
+      spriteID: b4ec64a4ff01047f0800000000000000
+      internalID: -630485259183010229
       vertices: []
       indices: 
       edges: []
@@ -150,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: dbc697235531e427e9e39988d0f2f9b5
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      image-Photoroom_0: 5675857372675088757
-      image-Photoroom_1: -4569816562517377100
+      AirAttackFX_2_0: -630485259183010229
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
