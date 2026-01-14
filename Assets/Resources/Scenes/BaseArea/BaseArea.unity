@@ -1916,6 +1916,7 @@ MonoBehaviour:
   materialIcon: {fileID: 452768700}
   materialText: {fileID: 304869550}
   upgradeButton: {fileID: 116715229}
+  materialAmountText: {fileID: 0}
 --- !u!1 &315486996
 GameObject:
   m_ObjectHideFlags: 0
@@ -3505,7 +3506,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 1121547885433422563, guid: 49ba183c96447cf4da382e253b5f3dc5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3546,6 +3547,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 3.5
   attackManager: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!50 &604402888
 Rigidbody2D:
   serializedVersion: 5
@@ -5850,7 +5852,6 @@ MonoBehaviour:
   blacksmithPanel: {fileID: 308726213}
   enchantPanel: {fileID: 0}
   dungeonSelectPanelController: {fileID: 1791435819}
-  levelUpPanel: {fileID: 0}
   abilityContainer: {fileID: 0}
   abilityButtonPrefab: {fileID: 0}
 --- !u!114 &940826054

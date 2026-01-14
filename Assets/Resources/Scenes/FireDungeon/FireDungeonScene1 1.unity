@@ -329,6 +329,14 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3013062047767341552, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013062047767341552, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4290561966624896383, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.45
@@ -660,7 +668,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 11
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1077,8 +1085,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4567137353947876526, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
   m_PrefabInstance: {fileID: 391617239}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &846097385 stripped
-Transform:
+--- !u!224 &846097385 stripped
+RectTransform:
   m_CorrespondingSourceObject: {fileID: 4290561966624896383, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
   m_PrefabInstance: {fileID: 391617239}
   m_PrefabAsset: {fileID: 0}
@@ -1444,7 +1452,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f340959714293e54a9e4436262ba3e61, type: 2}
   - {fileID: 11400000, guid: df119a8dcf0479c4785954a2b62c45ae, type: 2}
   - {fileID: 11400000, guid: df8e94723e9e9ff4a8fc93f326155cff, type: 2}
-  gainExp: 7
+  expMultiplier: 1
+  gainExp: 5
 --- !u!4 &1166515835
 Transform:
   m_ObjectHideFlags: 0
@@ -1909,13 +1918,13 @@ MonoBehaviour:
   poolList:
   - tag: Chasing
     prefab: {fileID: 6862495101598163473, guid: 7dfa3507a849e614f93faeaddbdd1eb2, type: 3}
-    size: 10
+    size: 1000
   - tag: Big
     prefab: {fileID: 2530604871420806504, guid: a9955809011c2b34e985c1491c58facb, type: 3}
-    size: 10
+    size: 1000
   - tag: Fast
     prefab: {fileID: 4886667370626680955, guid: 7cc94579ad27d6044ab83ecc9d2cb9c5, type: 3}
-    size: 10
+    size: 1000
 --- !u!1 &1496849695
 GameObject:
   m_ObjectHideFlags: 0

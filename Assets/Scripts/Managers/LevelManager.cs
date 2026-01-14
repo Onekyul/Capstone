@@ -15,11 +15,11 @@ public class LevelManager : MonoBehaviour
     // 0~39번 능력의 현재 레벨을 저장하는 배열
     private int[] currentAbilityLevels = new int[40];
     int curLevel = 0;
-    int curExp = 0;
+    float curExp = 0f;
     [SerializeField]
     [Tooltip("한 번 경험치 획득 시 얻는 경험치 양")]
-    int gainExp = 10;
-    int[] expTable = { 100, 125, 150, 200, 250, 300, 400, 500, 650, 800, 1000, 1300, 1600, 2000 }; // 레벨업에 필요한 경험치 테이블
+    float gainExp = 10f;
+    float[] expTable = { 100f, 125f, 150f, 200f, 250f, 300f, 400f, 500f, 650f, 800f, 1000f, 1300f, 1600f, 2000f }; // 레벨업에 필요한 경험치 테이블
 
 
     private void Awake()
@@ -33,7 +33,7 @@ public class LevelManager : MonoBehaviour
     public void GainExperience()
     {
         float finalExp = gainExp * expMultiplier;
-        curExp += (int)finalExp;
+        curExp += finalExp;
         // [추가] UI 갱신 호출
         DungeonUIManager.instance.UpdateExpBar(curExp, expTable[curLevel]);
 
@@ -145,7 +145,7 @@ public class LevelManager : MonoBehaviour
         Debug.Log("[LevelManager] 능력 레벨 배열 초기화");
         currentAbilityLevels = new int[40];
         curLevel = 0;
-        curExp = 0;
+        curExp = 0f;
         expMultiplier = 1.0f;
     }
 
@@ -153,7 +153,7 @@ public class LevelManager : MonoBehaviour
     // 능력을 얻었을 때 호출할 함수 (외부에서 부르기 편하게)
     public void AddExpMultiplier(float amount)
     {
-        // 예: 10% 증가면 0.1f를 넘겨줌 -> 1.0 -> 1.1 (110%)
+        // 예: 10% 증가면 1.1f를 넘겨줌 -> 1.1 (110%)
         expMultiplier = amount;
     }
 }
