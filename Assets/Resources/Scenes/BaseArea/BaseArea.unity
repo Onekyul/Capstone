@@ -14185,6 +14185,7 @@ MonoBehaviour:
   slotPoison: {fileID: 1459620553}
   slotWater: {fileID: 2111876152}
   materialGridParent: {fileID: 619547143}
+  hubSceneName: LobbyScene
 --- !u!1 &1970779264
 GameObject:
   m_ObjectHideFlags: 0
