@@ -171,6 +171,12 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
             {
                 totalDamage *= playerStats.GetCriticalStrikeMultiplier();
             }
+            
+            // 잠입 공격 체크
+            if (playerStats.CheckStealthAttack())
+            {
+                totalDamage *= playerStats.GetStealthAttackMultiplier();
+            }
         }
         
         return totalDamage;
@@ -212,6 +218,8 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
     {
         int[] result = new int[4]; // [불, 얼음, 번개, 독]
         
+        Debug.Log("=== 인챈트 적용 계산 ===");
+        
         // 무기 자체의 인챈트 레벨을 사용 (PlayerStats가 아닌 this.enchantmentLevels 사용)
         for (int i = 0; i < 4; i++)
         {
@@ -221,10 +229,17 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
                 float chance = enchantmentLevels[i] * enchantChancePerLevel;
                 float randomValue = Random.Range(0f, 100f);
                 
+                string enchantName = GetEnchantmentName(i);
+                
                 if (randomValue < chance)
                 {
                     // 확률에 성공하면 해당 인챈트의 강화 수치를 적용
                     result[i] = enchantmentLevels[i];
+                    Debug.Log($"✓ {enchantName} 인챈트 발동! (레벨: {enchantmentLevels[i]}, 확률: {chance}%, 랜덤: {randomValue:F1})");
+                }
+                else
+                {
+                    Debug.Log($"✗ {enchantName} 인챈트 미발동 (레벨: {enchantmentLevels[i]}, 확률: {chance}%, 랜덤: {randomValue:F1})");
                 }
             }
         }

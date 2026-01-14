@@ -45,6 +45,11 @@ public class PlayerStats : MonoBehaviour
     private bool lastStandUsed = false; // 불굴의 의지 사용 여부 (1회용)
     private float lastStandInvincibilityDuration = 3f; // 불굴의 의지 무적 시간 (3초)
     private float lastStandInvincibilityEndTime = 0f; // 불굴의 의지 무적 종료 시간
+    private bool hasStealth = false; // 잠입의 달인 보유 여부
+    private bool stealthAttackReady = false; // 잠입 공격 준비 완료 여부
+    private float stealthSafeTime = 5f; // 피해 받지 않아야 하는 시간 (5초)
+    private float lastDamageTime = 0f; // 마지막으로 피해를 받은 시간
+    private float stealthAttackMultiplier = 3.0f; // 잠입 공격 배율 (300%)
 
     [Header("Collision Damage")]
     [SerializeField] private float damageTickCooldown = 1.0f; // 1초에 한 번씩만 겹침 데미지를 받음
@@ -117,6 +122,16 @@ public class PlayerStats : MonoBehaviour
         finalAttackMultiplier = GetAttackDamageMultiplier();
         debugShowRage = hasRage;
         debugShowRevenge = hasRevenge && Time.time < revengeEndTime;
+        
+        // 잠입의 달인 체크: 5초간 피해를 받지 않으면 잠입 공격 준비
+        if (hasStealth && !stealthAttackReady)
+        {
+            if (Time.time - lastDamageTime >= stealthSafeTime)
+            {
+                stealthAttackReady = true;
+                Debug.Log("★ [잠입의 달인] 잠입 공격 준비 완료! 다음 공격 시 공격력 300%");
+            }
+        }
         
         // ===== 치트키: 응축된 공격 테스트 (F5) =====
         if (Input.GetKeyDown(KeyCode.F5))
@@ -191,6 +206,160 @@ public class PlayerStats : MonoBehaviour
             
             AcquireAbility(10); // 불굴의 의지 능력 ID = 10
         }
+
+        // ===== 치트키: 강철피부 테스트 (F12) =====
+        if (Input.GetKeyDown(KeyCode.F12))
+        {
+            Debug.Log("===== [치트키] 강철피부 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(22); // 강철피부 능력 ID = 22
+        }
+
+        // ===== 치트키: 잠입의 달인 테스트 (Insert) =====
+        if (Input.GetKeyDown(KeyCode.Insert))
+        {
+            Debug.Log("===== [치트키] 잠입의 달인 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(23); // 잠입의 달인 능력 ID = 23
+        }
+
+        // ===== 치트키: 추가 체력 테스트 (Delete) =====
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            Debug.Log("===== [치트키] 추가 체력 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(29); // 추가 체력 능력 ID = 29
+        }
+
+        // ===== 치트키: 인챈트 레벨 조정 =====
+        // Numpad 1: 불 인챈트 레벨 +1
+        if (Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            Debug.Log("★★★ [치트키] Numpad 1 눌림! 불 인챈트 레벨 증가 시도 ★★★");
+            
+            if (DataManager.instance != null)
+            {
+                int currentLevel = DataManager.instance.GetEnchantLevel("ent_fire");
+                DataManager.instance.SetEnchantLevel("ent_fire", currentLevel + 1);
+                
+                // 무기에 인챈트 레벨 재적용
+                RefreshWeaponEnchants();
+                
+                Debug.Log($"★★★ [치트키] 불 인챈트 레벨 증가: {currentLevel} → {currentLevel + 1} ★★★");
+            }
+            else
+            {
+                Debug.LogError("[치트키] DataManager.instance가 null입니다!");
+            }
+        }
+
+        // Numpad 2: 얼음 인챈트 레벨 +1
+        if (Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            Debug.Log("★★★ [치트키] Numpad 2 눌림! 얼음 인챈트 레벨 증가 시도 ★★★");
+            
+            if (DataManager.instance != null)
+            {
+                int currentLevel = DataManager.instance.GetEnchantLevel("ent_ice");
+                DataManager.instance.SetEnchantLevel("ent_ice", currentLevel + 1);
+                
+                // 무기에 인챈트 레벨 재적용
+                RefreshWeaponEnchants();
+                
+                Debug.Log($"★★★ [치트키] 얼음 인챈트 레벨 증가: {currentLevel} → {currentLevel + 1} ★★★");
+            }
+            else
+            {
+                Debug.LogError("[치트키] DataManager.instance가 null입니다!");
+            }
+        }
+
+        // Numpad 3: 번개 인챈트 레벨 +1 (번개 필드 테스트용!)
+        if (Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            Debug.Log("★★★★★ [치트키] Numpad 3 눌림! 번개 인챈트 레벨 증가 시도 ★★★★★");
+            
+            if (DataManager.instance != null)
+            {
+                int currentLevel = DataManager.instance.GetEnchantLevel("ent_lightning");
+                DataManager.instance.SetEnchantLevel("ent_lightning", currentLevel + 1);
+                
+                // 무기에 인챈트 레벨 재적용
+                RefreshWeaponEnchants();
+                
+                Debug.Log($"★★★★★ [치트키] 번개 인챈트 레벨 증가: {currentLevel} → {currentLevel + 1} ★★★★★");
+                Debug.Log("⚡⚡⚡ 번개 필드 테스트 가능! 적을 공격하세요! ⚡⚡⚡");
+            }
+            else
+            {
+                Debug.LogError("[치트키] DataManager.instance가 null입니다!");
+            }
+        }
+
+        // Numpad 4: 독 인챈트 레벨 +1
+        if (Input.GetKeyDown(KeyCode.Keypad4))
+        {
+            Debug.Log("★★★ [치트키] Numpad 4 눌림! 독 인챈트 레벨 증가 시도 ★★★");
+            
+            if (DataManager.instance != null)
+            {
+                int currentLevel = DataManager.instance.GetEnchantLevel("ent_poison");
+                DataManager.instance.SetEnchantLevel("ent_poison", currentLevel + 1);
+                
+                // 무기에 인챈트 레벨 재적용
+                RefreshWeaponEnchants();
+                
+                Debug.Log($"★★★ [치트키] 독 인챈트 레벨 증가: {currentLevel} → {currentLevel + 1} ★★★");
+            }
+            else
+            {
+                Debug.LogError("[치트키] DataManager.instance가 null입니다!");
+            }
+        }
+
+        // Numpad 0: 모든 인챈트 레벨 리셋
+        if (Input.GetKeyDown(KeyCode.Keypad0))
+        {
+            Debug.Log("★★★ [치트키] Numpad 0 눌림! 모든 인챈트 리셋 시도 ★★★");
+            
+            if (DataManager.instance != null)
+            {
+                DataManager.instance.SetEnchantLevel("ent_fire", 0);
+                DataManager.instance.SetEnchantLevel("ent_ice", 0);
+                DataManager.instance.SetEnchantLevel("ent_lightning", 0);
+                DataManager.instance.SetEnchantLevel("ent_poison", 0);
+                
+                // 무기에 인챈트 레벨 재적용
+                RefreshWeaponEnchants();
+                
+                Debug.Log("★★★ [치트키] 모든 인챈트 레벨 리셋 완료 (0으로 초기화) ★★★");
+            }
+            else
+            {
+                Debug.LogError("[치트키] DataManager.instance가 null입니다!");
+            }
+        }
     }
 
     public void TakeDamage(float damage) // 데미지 받는 함수
@@ -236,6 +405,17 @@ public class PlayerStats : MonoBehaviour
 
         playerCurHP -= finalDamage;
         lastHitTime = Time.time; // 피격 시간 기록
+        
+        // 잠입의 달인: 피해를 받으면 잠입 상태 초기화
+        if (hasStealth)
+        {
+            lastDamageTime = Time.time;
+            if (stealthAttackReady)
+            {
+                stealthAttackReady = false;
+                Debug.Log("[잠입의 달인] 피해를 받아 잠입 공격 취소됨");
+            }
+        }
 
         Debug.Log($"받은 데미지: {damage:F1} → 방어 후: {finalDamage:F1} (방어력: {totalDefense}, 감소율: {damageReduction * 100:F1}%)");
 
@@ -434,6 +614,30 @@ public class PlayerStats : MonoBehaviour
         OnHealthChanged?.Invoke(playerCurHP);
         Debug.Log($"최대 체력 변경: {oldMaxHP} → {playerMaxHP} (배율: {multiplier}x, 현재 체력: {playerCurHP})");
     }
+    
+    // 최대 체력을 고정값으로 증가 (추가 체력 능력용)
+    public void AddMaxHP(float amount)
+    {
+        float oldMaxHP = playerMaxHP;
+        playerMaxHP += amount;
+        
+        // 현재 체력도 증가량만큼 증가 (체력을 채워주는 효과)
+        playerCurHP += amount;
+        
+        OnHealthChanged?.Invoke(playerCurHP);
+        Debug.Log($"최대 체력 증가: {oldMaxHP} → {playerMaxHP} (+{amount}, 현재 체력: {playerCurHP})");
+    }
+
+    public void ModifyDefense(float value, bool isAdditive)
+    {
+        float oldValue = totalDefense;
+        if (isAdditive)
+            totalDefense += value;
+        else
+            totalDefense *= value;
+        
+        Debug.Log($"[방어력 변경] {oldValue:F2} → {totalDefense:F2} (변화량: {value:F2}, 타입: {(isAdditive ? "덧셈" : "곱셈")})");
+    }
 
     public void SetVampireChance(float chance)
     {
@@ -491,6 +695,17 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    public void SetStealth(bool enabled)
+    {
+        hasStealth = enabled;
+        stealthAttackReady = false;
+        lastDamageTime = Time.time; // 능력 습득 시점부터 타이머 시작
+        if (enabled)
+        {
+            Debug.Log($"잠입의 달인 활성화! {stealthSafeTime}초간 피해받지 않으면 다음 공격 {stealthAttackMultiplier * 100}% 적용");
+        }
+    }
+
     // 급소 공격 체크 (무기에서 호출)
     public bool CheckCriticalStrike()
     {
@@ -510,6 +725,24 @@ public class PlayerStats : MonoBehaviour
     public float GetCriticalStrikeMultiplier()
     {
         return criticalStrikeMultiplier;
+    }
+
+    // 잠입 공격 체크 (무기에서 호출)
+    public bool CheckStealthAttack()
+    {
+        if (!hasStealth || !stealthAttackReady) return false;
+        
+        // 잠입 공격 사용 (1회용)
+        stealthAttackReady = false;
+        lastDamageTime = Time.time; // 타이머 리셋
+        Debug.Log($"★ 잠입 공격 발동! 공격력 {stealthAttackMultiplier * 100}% 적용");
+        
+        return true;
+    }
+
+    public float GetStealthAttackMultiplier()
+    {
+        return stealthAttackMultiplier;
     }
 
     // ===== 스탯 게터 메서드들 (다른 클래스에서 참조용) =====
@@ -678,6 +911,37 @@ public class PlayerStats : MonoBehaviour
         return weaponData.baseAtk;
     }
 
+    // 현재 장착된 무기의 인챈트 레벨을 새로고침 (치트키용)
+    private void RefreshWeaponEnchants()
+    {
+        Debug.Log("→→→ [RefreshWeaponEnchants] 무기 인챈트 새로고침 시작 ←←←");
+        
+        // AttackManager를 통해 현재 무기 찾기
+        AttackManager attackManager = GetComponent<AttackManager>();
+        if (attackManager != null)
+        {
+            Debug.Log($"→ AttackManager 찾음: {attackManager.name}");
+            
+            WeaponBase currentWeapon = attackManager.GetComponentInChildren<WeaponBase>();
+            if (currentWeapon != null)
+            {
+                Debug.Log($"→ 현재 무기 찾음: {currentWeapon.GetType().Name} (WeaponID: {currentWeapon.GetWeaponId()})");
+                
+                currentWeapon.UpgradeEnchantLevels();
+                
+                Debug.Log("✓✓✓ [RefreshWeaponEnchants] 무기 인챈트 레벨 새로고침 완료! ✓✓✓");
+            }
+            else
+            {
+                Debug.LogWarning("✗ [RefreshWeaponEnchants] 현재 장착된 무기를 찾을 수 없습니다!");
+            }
+        }
+        else
+        {
+            Debug.LogError("✗✗✗ [RefreshWeaponEnchants] AttackManager를 찾을 수 없습니다! ✗✗✗");
+        }
+    }
+
     // 랜덤 능력 초기화 (던전 종료 시 호출)
     // 씬 전환 시 플레이어가 새로 생성되므로 Start()에서 자동으로 초기화됩니다.
     public void ResetAbilities()
@@ -703,6 +967,9 @@ public class PlayerStats : MonoBehaviour
         hasLastStand = false;
         lastStandUsed = false;
         lastStandInvincibilityEndTime = 0f;
+        hasStealth = false;
+        stealthAttackReady = false;
+        lastDamageTime = 0f;
         
         // 3. 디버그 플래그 초기화
         debugShowRage = false;

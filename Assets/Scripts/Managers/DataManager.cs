@@ -253,6 +253,26 @@ public class DataManager : MonoBehaviour
         return (enchant != null) ? enchant.level : 0;
     }
 
+    // 인챈트 레벨 직접 설정 (치트키용)
+    public void SetEnchantLevel(string id, int level)
+    {
+        var enchant = currentPlayer.unlockedEnchants.Find(e => e.enchantId == id);
+        
+        if (enchant != null)
+        {
+            // 이미 존재하면 레벨 변경
+            enchant.level = Mathf.Max(0, level); // 음수 방지
+        }
+        else if (level > 0)
+        {
+            // 존재하지 않고 레벨이 0보다 크면 새로 추가
+            currentPlayer.unlockedEnchants.Add(new EnchantState(id, level));
+        }
+        
+        SaveGame();
+        Debug.Log($"[DataManager] {id} 인챈트 레벨 설정: {level}");
+    }
+
     
     //강화
     public bool TryUpgradeItem(string id)

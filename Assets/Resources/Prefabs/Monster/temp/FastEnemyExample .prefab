@@ -472,6 +472,7 @@ MonoBehaviour:
   expJewelPrefab: {fileID: -5577271535738719069, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
   usePooling: 1
   hpSlider: {fileID: 290604266879168962}
+  lightningFieldPrefab: {fileID: 4767905910849374279, guid: 297f71522dc1b3c4497e60d2cd7ff014, type: 3}
   moveSpeed: 10
 --- !u!1 &8938235176254062593
 GameObject:

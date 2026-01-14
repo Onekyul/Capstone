@@ -52,13 +52,15 @@ public enum StatType
     MoveSpeedMultiplier,        // 이동속도 배율
     AttackCount,                // 공격 횟수
     MaxHP,                      // 최대 체력
+    Defense,                    // 방어력
     VampireChance,              // 흡혈 확률
     DodgeChance,                // 회피 확률
     ShadowCooldown,             // 그림자 은신 쿨타임
     HasRage,                    // 분노 보유
     HasRevenge,                 // 복수심 보유
     HasCriticalStrike,          // 급소 공격 보유
-    HasLastStand                // 불굴의 의지 보유
+    HasLastStand,               // 불굴의 의지 보유
+    HasStealth                  // 잠입의 달인 보유
 }
 
 // 연산 타입

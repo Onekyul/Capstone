@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bcecb4a804a77e45b365f512a832543, type: 3}
+  m_Name: Ability_Stealth
+  m_EditorClassIdentifier: 
+  abilityID: 23
+  abilityName: "\uC7A0\uC785\uC758 \uB2EC\uC778"
+  description: "5\uCD08 \uB3D9\uC548 \uD53C\uD574\uBC1B\uC9C0 \uC54A\uC73C\uBA74
+    \uB2E4\uC74C 1\uBC88\uC758 \uACF5\uACA9\uC5D0 \uD55C\uD574\uC11C \uACF5\uACA9\uB825
+    300% \uC99D\uAC00"
+  icon: {fileID: 0}
+  abilityType: 0
+  canStack: 0
+  hasLevels: 0
+  maxLevel: 1
+  statModifiers:
+  - statType: 14
+    operation: 2
+    valuePerLevel:
+    - 1

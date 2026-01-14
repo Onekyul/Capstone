@@ -129,6 +129,13 @@ public class AbilitySystem : MonoBehaviour
             playerStats.SetLastStand(true);
             Debug.Log("[AbilitySystem] 불굴의 의지 활성화! 사망 시 체력 1%로 회복 및 3초 무적 (1회용)");
         }
+        
+        // 능력 ID 23 (잠입의 달인)인 경우 특수 처리
+        if (ability.abilityID == 23)
+        {
+            playerStats.SetStealth(true);
+            Debug.Log("[AbilitySystem] 잠입의 달인 활성화! 5초간 피해받지 않으면 다음 공격 300% 적용");
+        }
     }
 
 
@@ -176,8 +183,17 @@ public class AbilitySystem : MonoBehaviour
                 break;
 
             case StatType.MaxHP:
-                if (operation == ModifierOperation.Multiply)
+                if (operation == ModifierOperation.Add)
+                    playerStats.AddMaxHP(value);
+                else if (operation == ModifierOperation.Multiply)
                     playerStats.ModifyMaxHP(value);
+                break;
+
+            case StatType.Defense:
+                if (operation == ModifierOperation.Add)
+                    playerStats.ModifyDefense(value, true);
+                else if (operation == ModifierOperation.Multiply)
+                    playerStats.ModifyDefense(value, false);
                 break;
 
             case StatType.VampireChance:
@@ -206,6 +222,10 @@ public class AbilitySystem : MonoBehaviour
 
             case StatType.HasLastStand:
                 playerStats.SetLastStand(value > 0);
+                break;
+
+            case StatType.HasStealth:
+                playerStats.SetStealth(value > 0);
                 break;
         }
     }
@@ -244,6 +264,11 @@ public class AbilitySystem : MonoBehaviour
             case StatType.AttackSpeedMultiplier:
                 if (operation == ModifierOperation.Add)
                     playerStats.ModifyAttackSpeed(-value, true);
+                break;
+
+            case StatType.Defense:
+                if (operation == ModifierOperation.Add)
+                    playerStats.ModifyDefense(-value, true);
                 break;
 
             case StatType.VampireChance:
