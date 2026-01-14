@@ -429,9 +429,9 @@ public class PlayerStats : MonoBehaviour
             if (boots != null)
             {
                 int bootsLevel = DataManager.instance.GetItemLevel(bootsId);
-                float bootsSpeedBonus = boots.bonusSpeed + (boots.speedPerLevel * bootsLevel);
+                float bootsSpeedBonus = boots.bonusAtkSpeed + (boots.speedPerLevel * bootsLevel);
                 moveSpeedMultiplier += bootsSpeedBonus;
-                Debug.Log($"신발 장착: {boots.armorName} +{bootsLevel} (이동 속도 +{bootsSpeedBonus} = 기본 {boots.bonusSpeed} + 강화 {boots.speedPerLevel * bootsLevel})");
+                Debug.Log($"신발 장착: {boots.armorName} +{bootsLevel} (이동 속도 +{bootsSpeedBonus} = 기본 {boots.bonusAtkSpeed} + 강화 {boots.speedPerLevel * bootsLevel})");
             }
             else
             {

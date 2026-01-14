@@ -93,7 +93,7 @@ public class BlacksmithUI : MonoBehaviour
                         statLabel = "방어력";
                         break;
                     case EquipmentType.Boots:
-                        statLabel = "이동속도";
+                        statLabel = "공격속도";
                         break;
                 }
             }
