@@ -1,15 +1,17 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using System.IO;
 using System.Text;
-
-using System.Collections.Generic;
 
 public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
     public PlayerData currentPlayer;
-    private string savePath;
+    private string baseUrl = "http://localhost:7001/api";
+    public int MyUserId { get; private set; }
 
     void Awake()
     {
@@ -23,40 +25,205 @@ public class DataManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        savePath = Path.Combine(Application.persistentDataPath, "save.dat");
-        Debug.Log($"세이브 파일 위치: {savePath}");
-        LoadGame();
+        if (currentPlayer == null) currentPlayer = new PlayerData();
+    }
+    
+    // ==================================================================================
+    // [server] 로그인 & 데이터 로드
+    // ==================================================================================
+    public void InitializeNetwork(Action onComplete)
+    {
+        // 디바이스 ID로 게스트 로그인, 게임 시작시 호출
+        string deviceId = SystemInfo.deviceUniqueIdentifier;
+        StartCoroutine(CoGuestLogin(deviceId, onComplete));
+    }
+
+    IEnumerator CoGuestLogin(string deviceId, Action onComplete)
+    {
+        Debug.Log("[SERVER] GuestLogin..");
+        string json = $"{{\"deviceId\":\"{deviceId}\"}}";
+
+        using (UnityWebRequest req = CreatePostRequest(baseUrl + "/Auth/guest-login", json))
+        {
+            yield return req.SendWebRequest();
+
+            if (req.result == UnityWebRequest.Result.Success)
+            {
+                var res = JsonUtility.FromJson<LoginResponseDto>(req.downloadHandler.text);
+                MyUserId = res.userId;
+                Debug.Log($"✅ [Server] 로그인 성공 ID: {MyUserId}, 닉네임: {res.nickname}");
+
+                StartCoroutine(CoLoadGame(onComplete));
+            }
+            else
+            {
+                Debug.LogError($"[Server] 로그인 실패: {req.error}");
+            }
+        }
+    }
+    
+    IEnumerator CoLoadGame(Action onComplete)
+    {
+        string json = $"{{\"userId\":{MyUserId}}}";
+
+        using (UnityWebRequest req = CreatePostRequest(baseUrl + "/Game/load", json))
+        {
+            yield return req.SendWebRequest();
+
+            if (req.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log($"📥 [Server] 데이터 로드 완료");
+                
+                // 1. 서버 DTO 받기
+                GameDataDto serverData = JsonUtility.FromJson<GameDataDto>(req.downloadHandler.text);
+                
+                // 2. 로컬 PlayerData로 변환 (여기서 내부 함수 사용)
+                ApplyServerDataToLocal(serverData);
+                
+                onComplete?.Invoke();
+            }
+            else
+            {
+                Debug.LogError($" [Server] 데이터 로드 실패: {req.error}");
+            }
+        }
     }
     
     
+    // ==================================================================================
+    // [Server] 데이터 저장 (Save)
+    // ==================================================================================
     
-    //데이터 세이브 및 로드 
     public void SaveGame()
     {
-        string json = JsonUtility.ToJson(currentPlayer);
-        byte[] bytes = Encoding.UTF8.GetBytes(json);
-        string code = Convert.ToBase64String(bytes);
-
-        File.WriteAllText(savePath, code);
+        if (MyUserId == 0) return;
+        StartCoroutine(CoSaveGame());
     }
-
-    public void LoadGame()
+    
+    IEnumerator CoSaveGame()
     {
-        // 1. 저장된 파일이 있으면 불러오기
-        if (File.Exists(savePath))
+        GameDataDto dataToSend = ConvertLocalToServerData();
+        string json = JsonUtility.ToJson(dataToSend);
+
+        using (UnityWebRequest req = CreatePostRequest(baseUrl + "/Game/save", json))
         {
-            string code = File.ReadAllText(savePath);
-            byte[] bytes = Convert.FromBase64String(code);
-            string json = Encoding.UTF8.GetString(bytes);
-            currentPlayer = JsonUtility.FromJson<PlayerData>(json);
-        }
-        else
-        {
-            currentPlayer = new PlayerData();
-            SaveGame();
+            yield return req.SendWebRequest();
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                // 아직 서버에 Save API가 없으면 실패하는 게 정상
+            }
         }
     }
-  
+
+    // ==================================================================================
+    // [Mapping] 데이터 변환 (서버 DTO <-> 로컬 PlayerData)
+    // ==================================================================================
+  // 서버 DTO -> 로컬 데이터 적용
+    private void ApplyServerDataToLocal(GameDataDto serverData)
+    {
+        // 1. 인벤토리 동기화
+        currentPlayer.Inventory.Clear();
+        foreach (var itemDto in serverData.inventory)
+        {
+            // ResourceManager 대신 내부에 있는 GetMaterialData 사용
+            ItemData itemSO = GetMaterialData(itemDto.id);
+            if (itemSO != null)
+            {
+                currentPlayer.Inventory.Add(new InventorySlot(itemDto.id, itemDto.count));
+            }
+        }
+
+        // 2. 인챈트 동기화
+        currentPlayer.unlockedEnchants.Clear();
+        foreach (var enchantDto in serverData.enchants)
+        {
+            EnchantData enchantSO = GetEnchantData(enchantDto.id);
+            if (enchantSO != null)
+            {
+                currentPlayer.unlockedEnchants.Add(new EnchantState(enchantDto.id, enchantDto.level));
+            }
+        }
+
+        // 3. 장착 정보 및 장비 리스트 동기화
+        if (serverData.equip != null)
+        {
+            currentPlayer.equippedWeaponId = serverData.equip.weapon;
+            currentPlayer.equippedHelmetId = serverData.equip.helmet;
+            currentPlayer.equippedArmorId = serverData.equip.armor;
+            currentPlayer.equippedBootsId = serverData.equip.boots;
+
+            if (!string.IsNullOrEmpty(currentPlayer.equippedWeaponId))
+            {
+                int type = GetWeaponTypeFromId(currentPlayer.equippedWeaponId);
+                EquipWeaponByType(currentPlayer.equippedWeaponId, type);
+            }
+        }
+        
+        // 보유 장비 리스트 처리 (서버에서 받은 목록 -> 로컬 목록)
+        currentPlayer.ownedWeapons.Clear();
+        currentPlayer.ownedArmors.Clear();
+        
+        foreach(var equipDto in serverData.equipments)
+        {
+            // 무기인지 체크
+            WeaponData wData = GetWeaponData(equipDto.id);
+            if(wData != null)
+            {
+                currentPlayer.ownedWeapons.Add(new EquipmentState(equipDto.id, equipDto.level));
+                continue;
+            }
+            
+            // 방어구인지 체크
+            ArmorData aData = GetArmorData(equipDto.id);
+            if(aData != null)
+            {
+                currentPlayer.ownedArmors.Add(new EquipmentState(equipDto.id, equipDto.level));
+            }
+        }
+    }
+
+    private GameDataDto ConvertLocalToServerData()
+    {
+        GameDataDto data = new GameDataDto();
+        data.userId = MyUserId;
+        
+        foreach (var slot in currentPlayer.Inventory)
+            data.inventory.Add(new ItemDto(slot.itemId, slot.count));
+
+        foreach (var enchant in currentPlayer.unlockedEnchants)
+            data.enchants.Add(new EnchantDto(enchant.enchantId, enchant.level));
+        
+        data.equip = new EquipDto();
+        data.equip.weapon = currentPlayer.equippedWeaponId;
+        data.equip.helmet = currentPlayer.equippedHelmetId;
+        data.equip.armor = currentPlayer.equippedArmorId;
+        data.equip.boots = currentPlayer.equippedBootsId;
+
+        foreach(var w in currentPlayer.ownedWeapons)
+        {
+            data.equipments.Add(new EquipItemDto(w.itemId, w.reinforcementLevel));
+        }
+            
+        foreach(var a in currentPlayer.ownedArmors)
+        {
+            data.equipments.Add(new EquipItemDto(a.itemId, a.reinforcementLevel));
+        }
+        return data;
+    }
+    
+    private UnityWebRequest CreatePostRequest(string url, string json)
+    {
+        var req = UnityWebRequest.PostWwwForm(url, json);
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+        req.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        req.downloadHandler = new DownloadHandlerBuffer();
+        req.SetRequestHeader("Content-Type", "application/json");
+        return req;
+    }
+    
+    
+    
+    
     //인벤토리 추가 및 사용
     public void AddInventory(string id, int amount)
     {
@@ -173,14 +340,12 @@ public class DataManager : MonoBehaviour
     //SO getter
     public WeaponData GetWeaponData(string id)
     {
-        WeaponData data = null;
-        data= Resources.Load<WeaponData>($"Data/Items/Weapon/Sword/{id}");
+        WeaponData data = Resources.Load<WeaponData>($"Data/Items/Weapon/Sword/{id}");
         if (data != null) return data;
-        data= Resources.Load<WeaponData>($"Data/Items/Weapon/Bow/{id}");
+        data = Resources.Load<WeaponData>($"Data/Items/Weapon/Bow/{id}");
         if (data != null) return data;
-        data= Resources.Load<WeaponData>($"Data/Items/Weapon/Spear/{id}");
-        if (data != null) return data;
-        return null;
+        data = Resources.Load<WeaponData>($"Data/Items/Weapon/Spear/{id}");
+        return data;
     }
     
     // 무기 ID로 무기 타입 판단 (0=Sword, 1=Spear, 2=Bow)
@@ -206,15 +371,10 @@ public class DataManager : MonoBehaviour
     {
         ArmorData data = Resources.Load<ArmorData>($"Data/Items/Armor/Helmet/{id}");
         if (data != null) return data;
-        
         data = Resources.Load<ArmorData>($"Data/Items/Armor/Armor/{id}");
         if (data != null) return data;
-        
         data = Resources.Load<ArmorData>($"Data/Items/Armor/Boots/{id}");
-        if (data != null) return data;
-        
-        Debug.LogError($"[GetArmorData] 방어구 데이터를 찾을 수 없습니다. ID: {id}\n(검색 경로: Data/Items/Armor/ 하위의 Helmet, Armor, Boots 폴더)");
-        return null;
+        return data;
     }
     public ItemData GetMaterialData(string id)
     {
