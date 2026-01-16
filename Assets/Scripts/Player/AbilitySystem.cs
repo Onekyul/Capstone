@@ -227,6 +227,11 @@ public class AbilitySystem : MonoBehaviour
             case StatType.HasStealth:
                 playerStats.SetStealth(value > 0);
                 break;
+
+            case StatType.ExpMultiplier:
+                if (operation == ModifierOperation.Add)
+                    LevelManager.instance.AddExpMultiplier(value);
+                break;
         }
     }
 
@@ -277,6 +282,11 @@ public class AbilitySystem : MonoBehaviour
 
             case StatType.ShadowCooldown:
                 playerStats.SetShadowCooldown(0f);
+                break;
+
+            case StatType.ExpMultiplier:
+                if (operation == ModifierOperation.Add)
+                    LevelManager.instance.AddExpMultiplier(-value);
                 break;
 
             // 다른 스탯들도 필요시 추가

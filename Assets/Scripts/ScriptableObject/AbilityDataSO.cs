@@ -60,7 +60,8 @@ public enum StatType
     HasRevenge,                 // 복수심 보유
     HasCriticalStrike,          // 급소 공격 보유
     HasLastStand,               // 불굴의 의지 보유
-    HasStealth                  // 잠입의 달인 보유
+    HasStealth,                 // 잠입의 달인 보유
+    ExpMultiplier               // 경험치 획득률 배율
 }
 
 // 연산 타입
