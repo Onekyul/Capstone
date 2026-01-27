@@ -3,8 +3,20 @@ using UnityEngine;
 using System;
 using UnityEngine.UI; // ★ UI 기능을 쓰려면 이게 꼭 필요합니다!
 
+// 몬스터 타입 enum
+public enum MonsterType
+{
+    Normal,     // 일반 몬스터
+    Elite,      // 엘리트 몬스터 (은상자 드랍)
+    Element     // 속성 몬스터 (금상자 드랍)
+}
+
 public class MonsterController : MonoBehaviour
 {
+    [Header("Monster Type")]
+    [SerializeField] protected MonsterType monsterType = MonsterType.Normal; // 몬스터 타입
+    public MonsterType GetMonsterType() => monsterType; // 외부에서 타입 확인용
+
     [Header("Basic Stats")]
     [SerializeField] protected float contactDamage = 5.0f;
     public float normalDamage => contactDamage;
@@ -307,7 +319,7 @@ public class MonsterController : MonoBehaviour
         {
             GameObject fieldObj = Instantiate(lightningFieldPrefab, transform.position, Quaternion.identity);
             LightningFieldController fieldController = fieldObj.GetComponent<LightningFieldController>();
-            
+
             if (fieldController != null)
             {
                 // LightningFieldController가 자동으로 플레이어 공격력 × 30%를 계산합니다
