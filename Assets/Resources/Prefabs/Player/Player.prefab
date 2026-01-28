@@ -149,7 +149,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  swordRange: 1.8
+  swordRange: 4
   effectOffsetDistance: 0.8
 --- !u!1 &2581213020333824419
 GameObject:
@@ -594,7 +594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0cb60f25a15bb4a86be00086f978e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 5
+  playerSpeed: 4
   attackManager: {fileID: 6614344249973979373}
   spriteRenderer: {fileID: 0}
 --- !u!50 &8747429518043073597

@@ -640,17 +640,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c272c8da0b095974fa06a5391199a893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contactDamage: 5
-  MaxHP: 15
+  contactDamage: 10
+  MaxHP: 10
   CurHP: 0
-  defaultMoveSpeed: 1
+  moveSpeed: 15
   poolTag: Fast
   expJewelPrefab: {fileID: -5577271535738719069, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
   usePooling: 1
   hpSlider: {fileID: 290604266879168962}
+  lightningFieldPrefab: {fileID: 0}
   burnEffectObject: {fileID: 5633199905882819245}
   poisonEffectObject: {fileID: 3161669611923837453}
-  moveSpeed: 10
 --- !u!1 &8938235176254062593
 GameObject:
   m_ObjectHideFlags: 0
