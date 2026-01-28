@@ -46,7 +46,24 @@ public class SpearWeapon : WeaponBase
             {
                 if (enemy != null)
                 {
-                    enemy.GetComponent<MonsterController>()?.TakeDamage(GetTotalDamage());
+                    // 최종 데미지 계산
+                    float finalDamage = GetTotalDamage();
+                    
+                    // 엘리트 킬러 능력 적용
+                    MonsterController monster = enemy.GetComponent<MonsterController>();
+                    if (monster != null && playerStats != null)
+                    {
+                        MonsterType monsterType = monster.GetMonsterType();
+                        float monsterTypeMultiplier = playerStats.GetMonsterTypeDamageMultiplier(monsterType);
+                        finalDamage *= monsterTypeMultiplier;
+                        
+                        if (monsterTypeMultiplier != 1.0f)
+                        {
+                            Debug.Log($"[엘리트 킬러] {monsterType} 몬스터에게 배율 {monsterTypeMultiplier * 100}% 적용! 최종 데미지: {finalDamage:F1}");
+                        }
+                    }
+                    
+                    enemy.GetComponent<MonsterController>()?.TakeDamage(finalDamage);
                 }
             }
             

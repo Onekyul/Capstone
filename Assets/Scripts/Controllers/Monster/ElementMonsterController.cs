@@ -13,6 +13,10 @@ public class ElementMonsterController : MonsterController
     protected override void Start()
     {
         base.Start();
+        
+        // 속성 몬스터 타입 설정
+        monsterType = MonsterType.Element;
+        
         // 시작하자마자 바로 공격할 수 있게 하거나, 딜레이를 주거나 설정
         lastAttackTime = -attackCooldown;
     }

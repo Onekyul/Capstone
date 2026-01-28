@@ -7,6 +7,14 @@ public class PlayerStats : MonoBehaviour
     // 싱글톤 인스턴스 (비활성화 상태에서도 접근 가능)
     public static PlayerStats Instance { get; private set; }
 
+    [Header("Visual Effects")]
+    [SerializeField] private SpriteRenderer playerSprite; // 플레이어 렌더러
+    [SerializeField] private Material flashMaterial;      // 흰색 점멸 머티리얼 (M_WhiteFlash)
+    [SerializeField] private float flashDuration = 0.08f;  // 반짝이는 시간
+    
+    private Material originalMaterial; // 원래 Material을 저장할 변수
+    private bool isFlashing = false;
+
     [Header("Health System")]
     [SerializeField] private float baseMaxHP = 100f;// 기본 최대 체력
     [SerializeField] private float playerMaxHP = 100f;// 최종 최대 체력 (기본 + 장비 보너스)
@@ -50,6 +58,10 @@ public class PlayerStats : MonoBehaviour
     private float stealthSafeTime = 5f; // 피해 받지 않아야 하는 시간 (5초)
     private float lastDamageTime = 0f; // 마지막으로 피해를 받은 시간
     private float stealthAttackMultiplier = 3.0f; // 잠입 공격 배율 (300%)
+    private bool hasEliteKiller = false; // 엘리트/속성 킬러 보유 여부
+    private bool hasElementalMastery = false; // 속성 공격 보유 여부
+    private int elementalMasteryAttackCount = 0; // 속성 공격 카운터 (10번째마다 발동)
+    private const int ELEMENTAL_MASTERY_TRIGGER = 10; // 10번째 공격마다 발동
 
     [Header("Collision Damage")]
     [SerializeField] private float damageTickCooldown = 1.0f; // 1초에 한 번씩만 겹침 데미지를 받음
@@ -91,6 +103,23 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
+        // SpriteRenderer 자동 할당
+        if (playerSprite == null)
+        {
+            playerSprite = GetComponent<SpriteRenderer>();
+        }
+        
+        // 게임 시작 시 원래 Material 저장
+        if (playerSprite != null)
+        {
+            originalMaterial = playerSprite.material;
+            Debug.Log($"[PlayerStats] 원래 Material 저장 완료: {originalMaterial.name}");
+        }
+        else
+        {
+            Debug.LogWarning("[PlayerStats] SpriteRenderer를 찾을 수 없습니다! 흰색 점멸 효과가 작동하지 않습니다.");
+        }
+        
         // DataManager가 준비될 때까지 대기
         if (DataManager.instance == null)
         {
@@ -250,6 +279,21 @@ public class PlayerStats : MonoBehaviour
             }
             
             AcquireAbility(29); // 추가 체력 능력 ID = 29
+        }
+
+        // ===== 치트키: 속성 공격 테스트 (Home) =====
+        if (Input.GetKeyDown(KeyCode.Home))
+        {
+            Debug.Log("===== [치트키] 속성 공격 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(9); // 속성 공격 능력 ID = 9
         }
 
         // ===== 치트키: 인챈트 레벨 조정 =====
@@ -438,6 +482,12 @@ public class PlayerStats : MonoBehaviour
         {
             float reflectDamage = finalDamage * GetReflectPercent();
             ReflectDamageToAttacker(attackerCollider, reflectDamage);
+        }
+
+        // 피격 시 흰색 점멸 실행
+        if (!isFlashing)
+        {
+            StartCoroutine(WhiteFlashRoutine());
         }
 
         OnHealthChanged?.Invoke(playerCurHP);
@@ -706,6 +756,15 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    public void SetEliteKiller(bool enabled)
+    {
+        hasEliteKiller = enabled;
+        if (enabled)
+        {
+            Debug.Log("엘리트 킬러 활성화! 엘리트/속성 몬스터 공격력 150%, 일반 몬스터 공격력 75%");
+        }
+    }
+
     // 급소 공격 체크 (무기에서 호출)
     public bool CheckCriticalStrike()
     {
@@ -743,6 +802,23 @@ public class PlayerStats : MonoBehaviour
     public float GetStealthAttackMultiplier()
     {
         return stealthAttackMultiplier;
+    }
+
+    // 엘리트 킬러 능력: 몬스터 타입에 따른 데미지 배율
+    public float GetMonsterTypeDamageMultiplier(MonsterType monsterType)
+    {
+        if (!hasEliteKiller) return 1.0f; // 능력이 없으면 배율 없음
+
+        switch (monsterType)
+        {
+            case MonsterType.Elite:
+            case MonsterType.Element:
+                return 1.5f; // 엘리트/속성 몬스터: 150%
+            case MonsterType.Normal:
+                return 0.75f; // 일반 몬스터: 75%
+            default:
+                return 1.0f;
+        }
     }
 
     // ===== 스탯 게터 메서드들 (다른 클래스에서 참조용) =====
@@ -970,6 +1046,9 @@ public class PlayerStats : MonoBehaviour
         hasStealth = false;
         stealthAttackReady = false;
         lastDamageTime = 0f;
+        hasEliteKiller = false;
+        hasElementalMastery = false;
+        elementalMasteryAttackCount = 0;
         
         // 3. 디버그 플래그 초기화
         debugShowRage = false;
@@ -1013,5 +1092,74 @@ public class PlayerStats : MonoBehaviour
         Debug.Log("[PlayerStats] 플레이어 부활 완료");
     }
 
+    // 흰색 점멸 효과 코루틴
+    private IEnumerator WhiteFlashRoutine()
+    {
+        isFlashing = true;
+
+        // 1. 머티리얼을 흰색 전용으로 교체
+        if (playerSprite != null && flashMaterial != null)
+        {
+            playerSprite.material = flashMaterial;
+
+            // 2. 아주 짧은 시간 대기
+            yield return new WaitForSeconds(flashDuration);
+
+            // 3. 원래 머티리얼로 복구
+            playerSprite.material = originalMaterial;
+        }
+
+        isFlashing = false;
+    }
+    
+    // ===== 속성 공격 (Elemental Mastery) 관련 함수 =====
+    
+    // 속성 공격 능력 활성화
+    public void SetElementalMastery(bool active)
+    {
+        hasElementalMastery = active;
+        if (active)
+        {
+            elementalMasteryAttackCount = 0; // 카운터 초기화
+            Debug.Log("★ [속성 공격] 능력 활성화! 10번째 공격마다 모든 인챈트가 100% 발동합니다.");
+        }
+        else
+        {
+            Debug.Log("[속성 공격] 능력 비활성화");
+        }
+    }
+    
+    // 공격할 때마다 카운터 증가 (무기에서 호출)
+    public void IncrementAttackCounter()
+    {
+        if (!hasElementalMastery) return;
+        
+        elementalMasteryAttackCount++;
+        Debug.Log($"[속성 공격] 공격 카운터: {elementalMasteryAttackCount}/{ELEMENTAL_MASTERY_TRIGGER}");
+    }
+    
+    // 현재 공격이 10번째 공격인지 확인 (무기에서 호출)
+    public bool ShouldTriggerElementalMastery()
+    {
+        if (!hasElementalMastery) return false;
+        
+        // 카운터 증가
+        elementalMasteryAttackCount++;
+        
+        if (elementalMasteryAttackCount >= ELEMENTAL_MASTERY_TRIGGER)
+        {
+            elementalMasteryAttackCount = 0; // 카운터 리셋
+            Debug.Log($"★★★ [속성 공격] 10번째 공격 발동! 모든 인챈트가 100% 확률로 적용됩니다! ★★★");
+            return true;
+        }
+        
+        Debug.Log($"[속성 공격] 공격 카운터: {elementalMasteryAttackCount}/{ELEMENTAL_MASTERY_TRIGGER}");
+        return false;
+    }
+    
+    // 속성 공격 보유 여부 확인
+    public bool HasElementalMastery() => hasElementalMastery;
+
 }
+
 
