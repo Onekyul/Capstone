@@ -46,7 +46,7 @@ public class MonsterController : MonoBehaviour
 
     // --- 상태이상 코루틴 ---
     private Coroutine burnCoroutine;
-    private Coroutine iceCoroutine; 
+    private Coroutine iceCoroutine;
     private Coroutine poisonCoroutine;
 
     // --- 상태 플래그 ---
@@ -76,7 +76,7 @@ public class MonsterController : MonoBehaviour
         if (hpSlider != null)
         {
             hpSlider.value = 1.0f;
-            hpSlider.gameObject.SetActive(true); 
+            hpSlider.gameObject.SetActive(true);
         }
         currentMoveSpeed = defaultMoveSpeed;
         damageMultiplier = 1.0f;
@@ -91,7 +91,7 @@ public class MonsterController : MonoBehaviour
         // ★ 이펙트 끄기 (초기화)
         if (burnEffectObject != null) burnEffectObject.SetActive(false);
         if (poisonEffectObject != null) poisonEffectObject.SetActive(false);
-        
+
         UpdateColor(); // 색상 초기화
     }
 
@@ -115,21 +115,21 @@ public class MonsterController : MonoBehaviour
         if (spriteRenderer == null) return;
 
         // 1순위: 빙결 (진한 파랑)
-        if (isFrozen) 
+        if (isFrozen)
         {
             spriteRenderer.color = new Color(0.3f, 0.3f, 1f);
         }
         // 2순위: 감속 (하늘색)
-        else if (isSlowed) 
+        else if (isSlowed)
         {
             spriteRenderer.color = Color.cyan;
         }
         // 3순위: 일반 (흰색)
-        else 
+        else
         {
             spriteRenderer.color = Color.white;
         }
-        
+
         // *참고: 독(보라색)이나 화상(빨간색)은 이제 색깔을 바꾸지 않습니다. 이펙트로 보여줍니다.
     }
 
@@ -151,7 +151,7 @@ public class MonsterController : MonoBehaviour
 
         //StartCoroutine(FlashColor(Color.red, 0.1f));
     }
-    
+
     public void TakeDirectDamage(float damage)
     {
         float finalDamage = damage * damageMultiplier;
@@ -164,7 +164,7 @@ public class MonsterController : MonoBehaviour
         //StartCoroutine(FlashColor(Color.yellow, 0.1f));
     }
 
-    
+
     public void TakeElement(int[] enchants)
     {
         // [0] 화염 
@@ -205,7 +205,7 @@ public class MonsterController : MonoBehaviour
         // ★ 화상 이펙트 켜기
         if (burnEffectObject != null) burnEffectObject.SetActive(true);
 
-        int ticks = 6; 
+        int ticks = 6;
         float interval = 0.5f;
         // 화상 데미지: 본체 데미지의 10% * 레벨
         float tickDamage = storedLastDamage * (level * 0.1f);
@@ -217,7 +217,7 @@ public class MonsterController : MonoBehaviour
             yield return new WaitForSeconds(interval);
             TakeDirectDamage(tickDamage);
         }
-        
+
         // ★ 화상 이펙트 끄기
         if (burnEffectObject != null) burnEffectObject.SetActive(false);
         burnCoroutine = null;
@@ -244,7 +244,7 @@ public class MonsterController : MonoBehaviour
     {
         isSlowed = true;
         isFrozen = false;
-        
+
         float slowPercent = Mathf.Clamp(level * 0.15f, 0.1f, 0.9f);
         currentMoveSpeed = defaultMoveSpeed * (1.0f - slowPercent);
         UpdateColor(); // ★ 색상 갱신 (Cyan)
@@ -260,7 +260,7 @@ public class MonsterController : MonoBehaviour
     IEnumerator FreezeRoutine(int level)
     {
         isFrozen = true;
-        isSlowed = false; 
+        isSlowed = false;
         currentMoveSpeed = 0f;
         UpdateColor(); // ★ 색상 갱신 (Blue)
 
@@ -299,7 +299,7 @@ public class MonsterController : MonoBehaviour
                 }
             }
         }
-        
+
         Debug.Log($"[Lightning Enchant] 즉발 데미지: {lightningDamage}, {hitCount}마리 타격");
 
         // 3. 번개 필드 생성 (프리팹이 있는 경우)
@@ -307,7 +307,7 @@ public class MonsterController : MonoBehaviour
         {
             GameObject fieldObj = Instantiate(lightningFieldPrefab, transform.position, Quaternion.identity);
             LightningFieldController fieldController = fieldObj.GetComponent<LightningFieldController>();
-            
+
             if (fieldController != null)
             {
                 // LightningFieldController가 자동으로 플레이어 공격력 × 30%를 계산합니다
@@ -339,7 +339,7 @@ public class MonsterController : MonoBehaviour
         yield return new WaitForSeconds(3.0f);
 
         damageMultiplier = 1.0f;
-        
+
         // ★ 독 이펙트 끄기
         if (poisonEffectObject != null) poisonEffectObject.SetActive(false);
         poisonCoroutine = null;
@@ -356,7 +356,8 @@ public class MonsterController : MonoBehaviour
         Transform closest = null;
         float minSqrDist = float.MaxValue;
         Vector3 myPos = transform.position;
-        foreach (GameObject p in players) {
+        foreach (GameObject p in players)
+        {
             if (!p.activeInHierarchy) continue;
             float sqr = (p.transform.position - myPos).sqrMagnitude;
             if (sqr < minSqrDist) { minSqrDist = sqr; closest = p.transform; }
@@ -391,7 +392,7 @@ public class MonsterController : MonoBehaviour
         {
             Instantiate(expJewelPrefab, transform.position, Quaternion.identity);
         }
-        
+
         if (usePooling)
         {
             // 풀링을 사용하는 몬스터라면 -> 매니저에게 반납
@@ -407,11 +408,16 @@ public class MonsterController : MonoBehaviour
         }
     }
 
+    public bool isGetFrozen()
+    {
+        return isFrozen;
+    }
+
     // IEnumerator FlashColor(Color color, float time)
     // {
     //     spriteRenderer.color = color;
     //     yield return new WaitForSeconds(time);
-        
+
     //     // 상태이상 색상 복구 로직
     //     if (isFrozen) spriteRenderer.color = new Color(0.3f, 0.3f, 1f);
     //     else if (isSlowed) spriteRenderer.color = Color.cyan;
