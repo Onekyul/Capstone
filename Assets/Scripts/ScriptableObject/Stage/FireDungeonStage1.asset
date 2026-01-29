@@ -73,7 +73,7 @@ MonoBehaviour:
       spawnRadius: 25
       spawnInterval: 0.01
       groupSpread: 2
-  - timestamp: 39
+  - timestamp: 42
     spawnGroups:
     - monsterTag: Fast
       count: 5
@@ -105,7 +105,7 @@ MonoBehaviour:
       spawnRadius: 25
       spawnInterval: 0.01
       groupSpread: 2
-  - timestamp: 49
+  - timestamp: 52
     spawnGroups:
     - monsterTag: Fast
       count: 5
