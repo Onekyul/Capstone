@@ -3,6 +3,7 @@ using UnityEngine;
 public class ChasingMonsterController : MonsterController
 {
     [SerializeField] private EliteChestController eliteChestPrefab;
+    [SerializeField] private float moveSpeed = 2f;
     [Tooltip("이 몬스터가 노말인지 엘리트인지 여부. 체크 되면 엘리트임.")]
     [SerializeField] private bool IsElite = false;
     [Tooltip("몇 퍼센트 확률로 엘리트 몬스터가 나올게 할 건지. 0~100 사이 값.")]
@@ -20,12 +21,17 @@ public class ChasingMonsterController : MonsterController
     protected override void Update()
     {
         base.Update();
+        FollowPlayer();
     }
 
     protected override void OnEnable()
     {
         // 몬스터가 활성화될 때마다 엘리트 여부를 다시 결정
         IsElite = Random.Range(0f, 100f) < eliteSpawnChance;
+        
+        // 몬스터 타입 설정
+        monsterType = IsElite ? MonsterType.Elite : MonsterType.Normal;
+        
         UpgradeEliteStats();
     }
 
@@ -43,6 +49,13 @@ public class ChasingMonsterController : MonsterController
                 hpSlider.gameObject.SetActive(true); // 혹시 꺼져있으면 켜기
             }
         }
+    }
+
+    void FollowPlayer()
+    {
+        if (player == null) return;
+        Vector2 targetPosition = new Vector2(player.position.x, player.position.y);
+        transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
     }
 
     protected override void ReturnToPool()

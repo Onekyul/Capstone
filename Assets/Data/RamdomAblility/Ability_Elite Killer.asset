@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bcecb4a804a77e45b365f512a832543, type: 3}
-  m_Name: Ability_TripleStrike
+  m_Name: Ability_Elite Killer
   m_EditorClassIdentifier: 
-  abilityID: 2
-  abilityName: "3\uC5F0\uACA9"
+  abilityID: 20
+  abilityName: "\uAC15\uAC15\uC57D\uC57D"
   description: 
   icon: {fileID: 0}
   abilityType: 0
@@ -21,11 +21,7 @@ MonoBehaviour:
   hasLevels: 0
   maxLevel: 1
   statModifiers:
-  - statType: 0
-    operation: 1
-    valuePerLevel:
-    - 0.35
-  - statType: 3
+  - statType: 15
     operation: 2
     valuePerLevel:
-    - 3
+    - 1

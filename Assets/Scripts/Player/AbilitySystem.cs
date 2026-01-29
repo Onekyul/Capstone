@@ -136,6 +136,13 @@ public class AbilitySystem : MonoBehaviour
             playerStats.SetStealth(true);
             Debug.Log("[AbilitySystem] 잠입의 달인 활성화! 5초간 피해받지 않으면 다음 공격 300% 적용");
         }
+        
+        // 능력 ID 9 (속성 공격)인 경우 특수 처리
+        if (ability.abilityID == 9)
+        {
+            playerStats.SetElementalMastery(true);
+            Debug.Log("[AbilitySystem] 속성 공격 활성화! 10번째 공격마다 모든 인챈트가 100% 발동합니다.");
+        }
     }
 
 
@@ -227,6 +234,19 @@ public class AbilitySystem : MonoBehaviour
             case StatType.HasStealth:
                 playerStats.SetStealth(value > 0);
                 break;
+
+            case StatType.ExpMultiplier:
+                if (operation == ModifierOperation.Add)
+                    LevelManager.instance.AddExpMultiplier(value);
+                break;
+
+            case StatType.HasEliteKiller:
+                playerStats.SetEliteKiller(value > 0);
+                break;
+
+            case StatType.HasElementalMastery:
+                playerStats.SetElementalMastery(value > 0);
+                break;
         }
     }
 
@@ -277,6 +297,15 @@ public class AbilitySystem : MonoBehaviour
 
             case StatType.ShadowCooldown:
                 playerStats.SetShadowCooldown(0f);
+                break;
+
+            case StatType.ExpMultiplier:
+                if (operation == ModifierOperation.Add)
+                    LevelManager.instance.AddExpMultiplier(-value);
+                break;
+
+            case StatType.HasEliteKiller:
+                playerStats.SetEliteKiller(false);
                 break;
 
             // 다른 스탯들도 필요시 추가

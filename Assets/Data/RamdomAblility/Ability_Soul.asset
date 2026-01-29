@@ -10,22 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bcecb4a804a77e45b365f512a832543, type: 3}
-  m_Name: Ability_TripleStrike
+  m_Name: Ability_Soul
   m_EditorClassIdentifier: 
-  abilityID: 2
-  abilityName: "3\uC5F0\uACA9"
+  abilityID: 5
+  abilityName: "\uC601\uD63C \uD761\uC218"
   description: 
   icon: {fileID: 0}
-  abilityType: 0
+  abilityType: 3
   canStack: 0
-  hasLevels: 0
-  maxLevel: 1
+  hasLevels: 1
+  maxLevel: 3
   statModifiers:
-  - statType: 0
-    operation: 1
+  - statType: 14
+    operation: 0
     valuePerLevel:
-    - 0.35
-  - statType: 3
-    operation: 2
-    valuePerLevel:
-    - 3
+    - 0.1
+    - 0.2
+    - 0.3
