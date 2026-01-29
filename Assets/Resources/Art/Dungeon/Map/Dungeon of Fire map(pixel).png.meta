@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 54c410d8eb2c9aa48b0e5d14234cabac
+guid: d26d32b4ee8ed3546846fcfdadd84e61
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7234643353246476096
-    second: spirit of fire_0
+      213: 328798846099419907
+    second: Dungeon of Fire map(pixel)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: spirit of fire_0
+      name: Dungeon of Fire map(pixel)_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1088
-        height: 960
+        width: 1200
+        height: 1200
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 047a5ea8ccd966460800000000000000
-      internalID: 7234643353246476096
+      spriteID: 3037058fec0209400800000000000000
+      internalID: 328798846099419907
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      spirit of fire_0: 7234643353246476096
+      Dungeon of Fire map(pixel)_0: 328798846099419907
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

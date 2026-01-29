@@ -255,20 +255,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73c4b362fd34bfc4a9e7e3bffd3ab3c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterType: 0
   contactDamage: 5
-  MaxHP: 100
+  MaxHP: 200
   CurHP: 0
-  defaultMoveSpeed: 0
+  moveSpeed: 0
   poolTag: 
   expJewelPrefab: {fileID: -5577271535738719069, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
   usePooling: 0
   hpSlider: {fileID: 6491672787607431554}
-  lightningFieldPrefab: {fileID: 4767905910849374279, guid: 297f71522dc1b3c4497e60d2cd7ff014, type: 3}
+  lightningFieldPrefab: {fileID: 0}
   burnEffectObject: {fileID: 7429438609889924654}
   poisonEffectObject: {fileID: 3033014908612539654}
   attackRange: 10
-  attackCooldown: 3
+  attackCooldown: 1
   elementChestPrefab: {fileID: -507466460373292382, guid: d2dc02d0d702dd149a5f462dabbaf9fe, type: 3}
   mortarPrefab: {fileID: 4112673328808351943, guid: 3dc1545bcb2c23d478db7f5dbe288b1d, type: 3}
 --- !u!61 &792262538225106608

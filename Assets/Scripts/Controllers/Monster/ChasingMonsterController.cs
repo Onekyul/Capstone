@@ -26,10 +26,6 @@ public class ChasingMonsterController : MonsterController
     {
         // 몬스터가 활성화될 때마다 엘리트 여부를 다시 결정
         IsElite = Random.Range(0f, 100f) < eliteSpawnChance;
-        
-        // 몬스터 타입 설정
-        monsterType = IsElite ? MonsterType.Elite : MonsterType.Normal;
-        
         UpgradeEliteStats();
     }
 

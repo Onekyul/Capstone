@@ -65,20 +65,6 @@ public class SwordWeapon : WeaponBase
                     // 최종 데미지 계산
                     float finalDamage = GetTotalDamage();
                     
-                    // 엘리트 킬러 능력 적용
-                    MonsterController monster = enemy.GetComponent<MonsterController>();
-                    if (monster != null && playerStats != null)
-                    {
-                        MonsterType monsterType = monster.GetMonsterType();
-                        float monsterTypeMultiplier = playerStats.GetMonsterTypeDamageMultiplier(monsterType);
-                        finalDamage *= monsterTypeMultiplier;
-                        
-                        if (monsterTypeMultiplier != 1.0f)
-                        {
-                            Debug.Log($"[엘리트 킬러] {monsterType} 몬스터에게 배율 {monsterTypeMultiplier * 100}% 적용! 최종 데미지: {finalDamage:F1}");
-                        }
-                    }
-                    
                     // 디버그 로그 출력
                     Debug.Log($"[검 공격] 기본 공격력: {baseDamage}, 최종 공격력: {finalDamage:F1}, 적: {enemy.name}");
                     

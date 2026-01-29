@@ -11,7 +11,7 @@ public class BowWeapon : WeaponBase
     
     public override void Attack(Vector2 direction)
     {
-        if (Time.time - lastAttackTime < GetAttackCooldown() || bIsAttacking)
+        if (Time.time - lastAttackTime < attackCooldown || bIsAttacking)
         {
             return;
         }

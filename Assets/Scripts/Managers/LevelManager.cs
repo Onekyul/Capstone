@@ -140,8 +140,7 @@ public class LevelManager : MonoBehaviour
     // 능력을 얻었을 때 호출할 함수 (외부에서 부르기 편하게)
     public void AddExpMultiplier(float amount)
     {
-        // 누적 방식: 10% 증가면 0.1f를 넘겨줌 -> expMultiplier += 0.1
-        expMultiplier += amount;
-        Debug.Log($"[LevelManager] 경험치 배율 변경: {expMultiplier * 100}% (증감: {amount * 100:+0;-0}%)");
+        // 예: 10% 증가면 1.1f를 넘겨줌 -> 1.1 (110%)
+        expMultiplier = amount;
     }
 }
