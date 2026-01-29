@@ -60,7 +60,10 @@ public enum StatType
     HasRevenge,                 // 복수심 보유
     HasCriticalStrike,          // 급소 공격 보유
     HasLastStand,               // 불굴의 의지 보유
-    HasStealth                  // 잠입의 달인 보유
+    HasStealth,                 // 잠입의 달인 보유
+    ExpMultiplier,              // 경험치 획득률 배율
+    HasEliteKiller,             // 엘리트/속성 킬러 보유 (특수 몬스터 150%, 일반 75%)
+    HasElementalMastery         // 속성 공격 보유 (10번째 공격마다 모든 인챈트 100% 발동)
 }
 
 // 연산 타입
