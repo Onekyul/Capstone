@@ -598,6 +598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 4
+  movementInput: {x: 0, y: 0}
   attackManager: {fileID: 6614344249973979373}
   spriteRenderer: {fileID: 0}
 --- !u!50 &8747429518043073597
