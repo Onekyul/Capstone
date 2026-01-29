@@ -98,9 +98,14 @@ public class MonsterController : MonoBehaviour
         if (player == null) return;
 
         FlipSpriteTowardsPlayer();
-        transform.position = Vector2.MoveTowards(transform.position, player.position, currentMoveSpeed * Time.deltaTime);
+        Move();
 
         if (IsDead()) ReturnToPool();
+    }
+
+    protected virtual void Move()
+    {
+        transform.position = Vector2.MoveTowards(transform.position, player.position, currentMoveSpeed * Time.deltaTime);
     }
 
 
