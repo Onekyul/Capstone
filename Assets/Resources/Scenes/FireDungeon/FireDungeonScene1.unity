@@ -963,6 +963,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2126374172003346761, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+      propertyPath: playerSpeed
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2151442555997846959, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -2752,7 +2756,7 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: 0e03e8f7968dda841bb3b746d1fc7494, type: 2}
     minAmount: 2
     maxAmount: 3
-  stageTimeLimit: 300
+  stageTimeLimit: 180
   isGameEnded: 0
   eliteChestCount: 0
   elementChestCount: 0
@@ -3375,7 +3379,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: df119a8dcf0479c4785954a2b62c45ae, type: 2}
   - {fileID: 11400000, guid: df8e94723e9e9ff4a8fc93f326155cff, type: 2}
   expMultiplier: 1
-  gainExp: 5
+  gainExp: 30
 --- !u!4 &1166515835
 Transform:
   m_ObjectHideFlags: 0
@@ -4017,7 +4021,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5:00
+  m_text: 3:00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 880201079f5bc4178a4c03cd47ab3037, type: 2}
   m_sharedMaterial: {fileID: 7720026820411302691, guid: 880201079f5bc4178a4c03cd47ab3037, type: 2}

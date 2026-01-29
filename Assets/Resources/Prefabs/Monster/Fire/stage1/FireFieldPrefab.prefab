@@ -104,4 +104,4 @@ MonoBehaviour:
   maxScale: 9
   expandSpeed: 4
   damageInterval: 0.5
-  damage: 5
+  damage: 7

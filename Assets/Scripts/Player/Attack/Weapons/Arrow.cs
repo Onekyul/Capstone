@@ -42,25 +42,9 @@ public class Arrow : MonoBehaviour
                     monster.TakeElement(enchantLevels);
                 }
                 
-                // 최종 데미지 계산
-                float finalDamage = damageValue;
-                
-                // 엘리트 킬러 능력 적용
-                if (PlayerStats.Instance != null)
-                {
-                    MonsterType monsterType = monster.GetMonsterType();
-                    float monsterTypeMultiplier = PlayerStats.Instance.GetMonsterTypeDamageMultiplier(monsterType);
-                    finalDamage *= monsterTypeMultiplier;
-                    
-                    if (monsterTypeMultiplier != 1.0f)
-                    {
-                        Debug.Log($"[엘리트 킬러] {monsterType} 몬스터에게 배율 {monsterTypeMultiplier * 100}% 적용! 최종 데미지: {finalDamage:F1}");
-                    }
-                }
-                
                 // 데미지 적용
-                monster.TakeDamage(finalDamage);
-                Debug.Log($"화살이 {other.name}에게 {finalDamage} 데미지!");
+                monster.TakeDamage(damageValue);
+                Debug.Log($"화살이 {other.name}에게 {damageValue} 데미지!");
             }
 
             Destroy(gameObject);

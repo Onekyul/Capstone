@@ -3,20 +3,8 @@ using UnityEngine;
 using System;
 using UnityEngine.UI; // ★ UI 기능을 쓰려면 이게 꼭 필요합니다!
 
-// 몬스터 타입 enum
-public enum MonsterType
-{
-    Normal,     // 일반 몬스터
-    Elite,      // 엘리트 몬스터 (은상자 드랍)
-    Element     // 속성 몬스터 (금상자 드랍)
-}
-
 public class MonsterController : MonoBehaviour
 {
-    [Header("Monster Type")]
-    [SerializeField] protected MonsterType monsterType = MonsterType.Normal; // 몬스터 타입
-    public MonsterType GetMonsterType() => monsterType; // 외부에서 타입 확인용
-
     [Header("Basic Stats")]
     [SerializeField] protected float contactDamage = 5.0f;
     public float normalDamage => contactDamage;
@@ -24,8 +12,8 @@ public class MonsterController : MonoBehaviour
     [SerializeField] protected float MaxHP = 100;
     [SerializeField] protected float CurHP;
 
-    [SerializeField] protected float defaultMoveSpeed = 3.0f;
-    protected float currentMoveSpeed;
+    [SerializeField] protected float moveSpeed = 3.0f; // 기본 이동 속도 (0이면 움직이지 않음)
+    protected float currentMoveSpeed; // 상태 이상 효과가 적용된 현재 이동 속도
 
     [Header("Pool & Drop")]
     [SerializeField] private string poolTag;
@@ -90,7 +78,7 @@ public class MonsterController : MonoBehaviour
             hpSlider.value = 1.0f;
             hpSlider.gameObject.SetActive(true);
         }
-        currentMoveSpeed = defaultMoveSpeed;
+        currentMoveSpeed = moveSpeed;
         damageMultiplier = 1.0f;
         storedLastDamage = 0f;
         isSlowed = false;
@@ -258,12 +246,12 @@ public class MonsterController : MonoBehaviour
         isFrozen = false;
 
         float slowPercent = Mathf.Clamp(level * 0.15f, 0.1f, 0.9f);
-        currentMoveSpeed = defaultMoveSpeed * (1.0f - slowPercent);
+        currentMoveSpeed = moveSpeed * (1.0f - slowPercent);
         UpdateColor(); // ★ 색상 갱신 (Cyan)
 
         yield return new WaitForSeconds(3.0f);
 
-        currentMoveSpeed = defaultMoveSpeed;
+        currentMoveSpeed = moveSpeed;
         isSlowed = false;
         UpdateColor(); // ★ 색상 복구 (White or Frozen)
         iceCoroutine = null;
@@ -280,7 +268,7 @@ public class MonsterController : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         isFrozen = false;
-        currentMoveSpeed = defaultMoveSpeed;
+        currentMoveSpeed = moveSpeed;
         UpdateColor(); // ★ 색상 복구 (White)
         iceCoroutine = null;
     }
@@ -420,7 +408,7 @@ public class MonsterController : MonoBehaviour
         }
     }
 
-    public bool isGetFrozen()
+    public bool getIsFrozen()
     {
         return isFrozen;
     }
