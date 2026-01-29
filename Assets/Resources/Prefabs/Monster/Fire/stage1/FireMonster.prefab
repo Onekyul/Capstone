@@ -255,6 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73c4b362fd34bfc4a9e7e3bffd3ab3c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterType: 0
   contactDamage: 5
   MaxHP: 100
   CurHP: 0
@@ -263,6 +264,7 @@ MonoBehaviour:
   expJewelPrefab: {fileID: -5577271535738719069, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
   usePooling: 0
   hpSlider: {fileID: 6491672787607431554}
+  lightningFieldPrefab: {fileID: 4767905910849374279, guid: 297f71522dc1b3c4497e60d2cd7ff014, type: 3}
   burnEffectObject: {fileID: 7429438609889924654}
   poisonEffectObject: {fileID: 3033014908612539654}
   attackRange: 10
