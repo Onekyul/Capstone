@@ -24,6 +24,19 @@ public class Shield : MonoBehaviour
             var monster = collision.GetComponent<MonsterController>();
             if (monster != null)
             {
+                // 엘리트 킬러 능력 적용
+                if (PlayerStats.Instance != null)
+                {
+                    MonsterType monsterType = monster.GetMonsterType();
+                    float monsterTypeMultiplier = PlayerStats.Instance.GetMonsterTypeDamageMultiplier(monsterType);
+                    damage *= monsterTypeMultiplier;
+                    
+                    if (monsterTypeMultiplier != 1.0f)
+                    {
+                        Debug.Log($"[엘리트 킬러] {monsterType} 몬스터에게 배율 {monsterTypeMultiplier * 100}% 적용! 최종 데미지: {damage:F1}");
+                    }
+                }
+                
                 monster.TakeDamage(damage);
                 Debug.Log($"[방패 타격] {collision.name}에게 {damage:F1} 데미지");
                 
