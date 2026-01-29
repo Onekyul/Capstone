@@ -32465,6 +32465,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6604301485312488701, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+      propertyPath: moveSpeedMultiplier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1046453727987771879, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: m_IsTrigger
       value: 0
@@ -32483,7 +32487,7 @@ PrefabInstance:
       objectReference: {fileID: -578443658361345570, guid: 162400ea16494d6498ca0f1660e93b46, type: 3}
     - target: {fileID: 2151442555997846959, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2639837154723331406, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: m_PresetInfoIsWorld
@@ -32531,11 +32535,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4290561966624896383, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.02
+      value: -0.069
       objectReference: {fileID: 0}
     - target: {fileID: 4290561966624896383, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.15
+      value: 0.047
       objectReference: {fileID: 0}
     - target: {fileID: 4290561966624896383, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -144738,7 +144742,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1074843243
 RectTransform:
   m_ObjectHideFlags: 0
