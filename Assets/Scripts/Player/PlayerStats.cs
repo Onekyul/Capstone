@@ -72,6 +72,9 @@ public class PlayerStats : MonoBehaviour
     
     private bool hasFrozenExplosion = false; // 빙결폭발 보유 여부
     private float frozenExplosionDamageMultiplier = 2.0f; // 빙결폭발 데미지 배율 (200%)
+    
+    private bool hasContagion = false; // 전염 보유 여부
+    private float contagionChance = 0.05f; // 전염 발동 확률 (5%)
 
     [Header("Collision Damage")]
     [SerializeField] private float damageTickCooldown = 1.0f; // 1초에 한 번씩만 겹침 데미지를 받음
@@ -355,6 +358,21 @@ public class PlayerStats : MonoBehaviour
             }
             
             AcquireAbility(27); // 빙결폭발 능력 ID = 27
+        }
+        
+        // ===== 치트키: 전염 테스트 (PageDown) =====
+        if (Input.GetKeyDown(KeyCode.PageDown))
+        {
+            Debug.Log("===== [치트키] 전염 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(25); // 전염 능력 ID = 25
         }
 
         // ===== 치트키: 인챈트 레벨 조정 =====
@@ -1323,5 +1341,18 @@ public class PlayerStats : MonoBehaviour
     {
         return GetTotalDamage() * frozenExplosionDamageMultiplier;
     }
+    
+    // 전염 능력 설정
+    public void SetContagion(bool value)
+    {
+        hasContagion = value;
+        Debug.Log($"[PlayerStats] 전염 능력 설정: {value}");
+    }
+    
+    // 전염 보유 여부 확인
+    public bool HasContagion() => hasContagion;
+    
+    // 전염 발동 확률 확인
+    public float GetContagionChance() => contagionChance;
 
 }

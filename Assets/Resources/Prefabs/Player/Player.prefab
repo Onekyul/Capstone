@@ -723,6 +723,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 02524836785802642894afac714adc3f, type: 2}
   - {fileID: 11400000, guid: 86d96e4e0de842a46a6038393235655e, type: 2}
   - {fileID: 11400000, guid: b451c006d3714084ea9f42a8bc502af0, type: 2}
+  - {fileID: 11400000, guid: 2317070676400d0459f24eb71f1dfd4f, type: 2}
   shieldAbilityPrefab: {fileID: 8083260392662848310, guid: 955b7f8ae9870314e9dd3e21e8625dc3, type: 3}
 --- !u!114 &-6604301485312488701
 MonoBehaviour:

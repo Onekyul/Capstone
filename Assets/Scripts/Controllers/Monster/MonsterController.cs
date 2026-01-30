@@ -67,7 +67,7 @@ public class MonsterController : MonoBehaviour
     private float damageMultiplier = 1.0f; // 썩음 배율
 
     // 최근에 맞은 데미지 (상태이상 데미지 계산용)
-    private float storedLastDamage = 0f;
+    public float storedLastDamage = 0f; // 전염을 위해 public으로 변경
 
     protected virtual void Start()
     {
@@ -207,6 +207,14 @@ public class MonsterController : MonoBehaviour
         if (enchants.Length > 3 && enchants[3] > 0)
         {
             ApplyPoison(enchants[3]);
+        }
+        
+        // 전염 능력 체크 (5% 확률)
+        if (PlayerStats.Instance != null && 
+            PlayerStats.Instance.HasContagion() && 
+            UnityEngine.Random.value <= PlayerStats.Instance.GetContagionChance())
+        {
+            SpreadEnchantment(enchants);
         }
     }
 
@@ -361,6 +369,75 @@ public class MonsterController : MonoBehaviour
         // ★ 독 이펙트 끄기
         if (poisonEffectObject != null) poisonEffectObject.SetActive(false);
         poisonCoroutine = null;
+    }
+    
+    // --- [전염] 인챈트 효과 전염 ---
+    private void SpreadEnchantment(int[] enchants)
+    {
+        // 1. 주변 몬스터 탐지 (반경 6 유닛)
+        float spreadRadius = 6.0f;
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, spreadRadius);
+        
+        // 2. 유효한 몬스터만 필터링 (자신 제외, Enemy 태그)
+        System.Collections.Generic.List<MonsterController> validTargets = new System.Collections.Generic.List<MonsterController>();
+        foreach (var hit in hits)
+        {
+            // 자기 자신은 제외
+            if (hit.gameObject == this.gameObject) continue;
+            // Enemy 태그 확인
+            if (!hit.CompareTag("Enemy")) continue;
+            
+            MonsterController monster = hit.GetComponent<MonsterController>();
+            if (monster != null && !monster.IsDead())
+            {
+                validTargets.Add(monster);
+            }
+        }
+        
+        // 3. 랜덤으로 1명 선택
+        if (validTargets.Count > 0)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, validTargets.Count);
+            MonsterController target = validTargets[randomIndex];
+            
+            // 4. 같은 인챈트 효과 전염 (재귀 방지를 위해 직접 적용)
+            ApplyEnchantmentDirectly(target, enchants);
+            
+            Debug.Log($"[전염] {gameObject.name}의 인챈트가 {target.gameObject.name}에게 전염됨! (화염:{enchants[0]}, 얼음:{enchants[1]}, 번개:{enchants[2]}, 독:{enchants[3]})");
+        }
+    }
+    
+    // 인챈트를 직접 적용 (전염 시 재귀 방지)
+    private void ApplyEnchantmentDirectly(MonsterController target, int[] enchants)
+    {
+        if (target == null) return;
+        
+        // storedLastDamage를 타겟에게 전달해야 하므로 타겟의 storedLastDamage 설정
+        target.storedLastDamage = this.storedLastDamage;
+        
+        // [0] 화염
+        if (enchants.Length > 0 && enchants[0] > 0)
+        {
+            target.ApplyBurn(enchants[0]);
+        }
+
+        // [1] 얼음
+        if (enchants.Length > 1 && enchants[1] > 0)
+        {
+            target.ApplyIce(enchants[1]);
+        }
+
+        // [2] 번개
+        if (enchants.Length > 2 && enchants[2] > 0)
+        {
+            target.ApplyLightning(enchants[2]);
+        }
+
+        // [3] 독
+        if (enchants.Length > 3 && enchants[3] > 0)
+        {
+            target.ApplyPoison(enchants[3]);
+        }
     }
 
 

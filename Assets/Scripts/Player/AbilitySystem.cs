@@ -171,6 +171,13 @@ public class AbilitySystem : MonoBehaviour
             playerStats.SetFrozenExplosion(true);
             Debug.Log("[AbilitySystem] 빙결폭발 활성화! 빙결 상태 몬스터 사망 시 주변에 공격력 200% 폭발 데미지");
         }
+        
+        // 능력 ID 25 (전염)인 경우 특수 처리
+        if (ability.abilityID == 25)
+        {
+            playerStats.SetContagion(true);
+            Debug.Log("[AbilitySystem] 전염 활성화! 인챈트 공격 피격 시 5% 확률로 주변 적 1명에게 인챈트 전염");
+        }
     }
 
 
