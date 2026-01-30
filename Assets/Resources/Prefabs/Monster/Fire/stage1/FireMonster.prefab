@@ -259,7 +259,7 @@ MonoBehaviour:
   contactDamage: 5
   MaxHP: 200
   CurHP: 0
-  defaultMoveSpeed: 0
+  moveSpeed: 0
   poolTag: 
   expJewelPrefab: {fileID: -5577271535738719069, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
   usePooling: 0

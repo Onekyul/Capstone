@@ -346,7 +346,7 @@ MonoBehaviour:
   contactDamage: 5
   MaxHP: 20
   CurHP: 0
-  defaultMoveSpeed: 2
+  moveSpeed: 2
   poolTag: Chasing
   expJewelPrefab: {fileID: -5577271535738719069, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
   usePooling: 1
@@ -355,7 +355,6 @@ MonoBehaviour:
   burnEffectObject: {fileID: 9186822902535204999}
   poisonEffectObject: {fileID: 6886918388319957408}
   eliteChestPrefab: {fileID: -7302594443989870516, guid: ace7d39784493df4692014cc8d62bfb3, type: 3}
-  moveSpeed: 0.00001
   IsElite: 0
   eliteSpawnChance: 6
 --- !u!1 &6752427310582545182

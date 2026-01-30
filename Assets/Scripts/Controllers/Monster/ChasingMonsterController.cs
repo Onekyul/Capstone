@@ -31,8 +31,8 @@ public class ChasingMonsterController : MonsterController
             MaxHP *= 2.0f; // 엘리트 몬스터의 체력을 2배로 증가
             CurHP = MaxHP; // 현재 체력을 최대 체력으로 설정
             contactDamage *= 1.5f; // 엘리트 몬스터의 접촉 데미지를 1.5배로 증가
-            defaultMoveSpeed *= 1.2f; // 엘리트 몬스터의 이동 속도를 20% 증가
-            currentMoveSpeed = defaultMoveSpeed;
+            baseMoveSpeed *= 1.2f; // 엘리트 몬스터의 이동 속도를 20% 증가
+            currentMoveSpeed = baseMoveSpeed;
             if (hpSlider != null)
             {
                 hpSlider.value = 1.0f;

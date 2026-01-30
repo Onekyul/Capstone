@@ -25,6 +25,7 @@ public class MonsterController : MonoBehaviour
     [SerializeField] protected float CurHP;
 
     [SerializeField] protected float moveSpeed = 3.0f; // 기본 이동 속도 (0이면 움직이지 않음)
+    protected float baseMoveSpeed; // 기본/엘리트 보너스가 적용된 실제 기본 속도
     protected float currentMoveSpeed; // 상태 이상 효과가 적용된 현재 이동 속도
 
     [Header("Pool & Drop")]
@@ -90,6 +91,7 @@ public class MonsterController : MonoBehaviour
             hpSlider.value = 1.0f;
             hpSlider.gameObject.SetActive(true);
         }
+        baseMoveSpeed = moveSpeed;
         currentMoveSpeed = moveSpeed;
         damageMultiplier = 1.0f;
         storedLastDamage = 0f;
@@ -263,12 +265,12 @@ public class MonsterController : MonoBehaviour
         isFrozen = false;
 
         float slowPercent = Mathf.Clamp(level * 0.15f, 0.1f, 0.9f);
-        currentMoveSpeed = moveSpeed * (1.0f - slowPercent);
+        currentMoveSpeed = baseMoveSpeed * (1.0f - slowPercent);
         UpdateColor(); // ★ 색상 갱신 (Cyan)
 
         yield return new WaitForSeconds(3.0f);
 
-        currentMoveSpeed = moveSpeed;
+        currentMoveSpeed = baseMoveSpeed;
         isSlowed = false;
         UpdateColor(); // ★ 색상 복구 (White or Frozen)
         iceCoroutine = null;
@@ -285,7 +287,7 @@ public class MonsterController : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         isFrozen = false;
-        currentMoveSpeed = moveSpeed;
+        currentMoveSpeed = baseMoveSpeed;
         UpdateColor(); // ★ 색상 복구 (White)
         iceCoroutine = null;
     }
