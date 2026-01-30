@@ -143,6 +143,27 @@ public class AbilitySystem : MonoBehaviour
             playerStats.SetElementalMastery(true);
             Debug.Log("[AbilitySystem] 속성 공격 활성화! 10번째 공격마다 모든 인챈트가 100% 발동합니다.");
         }
+        
+        // 능력 ID 14 (탐지)인 경우 특수 처리
+        if (ability.abilityID == 14)
+        {
+            DetectionIndicator detector = FindFirstObjectByType<DetectionIndicator>();
+            if (detector != null)
+            {
+                detector.ActivateDetection();
+            }
+            else
+            {
+                Debug.LogWarning("[AbilitySystem] DetectionIndicator를 찾을 수 없습니다! Player에 DetectionIndicator 컴포넌트를 추가하세요.");
+            }
+        }
+        
+        // 능력 ID 26 (죽음의 숨결)인 경우 특수 처리
+        if (ability.abilityID == 26)
+        {
+            playerStats.SetDeathBreath(true);
+            Debug.Log("[AbilitySystem] 죽음의 숨결 활성화! 적 처치 시 10% 확률로 공격속도/이동속도 +30% (3초)");
+        }
     }
 
 
@@ -246,6 +267,10 @@ public class AbilitySystem : MonoBehaviour
 
             case StatType.HasElementalMastery:
                 playerStats.SetElementalMastery(value > 0);
+                break;
+                
+            case StatType.HasDeathBreath:
+                playerStats.SetDeathBreath(value > 0);
                 break;
         }
     }
