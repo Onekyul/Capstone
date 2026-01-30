@@ -644,7 +644,7 @@ MonoBehaviour:
   contactDamage: 10
   MaxHP: 10
   CurHP: 0
-  moveSpeed: 25
+  moveSpeed: 20
   poolTag: Fast
   expJewelPrefab: {fileID: -5577271535738719069, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
   usePooling: 1
