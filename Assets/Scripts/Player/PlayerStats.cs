@@ -69,6 +69,9 @@ public class PlayerStats : MonoBehaviour
     private float deathBreathSpeedBonus = 0.3f; // 죽음의 숨결 속도 증가 (30%)
     private float deathBreathEndTime = 0f; // 죽음의 숨결 버프 종료 시간
     private bool isDeathBreathActive = false; // 죽음의 숨결 버프 활성 여부
+    
+    private bool hasFrozenExplosion = false; // 빙결폭발 보유 여부
+    private float frozenExplosionDamageMultiplier = 2.0f; // 빙결폭발 데미지 배율 (200%)
 
     [Header("Collision Damage")]
     [SerializeField] private float damageTickCooldown = 1.0f; // 1초에 한 번씩만 겹침 데미지를 받음
@@ -337,6 +340,21 @@ public class PlayerStats : MonoBehaviour
             }
             
             AcquireAbility(26); // 죽음의 숨결 능력 ID = 26
+        }
+
+        // ===== 치트키: 빙결폭발 테스트 (PageUp) =====
+        if (Input.GetKeyDown(KeyCode.PageUp))
+        {
+            Debug.Log("===== [치트키] 빙결폭발 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(27); // 빙결폭발 능력 ID = 27
         }
 
         // ===== 치트키: 인챈트 레벨 조정 =====
@@ -932,6 +950,20 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    // 현재 총 공격력 계산 (무기 기본 공격력 × 모든 배율)
+    public float GetTotalDamage()
+    {
+        // 무기 찾기
+        WeaponBase weapon = GetComponentInChildren<WeaponBase>();
+        if (weapon != null)
+        {
+            return weapon.GetTotalDamage();
+        }
+        
+        // 무기가 없으면 기본 공격력만 반환 (10 × 배율)
+        return 10f * GetAttackDamageMultiplier();
+    }
+
     // 장비 보너스 적용 시스템 
     private void ApplyEquipmentBonuses()
     {
@@ -1108,6 +1140,7 @@ public class PlayerStats : MonoBehaviour
         hasDeathBreath = false;
         isDeathBreathActive = false;
         deathBreathEndTime = 0f;
+        hasFrozenExplosion = false;
         
         // 3. 디버그 플래그 초기화
         debugShowRage = false;
@@ -1272,5 +1305,23 @@ public class PlayerStats : MonoBehaviour
     
     // 죽음의 숨결 버프 활성 여부 확인
     public bool IsDeathBreathActive() => isDeathBreathActive;
+    
+    // ===== 빙결폭발 (Frozen Explosion) 관련 함수 =====
+    
+    // 빙결폭발 능력 활성화
+    public void SetFrozenExplosion(bool active)
+    {
+        hasFrozenExplosion = active;
+        Debug.Log($"[PlayerStats] 빙결폭발 능력 {(active ? "활성화" : "비활성화")}");
+    }
+    
+    // 빙결폭발 보유 여부 확인
+    public bool HasFrozenExplosion() => hasFrozenExplosion;
+    
+    // 빙결폭발 데미지 계산 (현재 공격력 × 200%)
+    public float GetFrozenExplosionDamage()
+    {
+        return GetTotalDamage() * frozenExplosionDamageMultiplier;
+    }
 
 }

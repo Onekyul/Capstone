@@ -109,6 +109,14 @@ public class MonsterController : MonoBehaviour
 
     protected virtual void Update()
     {
+        // ★ 죽음 체크는 빙결 상태와 관계없이 항상 수행
+        if (IsDead())
+        {
+            ReturnToPool();
+            return;
+        }
+
+        // 빙결 상태면 이동하지 않음
         if (isFrozen) return;
 
         player = GetClosestPlayer();
@@ -116,8 +124,6 @@ public class MonsterController : MonoBehaviour
 
         FlipSpriteTowardsPlayer();
         transform.position = Vector2.MoveTowards(transform.position, player.position, currentMoveSpeed * Time.deltaTime);
-
-        if (IsDead()) ReturnToPool();
     }
 
 
@@ -385,6 +391,24 @@ public class MonsterController : MonoBehaviour
 
     protected virtual void ReturnToPool()
     {
+        // ★ 0-1. 모든 상태이상 코루틴 즉시 정지 (빙결 상태 유지를 위해)
+        if (burnCoroutine != null) StopCoroutine(burnCoroutine);
+        if (iceCoroutine != null) StopCoroutine(iceCoroutine);
+        if (poisonCoroutine != null) StopCoroutine(poisonCoroutine);
+        
+        // 0-2. 빙결폭발 체크 (죽음 이벤트보다 먼저! isFrozen 상태가 초기화되기 전에)
+        Debug.Log($"[ReturnToPool] {gameObject.name} 사망! isFrozen: {isFrozen}, PlayerStats: {(PlayerStats.Instance != null ? "존재" : "null")}");
+        
+        if (isFrozen && PlayerStats.Instance != null)
+        {
+            Debug.Log($"[ReturnToPool] 빙결 상태 확인! CheckFrozenExplosion 호출 시작");
+            CheckFrozenExplosion();
+        }
+        else
+        {
+            Debug.Log($"[ReturnToPool] 빙결폭발 조건 불만족 - isFrozen: {isFrozen}, PlayerStats: {(PlayerStats.Instance != null)}");
+        }
+        
         // 1. 죽음 이벤트 알림 
         OnDeath?.Invoke();
 
@@ -419,10 +443,123 @@ public class MonsterController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    
+    // 빙결폭발 체크 및 처리 (빙결 상태로 죽으면 주변에 폭발 데미지)
+    private void CheckFrozenExplosion()
+    {
+        // PlayerStats에서 빙결폭발 능력 보유 여부 확인
+        if (!PlayerStats.Instance.HasFrozenExplosion())
+        {
+            Debug.Log("[빙결폭발] 능력 미보유 - 폭발 발동 안함");
+            return;
+        }
+
+        Debug.Log($"★★★ [빙결폭발] 빙결 상태 몬스터 사망! 폭발 발동! 위치: {transform.position} ★★★");
+
+        // 폭발 범위 (5유닛)
+        float explosionRadius = 5.0f;
+        
+        // 폭발 데미지 = 플레이어 현재 공격력 × 200%
+        float explosionDamage = PlayerStats.Instance.GetTotalDamage() * 2.0f;
+        
+        Debug.Log($"[빙결폭발] 플레이어 공격력: {PlayerStats.Instance.GetTotalDamage():F1}, 폭발 데미지: {explosionDamage:F1}");
+
+        // 주변 몬스터 탐지
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
+        
+        Debug.Log($"[빙결폭발] 폭발 범위 내 콜라이더 {hits.Length}개 감지");
+
+        int hitCount = 0;
+        foreach (var hit in hits)
+        {
+            Debug.Log($"[빙결폭발] 감지된 오브젝트: {hit.gameObject.name}, 태그: {hit.tag}");
+            
+            // 몬스터 태그 확인
+            if (hit.CompareTag("Enemy"))
+            {
+                // 자기 자신은 제외 (이미 죽음)
+                if (hit.gameObject == this.gameObject)
+                {
+                    Debug.Log($"[빙결폭발] 자기 자신 제외: {hit.gameObject.name}");
+                    continue;
+                }
+
+                MonsterController otherMonster = hit.GetComponent<MonsterController>();
+                if (otherMonster != null)
+                {
+                    float beforeHP = otherMonster.CurHP;
+                    
+                    // TakeDirectDamage로 데미지 적용
+                    otherMonster.TakeDirectDamage(explosionDamage);
+                    
+                    float afterHP = otherMonster.CurHP;
+                    Debug.Log($"[빙결폭발] {otherMonster.gameObject.name}에게 {explosionDamage:F1} 데미지! HP: {beforeHP:F1} → {afterHP:F1}");
+                    
+                    hitCount++;
+                }
+                else
+                {
+                    Debug.LogWarning($"[빙결폭발] MonsterController가 없음: {hit.gameObject.name}");
+                }
+            }
+        }
+
+        Debug.Log($"[빙결폭발] 최종 결과 - 폭발 데미지: {explosionDamage:F1}, {hitCount}마리 타격");
+        
+        // 폭발 범위 시각화 (Scene 뷰에서 확인 가능)
+        StartCoroutine(DrawExplosionRadius(explosionRadius));
+    }
+    
+    /// <summary>
+    /// 폭발 범위 시각화 코루틴 (디버그용)
+    /// </summary>
+    private IEnumerator DrawExplosionRadius(float radius)
+    {
+        float duration = 2f;
+        float elapsed = 0f;
+        
+        while (elapsed < duration)
+        {
+            // Gizmos는 OnDrawGizmos에서만 그릴 수 있으므로 여기서는 Debug.DrawLine 사용
+            int segments = 32;
+            float angle = 0f;
+            float angleStep = 360f / segments;
+            
+            for (int i = 0; i < segments; i++)
+            {
+                float currentAngle = angle * Mathf.Deg2Rad;
+                float nextAngle = (angle + angleStep) * Mathf.Deg2Rad;
+                
+                Vector3 start = transform.position + new Vector3(Mathf.Cos(currentAngle) * radius, Mathf.Sin(currentAngle) * radius, 0);
+                Vector3 end = transform.position + new Vector3(Mathf.Cos(nextAngle) * radius, Mathf.Sin(nextAngle) * radius, 0);
+                
+                Debug.DrawLine(start, end, Color.cyan, duration);
+                
+                angle += angleStep;
+            }
+            
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
 
     public bool isGetFrozen()
     {
         return isFrozen;
+    }
+
+    // Scene 뷰에서 빙결폭발 범위 시각화
+    private void OnDrawGizmos()
+    {
+        // 빙결 상태이고 빙결폭발 능력이 있을 때만 범위 표시
+        if (isFrozen && PlayerStats.Instance != null && PlayerStats.Instance.HasFrozenExplosion())
+        {
+            Gizmos.color = new Color(0, 1, 1, 0.3f); // 반투명 cyan
+            Gizmos.DrawSphere(transform.position, 5.0f); // 폭발 범위
+            
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(transform.position, 5.0f); // 폭발 범위 외곽선
+        }
     }
 
     // IEnumerator FlashColor(Color color, float time)

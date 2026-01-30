@@ -164,6 +164,13 @@ public class AbilitySystem : MonoBehaviour
             playerStats.SetDeathBreath(true);
             Debug.Log("[AbilitySystem] 죽음의 숨결 활성화! 적 처치 시 10% 확률로 공격속도/이동속도 +30% (3초)");
         }
+        
+        // 능력 ID 27 (빙결폭발)인 경우 특수 처리
+        if (ability.abilityID == 27)
+        {
+            playerStats.SetFrozenExplosion(true);
+            Debug.Log("[AbilitySystem] 빙결폭발 활성화! 빙결 상태 몬스터 사망 시 주변에 공격력 200% 폭발 데미지");
+        }
     }
 
 
@@ -271,6 +278,10 @@ public class AbilitySystem : MonoBehaviour
                 
             case StatType.HasDeathBreath:
                 playerStats.SetDeathBreath(value > 0);
+                break;
+                
+            case StatType.HasFrozenExplosion:
+                playerStats.SetFrozenExplosion(value > 0);
                 break;
         }
     }
