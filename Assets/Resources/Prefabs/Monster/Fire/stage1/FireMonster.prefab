@@ -266,7 +266,7 @@ MonoBehaviour:
   burnEffectObject: {fileID: 7429438609889924654}
   poisonEffectObject: {fileID: 3033014908612539654}
   attackRange: 20
-  attackCooldown: 1
+  attackCooldown: 2
   elementChestPrefab: {fileID: -507466460373292382, guid: d2dc02d0d702dd149a5f462dabbaf9fe, type: 3}
   mortarPrefab: {fileID: 4112673328808351943, guid: 3dc1545bcb2c23d478db7f5dbe288b1d, type: 3}
 --- !u!61 &792262538225106608
