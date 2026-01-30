@@ -179,8 +179,8 @@ Transform:
   m_GameObject: {fileID: 1755479332552780768}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.7013645, y: -1.7439829, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -8.4808, y: -4.2104, z: 0}
+  m_LocalScale: {x: 0.42028257, y: 0.42028257, z: 0.42028257}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4279628219642429752}
@@ -232,12 +232,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7498722110621132323, guid: 355156a4852a26942a07324430cba4c0, type: 3}
+  m_Sprite: {fileID: 7234643353246476096, guid: 54c410d8eb2c9aa48b0e5d14234cabac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 9.59, y: 8.51}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -257,7 +257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterType: 0
   contactDamage: 5
-  MaxHP: 100
+  MaxHP: 200
   CurHP: 0
   defaultMoveSpeed: 0
   poolTag: 
@@ -267,8 +267,8 @@ MonoBehaviour:
   lightningFieldPrefab: {fileID: 4767905910849374279, guid: 297f71522dc1b3c4497e60d2cd7ff014, type: 3}
   burnEffectObject: {fileID: 7429438609889924654}
   poisonEffectObject: {fileID: 3033014908612539654}
-  attackRange: 10
-  attackCooldown: 3
+  attackRange: 20
+  attackCooldown: 2
   elementChestPrefab: {fileID: -507466460373292382, guid: d2dc02d0d702dd149a5f462dabbaf9fe, type: 3}
   mortarPrefab: {fileID: 4112673328808351943, guid: 3dc1545bcb2c23d478db7f5dbe288b1d, type: 3}
 --- !u!61 &792262538225106608
@@ -305,17 +305,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.010878563, y: 0.06526208}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.73, y: 1.56}
-    newSize: {x: 1, y: 2}
+    oldSize: {x: 9.59, y: 8.51}
+    newSize: {x: 9.59, y: 8.51}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 9.853857, y: 8.613201}
   m_EdgeRadius: 0
 --- !u!50 &6521329764967539173
 Rigidbody2D:
@@ -370,8 +370,8 @@ Transform:
   m_GameObject: {fileID: 3033014908612539654}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.29, y: 1.66, z: 0}
-  m_LocalScale: {x: 0.41599998, y: 0.41599998, z: 0.41599998}
+  m_LocalPosition: {x: 1.2325, y: 5.4, z: 0}
+  m_LocalScale: {x: 0.92746305, y: 0.92746305, z: 0.92746305}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5316290898355121091}
@@ -467,7 +467,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.02, y: -1.31}
+  m_AnchoredPosition: {x: -0.02, y: -4.51}
   m_SizeDelta: {x: 489.42856, y: 275}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2441107646212364714
@@ -595,8 +595,8 @@ Transform:
   m_GameObject: {fileID: 7429438609889924654}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.35, y: 1.56, z: 0}
-  m_LocalScale: {x: 0.120589994, y: 0.11174, z: 0.04471}
+  m_LocalPosition: {x: -0.925, y: 5.2563, z: 0}
+  m_LocalScale: {x: 0.26802558, y: 0.2389921, z: 0.07015905}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5316290898355121091}
@@ -682,7 +682,7 @@ RectTransform:
   m_GameObject: {fileID: 8880209104994168798}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.55, z: 1}
+  m_LocalScale: {x: 2.2571, y: 0.55, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6108059204682983775}
@@ -691,7 +691,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.0005187988, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6491672787607431554

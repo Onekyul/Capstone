@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1991918773186124353}
   - component: {fileID: 5370928833900234795}
   - component: {fileID: 6062120862240592089}
-  - component: {fileID: 6964788191395974949}
+  - component: {fileID: -2973485676572028671}
   m_Layer: 0
   m_Name: FireProjectile
   m_TagString: Untagged
@@ -93,7 +93,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -5240615596922460295, guid: 16f81272675aa43f8a60b461847cf217, type: 3}
+  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -101,7 +101,7 @@ SpriteRenderer:
   m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!58 &6062120862240592089
@@ -140,7 +140,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.08
---- !u!95 &6964788191395974949
+--- !u!95 &-2973485676572028671
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -150,7 +150,7 @@ Animator:
   m_GameObject: {fileID: 4112673328808351943}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ebe7554fd73b848ceaa581bb4e5d8354, type: 2}
+  m_Controller: {fileID: 9100000, guid: 964dbae7f471d4e5495242c399792386, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

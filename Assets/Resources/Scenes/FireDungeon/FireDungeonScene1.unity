@@ -88557,7 +88557,7 @@ Transform:
   m_GameObject: {fileID: 601231934}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.707952, w: 0.70626056}
-  m_LocalPosition: {x: -69.7, y: -34.61, z: -0.13551962}
+  m_LocalPosition: {x: -93.3, y: -34.7, z: -0.13551962}
   m_LocalScale: {x: 67.0592, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -128899,6 +128899,7 @@ GameObject:
   - component: {fileID: 1041509500}
   - component: {fileID: 1041509499}
   - component: {fileID: 1041509498}
+  - component: {fileID: 1041509501}
   m_Layer: 0
   m_Name: Tilemap (0)
   m_TagString: Untagged
@@ -136737,6 +136738,28 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!95 &1041509501
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041509494}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1057273254
 GameObject:
   m_ObjectHideFlags: 0
@@ -160759,8 +160782,8 @@ Transform:
   m_GameObject: {fileID: 1174200457}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -44.736, y: 37.91, z: -0.13551962}
-  m_LocalScale: {x: 85.59834, y: 1, z: 1}
+  m_LocalPosition: {x: -73.27, y: 37.91, z: -0.13551962}
+  m_LocalScale: {x: 138.78915, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -161018,8 +161041,8 @@ Transform:
   m_GameObject: {fileID: 1253885807}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -44.736, y: -38.67, z: -0.13551962}
-  m_LocalScale: {x: 85.59834, y: 1, z: 1}
+  m_LocalPosition: {x: -71.958, y: -38.67, z: -0.13551962}
+  m_LocalScale: {x: 136.34105, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -217390,8 +217413,8 @@ Transform:
   m_GameObject: {fileID: 1718012806}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.707952, w: 0.70626056}
-  m_LocalPosition: {x: 69.81, y: -34.11, z: -0.13551962}
-  m_LocalScale: {x: 67.0592, y: 1, z: 1}
+  m_LocalPosition: {x: 102.81, y: -38.881, z: -0.13551962}
+  m_LocalScale: {x: 76.15913, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

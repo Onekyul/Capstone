@@ -140,7 +140,6 @@ MonoBehaviour:
   attackEffectPrefab: {fileID: 2003877883920826118, guid: 393775aaa01b1444db5037270bd929f2, type: 3}
   attackPoint: {fileID: 0}
   enchantChancePerLevel: 10
-  maxEnchantmentLevel: 5
   enchantmentLevels: 00000000000000000000000000000000
   debugFireLevel: 0
   debugIceLevel: 0
@@ -150,7 +149,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  swordRange: 4
+  swordRange: 1.8
   effectOffsetDistance: 0.8
 --- !u!1 &2581213020333824419
 GameObject:
@@ -372,8 +371,7 @@ MonoBehaviour:
   finalCooldown: 0
   attackEffectPrefab: {fileID: 0}
   attackPoint: {fileID: 2682603067172822643}
-  enchantChancePerLevel: 6
-  maxEnchantmentLevel: 5
+  enchantChancePerLevel: 10
   enchantmentLevels: 00000000000000000000000000000000
   debugFireLevel: 0
   debugIceLevel: 0
@@ -527,7 +525,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.787, y: -1.2892404}
+  m_AnchoredPosition: {x: -0.9755552, y: -1.2892404}
   m_SizeDelta: {x: 1.52, y: 1.88}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &7057338916876114614
@@ -597,7 +595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0cb60f25a15bb4a86be00086f978e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 4
+  playerSpeed: 3
   movementInput: {x: 0, y: 0}
   attackManager: {fileID: 6614344249973979373}
   spriteRenderer: {fileID: 0}
@@ -662,8 +660,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.16, y: 0}
-  m_Radius: 0.3361821
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.43713564
 --- !u!114 &6614344249973979373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -698,28 +696,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allAbilities:
   - {fileID: 11400000, guid: bb3204fe8285b584cb3219269c986915, type: 2}
-  - {fileID: 11400000, guid: 51eaa0b9b3e0cfc4a83c5a3b8312fa80, type: 2}
   - {fileID: 11400000, guid: 106584361342c3344813e50fe038a04e, type: 2}
   - {fileID: 11400000, guid: ebc97ec7c12b3e543801d02b9226db4f, type: 2}
-  - {fileID: 11400000, guid: b0be1786a98741f4a953f5ac90ef3670, type: 2}
-  - {fileID: 11400000, guid: b1c2d3e4f5a6789012345678cdef1234, type: 2}
   - {fileID: 11400000, guid: d06d1699bc87ab742818a8bfbb1bf5af, type: 2}
-  - {fileID: 11400000, guid: 0a28f114891e8464aaad97fa6236aa1e, type: 2}
   - {fileID: 11400000, guid: 05ef5e1de71da00439c10b9eafbfc3d5, type: 2}
   - {fileID: 11400000, guid: 5639f259b2d53744e90b0fcb383c7db5, type: 2}
-  - {fileID: 11400000, guid: a1b2c3d4e5f6789012345678abcdef13, type: 2}
-  - {fileID: 11400000, guid: 9164a2aa4c77b134a9271f3dfa6af92d, type: 2}
   - {fileID: 11400000, guid: d72a717f05f4d394c8d8d148f442a145, type: 2}
   - {fileID: 11400000, guid: ec2090a7b479c8d4b88b3681d95edbdc, type: 2}
-  - {fileID: 11400000, guid: 7e21890a7843fc947b0f279a0fa8f759, type: 2}
   - {fileID: 11400000, guid: 582f880af4865fe4c80876cc1aebde00, type: 2}
-  - {fileID: 11400000, guid: d5254657c91a3204a9b08ea3cea93d1d, type: 2}
-  - {fileID: 11400000, guid: 7a5f3c8d9e2b4f6a8c1d3e5f7a9b2c4d, type: 2}
   - {fileID: 11400000, guid: c5683299bd1de7549ba5e73b5078813d, type: 2}
-  - {fileID: 11400000, guid: 047a21b31878a184d813410ca6d4acd5, type: 2}
-  - {fileID: 11400000, guid: 5c1a0b48d91d06b4fac2b77205e89da0, type: 2}
-  - {fileID: 11400000, guid: 02524836785802642894afac714adc3f, type: 2}
-  shieldAbilityPrefab: {fileID: 8083260392662848310, guid: 955b7f8ae9870314e9dd3e21e8625dc3, type: 3}
 --- !u!114 &-6604301485312488701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -732,9 +717,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc435803fd893524aa1067db3ce82564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSprite: {fileID: 0}
-  flashMaterial: {fileID: 2100000, guid: 5ef7ef650739c4b49be0d0643ae9bb9a, type: 2}
-  flashDuration: 0.08
   baseMaxHP: 100
   playerMaxHP: 100
   playerCurHP: 0
@@ -1015,7 +997,6 @@ MonoBehaviour:
   attackEffectPrefab: {fileID: 0}
   attackPoint: {fileID: 0}
   enchantChancePerLevel: 10
-  maxEnchantmentLevel: 5
   enchantmentLevels: 00000000000000000000000000000000
   debugFireLevel: 0
   debugIceLevel: 0
@@ -1110,7 +1091,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &7809700905343194499
 MonoBehaviour:
   m_ObjectHideFlags: 0
