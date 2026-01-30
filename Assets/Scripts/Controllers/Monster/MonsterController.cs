@@ -111,6 +111,13 @@ public class MonsterController : MonoBehaviour
 
     protected virtual void Update()
     {
+        // 죽음 체크는 frozen 상태에서도 해야 함 (화상 데미지 등으로 죽을 수 있음)
+        if (IsDead())
+        {
+            ReturnToPool();
+            return;
+        }
+
         if (isFrozen) return;
 
         player = GetClosestPlayer();
@@ -118,8 +125,6 @@ public class MonsterController : MonoBehaviour
 
         FlipSpriteTowardsPlayer();
         Move();
-
-        if (IsDead()) ReturnToPool();
     }
 
     protected virtual void Move()
@@ -157,10 +162,21 @@ public class MonsterController : MonoBehaviour
     // ====================================================================
     public void TakeDamage(float damage)
     {
-        storedLastDamage = damage; // 데미지 저장
+        storedLastDamage = damage; // ★ 데미지를 먼저 저장 (상태이상 계산 기준값)
 
         float finalDamage = damage * damageMultiplier; // 썩음 적용
         CurHP -= finalDamage;
+
+        // ★ [추가] 데미지 텍스트 띄우기
+        // 몬스터 머리 위(Y축 + 0.5 ~ 1.0)에 띄우면 보기 좋습니다.
+        Vector3 popupPos = transform.position + new Vector3(0, 0.5f, 0);
+
+        // 매니저가 있는지 확인하고 호출
+        if (DamageTextManager.Instance != null)
+        {
+            // 크리티컬 여부는 일단 false로, 나중에 확률 로직 넣으시면 true로 바꾸세요
+            DamageTextManager.Instance.CreatePopup(popupPos, finalDamage, false);
+        }
         // 체력바 갱신 로직
         if (hpSlider != null)
         {
@@ -175,6 +191,13 @@ public class MonsterController : MonoBehaviour
     {
         float finalDamage = damage * damageMultiplier;
         CurHP -= finalDamage;
+
+        // ★ [추가] 여기도 똑같이 추가 (화상, 독 데미지 등)
+        if (DamageTextManager.Instance != null)
+        {
+            Vector3 popupPos = transform.position + new Vector3(UnityEngine.Random.Range(-0.2f, 0.2f), 0.5f, 0); // 위치 약간 랜덤하게
+            DamageTextManager.Instance.CreatePopup(popupPos, finalDamage, false);
+        }
         if (hpSlider != null)
         {
             // 현재 체력 비율 계산 (0.0 ~ 1.0)
@@ -186,6 +209,14 @@ public class MonsterController : MonoBehaviour
 
     public void TakeElement(int[] enchants)
     {
+        // ★ 주의: TakeElement는 반드시 TakeDamage 이후에 호출되어야 합니다!
+        // ★ storedLastDamage가 설정되어 있어야 화상/번개 계산이 정상 작동합니다.
+        
+        if (storedLastDamage <= 0)
+        {
+            Debug.LogWarning($"[{gameObject.name}] TakeElement가 TakeDamage 전에 호출되었거나 storedLastDamage가 0입니다!");
+        }
+
         // [0] 화염 
         if (enchants.Length > 0 && enchants[0] > 0)
         {

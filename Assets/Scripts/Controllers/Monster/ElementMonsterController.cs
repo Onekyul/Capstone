@@ -23,8 +23,15 @@ public class ElementMonsterController : MonsterController
 
     protected override void Update()
     {
+        // 죽음 체크는 frozen 상태에서도 해야 함
+        if (IsDead())
+        {
+            ReturnToPool();
+            return;
+        }
+
         // 1. 상태이상(빙결 등) 체크
-        // if (isFrozen) return; 
+        if (getIsFrozen()) return; 
 
         player = GetClosestPlayer();
         if (player == null) return;
@@ -41,8 +48,6 @@ public class ElementMonsterController : MonsterController
             PerformAttack(); 
             lastAttackTime = Time.time;
         }
-        
-        if (IsDead()) ReturnToPool();
     }
 
     // 자식들이 구체적인 공격
