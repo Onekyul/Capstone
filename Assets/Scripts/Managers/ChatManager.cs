@@ -1,120 +1,131 @@
 using UnityEngine;
 using UnityEngine.UI;
-using StackExchange.Redis;
-using System.Collections.Concurrent;
 using TMPro;
-using System.Net.Http;
-using System.Text;
-using Newtonsoft.Json;
+using UnityEngine.Networking;
 using UnityEngine.EventSystems;
+using System.Collections;
+using System.Collections.Generic;
+using Newtonsoft.Json; 
 
 public class ChatManager : MonoBehaviour
 {
-    [Header("UI connect")]
+    [Header("UI References")]
     public TMP_InputField inputField;
-    public TextMeshProUGUI chatDisplay;
+    public Transform chatContent;
+    public GameObject messagePrefab;
     public ScrollRect scrollRect;
     
-    [Header("Redis Setting")]
-    private ConnectionMultiplexer redis;
-    private ISubscriber sub;
-    private string myNickname = "Player_" + Random.Range(1000, 9999);// 임시용 코드 나중에 닉네임 가져오기
+    private string baseUrl = "http://localhost:7001/api/chat"; 
     
-    private ConcurrentQueue<string> messageQueue = new ConcurrentQueue<string>();
-    private readonly HttpClient client = new HttpClient();
-    
-    private string serverUrl = "http://localhost:7000/api/chat/send";
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private string myNickname;
+    private bool isPolling = false;
+
     void Start()
     {
-        ConnectRedis();
-        inputField.DeactivateInputField();
-    }
-
-    // Update is called once per frame
-    void ConnectRedis()
-    {
-        try
-        {
-            string connectingString = "localhost:6379";
-            redis = ConnectionMultiplexer.Connect(connectingString);
-            sub = redis.GetSubscriber();
-    
-            //메세지 수신 (백그라운드 스레드 -> 큐)
-            sub.Subscribe("chat:global", (channel, message) => { messageQueue.Enqueue(message); });
-            Debug.Log("Redis 채팅 연결");
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError($"Redis 연결 실패 : {e.Message}");
-        }
+        myNickname = "Player_" + Random.Range(1000, 9999); // 닉네임 임시 생성
+        CloseChatInput(); 
+        StartCoroutine(PollingRoutine()); 
     }
 
     void Update()
     {
-        //메세지 수신 처리
-        while (messageQueue.TryDequeue(out string message))
+        // 엔터
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
-            chatDisplay.text += message+"\n";
-            if(scrollRect!=null) scrollRect.verticalNormalizedPosition = 0f;
+            if (inputField.gameObject.activeSelf)
+            {
+                if (!string.IsNullOrWhiteSpace(inputField.text))
+                    StartCoroutine(SendMessageCoroutine(inputField.text));
+                CloseChatInput();
+            }
+            else OpenChatInput();
         }
 
-        HandleInput();
+        // ESC
+        if (Input.GetKeyDown(KeyCode.Escape) && inputField.gameObject.activeSelf)
+        {
+            CloseChatInput();
+        }
+    }
+    
+    IEnumerator PollingRoutine()
+    {
+        isPolling = true;
+        while (isPolling)
+        {
+            using (UnityWebRequest req = UnityWebRequest.Get(baseUrl + "/receive"))
+            {
+                yield return req.SendWebRequest();
+                if (req.result == UnityWebRequest.Result.Success)
+                {
+                    // ★ 이 로그가 콘솔에 찍히는지 확인하세요!
+                    Debug.Log($"[Server Response] {req.downloadHandler.text}");
+                
+                    UpdateChatUI(req.downloadHandler.text);
+                }
+                else
+                {
+                    Debug.LogError($"[Error] {req.error}");
+                }
+            }
+            yield return new WaitForSeconds(1.0f);
+        }
     }
 
-    void HandleInput()
+    IEnumerator SendMessageCoroutine(string msg)
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        var data = new { Nickname = myNickname, Message = msg };
+        string json = JsonConvert.SerializeObject(data);
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+
+        using (UnityWebRequest req = new UnityWebRequest(baseUrl + "/send", "POST"))
         {
-            if (inputField.isFocused)
-            {  // 입력창이 켜져 있을시 전송
-                if (!string.IsNullOrWhiteSpace(inputField.text))
-                {
-                    SendMessageToServer(inputField.text);
-                }
-                
-                inputField.text = "";
-                inputField.DeactivateInputField();
-                
-                EventSystem.current.SetSelectedGameObject(null);
+            req.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            req.downloadHandler = new DownloadHandlerBuffer();
+            req.SetRequestHeader("Content-Type", "application/json");
+            yield return req.SendWebRequest();
+        }
+    }
+
+    // --- 2. UI 로직 ---
+    void UpdateChatUI(string jsonArray)
+    {
+        var messages = JsonConvert.DeserializeObject<List<string>>(jsonArray);
+        if (messages == null || messages.Count == 0) return;
+
+        // 기존 메시지 삭제
+        foreach (Transform child in chatContent) Destroy(child.gameObject);
+
+        // 새 메시지 생성
+        foreach (string msg in messages)
+        {
+            GameObject newMsg = Instantiate(messagePrefab, chatContent);
+
+            // ★ [핵심] 스케일과 위치를 강제로 1, 1, 1로 맞춤 (이게 원인일 확률 99%)
+            newMsg.transform.localScale = Vector3.one; 
+        
+            // Z축이 튀면 카메라 뒤로 숨을 수 있으니 0으로 고정
+            Vector3 pos = newMsg.transform.localPosition;
+            newMsg.transform.localPosition = new Vector3(pos.x, pos.y, 0);
+
+            // 텍스트 컴포넌트 찾기
+            var textComp = newMsg.GetComponent<TextMeshProUGUI>();
+            if (textComp == null) textComp = newMsg.GetComponentInChildren<TextMeshProUGUI>();
+        
+            if (textComp != null)
+            {
+                textComp.text = msg;
+                textComp.color = Color.white; // 혹시 글자색이 투명/검정일까봐 흰색 강제
             }
             else
             {
-                inputField.ActivateInputField();
-                inputField.Select();
+                Debug.LogError("❌ 프리팹에 TextMeshProUGUI 컴포넌트가 없습니다!");
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (inputField.isFocused)
-            {
-                inputField.text = "";
-                inputField.DeactivateInputField();
-                EventSystem.current.SetSelectedGameObject(null);
-            }
-        }
+        StartCoroutine(AutoScroll());
     }
 
-    //서버로 메세지 전송 (비동기)
-    async void SendMessageToServer(string msg)
-    {
-        var req = new {Nickname = myNickname, msg = msg};
-        string json = JsonConvert.SerializeObject(req);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-        try
-        {
-            await client.PostAsync(serverUrl, content);
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError("전송 실패 :"+e.Message);
-        }
-    }
-
-    private void OnApplicationQuit()
-    {
-        if(redis!=null)redis.Close();
-    }
+    void OpenChatInput() { inputField.gameObject.SetActive(true); inputField.text = ""; inputField.ActivateInputField(); inputField.Select(); }
+    void CloseChatInput() { inputField.text = ""; inputField.DeactivateInputField(); inputField.gameObject.SetActive(false); EventSystem.current.SetSelectedGameObject(null); }
+    IEnumerator AutoScroll() { yield return new WaitForEndOfFrame(); scrollRect.verticalNormalizedPosition = 0f; }
 }
