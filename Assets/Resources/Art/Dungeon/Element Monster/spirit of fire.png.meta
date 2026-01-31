@@ -5,6 +5,36 @@ TextureImporter:
   - first:
       213: 7234643353246476096
     second: spirit of fire_0
+  - first:
+      213: -3434102713457175253
+    second: spirit of fire_1
+  - first:
+      213: 8828629345557319904
+    second: spirit of fire_2
+  - first:
+      213: 4508512968938367880
+    second: spirit of fire_3
+  - first:
+      213: 1507782118305826267
+    second: spirit of fire_4
+  - first:
+      213: -4296479286270465265
+    second: spirit of fire_5
+  - first:
+      213: 5835392709865505526
+    second: spirit of fire_6
+  - first:
+      213: 3803396773453224583
+    second: spirit of fire_7
+  - first:
+      213: 6055209271017217800
+    second: spirit of fire_8
+  - first:
+      213: -618679859381889042
+    second: spirit of fire_9
+  - first:
+      213: -8997884938190940758
+    second: spirit of fire_10
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +82,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 52, y: 87, z: 77, w: 24}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -103,12 +133,12 @@ TextureImporter:
       name: spirit of fire_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1088
-        height: 960
+        x: 52
+        y: 85
+        width: 959
+        height: 851
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -121,12 +151,232 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: spirit of fire_1
+      rect:
+        serializedVersion: 2
+        x: 398
+        y: 823
+        width: 27
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b251e2ad6cd9750d0800000000000000
+      internalID: -3434102713457175253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spirit of fire_2
+      rect:
+        serializedVersion: 2
+        x: 464
+        y: 844
+        width: 47
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e0988b1d97958a70800000000000000
+      internalID: 8828629345557319904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spirit of fire_3
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 779
+        width: 135
+        height: 157
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88b20da78a4719e30800000000000000
+      internalID: 4508512968938367880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spirit of fire_4
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 758
+        width: 28
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd50e4819d7bce410800000000000000
+      internalID: 1507782118305826267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spirit of fire_5
+      rect:
+        serializedVersion: 2
+        x: 658
+        y: 758
+        width: 27
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0b66055ad6df54c0800000000000000
+      internalID: -4296479286270465265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spirit of fire_6
+      rect:
+        serializedVersion: 2
+        x: 897
+        y: 498
+        width: 27
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f2007c90ca7bf050800000000000000
+      internalID: 5835392709865505526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spirit of fire_7
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 432
+        width: 48
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78adb85d63168c430800000000000000
+      internalID: 3803396773453224583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spirit of fire_8
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 411
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80f12a700cc680450800000000000000
+      internalID: 6055209271017217800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spirit of fire_9
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 151
+        width: 179
+        height: 264
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee79adf12f10a67f0800000000000000
+      internalID: -618679859381889042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spirit of fire_10
+      rect:
+        serializedVersion: 2
+        x: 811
+        y: 151
+        width: 200
+        height: 222
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa59a415257112380800000000000000
+      internalID: -8997884938190940758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
-    internalID: 0
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
@@ -136,6 +386,16 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       spirit of fire_0: 7234643353246476096
+      spirit of fire_1: -3434102713457175253
+      spirit of fire_10: -8997884938190940758
+      spirit of fire_2: 8828629345557319904
+      spirit of fire_3: 4508512968938367880
+      spirit of fire_4: 1507782118305826267
+      spirit of fire_5: -4296479286270465265
+      spirit of fire_6: 5835392709865505526
+      spirit of fire_7: 3803396773453224583
+      spirit of fire_8: 6055209271017217800
+      spirit of fire_9: -618679859381889042
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

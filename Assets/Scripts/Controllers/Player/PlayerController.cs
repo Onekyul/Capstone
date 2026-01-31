@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float playerSpeed=2.5f;
     private Rigidbody2D rb;
-    private Vector2 movementInput;  // InputManager 로부터 전달받은 현재 이동 입력 값을 저장
+    public Vector2 movementInput;  // InputManager 로부터 전달받은 현재 이동 입력 값을 저장
     
     [Header("Attack System")]
     [SerializeField] private AttackManager attackManager;
