@@ -211,7 +211,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &92329631
 RectTransform:
   m_ObjectHideFlags: 0
@@ -128623,6 +128623,7 @@ MonoBehaviour:
   - {fileID: 1755479332552780768, guid: 4f7e42eb67a7141408de4ec9620c7660, type: 3}
   timerText: {fileID: 1293363641}
   objectiveText: {fileID: 0}
+  rewardMultiplier: 1
 --- !u!4 &984747090
 Transform:
   m_ObjectHideFlags: 0
@@ -280996,8 +280997,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -281034,7 +281035,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -66.51994, y: 0, z: -58.10492, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
