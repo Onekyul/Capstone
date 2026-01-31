@@ -356,7 +356,7 @@ MonoBehaviour:
   poisonEffectObject: {fileID: 6886918388319957408}
   eliteChestPrefab: {fileID: -7302594443989870516, guid: ace7d39784493df4692014cc8d62bfb3, type: 3}
   IsElite: 0
-  eliteSpawnChance: 6
+  eliteSpawnChance: 5
 --- !u!1 &6752427310582545182
 GameObject:
   m_ObjectHideFlags: 0

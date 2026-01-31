@@ -8,7 +8,7 @@ public class StageManager : MonoBehaviour
 {
     public static StageManager instance;
 
-   
+
     [Header("--- [Wave Spawn Settings] ---")]
     [Tooltip("실행할 스테이지의 설계도 (StageSO 파일을 여기에 연결하세요)")]
     public StageSO currentStage;
@@ -61,6 +61,10 @@ public class StageManager : MonoBehaviour
 
     private int targetMonstersCount = 0; // 보스 처치 수
 
+    [Header("--- [보상 배율 확인용] ---")]
+    [SerializeField]
+    private float rewardMultiplier = 1; // 보상 배수 (향후 난이도에 따라 변경 가능)
+
     void Awake()
     {
         instance = this;
@@ -105,7 +109,7 @@ public class StageManager : MonoBehaviour
         CheckWaveSpawn();
     }
 
-   
+
     void CheckWaveSpawn()
     {
         // 스테이지 정보가 없거나 모든 페이즈가 끝났으면 패스
@@ -174,7 +178,7 @@ public class StageManager : MonoBehaviour
                     finalSpawnPosition = baseSpawnPosition + (Vector3)randomOffset;
                     break;
             }
-            
+
             if (MonsterPool.Instance != null)
             {
                 MonsterController monster = MonsterPool.Instance.GetFromPool(data.monsterTag, finalSpawnPosition, Quaternion.identity);
@@ -189,7 +193,7 @@ public class StageManager : MonoBehaviour
             yield return new WaitForSeconds(data.spawnInterval);
         }
     }
-    
+
     public void CollectEliteChest() { eliteChestCount++; }
     public void CollectElementChest() { elementChestCount++; }
 
@@ -241,6 +245,13 @@ public class StageManager : MonoBehaviour
             }
         }
 
+        // 보상 배수 적용
+        List<ItemData> keysForMultiplier = new List<ItemData>(totalRewards.Keys);
+        foreach (var key in keysForMultiplier)
+        {
+            totalRewards[key] = Mathf.FloorToInt(totalRewards[key] * rewardMultiplier);
+        }
+
         // 죽음 패널티 (0.7배)
         if (!isClear)
         {
@@ -260,7 +271,7 @@ public class StageManager : MonoBehaviour
         if (dict.ContainsKey(item)) dict[item] += amount;
         else dict.Add(item, amount);
     }
-    
+
     void SpawnElementalMonsters()
     {
         if (spawnPoints == null || elementMonsterPrefabs == null) return;
@@ -319,7 +330,12 @@ public class StageManager : MonoBehaviour
 
         // 2. 'BaseArea' 씬으로 이동
         SceneManager.LoadScene("BaseArea");
-        
+
         Debug.Log("[StageManager] 거점으로 이동 (플레이어는 씬에서 새로 생성됨)");
+    }
+
+    public void SetRewardMultiplier(float multiplier)
+    {
+        rewardMultiplier = multiplier;
     }
 }

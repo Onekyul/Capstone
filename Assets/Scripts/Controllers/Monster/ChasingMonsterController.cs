@@ -18,9 +18,11 @@ public class ChasingMonsterController : MonsterController
 
     protected override void OnEnable()
     {
+        // 1. 여기서 부모의 ResetStatus()가 실행되어 모든 스탯이 원본(100%)으로 돌아감
         base.OnEnable();
-        // 몬스터가 활성화될 때마다 엘리트 여부를 다시 결정
-        IsElite = Random.Range(0f, 100f) < eliteSpawnChance;
+
+        // 2. 깨끗한 상태에서 확률에 따라 엘리트 여부 결정
+        IsElite = UnityEngine.Random.Range(0f, 100f) < eliteSpawnChance;
         UpgradeEliteStats();
     }
 
@@ -28,15 +30,21 @@ public class ChasingMonsterController : MonsterController
     {
         if (IsElite)
         {
-            MaxHP *= 2.0f; // 엘리트 몬스터의 체력을 2배로 증가
-            CurHP = MaxHP; // 현재 체력을 최대 체력으로 설정
-            contactDamage *= 1.5f; // 엘리트 몬스터의 접촉 데미지를 1.5배로 증가
-            baseMoveSpeed *= 1.2f; // 엘리트 몬스터의 이동 속도를 20% 증가
+            monsterType = MonsterType.Elite; // 타입 갱신 추가
+            // 원본에서 리셋된 값에 곱하기를 수행하므로 누적되지 않음
+            // 5. 무조건 (1.5, 1.5, 1)이 아니라 원래 크기의 1.5배가 되도록 수정
+            transform.localScale = defaultScale * 1.5f;
+            //스탯 업그레이드
+            MaxHP *= 2.0f;
+            CurHP = MaxHP;
+            contactDamage *= 1.5f;
+            baseMoveSpeed *= 1.2f;
             currentMoveSpeed = baseMoveSpeed;
+
             if (hpSlider != null)
             {
                 hpSlider.value = 1.0f;
-                hpSlider.gameObject.SetActive(true); // 혹시 꺼져있으면 켜기
+                hpSlider.gameObject.SetActive(true);
             }
         }
     }

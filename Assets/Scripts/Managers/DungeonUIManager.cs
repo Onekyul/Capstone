@@ -49,7 +49,7 @@ public class DungeonUIManager : MonoBehaviour
         // 1. 타이틀 설정
         if (resultTitleText != null)
         {
-            resultTitleText.text = isClear ? "<color=yellow>STAGE CLEAR!</color>" : "<color=red>GAME OVER...</color>";
+            resultTitleText.text = isClear ? "<color=yellow>STAGE CLEAR!</color>" : "<color=red>GAME OVER</color>";
         }
 
         // 2. 상자 개수 표시

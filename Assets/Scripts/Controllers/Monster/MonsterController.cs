@@ -70,11 +70,26 @@ public class MonsterController : MonoBehaviour
     // 최근에 맞은 데미지 (상태이상 데미지 계산용)
     private float storedLastDamage = 0f;
 
+    // 1. 원본 스탯을 저장할 변수 추가
+    protected float defaultMaxHP;
+    protected float defaultContactDamage;
+    protected float defaultMoveSpeed;
+    protected Vector3 defaultScale; // 1. 원본 크기 저장 변수 추가
+
+    protected virtual void Awake()
+    {
+        // 2. 게임 시작 시 Inspector에 설정된 초기 값을 저장
+        // 오타 수정: defaultContactDamage = contactDamage;
+        defaultMaxHP = MaxHP;
+        defaultContactDamage = contactDamage;
+        defaultMoveSpeed = moveSpeed;
+        defaultScale = transform.localScale; // 2. 에디터에 설정한 원래 크기를 기억함
+    }
+
     protected virtual void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         player = GetClosestPlayer();
-        ResetStatus();
     }
 
     protected virtual void OnEnable()
@@ -84,13 +99,22 @@ public class MonsterController : MonoBehaviour
 
     private void ResetStatus()
     {
+        // 3. 누적된 스탯을 원본 값으로 리셋
+        MaxHP = defaultMaxHP;
+        contactDamage = defaultContactDamage;
+        moveSpeed = defaultMoveSpeed;
+        monsterType = MonsterType.Normal; // 타입 리셋 추가
+        // 4. Vector3.one 대신 기억해둔 원본 크기로 복구
+        transform.localScale = defaultScale;
+
         CurHP = MaxHP;
-        // 체력바 초기화 
+
         if (hpSlider != null)
         {
             hpSlider.value = 1.0f;
             hpSlider.gameObject.SetActive(true);
         }
+
         baseMoveSpeed = moveSpeed;
         currentMoveSpeed = moveSpeed;
         damageMultiplier = 1.0f;
