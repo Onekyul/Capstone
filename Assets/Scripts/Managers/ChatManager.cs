@@ -17,12 +17,12 @@ public class ChatManager : MonoBehaviour
     
     private string baseUrl = "http://localhost:7001/api/chat"; 
     
-    private string myNickname;
     private bool isPolling = false;
 
     void Start()
     {
-        myNickname = "Player_" + Random.Range(1000, 9999); // 닉네임 임시 생성
+        // 닉네임 임시 생성
+        //myNickname = "Player_" + Random.Range(1000, 9999); 
         CloseChatInput(); 
         StartCoroutine(PollingRoutine()); 
     }
@@ -58,7 +58,7 @@ public class ChatManager : MonoBehaviour
                 yield return req.SendWebRequest();
                 if (req.result == UnityWebRequest.Result.Success)
                 {
-                    // ★ 이 로그가 콘솔에 찍히는지 확인하세요!
+                    
                     Debug.Log($"[Server Response] {req.downloadHandler.text}");
                 
                     UpdateChatUI(req.downloadHandler.text);
@@ -74,7 +74,14 @@ public class ChatManager : MonoBehaviour
 
     IEnumerator SendMessageCoroutine(string msg)
     {
-        var data = new { Nickname = myNickname, Message = msg };
+        string nickname = "Guest";
+        
+        if (SessionManager.Instance != null && !string.IsNullOrEmpty(SessionManager.Instance.Nickname))
+        {
+            nickname = SessionManager.Instance.Nickname;
+        }
+
+        var data = new { Nickname = nickname, Message = msg };
         string json = JsonConvert.SerializeObject(data);
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
 

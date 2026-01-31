@@ -10,8 +10,12 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
     public PlayerData currentPlayer;
-    private string baseUrl = "http://localhost:7001/api";
-    public int MyUserId { get; private set; }
+    
+    // 게임 데이터 관련 API 주소
+    private string baseUrl = "http://localhost:7001/api/Game"; 
+
+    // ★ [핵심 연결] 내 ID는 SessionManager한테 물어봄
+    public int MyUserId => SessionManager.Instance != null ? SessionManager.Instance.UserId : 0;
 
     void Awake()
     {
@@ -29,44 +33,38 @@ public class DataManager : MonoBehaviour
     }
     
     // ==================================================================================
-    // [server] 로그인 & 데이터 로드
+    // [server] 초기화: 로그인(Session) -> 데이터로드(Data) 순차 실행
     // ==================================================================================
     public void InitializeNetwork(Action onComplete)
     {
-        // 디바이스 ID로 게스트 로그인, 게임 시작시 호출
-        string deviceId = SystemInfo.deviceUniqueIdentifier;
-        StartCoroutine(CoGuestLogin(deviceId, onComplete));
-    }
-
-    IEnumerator CoGuestLogin(string deviceId, Action onComplete)
-    {
-        Debug.Log("[SERVER] GuestLogin..");
-        string json = $"{{\"deviceId\":\"{deviceId}\"}}";
-
-        using (UnityWebRequest req = CreatePostRequest(baseUrl + "/Auth/guest-login", json))
+        // 1. SessionManager가 있는지 확인
+        if (SessionManager.Instance == null)
         {
-            yield return req.SendWebRequest();
+            Debug.LogError(" No SessionManager");
+            return;
+        }
 
-            if (req.result == UnityWebRequest.Result.Success)
+        // 2. 로그인 요청 위임
+        SessionManager.Instance.Login((isSuccess) => 
+        {
+            if (isSuccess)
             {
-                var res = JsonUtility.FromJson<LoginResponseDto>(req.downloadHandler.text);
-                MyUserId = res.userId;
-                Debug.Log($"✅ [Server] 로그인 성공 ID: {MyUserId}, 닉네임: {res.nickname}");
-
+                // 3. 로그인 성공 시 내 데이터 로드 시작
                 StartCoroutine(CoLoadGame(onComplete));
             }
             else
             {
-                Debug.LogError($"[Server] 로그인 실패: {req.error}");
+                Debug.LogError("로그인 실패로 인해 게임 데이터를 로드하지 못했습니다.");
             }
-        }
+        });
     }
-    
+
     IEnumerator CoLoadGame(Action onComplete)
     {
+        // SessionManager를 통해 얻은 ID 사용
         string json = $"{{\"userId\":{MyUserId}}}";
 
-        using (UnityWebRequest req = CreatePostRequest(baseUrl + "/Game/load", json))
+        using (UnityWebRequest req = CreatePostRequest(baseUrl + "/load", json))
         {
             yield return req.SendWebRequest();
 
@@ -77,7 +75,7 @@ public class DataManager : MonoBehaviour
                 // 1. 서버 DTO 받기
                 GameDataDto serverData = JsonUtility.FromJson<GameDataDto>(req.downloadHandler.text);
                 
-                // 2. 로컬 PlayerData로 변환 (여기서 내부 함수 사용)
+                // 2. 로컬 PlayerData로 변환
                 ApplyServerDataToLocal(serverData);
                 
                 onComplete?.Invoke();
@@ -88,7 +86,6 @@ public class DataManager : MonoBehaviour
             }
         }
     }
-    
     
     // ==================================================================================
     // [Server] 데이터 저장 (Save)
@@ -105,46 +102,49 @@ public class DataManager : MonoBehaviour
         GameDataDto dataToSend = ConvertLocalToServerData();
         string json = JsonUtility.ToJson(dataToSend);
 
-        using (UnityWebRequest req = CreatePostRequest(baseUrl + "/Game/save", json))
+        using (UnityWebRequest req = CreatePostRequest(baseUrl + "/save", json))
         {
             yield return req.SendWebRequest();
             if (req.result != UnityWebRequest.Result.Success)
             {
-                // 아직 서버에 Save API가 없으면 실패하는 게 정상
+                // 실패 처리
+                Debug.LogWarning($"저장 실패: {req.error}");
             }
         }
     }
 
     // ==================================================================================
-    // [Mapping] 데이터 변환 (서버 DTO <-> 로컬 PlayerData)
+    // [Mapping] 데이터 변환 및 헬퍼 함수들 (기존 코드 유지)
     // ==================================================================================
-  // 서버 DTO -> 로컬 데이터 적용
+    
+    private UnityWebRequest CreatePostRequest(string url, string json)
+    {
+        var req = UnityWebRequest.PostWwwForm(url, json);
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+        req.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        req.downloadHandler = new DownloadHandlerBuffer();
+        req.SetRequestHeader("Content-Type", "application/json");
+        return req;
+    }
+
+    // --- 아래부터는 보내주신 인벤토리/장비 로직과 동일 ---
+
     private void ApplyServerDataToLocal(GameDataDto serverData)
     {
-        // 1. 인벤토리 동기화
         currentPlayer.Inventory.Clear();
         foreach (var itemDto in serverData.inventory)
         {
-            // ResourceManager 대신 내부에 있는 GetMaterialData 사용
             ItemData itemSO = GetMaterialData(itemDto.id);
-            if (itemSO != null)
-            {
-                currentPlayer.Inventory.Add(new InventorySlot(itemDto.id, itemDto.count));
-            }
+            if (itemSO != null) currentPlayer.Inventory.Add(new InventorySlot(itemDto.id, itemDto.count));
         }
 
-        // 2. 인챈트 동기화
         currentPlayer.unlockedEnchants.Clear();
         foreach (var enchantDto in serverData.enchants)
         {
             EnchantData enchantSO = GetEnchantData(enchantDto.id);
-            if (enchantSO != null)
-            {
-                currentPlayer.unlockedEnchants.Add(new EnchantState(enchantDto.id, enchantDto.level));
-            }
+            if (enchantSO != null) currentPlayer.unlockedEnchants.Add(new EnchantState(enchantDto.id, enchantDto.level));
         }
 
-        // 3. 장착 정보 및 장비 리스트 동기화
         if (serverData.equip != null)
         {
             currentPlayer.equippedWeaponId = serverData.equip.weapon;
@@ -159,21 +159,17 @@ public class DataManager : MonoBehaviour
             }
         }
         
-        // 보유 장비 리스트 처리 (서버에서 받은 목록 -> 로컬 목록)
         currentPlayer.ownedWeapons.Clear();
         currentPlayer.ownedArmors.Clear();
         
         foreach(var equipDto in serverData.equipments)
         {
-            // 무기인지 체크
             WeaponData wData = GetWeaponData(equipDto.id);
             if(wData != null)
             {
                 currentPlayer.ownedWeapons.Add(new EquipmentState(equipDto.id, equipDto.level));
                 continue;
             }
-            
-            // 방어구인지 체크
             ArmorData aData = GetArmorData(equipDto.id);
             if(aData != null)
             {
@@ -200,79 +196,44 @@ public class DataManager : MonoBehaviour
         data.equip.boots = currentPlayer.equippedBootsId;
 
         foreach(var w in currentPlayer.ownedWeapons)
-        {
             data.equipments.Add(new EquipItemDto(w.itemId, w.reinforcementLevel));
-        }
             
         foreach(var a in currentPlayer.ownedArmors)
-        {
             data.equipments.Add(new EquipItemDto(a.itemId, a.reinforcementLevel));
-        }
+            
         return data;
     }
-    
-    private UnityWebRequest CreatePostRequest(string url, string json)
-    {
-        var req = UnityWebRequest.PostWwwForm(url, json);
-        byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
-        req.uploadHandler = new UploadHandlerRaw(bodyRaw);
-        req.downloadHandler = new DownloadHandlerBuffer();
-        req.SetRequestHeader("Content-Type", "application/json");
-        return req;
-    }
-    
-    
-    
-    
-    //인벤토리 추가 및 사용
+
+    // --- 인벤토리/강화 로직 등 기존 메서드 유지 ---
     public void AddInventory(string id, int amount)
     {
         var slot = currentPlayer.Inventory.Find(x => x.itemId == id);
-
-        if (slot != null)
-        {
-            slot.count += amount; // 이미 있으면 개수 증가
-        }
-        else
-        {
-            currentPlayer.Inventory.Add(new InventorySlot(id, amount)); // 없으면 새로 추가
-        }
-        
-        // 데이터가 변했으니 저장
+        if (slot != null) slot.count += amount; 
+        else currentPlayer.Inventory.Add(new InventorySlot(id, amount)); 
         SaveGame();
     }
+    
     public bool HasInventory(string id, int amount)
     {
         var slot = currentPlayer.Inventory.Find(x => x.itemId == id);
-        return slot != null && slot.count >= amount;// 사용가능인지 판별
+        return slot != null && slot.count >= amount;
     }
     
     public bool UseInventory(string id, int amount)
     {
         var slot = currentPlayer.Inventory.Find(x => x.itemId == id);
-        
-        if (slot == null || slot.count < amount)
-        {
-            return false; // 재료 부족
-        }
-
+        if (slot == null || slot.count < amount) return false; 
         slot.count -= amount;
-        if (slot.count <= 0)
-        {
-            currentPlayer.Inventory.Remove(slot);
-        }
+        if (slot.count <= 0) currentPlayer.Inventory.Remove(slot);
         SaveGame();
         return true;
     }
     
-    //무기 및 방어구 장착
     public void EquipWeapon(string weaponId)
     {
         if (currentPlayer.ownedWeapons.Exists(w => w.itemId == weaponId))
         {
             currentPlayer.equippedWeaponId = weaponId;
-            
-            //무기 타입 판단하여 해당 타입의 equippedId도 업데이트
             int weaponType = GetWeaponTypeFromId(weaponId);
             switch (weaponType)
             {
@@ -280,12 +241,10 @@ public class DataManager : MonoBehaviour
                 case 1: currentPlayer.equippedSpearId = weaponId; break;
                 case 2: currentPlayer.equippedBowId = weaponId; break;
             }
-            
             SaveGame();
         }
     }
     
-    //무기 타입별 장착 메서드 
     public void EquipWeaponByType(string weaponId, int weaponType)
     {
         if (!currentPlayer.ownedWeapons.Exists(w => w.itemId == weaponId))
@@ -293,22 +252,17 @@ public class DataManager : MonoBehaviour
             Debug.LogWarning($"[DataManager] 보유하지 않은 무기: {weaponId}");
             return;
         }
-        
         switch (weaponType)
         {
             case 0: currentPlayer.equippedSwordId = weaponId; break;
             case 1: currentPlayer.equippedSpearId = weaponId; break;
             case 2: currentPlayer.equippedBowId = weaponId; break;
         }
-        
-        // 하위 호환성을 위해 equippedWeaponId도 업데이트
         currentPlayer.equippedWeaponId = weaponId;
         SaveGame();
-        
         Debug.Log($"[DataManager] 무기 장착: {weaponId} (타입: {weaponType})");
     }
     
-    // 무기 타입별 현재 장착 무기 ID 조회
     public string GetEquippedWeaponId(int weaponType)
     {
         switch (weaponType)
@@ -316,9 +270,7 @@ public class DataManager : MonoBehaviour
             case 0: return currentPlayer.equippedSwordId;
             case 1: return currentPlayer.equippedSpearId;
             case 2: return currentPlayer.equippedBowId;
-            default: 
-                Debug.LogWarning($"[DataManager] 잘못된 무기 타입: {weaponType}");
-                return "";
+            default: return "";
         }
     }
     
@@ -336,8 +288,7 @@ public class DataManager : MonoBehaviour
         }
     }
     
-    
-    //SO getter
+    // SO Getter Methods
     public WeaponData GetWeaponData(string id)
     {
         WeaponData data = Resources.Load<WeaponData>($"Data/Items/Weapon/Sword/{id}");
@@ -348,25 +299,17 @@ public class DataManager : MonoBehaviour
         return data;
     }
     
-    // 무기 ID로 무기 타입 판단 (0=Sword, 1=Spear, 2=Bow)
     public int GetWeaponTypeFromId(string weaponId)
     {
-        // Sword 폴더에서 찾기
         WeaponData data = Resources.Load<WeaponData>($"Data/Items/Weapon/Sword/{weaponId}");
-        if (data != null) return 0; // Sword
-        
-        // Spear 폴더에서 찾기
+        if (data != null) return 0; 
         data = Resources.Load<WeaponData>($"Data/Items/Weapon/Spear/{weaponId}");
-        if (data != null) return 1; // Spear
-        
-        // Bow 폴더에서 찾기
+        if (data != null) return 1; 
         data = Resources.Load<WeaponData>($"Data/Items/Weapon/Bow/{weaponId}");
-        if (data != null) return 2; // Bow
-        
-        // 못 찾으면 기본값 0 (Sword) 반환
-        Debug.LogWarning($"[DataManager] 무기 타입을 찾을 수 없음: {weaponId}, 기본값(Sword) 반환");
+        if (data != null) return 2; 
         return 0;
     }
+
     public ArmorData GetArmorData(string id)
     {
         ArmorData data = Resources.Load<ArmorData>($"Data/Items/Armor/Helmet/{id}");
@@ -376,38 +319,29 @@ public class DataManager : MonoBehaviour
         data = Resources.Load<ArmorData>($"Data/Items/Armor/Boots/{id}");
         return data;
     }
+
     public ItemData GetMaterialData(string id)
     {
-        ItemData data = null;
-        data = Resources.Load<ItemData>($"Data/Items/Material/Enchant/{id}");
+        ItemData data = Resources.Load<ItemData>($"Data/Items/Material/Enchant/{id}");
         if (data != null) return data;
-        
         data = Resources.Load<ItemData>($"Data/Items/Material/Equip/{id}");
         if (data != null) return data;
-        
         data = Resources.Load<ItemData>($"Data/Items/Material/{id}");
-        
-        if (data == null)
-        {
-            Debug.LogWarning($"[DataManager] 재료 아이템을 찾을 수 없습니다. ID: {id}, 경로들을 확인해보세요.");
-        }
-
+        if (data == null) Debug.LogWarning($"[DataManager] 재료 아이템 없음: {id}");
         return data;
     }
+
     public EnchantData GetEnchantData(string id)
     {
         return Resources.Load<EnchantData>($"Data/Enchant/{id}");
     }
     
-    //현재 레벨 조회
     public int GetItemLevel(string id)
     {
         var weapon = currentPlayer.ownedWeapons.Find(w => w.itemId == id);
         if (weapon != null) return weapon.reinforcementLevel;
-
         var armor = currentPlayer.ownedArmors.Find(a => a.itemId == id);
         if (armor != null) return armor.reinforcementLevel;
-
         return 0;
     }
 
@@ -417,87 +351,44 @@ public class DataManager : MonoBehaviour
         return (enchant != null) ? enchant.level : 0;
     }
 
-    // 인챈트 레벨 직접 설정 (치트키용)
     public void SetEnchantLevel(string id, int level)
     {
         var enchant = currentPlayer.unlockedEnchants.Find(e => e.enchantId == id);
-        
-        if (enchant != null)
-        {
-            // 이미 존재하면 레벨 변경
-            enchant.level = Mathf.Max(0, level); // 음수 방지
-        }
-        else if (level > 0)
-        {
-            // 존재하지 않고 레벨이 0보다 크면 새로 추가
-            currentPlayer.unlockedEnchants.Add(new EnchantState(id, level));
-        }
-        
+        if (enchant != null) enchant.level = Mathf.Max(0, level);
+        else if (level > 0) currentPlayer.unlockedEnchants.Add(new EnchantState(id, level));
         SaveGame();
-        Debug.Log($"[DataManager] {id} 인챈트 레벨 설정: {level}");
     }
 
-    
-    //강화
     public bool TryUpgradeItem(string id)
     {
         UpgradeTable table = null;
         string itemName = "";
-
-       
         WeaponData wData = GetWeaponData(id);
-        if (wData != null)
-        {
-            table = wData.upgradeTable;
-            itemName = wData.weaponName;
-        }
-        else
-        {
-           
+        if (wData != null) { table = wData.upgradeTable; itemName = wData.weaponName; }
+        else {
             ArmorData aData = GetArmorData(id);
-            if (aData != null)
-            {
-                table = aData.upgradeTable;
-                itemName = aData.armorName;
-            }
+            if (aData != null) { table = aData.upgradeTable; itemName = aData.armorName; }
         }
         
-        if (table == null)
-        {
-            Debug.LogError($"강화 테이블을 찾을 수 없습니다: {id}");
-            return false;
-        }
+        if (table == null) return false;
         
         int currentLevel = GetItemLevel(id);
         var nextStep = table.GetNextStep(currentLevel);
-
-        if (nextStep == null)
-        {
-            Debug.Log("이미 최고 레벨입니다.");
-            return false; // 더 이상 강화 불가
-        }
+        if (nextStep == null) return false;
         
         string matId = nextStep.requiredMaterial.itemId;
         int matCount = nextStep.materialCount;
 
-        if (!HasInventory(matId, matCount))
-        {
-            return false;
-        }
-        
+        if (!HasInventory(matId, matCount)) return false;
         UseInventory(matId, matCount);
         
         int randomVal = UnityEngine.Random.Range(0, 100);
-
         if (randomVal < nextStep.successRate)
         {
             ApplyLevelUpInternal(id);
             Debug.Log($"[강화 성공] {itemName} (+{currentLevel + 1})");
         }
-        else
-        {
-            Debug.Log($"[강화 실패] {itemName}...");
-        }
+        else Debug.Log($"[강화 실패] {itemName}...");
 
         SaveGame(); 
         return true;
@@ -506,100 +397,53 @@ public class DataManager : MonoBehaviour
     private void ApplyLevelUpInternal(string id)
     {
         var weapon = currentPlayer.ownedWeapons.Find(w => w.itemId == id);
-        if (weapon != null)
-        {
-            weapon.reinforcementLevel++;
-            return;
-        }
-
+        if (weapon != null) { weapon.reinforcementLevel++; return; }
         var armor = currentPlayer.ownedArmors.Find(a => a.itemId == id);
-        if (armor != null)
-        {
-            armor.reinforcementLevel++;
-            return;
-        }
+        if (armor != null) { armor.reinforcementLevel++; return; }
     }
     
     public int GetInventoryCount(string itemId)
     {
         if (currentPlayer == null || currentPlayer.Inventory == null) return 0;
-    
         var slot = currentPlayer.Inventory.Find(x => x.itemId == itemId);
         return slot != null ? slot.count : 0;
     }
     
-    
-    //인챈트
     public bool TryEnhanceEnchant(string enchantId)
     {
         EnchantData data = GetEnchantData(enchantId);
-        if (data == null)
-        {
-            Debug.LogError($"[DataManager] 인챈트 데이터를 찾을 수 없음: {enchantId}");
-            return false;
-        }
-        
+        if (data == null) return false;
         int currentLevel = GetEnchantLevel(enchantId);
-        
         var nextStep = data.GetNextLevelInfo(currentLevel);
-        
-        if (nextStep == null)
-        {
-            Debug.Log("이미 최고 레벨입니다.");
-            return false;
-        }
+        if (nextStep == null) return false;
         
         foreach (var matCost in nextStep.requiredMaterials)
         {
-            // 재료 ID와 개수 체크
-            if (!HasInventory(matCost.material.itemId, matCost.count))
-            {
-                Debug.Log($"재료 부족: {matCost.material.itemName} ({matCost.count}개 필요)");
-                return false;
-            }
+            if (!HasInventory(matCost.material.itemId, matCost.count)) return false;
         }
-        
         foreach (var matCost in nextStep.requiredMaterials)
         {
             UseInventory(matCost.material.itemId, matCost.count);
         }
         
         int randomVal = UnityEngine.Random.Range(0, 100);
-
         if (randomVal < nextStep.successRate)
         {
             ApplyEnchantLevelUp(enchantId);
-            
-            if (currentLevel == 0)
-                Debug.Log($"[인챈트 해금 성공!] {data.enchantName} 습득!");
-            else
-                Debug.Log($"[인챈트 강화 성공!] {data.enchantName} (+{currentLevel} -> +{currentLevel + 1})");
+            Debug.Log($"[인챈트 성공] {data.enchantName}");
         }
-        else
-        {
-            Debug.Log($"[인챈트 실패...] {data.enchantName} 강화에 실패했습니다.");
-        }
-        
+        else Debug.Log($"[인챈트 실패] {data.enchantName}");
         SaveGame();
-        
         return true; 
     }
+
     private void ApplyEnchantLevelUp(string id)
     {
-        // 이미 보유 중인 인챈트인지 확인
         var enchant = currentPlayer.unlockedEnchants.Find(e => e.enchantId == id);
-        
-        if (enchant != null)
-        {
-            // 있으면 레벨 증가
-            enchant.level++;
-        }
-        else
-        {
-            // 없으면 새로 추가 (해금, 1레벨 시작)
-            currentPlayer.unlockedEnchants.Add(new EnchantState(id, 1));
-        }
+        if (enchant != null) enchant.level++;
+        else currentPlayer.unlockedEnchants.Add(new EnchantState(id, 1));
     }
+
     public string GetEquippedItemId(EquipmentType type)
     {
         switch (type)
@@ -618,6 +462,4 @@ public class DataManager : MonoBehaviour
         currentPlayer.ownedWeapons.Clear();
         currentPlayer.unlockedEnchants.Clear();
     }
-    
-    
 }
