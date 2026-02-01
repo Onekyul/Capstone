@@ -24,8 +24,9 @@ public class MonsterController : MonoBehaviour
     [SerializeField] protected float MaxHP = 100;
     [SerializeField] protected float CurHP;
 
-    [SerializeField] protected float defaultMoveSpeed = 3.0f;
-    protected float currentMoveSpeed;
+    [SerializeField] protected float moveSpeed = 3.0f; // 기본 이동 속도 (0이면 움직이지 않음)
+    protected float baseMoveSpeed; // 기본/엘리트 보너스가 적용된 실제 기본 속도
+    protected float currentMoveSpeed; // 상태 이상 효과가 적용된 현재 이동 속도
 
     [Header("Pool & Drop")]
     [SerializeField] private string poolTag;
@@ -90,7 +91,8 @@ public class MonsterController : MonoBehaviour
             hpSlider.value = 1.0f;
             hpSlider.gameObject.SetActive(true);
         }
-        currentMoveSpeed = defaultMoveSpeed;
+        baseMoveSpeed = moveSpeed;
+        currentMoveSpeed = moveSpeed;
         damageMultiplier = 1.0f;
         storedLastDamage = 0f;
         isSlowed = false;
@@ -123,6 +125,13 @@ public class MonsterController : MonoBehaviour
         if (player == null) return;
 
         FlipSpriteTowardsPlayer();
+        Move();
+
+        if (IsDead()) ReturnToPool();
+    }
+
+    protected virtual void Move()
+    {
         transform.position = Vector2.MoveTowards(transform.position, player.position, currentMoveSpeed * Time.deltaTime);
     }
 
@@ -272,12 +281,12 @@ public class MonsterController : MonoBehaviour
         isFrozen = false;
 
         float slowPercent = Mathf.Clamp(level * 0.15f, 0.1f, 0.9f);
-        currentMoveSpeed = defaultMoveSpeed * (1.0f - slowPercent);
+        currentMoveSpeed = baseMoveSpeed * (1.0f - slowPercent);
         UpdateColor(); // ★ 색상 갱신 (Cyan)
 
         yield return new WaitForSeconds(3.0f);
 
-        currentMoveSpeed = defaultMoveSpeed;
+        currentMoveSpeed = baseMoveSpeed;
         isSlowed = false;
         UpdateColor(); // ★ 색상 복구 (White or Frozen)
         iceCoroutine = null;
@@ -294,7 +303,7 @@ public class MonsterController : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         isFrozen = false;
-        currentMoveSpeed = defaultMoveSpeed;
+        currentMoveSpeed = baseMoveSpeed;
         UpdateColor(); // ★ 색상 복구 (White)
         iceCoroutine = null;
     }

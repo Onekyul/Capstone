@@ -26,12 +26,9 @@ public class ChasingMonsterController : MonsterController
 
     protected override void OnEnable()
     {
+        base.OnEnable();
         // 몬스터가 활성화될 때마다 엘리트 여부를 다시 결정
         IsElite = Random.Range(0f, 100f) < eliteSpawnChance;
-        
-        // 몬스터 타입 설정
-        monsterType = IsElite ? MonsterType.Elite : MonsterType.Normal;
-        
         UpgradeEliteStats();
     }
 
@@ -42,7 +39,8 @@ public class ChasingMonsterController : MonsterController
             MaxHP *= 2.0f; // 엘리트 몬스터의 체력을 2배로 증가
             CurHP = MaxHP; // 현재 체력을 최대 체력으로 설정
             contactDamage *= 1.5f; // 엘리트 몬스터의 접촉 데미지를 1.5배로 증가
-            moveSpeed *= 1.2f; // 엘리트 몬스터의 이동 속도를 20% 증가
+            baseMoveSpeed *= 1.2f; // 엘리트 몬스터의 이동 속도를 20% 증가
+            currentMoveSpeed = baseMoveSpeed;
             if (hpSlider != null)
             {
                 hpSlider.value = 1.0f;
