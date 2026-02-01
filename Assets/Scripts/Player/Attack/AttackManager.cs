@@ -62,6 +62,28 @@ public class AttackManager : MonoBehaviour
             // 2. 회전 설정: curLookDir 방향을 바라보도록 회전
             bowObject.transform.rotation = Quaternion.LookRotation(Vector3.forward, curLookDir);
         }
+        
+        // ===== 치트키: 무기 교체 =====
+        // 1 키: 검으로 교체
+        if (Input.GetKeyDown(KeyCode.Alpha1) )
+        {
+            SwitchWeapon(WeaponType.Sword);
+            Debug.Log("===== [치트키] 검으로 무기 교체 =====");
+        }
+        
+        // 2 키: 창으로 교체
+        if (Input.GetKeyDown(KeyCode.Alpha2) )
+        {
+            SwitchWeapon(WeaponType.Spear);
+            Debug.Log("===== [치트키] 창으로 무기 교체 =====");
+        }
+        
+        // 3 키: 활으로 교체
+        if (Input.GetKeyDown(KeyCode.Alpha3) )
+        {
+            SwitchWeapon(WeaponType.Bow);
+            Debug.Log("===== [치트키] 활으로 무기 교체 =====");
+        }
     }
     
     private void OnEnable()

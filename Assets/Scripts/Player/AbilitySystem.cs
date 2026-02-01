@@ -98,6 +98,13 @@ public class AbilitySystem : MonoBehaviour
     {
         if (playerStats == null) return;
 
+        // ===== 특수 능력: "운빨" (ID 28) =====
+        if (ability.abilityID == 28)
+        {
+            ApplyLuckAbility();
+            return; // 일반 로직 건너뛰기
+        }
+
         foreach (StatModifier modifier in ability.statModifiers)
         {
             float value = modifier.GetValue(level);
@@ -392,5 +399,53 @@ public class AbilitySystem : MonoBehaviour
         
         // 능력 레벨 딕셔너리 초기화
         abilityLevels.Clear();
+    }
+
+    // ===== "운빨" 능력 전용 메서드 =====
+    private void ApplyLuckAbility()
+    {
+        // 1. 랜덤 스탯 선택 (5개 중 1개)
+        int randomStatIndex = Random.Range(0, 5);
+        string selectedStat = "";
+        
+        switch (randomStatIndex)
+        {
+            case 0: selectedStat = "최대 체력"; break;
+            case 1: selectedStat = "방어력"; break;
+            case 2: selectedStat = "공격력"; break;
+            case 3: selectedStat = "공격속도"; break;
+            case 4: selectedStat = "이동속도"; break;
+        }
+        
+        // 2. 50% 확률로 증가/감소 결정
+        bool isPositive = Random.value < 0.5f; // 50% 확률
+        float multiplier = isPositive ? 2.0f : 0.5f; // 100% 증가 or 50% 감소
+        string result = isPositive ? "100% 증가!" : "50% 감소...";
+        
+        Debug.Log($"★★★ [운빨 능력 발동] ★★★");
+        Debug.Log($"선택된 스탯: {selectedStat}");
+        Debug.Log($"결과: {result}");
+        
+        // 3. 선택된 스탯에 효과 적용
+        switch (randomStatIndex)
+        {
+            case 0: // 최대 체력
+                playerStats.ModifyMaxHP(multiplier);
+                break;
+            case 1: // 방어력
+                playerStats.ModifyDefense(multiplier, false);
+                break;
+            case 2: // 공격력
+                playerStats.ModifyAttackDamage(multiplier, false);
+                break;
+            case 3: // 공격속도
+                playerStats.ModifyAttackSpeed(multiplier, false);
+                break;
+            case 4: // 이동속도
+                playerStats.ModifyMoveSpeed(multiplier, false);
+                break;
+        }
+        
+        Debug.Log($"★★★ {selectedStat}이(가) {result} ★★★");
     }
 }

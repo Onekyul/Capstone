@@ -360,8 +360,8 @@ public class PlayerStats : MonoBehaviour
             AcquireAbility(27); // 빙결폭발 능력 ID = 27
         }
         
-        // ===== 치트키: 전염 테스트 (PageDown) =====
-        if (Input.GetKeyDown(KeyCode.PageDown))
+        // ===== 치트키: 전염 테스트 (F4) =====
+        if (Input.GetKeyDown(KeyCode.F4))
         {
             Debug.Log("===== [치트키] 전염 능력 습득 시도 =====");
             
@@ -373,6 +373,21 @@ public class PlayerStats : MonoBehaviour
             }
             
             AcquireAbility(25); // 전염 능력 ID = 25
+        }
+        
+        // ===== 치트키: 운빨 테스트 (ScrollLock) =====
+        if (Input.GetKeyDown(KeyCode.ScrollLock))
+        {
+            Debug.Log("===== [치트키] 운빨 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(28); // 운빨 능력 ID = 28
         }
 
         // ===== 치트키: 인챈트 레벨 조정 =====
