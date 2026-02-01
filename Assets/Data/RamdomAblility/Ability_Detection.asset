@@ -10,22 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bcecb4a804a77e45b365f512a832543, type: 3}
-  m_Name: Ability_ExtraHealth
+  m_Name: Ability_Detection
   m_EditorClassIdentifier: 
-  abilityID: 17
-  abilityName: "\uCD94\uAC00 \uCCB4\uB825"
-  description: "\uCD5C\uB300 \uCCB4\uB825 +50"
+  abilityID: 14
+  abilityName: "\uD0D0\uC9C0"
+  description: 
   icon: {fileID: 0}
-  abilityType: 1
-  canStack: 1
-  hasLevels: 1
-  maxLevel: 5
-  statModifiers:
-  - statType: 4
-    operation: 1
-    valuePerLevel:
-    - 1.1
-    - 1.2
-    - 1.4
-    - 1.7
-    - 2.5
+  abilityType: 3
+  canStack: 0
+  hasLevels: 0
+  maxLevel: 1
+  statModifiers: []

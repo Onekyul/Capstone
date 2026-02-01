@@ -63,7 +63,9 @@ public enum StatType
     HasStealth,                 // 잠입의 달인 보유
     ExpMultiplier,              // 경험치 획득률 배율
     HasEliteKiller,             // 엘리트/속성 킬러 보유 (특수 몬스터 150%, 일반 75%)
-    HasElementalMastery         // 속성 공격 보유 (10번째 공격마다 모든 인챈트 100% 발동)
+    HasElementalMastery,        // 속성 공격 보유 (10번째 공격마다 모든 인챈트 100% 발동)
+    HasDeathBreath,             // 죽음의 숨결 보유 (적 처치 시 10% 확률로 공격속도/이동속도 30% 증가 3초)
+    HasFrozenExplosion          // 빙결폭발 보유 (빙결 상태 몬스터 사망 시 주변에 공격력 200% 폭발 데미지)
 }
 
 // 연산 타입
