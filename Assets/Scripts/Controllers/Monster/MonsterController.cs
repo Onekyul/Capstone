@@ -70,11 +70,26 @@ public class MonsterController : MonoBehaviour
     // 최근에 맞은 데미지 (상태이상 데미지 계산용)
     public float storedLastDamage = 0f; // 전염을 위해 public으로 변경
 
+    // 1. 원본 스탯을 저장할 변수 추가
+    protected float defaultMaxHP;
+    protected float defaultContactDamage;
+    protected float defaultMoveSpeed;
+    protected Vector3 defaultScale; // 1. 원본 크기 저장 변수 추가
+
+    protected virtual void Awake()
+    {
+        // 2. 게임 시작 시 Inspector에 설정된 초기 값을 저장
+        // 오타 수정: defaultContactDamage = contactDamage;
+        defaultMaxHP = MaxHP;
+        defaultContactDamage = contactDamage;
+        defaultMoveSpeed = moveSpeed;
+        defaultScale = transform.localScale; // 2. 에디터에 설정한 원래 크기를 기억함
+    }
+
     protected virtual void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         player = GetClosestPlayer();
-        ResetStatus();
     }
 
     protected virtual void OnEnable()
@@ -84,13 +99,22 @@ public class MonsterController : MonoBehaviour
 
     private void ResetStatus()
     {
+        // 3. 누적된 스탯을 원본 값으로 리셋
+        MaxHP = defaultMaxHP;
+        contactDamage = defaultContactDamage;
+        moveSpeed = defaultMoveSpeed;
+        monsterType = MonsterType.Normal; // 타입 리셋 추가
+        // 4. Vector3.one 대신 기억해둔 원본 크기로 복구
+        transform.localScale = defaultScale;
+
         CurHP = MaxHP;
-        // 체력바 초기화 
+
         if (hpSlider != null)
         {
             hpSlider.value = 1.0f;
             hpSlider.gameObject.SetActive(true);
         }
+
         baseMoveSpeed = moveSpeed;
         currentMoveSpeed = moveSpeed;
         damageMultiplier = 1.0f;
@@ -111,7 +135,8 @@ public class MonsterController : MonoBehaviour
 
     protected virtual void Update()
     {
-        // ★ 죽음 체크는 빙결 상태와 관계없이 항상 수행
+        // 죽음 체크는 빙결 상태와 관계없이 항상 수행
+
         if (IsDead())
         {
             ReturnToPool();
@@ -126,8 +151,6 @@ public class MonsterController : MonoBehaviour
 
         FlipSpriteTowardsPlayer();
         Move();
-
-        if (IsDead()) ReturnToPool();
     }
 
     protected virtual void Move()
@@ -165,10 +188,21 @@ public class MonsterController : MonoBehaviour
     // ====================================================================
     public void TakeDamage(float damage)
     {
-        storedLastDamage = damage; // 데미지 저장
+        storedLastDamage = damage; // ★ 데미지를 먼저 저장 (상태이상 계산 기준값)
 
         float finalDamage = damage * damageMultiplier; // 썩음 적용
         CurHP -= finalDamage;
+
+        // ★ [추가] 데미지 텍스트 띄우기
+        // 몬스터 머리 위(Y축 + 0.5 ~ 1.0)에 띄우면 보기 좋습니다.
+        Vector3 popupPos = transform.position + new Vector3(0, 0.5f, 0);
+
+        // 매니저가 있는지 확인하고 호출
+        if (DamageTextManager.Instance != null)
+        {
+            // 크리티컬 여부는 일단 false로, 나중에 확률 로직 넣으시면 true로 바꾸세요
+            DamageTextManager.Instance.CreatePopup(popupPos, finalDamage, false);
+        }
         // 체력바 갱신 로직
         if (hpSlider != null)
         {
@@ -183,6 +217,13 @@ public class MonsterController : MonoBehaviour
     {
         float finalDamage = damage * damageMultiplier;
         CurHP -= finalDamage;
+
+        // ★ [추가] 여기도 똑같이 추가 (화상, 독 데미지 등)
+        if (DamageTextManager.Instance != null)
+        {
+            Vector3 popupPos = transform.position + new Vector3(UnityEngine.Random.Range(-0.2f, 0.2f), 0.5f, 0); // 위치 약간 랜덤하게
+            DamageTextManager.Instance.CreatePopup(popupPos, finalDamage, false);
+        }
         if (hpSlider != null)
         {
             // 현재 체력 비율 계산 (0.0 ~ 1.0)
@@ -194,6 +235,14 @@ public class MonsterController : MonoBehaviour
 
     public void TakeElement(int[] enchants)
     {
+        // ★ 주의: TakeElement는 반드시 TakeDamage 이후에 호출되어야 합니다!
+        // ★ storedLastDamage가 설정되어 있어야 화상/번개 계산이 정상 작동합니다.
+        
+        if (storedLastDamage <= 0)
+        {
+            Debug.LogWarning($"[{gameObject.name}] TakeElement가 TakeDamage 전에 호출되었거나 storedLastDamage가 0입니다!");
+        }
+
         // [0] 화염 
         if (enchants.Length > 0 && enchants[0] > 0)
         {

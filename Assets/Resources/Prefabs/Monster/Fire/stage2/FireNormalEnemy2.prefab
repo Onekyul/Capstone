@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 7080439796423247551}
   - component: {fileID: 6862495101598163473}
   m_Layer: 7
-  m_Name: NormalEnemy
+  m_Name: FireNormalEnemy2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -343,11 +343,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 0
-  contactDamage: 5
+  contactDamage: 15
   MaxHP: 20
   CurHP: 0
   moveSpeed: 2
-  poolTag: Chasing
+  poolTag: FireChasing2
   expJewelPrefab: {fileID: -5577271535738719069, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
   usePooling: 1
   hpSlider: {fileID: 8157593141099731280}

@@ -36,12 +36,6 @@ public class Arrow : MonoBehaviour
             MonsterController monster = other.GetComponent<MonsterController>();
             if (monster != null)
             {
-                // 인챈트 적용 (있는 경우)
-                if (enchantLevels != null && enchantLevels.Length == 4)
-                {
-                    monster.TakeElement(enchantLevels);
-                }
-                
                 // 최종 데미지 계산
                 float finalDamage = damageValue;
                 
@@ -58,8 +52,14 @@ public class Arrow : MonoBehaviour
                     }
                 }
                 
-                // 데미지 적용
+                // ★ 순서 중요: 먼저 데미지 적용 (storedLastDamage 설정)
                 monster.TakeDamage(finalDamage);
+                
+                // ★ 그 다음 인챈트 적용 (storedLastDamage 기반 계산)
+                if (enchantLevels != null && enchantLevels.Length == 4)
+                {
+                    monster.TakeElement(enchantLevels);
+                }
                 Debug.Log($"화살이 {other.name}에게 {finalDamage} 데미지!");
             }
 
