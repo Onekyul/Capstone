@@ -39,7 +39,7 @@ public class ElementMonsterController : MonsterController
         }
 
         // 1. 상태이상(빙결 등) 체크
-        if (getIsFrozen()) return;
+        if (isFrozen) return;
 
         player = GetClosestPlayer();
         if (player == null) return;

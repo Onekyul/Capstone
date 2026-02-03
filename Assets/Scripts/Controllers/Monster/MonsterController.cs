@@ -64,7 +64,7 @@ public class MonsterController : MonoBehaviour
 
     // --- 상태 플래그 ---
     private bool isSlowed = false;
-    private bool isFrozen = false;
+    protected bool isFrozen = false;
     private float damageMultiplier = 1.0f; // 썩음 배율
 
     // 최근에 맞은 데미지 (상태이상 데미지 계산용)

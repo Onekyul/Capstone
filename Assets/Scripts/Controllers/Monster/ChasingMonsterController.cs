@@ -3,7 +3,6 @@ using UnityEngine;
 public class ChasingMonsterController : MonsterController
 {
     [SerializeField] private EliteChestController eliteChestPrefab;
-    [SerializeField] private float moveSpeed = 2f;
     [Tooltip("이 몬스터가 노말인지 엘리트인지 여부. 체크 되면 엘리트임.")]
     [SerializeField] private bool IsElite = false;
     [Tooltip("몇 퍼센트 확률로 엘리트 몬스터가 나올게 할 건지. 0~100 사이 값.")]
