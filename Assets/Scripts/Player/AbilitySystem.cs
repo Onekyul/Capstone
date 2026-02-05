@@ -117,7 +117,7 @@ public class AbilitySystem : MonoBehaviour
             SpawnShieldAbility();
         }
         
-        // 능력 ID 17 (자석)인 경우 특수 처리
+        // 능력 ID 16 (자석)
         if (ability.abilityID == 16)
         {
             Debug.Log("[AbilitySystem] 자석 능력 활성화! 경험치가 플레이어에게 끌려옵니다.");

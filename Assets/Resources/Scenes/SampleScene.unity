@@ -140,6 +140,10 @@ PrefabInstance:
       value: NormalEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 6862495101598163473, guid: 7dfa3507a849e614f93faeaddbdd1eb2, type: 3}
+      propertyPath: moveSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6862495101598163473, guid: 7dfa3507a849e614f93faeaddbdd1eb2, type: 3}
       propertyPath: defaultMoveSpeed
       value: 0
       objectReference: {fileID: 0}
@@ -207,6 +211,10 @@ PrefabInstance:
     - target: {fileID: 6559308928904149116, guid: 7dfa3507a849e614f93faeaddbdd1eb2, type: 3}
       propertyPath: m_Name
       value: NormalEnemy (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6862495101598163473, guid: 7dfa3507a849e614f93faeaddbdd1eb2, type: 3}
+      propertyPath: moveSpeed
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6862495101598163473, guid: 7dfa3507a849e614f93faeaddbdd1eb2, type: 3}
       propertyPath: defaultMoveSpeed
@@ -721,6 +729,10 @@ PrefabInstance:
       value: NormalEnemy (1)
       objectReference: {fileID: 0}
     - target: {fileID: 6862495101598163473, guid: 7dfa3507a849e614f93faeaddbdd1eb2, type: 3}
+      propertyPath: moveSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6862495101598163473, guid: 7dfa3507a849e614f93faeaddbdd1eb2, type: 3}
       propertyPath: defaultMoveSpeed
       value: 0
       objectReference: {fileID: 0}
@@ -893,6 +905,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2530604871420806504, guid: a9955809011c2b34e985c1491c58facb, type: 3}
+      propertyPath: moveSpeed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2530604871420806504, guid: a9955809011c2b34e985c1491c58facb, type: 3}
       propertyPath: defaultMoveSpeed
       value: 0
