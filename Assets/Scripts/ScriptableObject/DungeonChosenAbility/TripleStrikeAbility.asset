@@ -15,7 +15,7 @@ MonoBehaviour:
   abilityID: 2
   maxLevel: 1
   abilityName: "3\uC5F0\uACA9"
-  icon: {fileID: 0}
+  icon: {fileID: -8232675342479264231, guid: 8de72aefbe23f47b4a18b185ba69aabe, type: 3}
   description: "\uACF5\uACA9\uB825\uC744 35%\uB85C \uB0AE\uCD94\uACE0, \uACF5\uACA9\uC744
     3\uC5F0\uC18D\uC73C\uB85C \uD55C\uB2E4."
   values: []
