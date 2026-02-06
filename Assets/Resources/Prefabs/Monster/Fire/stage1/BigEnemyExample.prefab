@@ -430,10 +430,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 0
-  contactDamage: 7
+  contactDamage: 5
   MaxHP: 30
   CurHP: 0
-  moveSpeed: 1
+  moveSpeed: 2
   poolTag: Big
   expJewelPrefab: {fileID: -5577271535738719069, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
   usePooling: 1

@@ -302,8 +302,26 @@ public class StageManager : MonoBehaviour
 
         if (targetMonstersCount <= 0)
         {
-            FinishGame(true); // 토벌 성공
+            // ★ 바로 게임을 멈추지 않고, 3초 대기 후 종료
+            StartCoroutine(WaitBeforeFinalizeStage());
         }
+    }
+
+    // ★ 게임 완료 전 대기 코루틴 (보상 수집 시간 제공)
+    IEnumerator WaitBeforeFinalizeStage()
+    {
+        // 1. 플레이어에게 3초 무적 시간 부여 (보상 수집용)
+        if (PlayerStats.Instance != null)
+        {
+            PlayerStats.Instance.SetVictoryInvincibility(3f);
+            Debug.Log("[StageManager] 플레이어에게 3초 무적 시간 부여");
+        }
+
+        // 2. 3초 동안 플레이어가 움직일 수 있도록 대기
+        yield return new WaitForSeconds(3f);
+
+        // 3. 3초 후 게임 종료
+        FinishGame(true); // 토벌 성공
     }
 
     void UpdateUIText()

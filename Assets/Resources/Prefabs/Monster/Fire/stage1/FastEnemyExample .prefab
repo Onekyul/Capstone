@@ -641,7 +641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 0
-  contactDamage: 10
+  contactDamage: 7
   MaxHP: 10
   CurHP: 0
   moveSpeed: 20
@@ -652,6 +652,7 @@ MonoBehaviour:
   lightningFieldPrefab: {fileID: 0}
   burnEffectObject: {fileID: 5633199905882819245}
   poisonEffectObject: {fileID: 3161669611923837453}
+  storedLastDamage: 0
 --- !u!1 &8938235176254062593
 GameObject:
   m_ObjectHideFlags: 0

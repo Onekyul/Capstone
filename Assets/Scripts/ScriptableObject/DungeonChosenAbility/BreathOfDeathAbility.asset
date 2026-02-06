@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9aae2f0480c0ff34fbba13c7669ec18e, type: 3}
-  m_Name: DoubleStrikeAbility
+  m_Name: BreathOfDeathAbility
   m_EditorClassIdentifier: 
-  abilityID: 1
+  abilityID: 26
   maxLevel: 1
-  abilityName: "2\uC5F0\uACA9"
-  icon: {fileID: -3806554874462893998, guid: 310c8f0266f27c140bafa3671496ffee, type: 3}
-  description: "\uACF5\uACA9\uB825\uC744 60%\uB85C \uB0AE\uCD94\uACE0, \uACF5\uACA9\uC744
-    2\uC5F0\uC18D\uC73C\uB85C \uD568"
+  abilityName: "\uC8FD\uC74C\uC758 \uC228\uACB0"
+  icon: {fileID: -1209539930331940954, guid: 37bbb49bea6e6af4e8824b2837588ee7, type: 3}
+  description: "\uC801 \uCC98\uCE58 \uC2DC 10% \uD655\uB960\uB85C \uACF5\uACA9\uC18D\uB3C4\uC640
+    \uC774\uB3D9\uC18D\uB3C4\uAC00 30% \uC99D\uAC00\uD558\uB294 \uBC84\uD504 3\uCD08
+    \uC9C0\uC18D"
   values: []

@@ -140,6 +140,7 @@ MonoBehaviour:
   attackEffectPrefab: {fileID: 2003877883920826118, guid: 393775aaa01b1444db5037270bd929f2, type: 3}
   attackPoint: {fileID: 0}
   enchantChancePerLevel: 10
+  maxEnchantmentLevel: 5
   enchantmentLevels: 00000000000000000000000000000000
   debugFireLevel: 0
   debugIceLevel: 0
@@ -149,7 +150,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  swordRange: 1.8
+  swordRange: 5
   effectOffsetDistance: 0.8
 --- !u!1 &2581213020333824419
 GameObject:
@@ -372,6 +373,7 @@ MonoBehaviour:
   attackEffectPrefab: {fileID: 0}
   attackPoint: {fileID: 2682603067172822643}
   enchantChancePerLevel: 10
+  maxEnchantmentLevel: 5
   enchantmentLevels: 00000000000000000000000000000000
   debugFireLevel: 0
   debugIceLevel: 0
@@ -727,6 +729,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc435803fd893524aa1067db3ce82564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSprite: {fileID: 0}
+  flashMaterial: {fileID: 0}
+  flashDuration: 0.08
   baseMaxHP: 100
   playerMaxHP: 100
   playerCurHP: 0
@@ -1024,12 +1029,13 @@ MonoBehaviour:
   attackEffectPrefab: {fileID: 0}
   attackPoint: {fileID: 0}
   enchantChancePerLevel: 10
+  maxEnchantmentLevel: 5
   enchantmentLevels: 00000000000000000000000000000000
   debugFireLevel: 0
   debugIceLevel: 0
   debugLightningLevel: 0
   debugPoisonLevel: 0
-  spearRange: 3
+  spearRange: 6
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128

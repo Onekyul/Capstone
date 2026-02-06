@@ -20,7 +20,7 @@ public class ChasingMonsterController : MonsterController
     protected override void Update()
     {
         base.Update();
-        FollowPlayer();
+        // FollowPlayer()는 Move()를 오버라이드하여 처리하므로 여기서 호출하지 않음
     }
 
     protected override void OnEnable()
@@ -56,11 +56,13 @@ public class ChasingMonsterController : MonsterController
         }
     }
 
-    void FollowPlayer()
+    // 부모의 Move()를 오버라이드하여 플레이어 추적 로직 구현
+    // ★ currentMoveSpeed를 사용해야 슬로우/빙결 효과가 정상 적용됨!
+    protected override void Move()
     {
         if (player == null) return;
         Vector2 targetPosition = new Vector2(player.position.x, player.position.y);
-        transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, targetPosition, currentMoveSpeed * Time.deltaTime);
     }
 
     protected override void ReturnToPool()
