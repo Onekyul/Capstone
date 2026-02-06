@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 22
   maxLevel: 1
-  abilityName: "\uC18D\uC131 \uACF5\uACA9"
-  icon: {fileID: -1209539930331940954, guid: 37bbb49bea6e6af4e8824b2837588ee7, type: 3}
+  abilityName: "\uAC15\uCCA0 \uD53C\uBD80"
+  icon: {fileID: -2469213242358634401, guid: 5c9f943df0c64764496aa5b56ce7a871, type: 3}
   description: "\uBC29\uC5B4\uB825 {0}% \uC99D\uAC00"
   values:
   - 20
