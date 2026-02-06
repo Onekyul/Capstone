@@ -598,7 +598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0cb60f25a15bb4a86be00086f978e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 3
+  playerSpeed: 4
   movementInput: {x: 0, y: 0}
   attackManager: {fileID: 6614344249973979373}
   spriteRenderer: {fileID: 0}
