@@ -12,7 +12,7 @@ public class DataManager : MonoBehaviour
     public PlayerData currentPlayer;
     
     // 게임 데이터 관련 API 주소
-    private string baseUrl = "http://localhost:7001/api/Game"; 
+    private string baseUrl = "http://localhost:7200/api/Game"; 
 
     // ★ [핵심 연결] 내 ID는 SessionManager한테 물어봄
     public int MyUserId => SessionManager.Instance != null ? SessionManager.Instance.UserId : 0;

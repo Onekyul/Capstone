@@ -35,8 +35,10 @@ public class LobbyController : NetworkBehaviour
 
     void HandleMovement()
     {
+        
         if (InputManager.instance == null) return;
         
+        if (ChatManager.IsChatting == true) return;
         Vector2 inputDir = InputManager.instance.playerMoveInput; 
         
         // 이동 로직

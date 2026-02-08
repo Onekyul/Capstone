@@ -15,15 +15,16 @@ public class ChatManager : MonoBehaviour
     public GameObject messagePrefab;
     public ScrollRect scrollRect;
     
-    private string baseUrl = "http://localhost:7001/api/chat"; 
+    private string baseUrl = "http://localhost:7200/api/chat"; 
     
     private bool isPolling = false;
-
+    public static bool IsChatting = false;
     void Start()
     {
         // 닉네임 임시 생성
         //myNickname = "Player_" + Random.Range(1000, 9999); 
         CloseChatInput(); 
+        inputField.onSubmit.AddListener(SendChatMessage);
         StartCoroutine(PollingRoutine()); 
     }
 
@@ -32,22 +33,30 @@ public class ChatManager : MonoBehaviour
         // 엔터
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
-            if (inputField.gameObject.activeSelf)
+            if (!inputField.gameObject.activeSelf)
             {
-                if (!string.IsNullOrWhiteSpace(inputField.text))
-                    StartCoroutine(SendMessageCoroutine(inputField.text));
-                CloseChatInput();
+                OpenChatInput();
             }
-            else OpenChatInput();
         }
 
         // ESC
         if (Input.GetKeyDown(KeyCode.Escape) && inputField.gameObject.activeSelf)
-        {
-            CloseChatInput();
-        }
+            if (Input.GetKeyDown(KeyCode.Escape) && inputField.gameObject.activeSelf)
+            {
+                CloseChatInput();
+            }
     }
     
+    void SendChatMessage(string msg)
+    {
+        if (!string.IsNullOrWhiteSpace(msg))
+        {
+            StartCoroutine(SendMessageCoroutine(msg));
+        }
+        
+        // 메시지 보낸 후 입력창 닫기 (계속 입력하게 하려면 이 줄 주석 처리)
+        CloseChatInput(); 
+    }
     IEnumerator PollingRoutine()
     {
         isPolling = true;
@@ -58,14 +67,7 @@ public class ChatManager : MonoBehaviour
                 yield return req.SendWebRequest();
                 if (req.result == UnityWebRequest.Result.Success)
                 {
-                    
-                    Debug.Log($"[Server Response] {req.downloadHandler.text}");
-                
                     UpdateChatUI(req.downloadHandler.text);
-                }
-                else
-                {
-                    Debug.LogError($"[Error] {req.error}");
                 }
             }
             yield return new WaitForSeconds(1.0f);
@@ -126,13 +128,13 @@ public class ChatManager : MonoBehaviour
             }
             else
             {
-                Debug.LogError("❌ 프리팹에 TextMeshProUGUI 컴포넌트가 없습니다!");
+                Debug.LogError(" 프리팹에 TextMeshProUGUI 컴포넌트가 없습니다!");
             }
         }
         StartCoroutine(AutoScroll());
     }
 
-    void OpenChatInput() { inputField.gameObject.SetActive(true); inputField.text = ""; inputField.ActivateInputField(); inputField.Select(); }
-    void CloseChatInput() { inputField.text = ""; inputField.DeactivateInputField(); inputField.gameObject.SetActive(false); EventSystem.current.SetSelectedGameObject(null); }
+    void OpenChatInput() { IsChatting = true; inputField.gameObject.SetActive(true); inputField.text = ""; inputField.ActivateInputField(); inputField.Select(); }
+    void CloseChatInput() {IsChatting = false; inputField.text = ""; inputField.DeactivateInputField(); inputField.gameObject.SetActive(false); EventSystem.current.SetSelectedGameObject(null); }
     IEnumerator AutoScroll() { yield return new WaitForEndOfFrame(); scrollRect.verticalNormalizedPosition = 0f; }
 }
