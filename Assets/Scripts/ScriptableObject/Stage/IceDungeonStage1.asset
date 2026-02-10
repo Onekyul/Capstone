@@ -35,7 +35,7 @@ MonoBehaviour:
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
   - timestamp: 33
     spawnGroups:
@@ -43,7 +43,7 @@ MonoBehaviour:
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
   - timestamp: 35
     spawnGroups:
@@ -51,7 +51,7 @@ MonoBehaviour:
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
   - timestamp: 40
     spawnGroups:
@@ -59,7 +59,7 @@ MonoBehaviour:
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
   - timestamp: 70
     spawnGroups:
@@ -75,7 +75,7 @@ MonoBehaviour:
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
   - timestamp: 104
     spawnGroups:
@@ -83,7 +83,7 @@ MonoBehaviour:
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
   - timestamp: 115
     spawnGroups:
@@ -91,13 +91,13 @@ MonoBehaviour:
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
     - monsterTag: IceFast
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
   - timestamp: 130
     spawnGroups:
@@ -105,13 +105,13 @@ MonoBehaviour:
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
     - monsterTag: IceFast
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
   - timestamp: 160
     spawnGroups:
@@ -127,13 +127,13 @@ MonoBehaviour:
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
     - monsterTag: IceFast
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
   - timestamp: 205
     spawnGroups:
@@ -141,13 +141,13 @@ MonoBehaviour:
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
     - monsterTag: IceFast
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
   - timestamp: 210
     spawnGroups:
@@ -155,13 +155,13 @@ MonoBehaviour:
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
     - monsterTag: IceFast
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
   - timestamp: 213
     spawnGroups:
@@ -169,13 +169,13 @@ MonoBehaviour:
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
     - monsterTag: IceFast
       count: 3
       spawnPattern: 2
       spawnRadius: 20
-      spawnInterval: 2
+      spawnInterval: 0
       groupSpread: 1
   - timestamp: 230
     spawnGroups:
@@ -193,12 +193,18 @@ MonoBehaviour:
       spawnRadius: 15
       spawnInterval: 0
       groupSpread: 1
-  - timestamp: 250
+  - timestamp: 252
     spawnGroups:
-    - monsterTag: IceChasing
+    - monsterTag: IceFast
+      count: 3
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+    - monsterTag: IceFast
       count: 40
-      spawnPattern: 1
-      spawnRadius: 15
+      spawnPattern: 2
+      spawnRadius: 20
       spawnInterval: 0
       groupSpread: 1
   - timestamp: 280
