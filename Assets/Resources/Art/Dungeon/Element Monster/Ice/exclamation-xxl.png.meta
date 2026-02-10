@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: be89da7a31b074efe988cee9c3223d2b
+guid: 47be7ae0c38af4d48a9d67f0f90989cf
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4474605265393228863
-    second: spirit of ice_0
-  - first:
-      213: -9150149576349239552
-    second: spirit of ice_1
-  - first:
-      213: -2044367791893453728
-    second: spirit of ice_2
+      213: 6978408096828204494
+    second: exclamation-xxl_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -57,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 36
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -119,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: spirit of ice_0
+      name: exclamation-xxl_0
       rect:
         serializedVersion: 2
-        x: 37
-        y: 62
-        width: 77
-        height: 117
+        x: 0
+        y: 0
+        width: 256
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,52 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1c3e426f73207e1c0800000000000000
-      internalID: -4474605265393228863
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: spirit of ice_1
-      rect:
-        serializedVersion: 2
-        x: 101
-        y: 37
-        width: 230
-        height: 286
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 007330c9073240180800000000000000
-      internalID: -9150149576349239552
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: spirit of ice_2
-      rect:
-        serializedVersion: 2
-        x: 318
-        y: 62
-        width: 77
-        height: 117
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 064e0f52352f0a3e0800000000000000
-      internalID: -2044367791893453728
+      spriteID: ec5a72dd03948d060800000000000000
+      internalID: 6978408096828204494
       vertices: []
       indices: 
       edges: []
@@ -198,9 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      spirit of ice_0: -4474605265393228863
-      spirit of ice_1: -9150149576349239552
-      spirit of ice_2: -2044367791893453728
+      exclamation-xxl_0: 6978408096828204494
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
