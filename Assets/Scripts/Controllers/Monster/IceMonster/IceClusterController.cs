@@ -75,9 +75,13 @@ public class IceClusterController : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            // 플레이어에게 데미지 주기 (PlayerController의 TakeDamage 호출)
-            // collision.GetComponent<PlayerController>()?.TakeDamage(contactDamage);
-            Debug.Log($"플레이어가 얼음 덩어리에 닿음! 데미지: {contactDamage}");
+            PlayerStats player = collision.GetComponent<PlayerStats>();
+            if (player != null)
+            {
+                // 플레이어에게 데미지 주기 (구현된 함수 사용)
+                player.TakeDamage(contactDamage);
+                Debug.Log("플레이어한테 데미지 줌! 얼음 덩어리 접촉 데미지!");
+            }
         }
     }
 }

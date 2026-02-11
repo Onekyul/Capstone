@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: fe922d4b72b7b40798fcf900eccc6713
+guid: c4edcea08e49cf547a0c8cecfafe1fd5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1405874983246401250
-    second: spirit of thunder_0
-  - first:
-      213: -8736361918776323578
-    second: spirit of thunder_1
-  - first:
-      213: -1951579561474419662
-    second: spirit of thunder_2
+      213: -4443172734541195390
+    second: ThunderExample_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -57,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 11.5
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -119,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: spirit of thunder_0
+      name: ThunderExample_0
       rect:
         serializedVersion: 2
-        x: 6
-        y: 13
-        width: 116
-        height: 92
+        x: 0
+        y: 5
+        width: 106
+        height: 199
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,52 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2ee820f39dba28310800000000000000
-      internalID: 1405874983246401250
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: spirit of thunder_1
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 103
-        width: 9
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 60256124f1532c680800000000000000
-      internalID: -8736361918776323578
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: spirit of thunder_2
-      rect:
-        serializedVersion: 2
-        x: 60
-        y: 103
-        width: 15
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 234976f8ab89ae4e0800000000000000
-      internalID: -1951579561474419662
+      spriteID: 28798f950fda652c0800000000000000
+      internalID: -4443172734541195390
       vertices: []
       indices: 
       edges: []
@@ -198,9 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      spirit of thunder_0: 1405874983246401250
-      spirit of thunder_1: -8736361918776323578
-      spirit of thunder_2: -1951579561474419662
+      ThunderExample_0: -4443172734541195390
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
