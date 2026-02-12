@@ -165,6 +165,20 @@ public class AbilitySystem : MonoBehaviour
             }
         }
         
+        // 능력 ID 15 (보석 사냥꾼)인 경우 특수 처리
+        if (ability.abilityID == 15)
+        {
+            if (StageManager.instance != null)
+            {
+                StageManager.instance.SetRewardMultiplier(1.1f);
+                Debug.Log("[AbilitySystem] 보석 사냥꾼 활성화! 클리어 시 보상 10% 증가");
+            }
+            else
+            {
+                Debug.LogError("[AbilitySystem] StageManager.instance가 null입니다!");
+            }
+        }
+        
         // 능력 ID 26 (죽음의 숨결)인 경우 특수 처리
         if (ability.abilityID == 26)
         {
