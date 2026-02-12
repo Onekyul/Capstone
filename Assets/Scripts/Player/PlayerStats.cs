@@ -181,6 +181,9 @@ public class PlayerStats : MonoBehaviour
             DeactivateDeathBreath();
         }
         
+        // 무적 상태에 따라 투명도 조정
+        UpdateInvincibilityVisual();
+        
         // ===== 치트키: 그림자 은신 테스트 (F1) =====
         if (Input.GetKeyDown(KeyCode.F1))
         {
@@ -1399,5 +1402,47 @@ public class PlayerStats : MonoBehaviour
     
     // 전염 발동 확률 확인
     public float GetContagionChance() => contagionChance;
+    
+    // ===== 무적 상태 시각화 (Invincibility Visual) =====
+    
+    // 무적 상태 확인 (그림자 은신, 불굴의 의지, 일반 피격 무적)
+    private bool IsInvincible()
+    {
+        // 그림자 은신 무적
+        if (Time.time < shadowInvincibilityEndTime)
+            return true;
+        
+        // 불굴의 의지 무적
+        if (Time.time < lastStandInvincibilityEndTime)
+            return true;
+        
+        // 일반 피격 무적
+        if (Time.time - lastHitTime < invincibilityDuration)
+            return true;
+        
+        return false;
+    }
+    
+    // 무적 상태에 따라 플레이어 투명도 조정 (깜빡임 효과)
+    private void UpdateInvincibilityVisual()
+    {
+        if (playerSprite == null) return;
+        
+        Color color = playerSprite.color;
+        
+        if (IsInvincible())
+        {
+            // 무적 상태: 깜빡임 효과 (0.1초마다 alpha 0.3 ↔ 1.0 전환)
+            float blinkCycle = Time.time % 0.2f; // 0.2초 주기
+            color.a = (blinkCycle < 0.1f) ? 0.3f : 1.0f;
+        }
+        else
+        {
+            // 일반 상태: 불투명 (알파 1.0)
+            color.a = 1.0f;
+        }
+        
+        playerSprite.color = color;
+    }
 
 }

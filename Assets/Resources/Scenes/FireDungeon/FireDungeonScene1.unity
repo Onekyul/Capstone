@@ -32469,6 +32469,10 @@ PrefabInstance:
       propertyPath: moveSpeedMultiplier
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -6604301485312488701, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+      propertyPath: invincibilityDuration
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1046453727987771879, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: m_IsTrigger
       value: 0
