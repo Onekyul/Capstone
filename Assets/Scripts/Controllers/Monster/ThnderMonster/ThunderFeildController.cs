@@ -3,8 +3,14 @@ using System.Collections;
 
 public class ThunderFieldController : MonoBehaviour
 {
-    [SerializeField] private float duration = 3.0f;      // 장판 유지 시간
-    [SerializeField] private float damagePerTick = 2.0f; // 틱당 데미지
+    private float duration;      // 장판 유지 시간
+    private float damagePerTick; // 틱당 데미지
+
+    public void Setup(float durationSeconds, float damagePerTickValue)
+    {
+        duration = durationSeconds;
+        damagePerTick = damagePerTickValue;
+    }
 
     private void Start()
     {

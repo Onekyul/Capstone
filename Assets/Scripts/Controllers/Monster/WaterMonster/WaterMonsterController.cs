@@ -6,6 +6,9 @@ public class WaterMonsterController : ElementMonsterController
     [SerializeField] private GameObject waterWavePrefab; // 파도 프리팹
     [SerializeField] private float waveSpeed = 6.0f;     // 파도 속도
     [SerializeField] private float damage = 15.0f;        // 파도 공격력
+    [SerializeField] private float waveLifetime = 2.0f;   // 파도 유지 시간
+    [SerializeField] private float startScaleMultiplier = 0.5f; // 시작 크기 배율
+    [SerializeField] private float targetScaleMultiplier = 1.5f; // 종료 크기 배율
 
     // ElementMonsterController의 PerformAttack을 구체화
     protected override void PerformAttack()
@@ -23,7 +26,14 @@ public class WaterMonsterController : ElementMonsterController
         WaterWaveController wave = waveObj.GetComponent<WaterWaveController>();
         if (wave != null)
         {
-            wave.Setup(targetDir, waveSpeed, damage);
+            wave.Setup(
+                targetDir,
+                waveSpeed,
+                damage,
+                waveLifetime,
+                startScaleMultiplier,
+                targetScaleMultiplier
+            );
         }
     }
 }

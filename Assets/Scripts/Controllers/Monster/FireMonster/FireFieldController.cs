@@ -10,7 +10,20 @@ public class FireFieldController : MonoBehaviour
     [SerializeField] private float damageInterval = 0.5f; // 데미지 주는 간격
     [SerializeField] private float damage = 5.0f; // 장판 데미지
 
-    private float timer = 0f;
+    public void Setup(
+        float durationSeconds,
+        float maxScaleValue,
+        float expandSpeedValue,
+        float damageIntervalSeconds,
+        float damageValue
+    )
+    {
+        duration = durationSeconds;
+        maxScale = maxScaleValue;
+        expandSpeed = expandSpeedValue;
+        damageInterval = damageIntervalSeconds;
+        damage = damageValue;
+    }
 
     void Start()
     {

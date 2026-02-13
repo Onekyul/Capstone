@@ -4,17 +4,38 @@ using System.Collections;
 public class IceClusterController : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private float warningDuration = 1.5f; // 경고 시간
-    [SerializeField] private float bodyDuration = 2.0f;    // 얼음 덩어리 유지 시간
-    [SerializeField] private float contactDamage = 10f;    // 얼음 덩어리에 닿았을 때 데미지
-    [SerializeField] private float shardDamage = 5f;       // 조각 데미지
-    [SerializeField] private float shardSpeed = 5f;        // 조각 날아가는 속도
+     private float warningDuration = 1.5f; // 경고 시간
+     private float bodyDuration = 2.0f;    // 얼음 덩어리 유지 시간
+     private float contactDamage = 10f;    // 얼음 덩어리에 닿았을 때 데미지
+     private float shardDamage = 5f;       // 조각 데미지
+     private float shardSpeed = 5f;        // 조각 날아가는 속도
+     private int shardCount = 6;           // 조각 개수
+     private float shardLifetime = 3.0f;   // 조각 수명
 
     [Header("References")]
     [SerializeField] private GameObject warningObject;     // 빨간 원
     [SerializeField] private GameObject iceBodyObject;     // 얼음 이미지
     [SerializeField] private GameObject iceShardPrefab;    // 날아갈 조각 프리팹
     [SerializeField] private Collider2D bodyCollider;      // 본체 콜라이더
+
+    public void Setup(
+        float warningSeconds,
+        float bodySeconds,
+        float contactDamageValue,
+        float shardDamageValue,
+        float shardSpeedValue,
+        int shardCountValue,
+        float shardLifetimeSeconds
+    )
+    {
+        warningDuration = warningSeconds;
+        bodyDuration = bodySeconds;
+        contactDamage = contactDamageValue;
+        shardDamage = shardDamageValue;
+        shardSpeed = shardSpeedValue;
+        shardCount = shardCountValue;
+        shardLifetime = shardLifetimeSeconds;
+    }
 
     private void Start()
     {
@@ -46,10 +67,13 @@ public class IceClusterController : MonoBehaviour
 
     private void Explode()
     {
-        // 6방향 발사 (360도 / 6 = 60도 간격)
-        for (int i = 0; i < 6; i++)
+        if (shardCount <= 0) return;
+
+        // N방향 발사 (360도 / shardCount 간격)
+        float angleStep = 360f / shardCount;
+        for (int i = 0; i < shardCount; i++)
         {
-            float angle = i * 60f;
+            float angle = i * angleStep;
             // 회전값 계산 (Z축 회전)
             Quaternion rotation = Quaternion.Euler(0, 0, angle);
 
@@ -62,7 +86,7 @@ public class IceClusterController : MonoBehaviour
             {
                 // 방향 벡터 구하기 (회전된 오른쪽 방향)
                 Vector3 dir = rotation * Vector3.right;
-                projectile.Setup(dir, shardSpeed, shardDamage);
+                projectile.Setup(dir, shardSpeed, shardDamage, shardLifetime);
             }
         }
 

@@ -8,7 +8,8 @@ public enum MonsterType
 {
     Normal,     // 일반 몬스터
     Elite,      // 엘리트 몬스터 (은상자 드랍)
-    Element     // 속성 몬스터 (금상자 드랍)
+    Element ,   // 속성 몬스터 (금상자 드랍)
+    Boss    // 보스 몬스터
 }
 
 public class MonsterController : MonoBehaviour
@@ -30,7 +31,7 @@ public class MonsterController : MonoBehaviour
 
     [Header("Pool & Drop")]
     [SerializeField] private string poolTag;
-    [SerializeField] private ExpJewelController expJewelPrefab;
+    [SerializeField] private GameObject expJewelPrefab;
 
     [Header("Pool Settings")]
     [Tooltip("체크하면 풀링 매니저로 반납하고, 체크 해제하면 그냥 Destroy 됩니다.")]
@@ -186,7 +187,7 @@ public class MonsterController : MonoBehaviour
     // ====================================================================
     // 1. 기본 피격 (공격력 스냅샷 저장)
     // ====================================================================
-    public void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage)
     {
         storedLastDamage = damage; // ★ 데미지를 먼저 저장 (상태이상 계산 기준값)
 

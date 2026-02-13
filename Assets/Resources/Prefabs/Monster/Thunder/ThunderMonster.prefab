@@ -334,7 +334,7 @@ MonoBehaviour:
   CurHP: 0
   moveSpeed: 0
   poolTag: 
-  expJewelPrefab: {fileID: -5577271535738719069, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
+  expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
   usePooling: 1
   hpSlider: {fileID: 6491672787607431554}
   lightningFieldPrefab: {fileID: 0}
@@ -346,7 +346,13 @@ MonoBehaviour:
   elementChestPrefab: {fileID: -507466460373292382, guid: d2dc02d0d702dd149a5f462dabbaf9fe, type: 3}
   thunderPatternPrefab: {fileID: 7514980896785833416, guid: f757d917c5f6daf43a126bb73a339165, type: 3}
   burstCount: 3
-  burstInterval: 0.1
+  burstInterval: 0.2
+  warningDuration: 1
+  strikeDamage: 10
+  strikeRadius: 1.5
+  strikeVfxDuration: 0.1
+  fieldDuration: 3
+  fieldDamagePerTick: 2
 --- !u!1 &3033014908612539654
 GameObject:
   m_ObjectHideFlags: 0

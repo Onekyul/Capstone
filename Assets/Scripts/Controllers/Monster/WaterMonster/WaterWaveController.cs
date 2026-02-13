@@ -6,6 +6,8 @@ public class WaterWaveController : MonoBehaviour
     private float moveSpeed;
     private float damage;
     private float lifetime = 2.0f; // 파도 유지 시간
+    private float startScaleMultiplier = 0.5f;
+    private float targetScaleMultiplier = 1.5f;
 
     // ★ 핵심: 한 번 맞은 대상은 다시 때리지 않기 위한 플래그
     private bool hasDamagedPlayer = false;
@@ -15,20 +17,32 @@ public class WaterWaveController : MonoBehaviour
     private Vector3 targetScale;
     private float elapsed = 0f;
 
-    public void Setup(Vector3 dir, float speed, float dmg)
+    public void Setup(
+        Vector3 dir,
+        float speed,
+        float dmg,
+        float life,
+        float startScaleFactor,
+        float targetScaleFactor
+    )
     {
         moveDir = dir;
         moveSpeed = speed;
         damage = dmg;
+        lifetime = life;
+        startScaleMultiplier = startScaleFactor;
+        targetScaleMultiplier = targetScaleFactor;
 
         // 회전 설정 (날아가는 방향 바라보기)
         float angle = Mathf.Atan2(moveDir.y, moveDir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
         // 크기 연출 초기화 (작게 시작해서 커짐)
-        startScale = transform.localScale * 0.5f;
-        targetScale = transform.localScale * 1.5f;
+        startScale = transform.localScale * startScaleMultiplier;
+        targetScale = transform.localScale * targetScaleMultiplier;
         transform.localScale = startScale;
+
+        elapsed = 0f;
 
         Destroy(gameObject, lifetime);
     }
