@@ -32573,6 +32573,14 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7805422558023164546, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+      propertyPath: swordRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210193976174897851, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+      propertyPath: spearRange
+      value: 6.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8747429518043073597, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: m_Interpolate
       value: 1

@@ -150,7 +150,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  swordRange: 1.8
+  swordRange: 5
   effectOffsetDistance: 0.8
 --- !u!1 &2581213020333824419
 GameObject:
@@ -1045,7 +1045,7 @@ MonoBehaviour:
   debugIceLevel: 0
   debugLightningLevel: 0
   debugPoisonLevel: 0
-  spearRange: 3
+  spearRange: 6.5
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
