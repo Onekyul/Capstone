@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: Ability_Rage
   m_EditorClassIdentifier: 
   abilityID: 19
-  abilityName: 
-  description: 
+  abilityName: "\uBD84\uB178"
+  description: "\uCCB4\uB825\uC774 1% \uAC10\uC18C\uD560 \uB54C\uB9C8\uB2E4 \uACF5\uACA9\uB825
+    1% \uC99D\uAC00 "
   icon: {fileID: 0}
   abilityType: 0
   canStack: 0
   hasLevels: 0
   maxLevel: 1
   statModifiers:
-  - statType: 8
+  - statType: 9
     operation: 2
     valuePerLevel:
     - 1

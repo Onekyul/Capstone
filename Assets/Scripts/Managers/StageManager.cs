@@ -245,11 +245,14 @@ public class StageManager : MonoBehaviour
             }
         }
 
-        // 보상 배수 적용
-        List<ItemData> keysForMultiplier = new List<ItemData>(totalRewards.Keys);
-        foreach (var key in keysForMultiplier)
+        // 보상 배수 적용 (클리어 시에만 - 보석 사냥꾼 능력)
+        if (isClear)
         {
-            totalRewards[key] = Mathf.FloorToInt(totalRewards[key] * rewardMultiplier);
+            List<ItemData> keysForMultiplier = new List<ItemData>(totalRewards.Keys);
+            foreach (var key in keysForMultiplier)
+            {
+                totalRewards[key] = Mathf.FloorToInt(totalRewards[key] * rewardMultiplier);
+            }
         }
 
         // 죽음 패널티 (0.7배)

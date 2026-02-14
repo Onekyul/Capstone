@@ -117,7 +117,7 @@ public class AbilitySystem : MonoBehaviour
             SpawnShieldAbility();
         }
         
-        // 능력 ID 17 (자석)인 경우 특수 처리
+        // 능력 ID 16 (자석)
         if (ability.abilityID == 16)
         {
             Debug.Log("[AbilitySystem] 자석 능력 활성화! 경험치가 플레이어에게 끌려옵니다.");
@@ -162,6 +162,20 @@ public class AbilitySystem : MonoBehaviour
             else
             {
                 Debug.LogWarning("[AbilitySystem] DetectionIndicator를 찾을 수 없습니다! Player에 DetectionIndicator 컴포넌트를 추가하세요.");
+            }
+        }
+        
+        // 능력 ID 15 (보석 사냥꾼)인 경우 특수 처리
+        if (ability.abilityID == 15)
+        {
+            if (StageManager.instance != null)
+            {
+                StageManager.instance.SetRewardMultiplier(1.1f);
+                Debug.Log("[AbilitySystem] 보석 사냥꾼 활성화! 클리어 시 보상 10% 증가");
+            }
+            else
+            {
+                Debug.LogError("[AbilitySystem] StageManager.instance가 null입니다!");
             }
         }
         

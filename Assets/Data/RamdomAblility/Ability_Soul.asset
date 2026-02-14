@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 5
   abilityName: "\uC601\uD63C \uD761\uC218"
-  description: 
+  description: "\uACBD\uD5D8\uCE58 \uD68D\uB4DD\uB960 10/20/30% \uC99D\uAC00"
   icon: {fileID: 0}
   abilityType: 3
   canStack: 0
@@ -22,8 +22,8 @@ MonoBehaviour:
   maxLevel: 3
   statModifiers:
   - statType: 14
-    operation: 0
+    operation: 1
     valuePerLevel:
-    - 0.1
-    - 0.2
-    - 0.3
+    - 1.1
+    - 1.2
+    - 1.3
