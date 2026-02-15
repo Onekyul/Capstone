@@ -1,10 +1,25 @@
 fileFormatVersion: 2
-guid: b13d23c2f1ac0184d91e8232cfdebe35
+guid: 222bc25f33cb444aa878b5c433128f64
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -738572095297613877
-    second: lava golem-Photoroom_0
+      213: -6243389845678072464
+    second: Blast Bat-Photoroom_0
+  - first:
+      213: -2076410820735841649
+    second: Blast Bat-Photoroom_1
+  - first:
+      213: 9009626673449143242
+    second: Blast Bat-Photoroom_2
+  - first:
+      213: 6195685581684251905
+    second: Blast Bat-Photoroom_3
+  - first:
+      213: 5017085189719492204
+    second: Blast Bat-Photoroom_4
+  - first:
+      213: 6912690697422880294
+    second: Blast Bat-Photoroom_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +115,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lava golem-Photoroom_0
+      name: Blast Bat-Photoroom_0
       rect:
         serializedVersion: 2
-        x: 130
-        y: 152
-        width: 493
-        height: 676
+        x: 968
+        y: 493
+        width: 832
+        height: 567
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bcf05caa79010c5f0800000000000000
-      internalID: -738572095297613877
+      spriteID: 07dd316a3060b59a0800000000000000
+      internalID: -6243389845678072464
       vertices: []
       indices: 
       edges: []
@@ -125,7 +140,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +150,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      lava golem-Photoroom_0: -738572095297613877
+      Blast Bat-Photoroom_0: -6243389845678072464
+      Blast Bat-Photoroom_1: -2076410820735841649
+      Blast Bat-Photoroom_2: 9009626673449143242
+      Blast Bat-Photoroom_3: 6195685581684251905
+      Blast Bat-Photoroom_4: 5017085189719492204
+      Blast Bat-Photoroom_5: 6912690697422880294
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
