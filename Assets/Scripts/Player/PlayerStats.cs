@@ -40,7 +40,7 @@ public class PlayerStats : MonoBehaviour
     private float vampireHealPercent = 0.5f; // 흡혈 회복량 (공격력의 %)
     private float dodgeChance = 0f; // 회피 확률 (0~1)
     private float shadowCooldown = 0f; // 그림자 은신 쿨타임 (레벨별: 10/9/7/5/2초)
-    private float shadowInvincibilityDuration = 0.2f; // 그림자 은신 무적 지속 시간
+    private float shadowInvincibilityDuration = 0.05f; // 그림자 은신 무적 지속 시간 (버그 방지를 위해 0.2초 → 0.05초로 감소)
     private float nextShadowTime = 0f; // 다음 그림자 은신 발동 시간
     private float shadowInvincibilityEndTime = 0f; // 그림자 은신 무적 종료 시간
     private bool hasRage = false; // 분노 보유 여부
@@ -184,6 +184,39 @@ public class PlayerStats : MonoBehaviour
             DeactivateDeathBreath();
         }
         
+        // 무적 상태에 따라 투명도 조정
+        UpdateInvincibilityVisual();
+        
+        // ===== 치트키: 그림자 은신 테스트 (F1) =====
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            Debug.Log("===== [치트키] 그림자 은신 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(18); // 그림자 은신 능력 ID = 18
+        }
+
+        // ===== 치트키: 흡혈 테스트 (F2) =====
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            Debug.Log("===== [치트키] 흡혈 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(4); // 흡혈 능력 ID = 4
+        }
+        
         // ===== 치트키: 응축된 공격 테스트 (F5) =====
         if (Input.GetKeyDown(KeyCode.F5))
         {
@@ -191,11 +224,11 @@ public class PlayerStats : MonoBehaviour
             AcquireAbility(3); // 응축된 공격 ID = 3
         }
 
-        // ===== 치트키: 흡혈 테스트 (F6) =====
+        // ===== 치트키: 흡혈 100% 강제 설정 (F6) - 디버그용 =====
         if (Input.GetKeyDown(KeyCode.F6))
         {
-            SetVampireChance(1.0f); // 100% 확률 흡혈
-            Debug.Log("===== [치트키] 흡혈 100% 적용 (확률: 100%, 회복량: 공격력의 50%) =====");
+            SetVampireChance(1.0f); // 100% 확률 흡혈 (능력 없이 강제 설정)
+            Debug.Log("===== [치트키] 흡혈 100% 강제 적용 (확률: 100%, 회복량: 공격력의 50%) =====");
         }
 
         // ===== 치트키: 방패 소환 테스트 (F7) =====
@@ -810,7 +843,7 @@ public class PlayerStats : MonoBehaviour
         {
             // 그림자 은신 활성화 시 즉시 첫 발동
             nextShadowTime = Time.time + cooldown;
-            Debug.Log($"그림자 은신 활성화! {cooldown}초마다 0.2초 무적");
+            Debug.Log($"그림자 은신 활성화! {cooldown}초마다 0.05초 무적");
         }
     }
 
@@ -1386,5 +1419,47 @@ public class PlayerStats : MonoBehaviour
     
     // 전염 발동 확률 확인
     public float GetContagionChance() => contagionChance;
+    
+    // ===== 무적 상태 시각화 (Invincibility Visual) =====
+    
+    // 무적 상태 확인 (그림자 은신, 불굴의 의지, 일반 피격 무적)
+    private bool IsInvincible()
+    {
+        // 그림자 은신 무적
+        if (Time.time < shadowInvincibilityEndTime)
+            return true;
+        
+        // 불굴의 의지 무적
+        if (Time.time < lastStandInvincibilityEndTime)
+            return true;
+        
+        // 일반 피격 무적
+        if (Time.time - lastHitTime < invincibilityDuration)
+            return true;
+        
+        return false;
+    }
+    
+    // 무적 상태에 따라 플레이어 투명도 조정 (깜빡임 효과)
+    private void UpdateInvincibilityVisual()
+    {
+        if (playerSprite == null) return;
+        
+        Color color = playerSprite.color;
+        
+        if (IsInvincible())
+        {
+            // 무적 상태: 깜빡임 효과 (0.1초마다 alpha 0.3 ↔ 1.0 전환)
+            float blinkCycle = Time.time % 0.2f; // 0.2초 주기
+            color.a = (blinkCycle < 0.1f) ? 0.3f : 1.0f;
+        }
+        else
+        {
+            // 일반 상태: 불투명 (알파 1.0)
+            color.a = 1.0f;
+        }
+        
+        playerSprite.color = color;
+    }
 
 }

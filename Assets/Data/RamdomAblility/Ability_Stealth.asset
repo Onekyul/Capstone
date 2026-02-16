@@ -23,7 +23,7 @@ MonoBehaviour:
   hasLevels: 0
   maxLevel: 1
   statModifiers:
-  - statType: 14
+  - statType: 13
     operation: 2
     valuePerLevel:
     - 1

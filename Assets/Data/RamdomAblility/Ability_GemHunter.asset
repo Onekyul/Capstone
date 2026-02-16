@@ -10,23 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bcecb4a804a77e45b365f512a832543, type: 3}
-  m_Name: Ability_Spear
+  m_Name: Ability_GemHunter
   m_EditorClassIdentifier: 
-  abilityID: 21
-  abilityName: "\uC8FD\uCC3D"
-  description: "\uCD5C\uB300\uCCB4\uB825 99% \uAC10\uC18C. \uACF5\uACA9\uB825 1000%\uB85C
-    \uC99D\uAC00"
+  abilityID: 15
+  abilityName: "\uBCF4\uC11D \uC0AC\uB0E5\uAFBC"
+  description: "\uB9F5 \uD074\uB9AC\uC5B4 \uC2DC \uBCF4\uC0C1 10% \uC99D\uAC00"
   icon: {fileID: 0}
   abilityType: 0
   canStack: 0
   hasLevels: 0
-  maxLevel: 5
-  statModifiers:
-  - statType: 4
-    operation: 1
-    valuePerLevel:
-    - 0.01
-  - statType: 0
-    operation: 1
-    valuePerLevel:
-    - 10
+  maxLevel: 1
+  statModifiers: []

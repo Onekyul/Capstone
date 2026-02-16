@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: Ability_ShadowCloak
   m_EditorClassIdentifier: 
   abilityID: 18
-  abilityName: 
-  description: 
+  abilityName: "\uADF8\uB9BC\uC790 \uC740\uC2E0"
+  description: " 10/9/7/5/2\uCD08\uB9C8\uB2E4 0.2\uCD08\uB3D9\uC548 \uACF5\uACA9\uC744
+    \uBC1B\uC9C0 \uC54A\uB294 \uC0C1\uD0DC\uAC00 \uB428 "
   icon: {fileID: 0}
   abilityType: 3
   canStack: 0
   hasLevels: 1
   maxLevel: 5
   statModifiers:
-  - statType: 7
+  - statType: 8
     operation: 2
     valuePerLevel:
     - 10
