@@ -29,6 +29,21 @@ public class LevelManager : MonoBehaviour
             instance = this;
         }
     }
+    private void Update()
+    {
+        //여태까지 고른 능력들 디버그 출력
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.Log("현재 능력 레벨:");
+            for (int i = 0; i < currentAbilityLevels.Length; i++)
+            {
+                if (currentAbilityLevels[i] > 0)
+                {
+                    Debug.Log($"능력 ID: {i}, 레벨: {currentAbilityLevels[i]}");
+                }
+            }
+        }
+    }
 
     public void GainExperience()
     {
@@ -36,7 +51,7 @@ public class LevelManager : MonoBehaviour
         curExp += finalExp;
         // [추가] UI 갱신 호출
         DungeonUIManager.instance.UpdateExpBar(curExp, expTable[curLevel]);
-        
+
         if (curLevel >= expTable.Length) return;
 
         if (curExp >= expTable[curLevel])
@@ -44,7 +59,7 @@ public class LevelManager : MonoBehaviour
             curLevel++;
             curExp -= expTable[curLevel - 1];
             DungeonUIManager.instance.UpdateExpBar(curExp, expTable[curLevel]);
-            
+
             OnLevelUp();
         }
     }
@@ -101,12 +116,12 @@ public class LevelManager : MonoBehaviour
     private List<AbilityData> ChooseRandomAbilities(List<AbilityData> candidates, int count)
     {
         List<AbilityData> results = new List<AbilityData>();
-        
+
         if (candidates.Count <= count)
         {
             return new List<AbilityData>(candidates);
         }
-        
+
         List<AbilityData> temp = new List<AbilityData>(candidates);
         for (int i = 0; i < count; i++)
         {
@@ -114,7 +129,6 @@ public class LevelManager : MonoBehaviour
             results.Add(temp[randomIndex]);
             temp.RemoveAt(randomIndex);
         }
-
         return results;
     }
 

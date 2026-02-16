@@ -16,6 +16,6 @@ MonoBehaviour:
   maxLevel: 1
   abilityName: "\uC8FD\uCC3D"
   icon: {fileID: -717976922826292216, guid: 37bbb49bea6e6af4e8824b2837588ee7, type: 3}
-  description: "\uCD5C\uB300\uCCB4\uB825 99% \uAC10\uC18C. \uACF5\uACA9\uB825 1000%\uB85C
-    \uC99D\uAC00"
+  description: "\uCD5C\uB300\uCCB4\uB825\uC774 99% \uAC10\uC18C. \uACF5\uACA9\uB825\uC774
+    1000%\uB85C \uC99D\uAC00\uD55C\uB2E4."
   values: []

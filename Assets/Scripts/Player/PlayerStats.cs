@@ -76,6 +76,9 @@ public class PlayerStats : MonoBehaviour
     private bool hasContagion = false; // 전염 보유 여부
     private float contagionChance = 0.05f; // 전염 발동 확률 (5%)
 
+    [Header("Victory State")]
+    private float victoryInvincibilityEndTime = 0f; // 승리 무적 종료 시간 (스테이지 클리어 시)
+
     [Header("Collision Damage")]
     [SerializeField] private float damageTickCooldown = 1.0f; // 1초에 한 번씩만 겹침 데미지를 받음
     private float lastDamageTickTime; // 마지막으로 데미지를 받은 시간
@@ -542,7 +545,14 @@ public class PlayerStats : MonoBehaviour
     {
         if (playerCurHP <= 0) return;
 
-        // 불굴의 의지 무적 체크 (최우선)
+        // 승리 무적 체크 (최우선)
+        if (Time.time < victoryInvincibilityEndTime)
+        {
+            Debug.Log("승리 무적 상태! 공격 무효화");
+            return;
+        }
+
+        // 불굴의 의지 무적 체크
         if (Time.time < lastStandInvincibilityEndTime)
         {
             Debug.Log("불굴의 의지 무적 상태! 공격 무효화");
@@ -841,6 +851,13 @@ public class PlayerStats : MonoBehaviour
     {
         shadowInvincibilityEndTime = Time.time + shadowInvincibilityDuration;
         Debug.Log($"그림자 은신 발동! {shadowInvincibilityDuration}초간 무적");
+    }
+
+    // ★ 스테이지 클리어 시 플레이어에게 무적 시간 부여 (보상 수집용)
+    public void SetVictoryInvincibility(float duration)
+    {
+        victoryInvincibilityEndTime = Time.time + duration;
+        Debug.Log($"[승리 무적] {duration}초간 모든 공격 무효화");
     }
 
     public void SetRage(bool enabled)
