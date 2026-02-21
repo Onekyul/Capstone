@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Ability_Sprint
   m_EditorClassIdentifier: 
   abilityID: 11
-  abilityName: 
-  description: 
+  abilityName: "\uC9C8\uC8FC"
+  description: "\uC774\uB3D9 \uC18D\uB3C4 10% \uC99D\uAC00"
   icon: {fileID: 0}
   abilityType: 2
   canStack: 1
   hasLevels: 0
-  maxLevel: 99
+  maxLevel: 1
   statModifiers:
   - statType: 2
     operation: 0

@@ -98,6 +98,13 @@ public class AbilitySystem : MonoBehaviour
     {
         if (playerStats == null) return;
 
+        // ===== 특수 능력: "운빨" (ID 28) =====
+        if (ability.abilityID == 28)
+        {
+            ApplyLuckAbility();
+            return; // 일반 로직 건너뛰기
+        }
+
         foreach (StatModifier modifier in ability.statModifiers)
         {
             float value = modifier.GetValue(level);
@@ -110,7 +117,7 @@ public class AbilitySystem : MonoBehaviour
             SpawnShieldAbility();
         }
         
-        // 능력 ID 17 (자석)인 경우 특수 처리
+        // 능력 ID 16 (자석)
         if (ability.abilityID == 16)
         {
             Debug.Log("[AbilitySystem] 자석 능력 활성화! 경험치가 플레이어에게 끌려옵니다.");
@@ -142,6 +149,55 @@ public class AbilitySystem : MonoBehaviour
         {
             playerStats.SetElementalMastery(true);
             Debug.Log("[AbilitySystem] 속성 공격 활성화! 10번째 공격마다 모든 인챈트가 100% 발동합니다.");
+        }
+        
+        // 능력 ID 14 (탐지)인 경우 특수 처리
+        if (ability.abilityID == 14)
+        {
+            DetectionIndicator detector = FindFirstObjectByType<DetectionIndicator>();
+            if (detector != null)
+            {
+                detector.ActivateDetection();
+            }
+            else
+            {
+                Debug.LogWarning("[AbilitySystem] DetectionIndicator를 찾을 수 없습니다! Player에 DetectionIndicator 컴포넌트를 추가하세요.");
+            }
+        }
+        
+        // 능력 ID 15 (보석 사냥꾼)인 경우 특수 처리
+        if (ability.abilityID == 15)
+        {
+            if (StageManager.instance != null)
+            {
+                StageManager.instance.SetRewardMultiplier(1.1f);
+                Debug.Log("[AbilitySystem] 보석 사냥꾼 활성화! 클리어 시 보상 10% 증가");
+            }
+            else
+            {
+                Debug.LogError("[AbilitySystem] StageManager.instance가 null입니다!");
+            }
+        }
+        
+        // 능력 ID 26 (죽음의 숨결)인 경우 특수 처리
+        if (ability.abilityID == 26)
+        {
+            playerStats.SetDeathBreath(true);
+            Debug.Log("[AbilitySystem] 죽음의 숨결 활성화! 적 처치 시 10% 확률로 공격속도/이동속도 +30% (3초)");
+        }
+        
+        // 능력 ID 27 (빙결폭발)인 경우 특수 처리
+        if (ability.abilityID == 27)
+        {
+            playerStats.SetFrozenExplosion(true);
+            Debug.Log("[AbilitySystem] 빙결폭발 활성화! 빙결 상태 몬스터 사망 시 주변에 공격력 200% 폭발 데미지");
+        }
+        
+        // 능력 ID 25 (전염)인 경우 특수 처리
+        if (ability.abilityID == 25)
+        {
+            playerStats.SetContagion(true);
+            Debug.Log("[AbilitySystem] 전염 활성화! 인챈트 공격 피격 시 5% 확률로 주변 적 1명에게 인챈트 전염");
         }
     }
 
@@ -247,6 +303,14 @@ public class AbilitySystem : MonoBehaviour
             case StatType.HasElementalMastery:
                 playerStats.SetElementalMastery(value > 0);
                 break;
+                
+            case StatType.HasDeathBreath:
+                playerStats.SetDeathBreath(value > 0);
+                break;
+                
+            case StatType.HasFrozenExplosion:
+                playerStats.SetFrozenExplosion(value > 0);
+                break;
         }
     }
 
@@ -349,5 +413,53 @@ public class AbilitySystem : MonoBehaviour
         
         // 능력 레벨 딕셔너리 초기화
         abilityLevels.Clear();
+    }
+
+    // ===== "운빨" 능력 전용 메서드 =====
+    private void ApplyLuckAbility()
+    {
+        // 1. 랜덤 스탯 선택 (5개 중 1개)
+        int randomStatIndex = Random.Range(0, 5);
+        string selectedStat = "";
+        
+        switch (randomStatIndex)
+        {
+            case 0: selectedStat = "최대 체력"; break;
+            case 1: selectedStat = "방어력"; break;
+            case 2: selectedStat = "공격력"; break;
+            case 3: selectedStat = "공격속도"; break;
+            case 4: selectedStat = "이동속도"; break;
+        }
+        
+        // 2. 50% 확률로 증가/감소 결정
+        bool isPositive = Random.value < 0.5f; // 50% 확률
+        float multiplier = isPositive ? 2.0f : 0.5f; // 100% 증가 or 50% 감소
+        string result = isPositive ? "100% 증가!" : "50% 감소...";
+        
+        Debug.Log($"★★★ [운빨 능력 발동] ★★★");
+        Debug.Log($"선택된 스탯: {selectedStat}");
+        Debug.Log($"결과: {result}");
+        
+        // 3. 선택된 스탯에 효과 적용
+        switch (randomStatIndex)
+        {
+            case 0: // 최대 체력
+                playerStats.ModifyMaxHP(multiplier);
+                break;
+            case 1: // 방어력
+                playerStats.ModifyDefense(multiplier, false);
+                break;
+            case 2: // 공격력
+                playerStats.ModifyAttackDamage(multiplier, false);
+                break;
+            case 3: // 공격속도
+                playerStats.ModifyAttackSpeed(multiplier, false);
+                break;
+            case 4: // 이동속도
+                playerStats.ModifyMoveSpeed(multiplier, false);
+                break;
+        }
+        
+        Debug.Log($"★★★ {selectedStat}이(가) {result} ★★★");
     }
 }

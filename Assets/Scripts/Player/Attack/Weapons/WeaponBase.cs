@@ -248,7 +248,7 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
         else
         {
             // 일반 확률 계산
-            Debug.Log("=== 인챈트 적용 계산 ===");
+            //Debug.Log("=== 인챈트 적용 계산 ===");
             
             // 무기 자체의 인챈트 레벨을 사용 (PlayerStats가 아닌 this.enchantmentLevels 사용)
             for (int i = 0; i < 4; i++)
@@ -265,11 +265,11 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
                     {
                         // 확률에 성공하면 해당 인챈트의 강화 수치를 적용
                         result[i] = enchantmentLevels[i];
-                        Debug.Log($"✓ {enchantName} 인챈트 발동! (레벨: {enchantmentLevels[i]}, 확률: {chance}%, 랜덤: {randomValue:F1})");
+                        //Debug.Log($"✓ {enchantName} 인챈트 발동! (레벨: {enchantmentLevels[i]}, 확률: {chance}%, 랜덤: {randomValue:F1})");
                     }
                     else
                     {
-                        Debug.Log($"✗ {enchantName} 인챈트 미발동 (레벨: {enchantmentLevels[i]}, 확률: {chance}%, 랜덤: {randomValue:F1})");
+                        //Debug.Log($"✗ {enchantName} 인챈트 미발동 (레벨: {enchantmentLevels[i]}, 확률: {chance}%, 랜덤: {randomValue:F1})");
                     }
                 }
             }

@@ -40,7 +40,7 @@ public class PlayerStats : MonoBehaviour
     private float vampireHealPercent = 0.5f; // 흡혈 회복량 (공격력의 %)
     private float dodgeChance = 0f; // 회피 확률 (0~1)
     private float shadowCooldown = 0f; // 그림자 은신 쿨타임 (레벨별: 10/9/7/5/2초)
-    private float shadowInvincibilityDuration = 0.2f; // 그림자 은신 무적 지속 시간
+    private float shadowInvincibilityDuration = 0.05f; // 그림자 은신 무적 지속 시간 (버그 방지를 위해 0.2초 → 0.05초로 감소)
     private float nextShadowTime = 0f; // 다음 그림자 은신 발동 시간
     private float shadowInvincibilityEndTime = 0f; // 그림자 은신 무적 종료 시간
     private bool hasRage = false; // 분노 보유 여부
@@ -62,6 +62,22 @@ public class PlayerStats : MonoBehaviour
     private bool hasElementalMastery = false; // 속성 공격 보유 여부
     private int elementalMasteryAttackCount = 0; // 속성 공격 카운터 (10번째마다 발동)
     private const int ELEMENTAL_MASTERY_TRIGGER = 10; // 10번째 공격마다 발동
+    
+    private bool hasDeathBreath = false; // 죽음의 숨결 보유 여부
+    private float deathBreathChance = 0.1f; // 죽음의 숨결 발동 확률 (10%)
+    private float deathBreathDuration = 3f; // 죽음의 숨결 지속 시간 (3초)
+    private float deathBreathSpeedBonus = 0.3f; // 죽음의 숨결 속도 증가 (30%)
+    private float deathBreathEndTime = 0f; // 죽음의 숨결 버프 종료 시간
+    private bool isDeathBreathActive = false; // 죽음의 숨결 버프 활성 여부
+    
+    private bool hasFrozenExplosion = false; // 빙결폭발 보유 여부
+    private float frozenExplosionDamageMultiplier = 2.0f; // 빙결폭발 데미지 배율 (200%)
+    
+    private bool hasContagion = false; // 전염 보유 여부
+    private float contagionChance = 0.05f; // 전염 발동 확률 (5%)
+
+    [Header("Victory State")]
+    private float victoryInvincibilityEndTime = 0f; // 승리 무적 종료 시간 (스테이지 클리어 시)
 
     [Header("Collision Damage")]
     [SerializeField] private float damageTickCooldown = 1.0f; // 1초에 한 번씩만 겹침 데미지를 받음
@@ -162,6 +178,45 @@ public class PlayerStats : MonoBehaviour
             }
         }
         
+        // 죽음의 숨결 버프 종료 체크
+        if (isDeathBreathActive && Time.time >= deathBreathEndTime)
+        {
+            DeactivateDeathBreath();
+        }
+        
+        // 무적 상태에 따라 투명도 조정
+        UpdateInvincibilityVisual();
+        
+        // ===== 치트키: 그림자 은신 테스트 (F1) =====
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            Debug.Log("===== [치트키] 그림자 은신 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(18); // 그림자 은신 능력 ID = 18
+        }
+
+        // ===== 치트키: 흡혈 테스트 (F2) =====
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            Debug.Log("===== [치트키] 흡혈 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(4); // 흡혈 능력 ID = 4
+        }
+        
         // ===== 치트키: 응축된 공격 테스트 (F5) =====
         if (Input.GetKeyDown(KeyCode.F5))
         {
@@ -169,11 +224,11 @@ public class PlayerStats : MonoBehaviour
             AcquireAbility(3); // 응축된 공격 ID = 3
         }
 
-        // ===== 치트키: 흡혈 테스트 (F6) =====
+        // ===== 치트키: 흡혈 100% 강제 설정 (F6) - 디버그용 =====
         if (Input.GetKeyDown(KeyCode.F6))
         {
-            SetVampireChance(1.0f); // 100% 확률 흡혈
-            Debug.Log("===== [치트키] 흡혈 100% 적용 (확률: 100%, 회복량: 공격력의 50%) =====");
+            SetVampireChance(1.0f); // 100% 확률 흡혈 (능력 없이 강제 설정)
+            Debug.Log("===== [치트키] 흡혈 100% 강제 적용 (확률: 100%, 회복량: 공격력의 50%) =====");
         }
 
         // ===== 치트키: 방패 소환 테스트 (F7) =====
@@ -296,6 +351,81 @@ public class PlayerStats : MonoBehaviour
             AcquireAbility(9); // 속성 공격 능력 ID = 9
         }
 
+        // ===== 치트키: 탐지 능력 테스트 (End) =====
+        if (Input.GetKeyDown(KeyCode.End))
+        {
+            Debug.Log("===== [치트키] 탐지 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(14); // 탐지 능력 ID = 14
+        }
+
+        // ===== 치트키: 죽음의 숨결 테스트 (PageDown) =====
+        if (Input.GetKeyDown(KeyCode.PageDown))
+        {
+            Debug.Log("===== [치트키] 죽음의 숨결 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(26); // 죽음의 숨결 능력 ID = 26
+        }
+
+        // ===== 치트키: 빙결폭발 테스트 (PageUp) =====
+        if (Input.GetKeyDown(KeyCode.PageUp))
+        {
+            Debug.Log("===== [치트키] 빙결폭발 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(27); // 빙결폭발 능력 ID = 27
+        }
+        
+        // ===== 치트키: 전염 테스트 (F4) =====
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            Debug.Log("===== [치트키] 전염 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(25); // 전염 능력 ID = 25
+        }
+        
+        // ===== 치트키: 운빨 테스트 (ScrollLock) =====
+        if (Input.GetKeyDown(KeyCode.ScrollLock))
+        {
+            Debug.Log("===== [치트키] 운빨 능력 습득 시도 =====");
+            
+            // AbilitySystem이 있는지 확인
+            if (abilitySystem == null)
+            {
+                Debug.LogError("[치트키] AbilitySystem이 없습니다!");
+                return;
+            }
+            
+            AcquireAbility(28); // 운빨 능력 ID = 28
+        }
+
         // ===== 치트키: 인챈트 레벨 조정 =====
         // Numpad 1: 불 인챈트 레벨 +1
         if (Input.GetKeyDown(KeyCode.Keypad1))
@@ -415,7 +545,14 @@ public class PlayerStats : MonoBehaviour
     {
         if (playerCurHP <= 0) return;
 
-        // 불굴의 의지 무적 체크 (최우선)
+        // 승리 무적 체크 (최우선)
+        if (Time.time < victoryInvincibilityEndTime)
+        {
+            Debug.Log("승리 무적 상태! 공격 무효화");
+            return;
+        }
+
+        // 불굴의 의지 무적 체크
         if (Time.time < lastStandInvincibilityEndTime)
         {
             Debug.Log("불굴의 의지 무적 상태! 공격 무효화");
@@ -706,7 +843,7 @@ public class PlayerStats : MonoBehaviour
         {
             // 그림자 은신 활성화 시 즉시 첫 발동
             nextShadowTime = Time.time + cooldown;
-            Debug.Log($"그림자 은신 활성화! {cooldown}초마다 0.2초 무적");
+            Debug.Log($"그림자 은신 활성화! {cooldown}초마다 0.05초 무적");
         }
     }
 
@@ -714,6 +851,13 @@ public class PlayerStats : MonoBehaviour
     {
         shadowInvincibilityEndTime = Time.time + shadowInvincibilityDuration;
         Debug.Log($"그림자 은신 발동! {shadowInvincibilityDuration}초간 무적");
+    }
+
+    // ★ 스테이지 클리어 시 플레이어에게 무적 시간 부여 (보상 수집용)
+    public void SetVictoryInvincibility(float duration)
+    {
+        victoryInvincibilityEndTime = Time.time + duration;
+        Debug.Log($"[승리 무적] {duration}초간 모든 공격 무효화");
     }
 
     public void SetRage(bool enabled)
@@ -855,6 +999,7 @@ public class PlayerStats : MonoBehaviour
     {
         Debug.Log($"[흡혈 체크] 공격력: {attackDamage:F1}, 흡혈 확률: {vampireChance * 100:F1}%, 현재 체력: {playerCurHP:F1}/{playerMaxHP:F1}");
 
+        // 흡혈 처리
         if (vampireChance > 0)
         {
             float randomValue = UnityEngine.Random.value;
@@ -874,6 +1019,32 @@ public class PlayerStats : MonoBehaviour
         {
             Debug.Log("[흡혈] 흡혈 확률이 0이므로 발동하지 않음");
         }
+        
+        // 죽음의 숨결 처리
+        if (hasDeathBreath)
+        {
+            float randomValue = UnityEngine.Random.value;
+            Debug.Log($"[죽음의 숨결 체크] 랜덤값: {randomValue:F3}, 필요값: {deathBreathChance:F3}");
+            
+            if (randomValue < deathBreathChance)
+            {
+                ActivateDeathBreath();
+            }
+        }
+    }
+
+    // 현재 총 공격력 계산 (무기 기본 공격력 × 모든 배율)
+    public float GetTotalDamage()
+    {
+        // 무기 찾기
+        WeaponBase weapon = GetComponentInChildren<WeaponBase>();
+        if (weapon != null)
+        {
+            return weapon.GetTotalDamage();
+        }
+        
+        // 무기가 없으면 기본 공격력만 반환 (10 × 배율)
+        return 10f * GetAttackDamageMultiplier();
     }
 
     // 장비 보너스 적용 시스템 
@@ -1049,6 +1220,10 @@ public class PlayerStats : MonoBehaviour
         hasEliteKiller = false;
         hasElementalMastery = false;
         elementalMasteryAttackCount = 0;
+        hasDeathBreath = false;
+        isDeathBreathActive = false;
+        deathBreathEndTime = 0f;
+        hasFrozenExplosion = false;
         
         // 3. 디버그 플래그 초기화
         debugShowRage = false;
@@ -1159,7 +1334,132 @@ public class PlayerStats : MonoBehaviour
     
     // 속성 공격 보유 여부 확인
     public bool HasElementalMastery() => hasElementalMastery;
+    
+    // ===== 죽음의 숨결 (Death Breath) 관련 함수 =====
+    
+    // 죽음의 숨결 능력 활성화
+    public void SetDeathBreath(bool active)
+    {
+        hasDeathBreath = active;
+        Debug.Log($"[PlayerStats] 죽음의 숨결 능력 {(active ? "활성화" : "비활성화")}");
+    }
+    
+    // 죽음의 숨결 버프 활성화 (적 처치 시 10% 확률로 발동)
+    private void ActivateDeathBreath()
+    {
+        // 버프 활성화 또는 시간 갱신
+        if (isDeathBreathActive)
+        {
+            // 이미 활성화된 경우 시간만 갱신
+            deathBreathEndTime = Time.time + deathBreathDuration;
+            Debug.Log($"★ [죽음의 숨결] 버프 시간 갱신! (3초 연장)");
+        }
+        else
+        {
+            // 새로 활성화
+            isDeathBreathActive = true;
+            deathBreathEndTime = Time.time + deathBreathDuration;
+            
+            // 공격속도와 이동속도 30% 증가 적용
+            attackSpeedMultiplier += deathBreathSpeedBonus;
+            moveSpeedMultiplier += deathBreathSpeedBonus;
+            
+            Debug.Log($"★★★ [죽음의 숨결] 버프 발동! 공격속도/이동속도 +30% (3초간)");
+            Debug.Log($"[죽음의 숨결] 공격속도: {attackSpeedMultiplier:F2}, 이동속도: {moveSpeedMultiplier:F2}");
+        }
+    }
+    
+    // 죽음의 숨결 버프 비활성화
+    private void DeactivateDeathBreath()
+    {
+        if (!isDeathBreathActive) return;
+        
+        isDeathBreathActive = false;
+        
+        // 공격속도와 이동속도 30% 증가 해제
+        attackSpeedMultiplier -= deathBreathSpeedBonus;
+        moveSpeedMultiplier -= deathBreathSpeedBonus;
+        
+        Debug.Log($"[죽음의 숨결] 버프 종료. 공격속도: {attackSpeedMultiplier:F2}, 이동속도: {moveSpeedMultiplier:F2}");
+    }
+    
+    // 죽음의 숨결 보유 여부 확인
+    public bool HasDeathBreath() => hasDeathBreath;
+    
+    // 죽음의 숨결 버프 활성 여부 확인
+    public bool IsDeathBreathActive() => isDeathBreathActive;
+    
+    // ===== 빙결폭발 (Frozen Explosion) 관련 함수 =====
+    
+    // 빙결폭발 능력 활성화
+    public void SetFrozenExplosion(bool active)
+    {
+        hasFrozenExplosion = active;
+        Debug.Log($"[PlayerStats] 빙결폭발 능력 {(active ? "활성화" : "비활성화")}");
+    }
+    
+    // 빙결폭발 보유 여부 확인
+    public bool HasFrozenExplosion() => hasFrozenExplosion;
+    
+    // 빙결폭발 데미지 계산 (현재 공격력 × 200%)
+    public float GetFrozenExplosionDamage()
+    {
+        return GetTotalDamage() * frozenExplosionDamageMultiplier;
+    }
+    
+    // 전염 능력 설정
+    public void SetContagion(bool value)
+    {
+        hasContagion = value;
+        Debug.Log($"[PlayerStats] 전염 능력 설정: {value}");
+    }
+    
+    // 전염 보유 여부 확인
+    public bool HasContagion() => hasContagion;
+    
+    // 전염 발동 확률 확인
+    public float GetContagionChance() => contagionChance;
+    
+    // ===== 무적 상태 시각화 (Invincibility Visual) =====
+    
+    // 무적 상태 확인 (그림자 은신, 불굴의 의지, 일반 피격 무적)
+    private bool IsInvincible()
+    {
+        // 그림자 은신 무적
+        if (Time.time < shadowInvincibilityEndTime)
+            return true;
+        
+        // 불굴의 의지 무적
+        if (Time.time < lastStandInvincibilityEndTime)
+            return true;
+        
+        // 일반 피격 무적
+        if (Time.time - lastHitTime < invincibilityDuration)
+            return true;
+        
+        return false;
+    }
+    
+    // 무적 상태에 따라 플레이어 투명도 조정 (깜빡임 효과)
+    private void UpdateInvincibilityVisual()
+    {
+        if (playerSprite == null) return;
+        
+        Color color = playerSprite.color;
+        
+        if (IsInvincible())
+        {
+            // 무적 상태: 깜빡임 효과 (0.1초마다 alpha 0.3 ↔ 1.0 전환)
+            float blinkCycle = Time.time % 0.2f; // 0.2초 주기
+            color.a = (blinkCycle < 0.1f) ? 0.3f : 1.0f;
+        }
+        else
+        {
+            // 일반 상태: 불투명 (알파 1.0)
+            color.a = 1.0f;
+        }
+        
+        playerSprite.color = color;
+    }
 
 }
-
-

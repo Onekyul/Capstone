@@ -56,18 +56,14 @@ public class SwordWeapon : WeaponBase
             {
                 if (enemy != null)
                 {
-                    // 인챈트 적용 계산
-                    int[] appliedEnchants = CalculateAppliedEnchants();
-
-                    // 인챈트가 적용되었다면 TakeElement 호출
-                    enemy.GetComponent<MonsterController>()?.TakeElement(appliedEnchants);
+                    MonsterController monster = enemy.GetComponent<MonsterController>();
+                    if (monster == null) continue;
 
                     // 최종 데미지 계산
                     float finalDamage = GetTotalDamage();
                     
                     // 엘리트 킬러 능력 적용
-                    MonsterController monster = enemy.GetComponent<MonsterController>();
-                    if (monster != null && playerStats != null)
+                    if (playerStats != null)
                     {
                         MonsterType monsterType = monster.GetMonsterType();
                         float monsterTypeMultiplier = playerStats.GetMonsterTypeDamageMultiplier(monsterType);
@@ -82,8 +78,12 @@ public class SwordWeapon : WeaponBase
                     // 디버그 로그 출력
                     Debug.Log($"[검 공격] 기본 공격력: {baseDamage}, 최종 공격력: {finalDamage:F1}, 적: {enemy.name}");
                     
-                    // 기본 데미지 적용
-                    enemy.GetComponent<MonsterController>()?.TakeDamage(finalDamage);
+                    // ★ 순서 중요: 먼저 데미지 적용 (storedLastDamage 설정)
+                    monster.TakeDamage(finalDamage);
+                    
+                    // ★ 그 다음 인챈트 적용 (storedLastDamage 기반 계산)
+                    int[] appliedEnchants = CalculateAppliedEnchants();
+                    monster.TakeElement(appliedEnchants);
                 }
             }
 

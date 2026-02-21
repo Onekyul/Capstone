@@ -333,12 +333,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -738572095297613877, guid: b13d23c2f1ac0184d91e8232cfdebe35, type: 3}
+  m_Sprite: {fileID: 1212418913144116680, guid: b13d23c2f1ac0184d91e8232cfdebe35, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.95, y: 4.13}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -382,8 +382,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.93, y: 6.76}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 3.95, y: 4.13}
+    newSize: {x: 3.95, y: 4.13}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -431,18 +431,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterType: 0
   contactDamage: 5
-  MaxHP: 70
+  MaxHP: 30
   CurHP: 0
-  defaultMoveSpeed: 1
+  moveSpeed: 2
   poolTag: Big
-  expJewelPrefab: {fileID: -5577271535738719069, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
+  expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
   usePooling: 1
   hpSlider: {fileID: 6768769806740092862}
-  lightningFieldPrefab: {fileID: 4767905910849374279, guid: 297f71522dc1b3c4497e60d2cd7ff014, type: 3}
+  lightningFieldPrefab: {fileID: 0}
   burnEffectObject: {fileID: 4563594035020285612}
   poisonEffectObject: {fileID: 1833419039739331658}
+  storedLastDamage: 0
   eliteChestPrefab: {fileID: -7302594443989870516, guid: ace7d39784493df4692014cc8d62bfb3, type: 3}
-  moveSpeed: 0.00001
   IsElite: 0
   eliteSpawnChance: 5
 --- !u!1 &4563594035020285612
@@ -680,7 +680,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: -4.17}
-  m_SizeDelta: {x: 489.42856, y: 275}
+  m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3628643926856135545
 Canvas:

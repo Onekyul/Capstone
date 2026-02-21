@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Ability_Spear
   m_EditorClassIdentifier: 
   abilityID: 21
-  abilityName: 
-  description: 
+  abilityName: "\uC8FD\uCC3D"
+  description: "\uCD5C\uB300\uCCB4\uB825 99% \uAC10\uC18C. \uACF5\uACA9\uB825 1000%\uB85C
+    \uC99D\uAC00"
   icon: {fileID: 0}
   abilityType: 0
   canStack: 0

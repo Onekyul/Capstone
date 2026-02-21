@@ -330,10 +330,10 @@ TextureImporter:
         \uAE30\uB3D9-Photoroom_3"
       rect:
         serializedVersion: 2
-        x: 170
-        y: 736
-        width: 70
-        height: 70
+        x: 172
+        y: 738
+        width: 65
+        height: 66
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -399,10 +399,10 @@ TextureImporter:
         \uAE30\uB3D9-Photoroom_6"
       rect:
         serializedVersion: 2
-        x: 312
-        y: 663
-        width: 69
-        height: 74
+        x: 314
+        y: 668
+        width: 65
+        height: 65
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -583,10 +583,10 @@ TextureImporter:
         \uAE30\uB3D9-Photoroom_14"
       rect:
         serializedVersion: 2
-        x: 100
-        y: 525
-        width: 68
-        height: 69
+        x: 102
+        y: 527
+        width: 64
+        height: 63
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -652,10 +652,10 @@ TextureImporter:
         \uAE30\uB3D9-Photoroom_17"
       rect:
         serializedVersion: 2
-        x: 28
-        y: 311
-        width: 70
-        height: 212
+        x: 30
+        y: 455
+        width: 65
+        height: 65
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -698,10 +698,10 @@ TextureImporter:
         \uAE30\uB3D9-Photoroom_19"
       rect:
         serializedVersion: 2
-        x: 240
-        y: 312
-        width: 71
-        height: 210
+        x: 243
+        y: 315
+        width: 65
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -813,10 +813,10 @@ TextureImporter:
         \uAE30\uB3D9-Photoroom_24"
       rect:
         serializedVersion: 2
-        x: 382
-        y: 312
-        width: 70
-        height: 71
+        x: 243
+        y: 455
+        width: 65
+        height: 65
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -882,10 +882,10 @@ TextureImporter:
         \uAE30\uB3D9-Photoroom_27"
       rect:
         serializedVersion: 2
-        x: 99
-        y: 240
-        width: 69
-        height: 69
+        x: 101
+        y: 243
+        width: 65
+        height: 65
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -997,10 +997,10 @@ TextureImporter:
         \uAE30\uB3D9-Photoroom_32"
       rect:
         serializedVersion: 2
-        x: 99
-        y: 28
-        width: 70
-        height: 142
+        x: 101
+        y: 30
+        width: 65
+        height: 66
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1043,10 +1043,10 @@ TextureImporter:
         \uAE30\uB3D9-Photoroom_34"
       rect:
         serializedVersion: 2
-        x: 312
-        y: 97
-        width: 68
-        height: 72
+        x: 314
+        y: 102
+        width: 64
+        height: 63
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1135,10 +1135,10 @@ TextureImporter:
         \uAE30\uB3D9-Photoroom_38"
       rect:
         serializedVersion: 2
-        x: 311
-        y: 28
-        width: 70
-        height: 71
+        x: 313
+        y: 30
+        width: 66
+        height: 66
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1158,10 +1158,10 @@ TextureImporter:
         \uAE30\uB3D9-Photoroom_39"
       rect:
         serializedVersion: 2
-        x: 29
-        y: 29
-        width: 68
-        height: 69
+        x: 32
+        y: 32
+        width: 62
+        height: 62
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1172,6 +1172,29 @@ TextureImporter:
       bones: []
       spriteID: 6c019280be93d7300800000000000000
       internalID: 251420835819622598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\uC751\uCD95\uB41C \uACF5\uACA9, \uC9C8\uC8FC, \uC8FD\uCC3D, \uD68C\uD53C
+        \uAE30\uB3D9-Photoroom_40"
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 455
+        width: 64
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5682383279a94c21ad8da2ae9be565a
+      internalID: 5484965
       vertices: []
       indices: 
       edges: []
@@ -1225,6 +1248,7 @@ TextureImporter:
       "\uC751\uCD95\uB41C \uACF5\uACA9, \uC9C8\uC8FC, \uC8FD\uCC3D, \uD68C\uD53C \uAE30\uB3D9-Photoroom_38": 6972713500265549419
       "\uC751\uCD95\uB41C \uACF5\uACA9, \uC9C8\uC8FC, \uC8FD\uCC3D, \uD68C\uD53C \uAE30\uB3D9-Photoroom_39": 251420835819622598
       "\uC751\uCD95\uB41C \uACF5\uACA9, \uC9C8\uC8FC, \uC8FD\uCC3D, \uD68C\uD53C \uAE30\uB3D9-Photoroom_4": 4364046622663887132
+      "\uC751\uCD95\uB41C \uACF5\uACA9, \uC9C8\uC8FC, \uC8FD\uCC3D, \uD68C\uD53C \uAE30\uB3D9-Photoroom_40": 5484965
       "\uC751\uCD95\uB41C \uACF5\uACA9, \uC9C8\uC8FC, \uC8FD\uCC3D, \uD68C\uD53C \uAE30\uB3D9-Photoroom_5": 1200160027700439814
       "\uC751\uCD95\uB41C \uACF5\uACA9, \uC9C8\uC8FC, \uC8FD\uCC3D, \uD68C\uD53C \uAE30\uB3D9-Photoroom_6": -5422646705884404320
       "\uC751\uCD95\uB41C \uACF5\uACA9, \uC9C8\uC8FC, \uC8FD\uCC3D, \uD68C\uD53C \uAE30\uB3D9-Photoroom_7": 777697448184621358
