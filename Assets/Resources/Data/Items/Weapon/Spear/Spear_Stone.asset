@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64c660a6774105149aeb178ea5565fe2, type: 3}
-  m_Name: bow_Wood
+  m_Name: Spear_Stone
   m_EditorClassIdentifier: 
-  weaponId: bow_wood
-  weaponName: "\uB098\uBB34 \uD65C"
-  description: "\uAE30\uBCF8\uC801\uC778 \uB098\uBB34 \uD65C\uC774\uB2E4."
-  icon: {fileID: 2599369073923865350, guid: 6191a2dce5930ce4a927d49f243e8ba6, type: 3}
-  baseAtk: 7
-  atkPerLevel: 1
-  upgradeTable: {fileID: 11400000, guid: e646acbd791b3a24c9ae684b7f0f4d67, type: 2}
+  weaponId: spear_stone
+  weaponName: "\uB3CC \uCC3D"
+  description: "\uB2E8\uB2E8\uD55C \uB3CC \uCC3D\uC774\uB2E4."
+  icon: {fileID: 3805019278545810699, guid: 6191a2dce5930ce4a927d49f243e8ba6, type: 3}
+  baseAtk: 20
+  atkPerLevel: 3
+  upgradeTable: {fileID: 11400000, guid: a7b3f1c999499dc4ea9a2b259ed3aee6, type: 2}

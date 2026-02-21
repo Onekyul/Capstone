@@ -10,36 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30b5b07b3bdaf6345a3504d92a8e7af1, type: 3}
-  m_Name: Upgrade_Bow_wood
+  m_Name: Upgrade_Bow_Diamond
   m_EditorClassIdentifier: 
   steps:
   - successRate: 100
-    requiredMaterial: {fileID: 11400000, guid: ad7a8e1991b266649b180d0f3a319f05, type: 2}
+    requiredMaterial: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
     materialCount: 5
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}
   - successRate: 80
-    requiredMaterial: {fileID: 11400000, guid: ad7a8e1991b266649b180d0f3a319f05, type: 2}
+    requiredMaterial: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
     materialCount: 10
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}
-  - successRate: 70
-    requiredMaterial: {fileID: 11400000, guid: ad7a8e1991b266649b180d0f3a319f05, type: 2}
+  - successRate: 60
+    requiredMaterial: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
     materialCount: 15
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}
-  - successRate: 60
-    requiredMaterial: {fileID: 11400000, guid: ad7a8e1991b266649b180d0f3a319f05, type: 2}
+  - successRate: 40
+    requiredMaterial: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
     materialCount: 20
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}
-  - successRate: 50
-    requiredMaterial: {fileID: 11400000, guid: ad7a8e1991b266649b180d0f3a319f05, type: 2}
-    materialCount: 30
+  - successRate: 20
+    requiredMaterial: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
+    materialCount: 25
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}
-  - successRate: 100
-    requiredMaterial: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
-    materialCount: 5
-    nextTierWeapon: {fileID: 11400000, guid: 9f4b569d08fec8e4690b4bf1436e7ab2, type: 2}
+  - successRate: 5
+    requiredMaterial: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
+    materialCount: 30
+    nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}

@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64c660a6774105149aeb178ea5565fe2, type: 3}
-  m_Name: bow_Wood
+  m_Name: bow_Iron
   m_EditorClassIdentifier: 
-  weaponId: bow_wood
-  weaponName: "\uB098\uBB34 \uD65C"
-  description: "\uAE30\uBCF8\uC801\uC778 \uB098\uBB34 \uD65C\uC774\uB2E4."
+  weaponId: bow_iron
+  weaponName: "\uCCA0 \uD65C"
+  description: "\uC815\uBC00\uD55C \uC870\uC900\uC774 \uAC00\uB2A5\uD574\uC9C4 \uCCA0
+    \uD65C\uC774\uB2E4."
   icon: {fileID: 2599369073923865350, guid: 6191a2dce5930ce4a927d49f243e8ba6, type: 3}
-  baseAtk: 7
-  atkPerLevel: 1
-  upgradeTable: {fileID: 11400000, guid: e646acbd791b3a24c9ae684b7f0f4d67, type: 2}
+  baseAtk: 30
+  atkPerLevel: 3
+  upgradeTable: {fileID: 11400000, guid: 1e701f738bd6d7a428810fbbbb364f15, type: 2}

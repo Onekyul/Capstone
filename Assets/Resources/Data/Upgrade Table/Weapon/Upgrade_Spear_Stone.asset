@@ -10,36 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30b5b07b3bdaf6345a3504d92a8e7af1, type: 3}
-  m_Name: Upgrade_Bow_wood
+  m_Name: Upgrade_Spear_Stone
   m_EditorClassIdentifier: 
   steps:
   - successRate: 100
-    requiredMaterial: {fileID: 11400000, guid: ad7a8e1991b266649b180d0f3a319f05, type: 2}
+    requiredMaterial: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
     materialCount: 5
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}
-  - successRate: 80
-    requiredMaterial: {fileID: 11400000, guid: ad7a8e1991b266649b180d0f3a319f05, type: 2}
+  - successRate: 85
+    requiredMaterial: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
     materialCount: 10
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}
   - successRate: 70
-    requiredMaterial: {fileID: 11400000, guid: ad7a8e1991b266649b180d0f3a319f05, type: 2}
+    requiredMaterial: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
     materialCount: 15
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}
-  - successRate: 60
-    requiredMaterial: {fileID: 11400000, guid: ad7a8e1991b266649b180d0f3a319f05, type: 2}
+  - successRate: 55
+    requiredMaterial: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
     materialCount: 20
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}
-  - successRate: 50
-    requiredMaterial: {fileID: 11400000, guid: ad7a8e1991b266649b180d0f3a319f05, type: 2}
-    materialCount: 30
+  - successRate: 40
+    requiredMaterial: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
+    materialCount: 25
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}
   - successRate: 100
-    requiredMaterial: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
+    requiredMaterial: {fileID: 11400000, guid: 09c59735580579f448ec6c4a7a9351d8, type: 2}
     materialCount: 5
-    nextTierWeapon: {fileID: 11400000, guid: 9f4b569d08fec8e4690b4bf1436e7ab2, type: 2}
+    nextTierWeapon: {fileID: 11400000, guid: 9478635cc6abc3544b0563db9cdf3b2e, type: 2}
     nextTierArmor: {fileID: 0}
