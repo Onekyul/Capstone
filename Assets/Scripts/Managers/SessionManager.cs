@@ -13,7 +13,7 @@ public class SessionManager : MonoBehaviour
     public string Nickname { get; private set; }
     public int MaxClearedStage { get; private set; }
     
-    private string baseUrl = "http://localhost:7001/api"; 
+    private string baseUrl = "http://localhost:7200/api"; 
 
     void Awake()
     {

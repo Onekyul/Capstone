@@ -33,7 +33,7 @@ public class ChatManager : MonoBehaviour
         // 엔터
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
-            if (!inputField.gameObject.activeSelf)
+            if (inputField.gameObject.activeSelf == false)
             {
                 OpenChatInput();
             }

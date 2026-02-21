@@ -13,8 +13,9 @@ public class DataManager : MonoBehaviour
     
     // 게임 데이터 관련 API 주소
     private string baseUrl = "http://localhost:7200/api/Game"; 
-
-    // ★ [핵심 연결] 내 ID는 SessionManager한테 물어봄
+    //강화 관련 API 주소
+    private string upgradeUrl = "http://localhost:7200/api/Upgrade/attempt";
+    
     public int MyUserId => SessionManager.Instance != null ? SessionManager.Instance.UserId : 0;
 
     void Awake()
@@ -114,7 +115,7 @@ public class DataManager : MonoBehaviour
     }
 
     // ==================================================================================
-    // [Mapping] 데이터 변환 및 헬퍼 함수들 (기존 코드 유지)
+    // [Mapping] 데이터 변환 및 헬퍼 함수들 
     // ==================================================================================
     
     private UnityWebRequest CreatePostRequest(string url, string json)
@@ -126,8 +127,7 @@ public class DataManager : MonoBehaviour
         req.SetRequestHeader("Content-Type", "application/json");
         return req;
     }
-
-    // --- 아래부터는 보내주신 인벤토리/장비 로직과 동일 ---
+    
 
     private void ApplyServerDataToLocal(GameDataDto serverData)
     {
@@ -358,40 +358,90 @@ public class DataManager : MonoBehaviour
         else if (level > 0) currentPlayer.unlockedEnchants.Add(new EnchantState(id, level));
         SaveGame();
     }
+    
+    // ==================================================================================
+    // 서버 통신 공통 함수 
+    // ==================================================================================
+    private IEnumerator CoSendUpgradeRequest(string targetId, string matInfo, float successRate, Action<bool, string> onComplete)
+    {
+        // 서버로 보낼 DTO
+        var reqDto = new UpgradeReqDto
+        {
+            userId = MyUserId,
+            targetId = targetId,
+            materialInfo = matInfo,
+            successRate = successRate
+        };
 
-    public bool TryUpgradeItem(string id)
+        string json = JsonUtility.ToJson(reqDto);
+
+        using (UnityWebRequest req = CreatePostRequest(upgradeUrl, json))
+        {
+            yield return req.SendWebRequest();
+
+            if (req.result == UnityWebRequest.Result.Success)
+            {
+                var resDto = JsonUtility.FromJson<UpgradeResDto>(req.downloadHandler.text);
+                onComplete?.Invoke(resDto.success, resDto.message);
+            }
+            else
+            {
+                Debug.LogError($"[통신 에러] {req.error}");
+                onComplete?.Invoke(false, "서버 통신 실패");
+            }
+        }
+    }
+    
+    
+    
+
+    public void TryUpgradeItem(string id, Action<bool, string> onComplete)
     {
         UpgradeTable table = null;
         string itemName = "";
         WeaponData wData = GetWeaponData(id);
+        
         if (wData != null) { table = wData.upgradeTable; itemName = wData.weaponName; }
         else {
             ArmorData aData = GetArmorData(id);
             if (aData != null) { table = aData.upgradeTable; itemName = aData.armorName; }
         }
         
-        if (table == null) return false;
+        if (table == null) { onComplete?.Invoke(false, "강화 데이터를 찾을 수 없습니다."); return; }
         
         int currentLevel = GetItemLevel(id);
         var nextStep = table.GetNextStep(currentLevel);
-        if (nextStep == null) return false;
+        if (nextStep == null) { onComplete?.Invoke(false, "최대 레벨입니다."); return; }
         
         string matId = nextStep.requiredMaterial.itemId;
         int matCount = nextStep.materialCount;
 
-        if (!HasInventory(matId, matCount)) return false;
-        UseInventory(matId, matCount);
-        
-        int randomVal = UnityEngine.Random.Range(0, 100);
-        if (randomVal < nextStep.successRate)
-        {
-            ApplyLevelUpInternal(id);
-            Debug.Log($"[강화 성공] {itemName} (+{currentLevel + 1})");
-        }
-        else Debug.Log($"[강화 실패] {itemName}...");
+        // 1. 로컬 인벤토리 검증
+        if (!HasInventory(matId, matCount)) { onComplete?.Invoke(false, "재료가 부족합니다."); return; }
 
-        SaveGame(); 
-        return true;
+        // 2. 서버 통신 (확률을 0.0 ~ 1.0 형태로 변환해서 보냄)
+        float rate = nextStep.successRate / 100f; 
+        string matInfo = $"{matId} {matCount}개";
+
+        StartCoroutine(CoSendUpgradeRequest(id, matInfo, rate, (isSuccess, msg) => 
+        {
+            // 통신이 끝난 후 무조건 재료 깎음
+            UseInventory(matId, matCount);
+
+            if (isSuccess) 
+            {
+                ApplyLevelUpInternal(id);
+                Debug.Log($"[강화 성공] {itemName} (+{currentLevel + 1})");
+            }
+            else 
+            {
+                Debug.Log($"[강화 실패] {itemName}...");
+            }
+
+            // ★ 결과 적용 후 한 번만 SaveGame 호출 (인벤토리 깎인 거 + 레벨업 덮어쓰기)
+            SaveGame(); 
+            onComplete?.Invoke(isSuccess, msg);
+        }));
     }
     
     private void ApplyLevelUpInternal(string id)
@@ -409,32 +459,51 @@ public class DataManager : MonoBehaviour
         return slot != null ? slot.count : 0;
     }
     
-    public bool TryEnhanceEnchant(string enchantId)
+    public void TryEnhanceEnchant(string enchantId, Action<bool, string> onComplete)
     {
         EnchantData data = GetEnchantData(enchantId);
-        if (data == null) return false;
+        if (data == null) { onComplete?.Invoke(false, "인챈트 정보 없음"); return; }
+        
         int currentLevel = GetEnchantLevel(enchantId);
         var nextStep = data.GetNextLevelInfo(currentLevel);
-        if (nextStep == null) return false;
+        if (nextStep == null) { onComplete?.Invoke(false, "최대 레벨"); return; }
         
+        // 1. 로컬 인벤토리 검증 (필요한 재료가 여러 개일 수 있으니 모두 검사)
         foreach (var matCost in nextStep.requiredMaterials)
         {
-            if (!HasInventory(matCost.material.itemId, matCost.count)) return false;
-        }
-        foreach (var matCost in nextStep.requiredMaterials)
-        {
-            UseInventory(matCost.material.itemId, matCost.count);
+            if (!HasInventory(matCost.material.itemId, matCost.count)) 
+            {
+                onComplete?.Invoke(false, "재료가 부족합니다."); 
+                return;
+            }
         }
         
-        int randomVal = UnityEngine.Random.Range(0, 100);
-        if (randomVal < nextStep.successRate)
+        // 2. 서버 통신 세팅
+        float rate = nextStep.successRate / 100f;
+        string matInfo = "인챈트 재료 묶음"; // 로그용 텍스트
+        
+        StartCoroutine(CoSendUpgradeRequest(enchantId, matInfo, rate, (isSuccess, msg) => 
         {
-            ApplyEnchantLevelUp(enchantId);
-            Debug.Log($"[인챈트 성공] {data.enchantName}");
-        }
-        else Debug.Log($"[인챈트 실패] {data.enchantName}");
-        SaveGame();
-        return true; 
+            // 통신 끝난 후 모든 재료 차감
+            foreach (var matCost in nextStep.requiredMaterials)
+            {
+                UseInventory(matCost.material.itemId, matCost.count);
+            }
+
+            if (isSuccess)
+            {
+                ApplyEnchantLevelUp(enchantId);
+                Debug.Log($"[인챈트 성공] {data.enchantName}");
+            }
+            else
+            {
+                Debug.Log($"[인챈트 실패] {data.enchantName}");
+            }
+
+            // ★ 통신 끝난 후 최종 저장
+            SaveGame();
+            onComplete?.Invoke(isSuccess, msg);
+        }));
     }
 
     private void ApplyEnchantLevelUp(string id)
