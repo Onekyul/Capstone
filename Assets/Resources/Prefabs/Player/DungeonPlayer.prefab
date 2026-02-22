@@ -484,13 +484,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4290561966624896383}
   - component: {fileID: 7057338916876114614}
-  - component: {fileID: 2126374172003346761}
   - component: {fileID: 8747429518043073597}
   - component: {fileID: 1046453727987771879}
-  - component: {fileID: -6604301485312488701}
   - component: {fileID: 8792204095440606446}
   - component: {fileID: 4528597527204146618}
   - component: {fileID: 3286070687836205066}
+  - component: {fileID: 183060452402679233}
+  - component: {fileID: 5657272956302389283}
   m_Layer: 8
   m_Name: DungeonPlayer
   m_TagString: Player
@@ -577,22 +577,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2126374172003346761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4567137353947876526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c0cb60f25a15bb4a86be00086f978e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSpeed: 4
-  movementInput: {x: 0, y: 0}
-  attackManager: {fileID: 0}
-  spriteRenderer: {fileID: 0}
 --- !u!50 &8747429518043073597
 Rigidbody2D:
   serializedVersion: 5
@@ -656,35 +640,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.43713564
---- !u!114 &-6604301485312488701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4567137353947876526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc435803fd893524aa1067db3ce82564, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSprite: {fileID: 0}
-  flashMaterial: {fileID: 2100000, guid: 5ef7ef650739c4b49be0d0643ae9bb9a, type: 2}
-  flashDuration: 0.08
-  baseMaxHP: 100
-  playerMaxHP: 100
-  playerCurHP: 0
-  baseDefense: 0
-  totalDefense: 0
-  attackDamageMultiplier: 1
-  attackSpeedMultiplier: 1
-  moveSpeedMultiplier: 1
-  attackCount: 1
-  finalAttackMultiplier: 1
-  debugShowRage: 0
-  debugShowRevenge: 0
-  damageTickCooldown: 1
-  invincibilityDuration: 0.5
 --- !u!114 &8792204095440606446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -704,6 +659,8 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 4528597527204146618}
   - {fileID: 3286070687836205066}
+  - {fileID: 183060452402679233}
+  - {fileID: 5657272956302389283}
   - {fileID: 1655470596993696268}
   - {fileID: 7395695292204350156}
   - {fileID: 1211900553556960857}
@@ -744,6 +701,42 @@ MonoBehaviour:
   _IsAutoAttacking:
     _value: 0
   _NetLookDir: {x: 0, y: 0}
+--- !u!114 &183060452402679233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4567137353947876526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b660ce42010e2d4bbf0e002358b0f78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NetCurHP: 0
+  _IsDead:
+    _value: 0
+  baseMaxHP: 100
+  baseDefense: 0
+  _MaxHP: 0
+  _TotalDefense: 0
+  _MoveSpeedMultiplier: 1
+  _AttackSpeedMultiplier: 1
+--- !u!114 &5657272956302389283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4567137353947876526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579465da9d1d3dd498c2e3e89dae48af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basePlayerSpeed: 5
+  _IsFacingLeft:
+    _value: 0
 --- !u!1 &5875001513546692716
 GameObject:
   m_ObjectHideFlags: 0

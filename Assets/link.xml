@@ -1,0 +1,5 @@
+<linker>
+  <assembly fullname="System.Runtime.CompilerServices.Unsafe" preserve="all" ignoreIfMissing="true" />
+  <assembly fullname="Newtonsoft.Json" preserve="all" ignoreIfMissing="true" />
+  <assembly fullname="Photon.Fusion" preserve="all" ignoreIfMissing="true" />
+</linker>

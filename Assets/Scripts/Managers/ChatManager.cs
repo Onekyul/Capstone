@@ -21,8 +21,6 @@ public class ChatManager : MonoBehaviour
     public static bool IsChatting = false;
     void Start()
     {
-        // 닉네임 임시 생성
-        //myNickname = "Player_" + Random.Range(1000, 9999); 
         CloseChatInput(); 
         inputField.onSubmit.AddListener(SendChatMessage);
         StartCoroutine(PollingRoutine()); 
@@ -36,15 +34,20 @@ public class ChatManager : MonoBehaviour
             if (inputField.gameObject.activeSelf == false)
             {
                 OpenChatInput();
+            }else
+            {
+                if (string.IsNullOrWhiteSpace(inputField.text))
+                {
+                    CloseChatInput();
+                }
             }
         }
 
         // ESC
         if (Input.GetKeyDown(KeyCode.Escape) && inputField.gameObject.activeSelf)
-            if (Input.GetKeyDown(KeyCode.Escape) && inputField.gameObject.activeSelf)
-            {
-                CloseChatInput();
-            }
+        {
+            CloseChatInput();
+        }
     }
     
     void SendChatMessage(string msg)
@@ -54,7 +57,7 @@ public class ChatManager : MonoBehaviour
             StartCoroutine(SendMessageCoroutine(msg));
         }
         
-        // 메시지 보낸 후 입력창 닫기 (계속 입력하게 하려면 이 줄 주석 처리)
+        // 메시지 보낸 후 입력창 닫기 
         CloseChatInput(); 
     }
     IEnumerator PollingRoutine()
@@ -78,7 +81,10 @@ public class ChatManager : MonoBehaviour
     {
         string nickname = "Guest";
         
-        if (SessionManager.Instance != null && !string.IsNullOrEmpty(SessionManager.Instance.Nickname))
+        if (DataManager.instance != null && DataManager.instance.currentPlayer != null && !string.IsNullOrEmpty(DataManager.instance.currentPlayer.nickname))
+        {
+            nickname = DataManager.instance.currentPlayer.nickname;
+        }else if (SessionManager.Instance != null && !string.IsNullOrEmpty(SessionManager.Instance.Nickname))
         {
             nickname = SessionManager.Instance.Nickname;
         }
@@ -109,11 +115,9 @@ public class ChatManager : MonoBehaviour
         foreach (string msg in messages)
         {
             GameObject newMsg = Instantiate(messagePrefab, chatContent);
-
-            // ★ [핵심] 스케일과 위치를 강제로 1, 1, 1로 맞춤 (이게 원인일 확률 99%)
+            
             newMsg.transform.localScale = Vector3.one; 
-        
-            // Z축이 튀면 카메라 뒤로 숨을 수 있으니 0으로 고정
+            
             Vector3 pos = newMsg.transform.localPosition;
             newMsg.transform.localPosition = new Vector3(pos.x, pos.y, 0);
 
@@ -124,7 +128,7 @@ public class ChatManager : MonoBehaviour
             if (textComp != null)
             {
                 textComp.text = msg;
-                textComp.color = Color.white; // 혹시 글자색이 투명/검정일까봐 흰색 강제
+                textComp.color = Color.white; 
             }
             else
             {

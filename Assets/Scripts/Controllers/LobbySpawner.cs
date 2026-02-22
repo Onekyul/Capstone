@@ -15,7 +15,7 @@ public class LobbySpawner : SimulationBehaviour, IPlayerJoined
             // 캐릭터 생성 (Runner.Spawn 사용)
             NetworkObject myChar = Runner.Spawn(playerPrefab, spawnPos, Quaternion.identity, player);
             
-            Debug.Log($"✅ 캐릭터 생성 완료 (ID: {DataManager.instance.MyUserId})");
+            Debug.Log($" 캐릭터 생성 완료 (ID: {DataManager.instance.MyUserId})");
         }
     }
 }

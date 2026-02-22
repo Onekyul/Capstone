@@ -9,21 +9,31 @@ public class LobbyPlayerStats : NetworkBehaviour
 
     // 네트워크 변수: 닉네임 (값이 바뀌면 자동으로 UpdateUI 실행)
     [Networked, OnChangedRender(nameof(UpdateUI))]
-    public NetworkString<_16> Nickname { get; set; }
+    public NetworkString<_32> Nickname { get; set; }
     
     public override void Spawned()
     {
-        if (HasStateAuthority)
+        if (HasInputAuthority)
         {
-            int myId = (DataManager.instance != null) ? DataManager.instance.MyUserId : 0;
+            string myNickname = "Unknown";
             
-            Nickname = $"User {myId}";
+            // 우리가 방금 세팅한 DataManager에서 '진짜 닉네임'을 꺼내옵니다!
+            if (DataManager.instance != null && DataManager.instance.currentPlayer != null)
+            {
+                myNickname = DataManager.instance.currentPlayer.nickname;
+            }
+            RPC_SetNickname(myNickname);
         }
         
         UpdateUI();
     }
 
-    
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_SetNickname(NetworkString<_32> newNickname)
+    {
+        Nickname = newNickname;
+        Debug.Log($"[서버] 플레이어 닉네임 세팅 완료: {newNickname}");
+    }
     void UpdateUI()
     {
         if (nameText == null) return;
