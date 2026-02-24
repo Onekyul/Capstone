@@ -82,14 +82,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 802b90e19e1d29d4d804a1b78ae50cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warningDuration: 1
-  bodyDuration: 0.5
-  contactDamage: 20
-  shardDamage: 15
-  shardSpeed: 10
   warningObject: {fileID: 4192441278285790912}
-  iceBodyObject: {fileID: 7459429565500713067}
-  iceShardPrefab: {fileID: 8735303094944432895, guid: 1bfda553e5e3fb4459a058d42ccf3f63, type: 3}
+  iceBodyObject: {fileID: 4359302421139851335, guid: aa38fc845c4db4a418e032843d45446f, type: 3}
+  iceShardPrefab: {fileID: 5491235807739065662, guid: 197812e5e9648402e91fde794046b069, type: 3}
   bodyCollider: {fileID: 8931507868021410677}
 --- !u!1 &4192441278285790912
 GameObject:
