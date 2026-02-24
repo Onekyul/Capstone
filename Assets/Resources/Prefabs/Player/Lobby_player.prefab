@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 603120160177497250}
   - component: {fileID: -307318793828203499}
   - component: {fileID: -1317233721235281392}
+  - component: {fileID: 4112375018952807315}
   m_Layer: 8
   m_Name: Lobby_player
   m_TagString: Player
@@ -197,6 +198,7 @@ MonoBehaviour:
   - {fileID: 327271589150858418}
   - {fileID: 5208044870385216225}
   - {fileID: 603120160177497250}
+  - {fileID: 4112375018952807315}
   ForceRemoteRenderTimeframe: 0
 --- !u!50 &-1317233721235281392
 Rigidbody2D:
@@ -225,6 +227,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &4112375018952807315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7003677887964605830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8442eb2be0db6894185652052d1a61cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7310293910134166521
 GameObject:
   m_ObjectHideFlags: 0
