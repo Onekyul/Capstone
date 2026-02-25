@@ -64,7 +64,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -82,11 +82,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 802b90e19e1d29d4d804a1b78ae50cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warningDuration: 1
-  bodyDuration: 0.5
-  contactDamage: 20
-  shardDamage: 15
-  shardSpeed: 10
   warningObject: {fileID: 4192441278285790912}
   iceBodyObject: {fileID: 7459429565500713067}
   iceShardPrefab: {fileID: 8735303094944432895, guid: 1bfda553e5e3fb4459a058d42ccf3f63, type: 3}
