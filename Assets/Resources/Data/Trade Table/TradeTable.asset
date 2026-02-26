@@ -23,13 +23,13 @@ MonoBehaviour:
     costAmount: 10
     rewardItem: {fileID: 11400000, guid: 09c59735580579f448ec6c4a7a9351d8, type: 2}
     rewardAmount: 1
-  - recipeName: iron2diamond
+  - recipeName: iron2gold
     costItem: {fileID: 11400000, guid: 09c59735580579f448ec6c4a7a9351d8, type: 2}
     costAmount: 10
-    rewardItem: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
+    rewardItem: {fileID: 11400000, guid: 3fc992bf48b65314facf9ca69d8f9e4d, type: 2}
     rewardAmount: 1
-  - recipeName: diamond2iron
-    costItem: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
+  - recipeName: gold2iron
+    costItem: {fileID: 11400000, guid: 3fc992bf48b65314facf9ca69d8f9e4d, type: 2}
     costAmount: 1
     rewardItem: {fileID: 11400000, guid: 09c59735580579f448ec6c4a7a9351d8, type: 2}
     rewardAmount: 10
@@ -68,3 +68,13 @@ MonoBehaviour:
     costAmount: 10
     rewardItem: {fileID: 11400000, guid: 672d96bafa51afe4494a73df994271b5, type: 2}
     rewardAmount: 1
+  - recipeName: gold2diamond
+    costItem: {fileID: 11400000, guid: 3fc992bf48b65314facf9ca69d8f9e4d, type: 2}
+    costAmount: 10
+    rewardItem: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
+    rewardAmount: 1
+  - recipeName: diamond2gold
+    costItem: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
+    costAmount: 1
+    rewardItem: {fileID: 11400000, guid: 3fc992bf48b65314facf9ca69d8f9e4d, type: 2}
+    rewardAmount: 10

@@ -42,4 +42,4 @@ MonoBehaviour:
     requiredMaterial: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
     materialCount: 5
     nextTierWeapon: {fileID: 0}
-    nextTierArmor: {fileID: 11400000, guid: 937b27bf7dfc7e543826dbd68d5082a8, type: 2}
+    nextTierArmor: {fileID: 11400000, guid: d1b70bfef1b08f8478846f3f3fa73030, type: 2}

@@ -16,6 +16,6 @@ MonoBehaviour:
   weaponName: "\uB2E4\uC774\uC544\uBAAC\uB4DC \uCC3D"
   description: "\uAC15\uB825\uD55C \uB2E4\uC774\uC544\uBAAC\uB4DC \uCC3D\uC774\uB2E4."
   icon: {fileID: 7845792552773134118, guid: 4436910fee1944b4894d7e8e28d73900, type: 3}
-  baseAtk: 80
-  atkPerLevel: 5
+  baseAtk: 150
+  atkPerLevel: 6
   upgradeTable: {fileID: 11400000, guid: 12e411beeccf9b24bb9b39cec5d7bbdd, type: 2}

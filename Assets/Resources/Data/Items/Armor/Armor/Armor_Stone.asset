@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 194a9fc380cafbd4b91d3085b41db2e4, type: 3}
-  m_Name: armor_stone
+  m_Name: Armor_Stone
   m_EditorClassIdentifier: 
   armorType: 1
   armorId: armor_stone
@@ -18,9 +18,10 @@ MonoBehaviour:
   description: 
   icon: {fileID: -3829550257778859392, guid: 4436910fee1944b4894d7e8e28d73900, type: 3}
   bonusDef: 0
-  bonusHp: 30
+  bonusHp: 20
   bonusAttackSpeed: 0
   modelprefab: {fileID: 0}
+  defPerLevel: 0
+  hpPerLevel: 2
+  attackSpeedPerLevel: 0
   upgradeTable: {fileID: 11400000, guid: 470b8ec23d1ec994bb6fd11eddf00311, type: 2}
-
-

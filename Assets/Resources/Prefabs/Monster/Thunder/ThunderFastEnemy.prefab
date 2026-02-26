@@ -641,7 +641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 0
-  contactDamage: 45
+  contactDamage: 35
   MaxHP: 40
   CurHP: 0
   moveSpeed: 20

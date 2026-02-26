@@ -343,8 +343,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 0
-  contactDamage: 25
-  MaxHP: 210
+  contactDamage: 16
+  MaxHP: 80
   CurHP: 0
   moveSpeed: 2
   poolTag: ThunderChasing

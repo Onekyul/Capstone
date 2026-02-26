@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   steps:
   - successRate: 100
-    requiredMaterial: {fileID: 11400000, guid: ad7a8e1991b266649b180d0f3a319f05, type: 2}
+    requiredMaterial: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
     materialCount: 5
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}

@@ -641,8 +641,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 0
-  contactDamage: 32
-  MaxHP: 40
+  contactDamage: 60
+  MaxHP: 80
   CurHP: 0
   moveSpeed: 20
   poolTag: PoisonFast
