@@ -24,7 +24,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -57,7 +57,7 @@ TextureImporter:
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 8
+  textureType: 7
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -76,7 +76,7 @@ TextureImporter:
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
-    compressionQuality: 50
+    compressionQuality: 26
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
@@ -103,12 +103,12 @@ TextureImporter:
       name: cursor_0
       rect:
         serializedVersion: 2
-        x: 30
-        y: 30
-        width: 105
-        height: 139
+        x: 32
+        y: 33
+        width: 101
+        height: 134
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: a96504565e2844820bd16d8798cd18ca
     internalID: 0
     vertices: []
     indices: 
