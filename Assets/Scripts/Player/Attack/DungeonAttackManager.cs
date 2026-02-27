@@ -21,8 +21,9 @@ public class DungeonAttackManager : NetworkBehaviour
 
     public override void Spawned()
     {
-        stats = GetComponent<DungeonPlayerStats>(); // 세팅
+        stats = GetComponent<DungeonPlayerStats>();
 
+#if !UNITY_SERVER
         if (HasInputAuthority)
         {
             if (DataManager.instance != null)
@@ -33,6 +34,23 @@ public class DungeonAttackManager : NetworkBehaviour
             }
             RPC_SetAutoAttack(true);
         }
+#endif
+        // 데디서버에서는 BossDungeonServer가 InitWeaponFromServer()를 호출함
+    }
+
+    /// <summary>
+    /// 데디서버 전용: 서버가 직접 무기를 설정.
+    /// StateAuthority(서버)에서만 호출해야 함.
+    /// </summary>
+    public void InitWeaponFromServer(int weaponType, string weaponId)
+    {
+        if (!HasStateAuthority) return;
+
+        NetWeaponType = weaponType;
+        IsAutoAttacking = true;
+        SwitchWeaponVisuals(weaponType, weaponId);
+
+        Debug.Log($"[Server] 무기 초기화: Type={weaponType}, Id={weaponId}");
     }
 
     public override void FixedUpdateNetwork()

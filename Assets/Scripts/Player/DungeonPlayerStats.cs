@@ -24,10 +24,31 @@ public class DungeonPlayerStats : NetworkBehaviour
 
     public override void Spawned()
     {
+#if !UNITY_SERVER
         if (HasInputAuthority)
         {
             CalculateAndSendMyStats();
         }
+#endif
+        // 데디서버에서는 BossDungeonServer.OnPlayerJoined()가 InitFromServerData()를 호출함
+    }
+
+    /// <summary>
+    /// 데디서버 전용: 서버가 백엔드에서 조회한 스탯을 직접 설정.
+    /// StateAuthority(서버)에서만 호출해야 함.
+    /// </summary>
+    public void InitFromServerData(float maxHp, float defense, float moveSpeed, float attackSpeed)
+    {
+        if (!HasStateAuthority) return;
+
+        MaxHP = maxHp;
+        TotalDefense = defense;
+        MoveSpeedMultiplier = moveSpeed;
+        AttackSpeedMultiplier = attackSpeed;
+        NetCurHP = MaxHP;
+        IsDead = false;
+
+        Debug.Log($"[Server] 플레이어 스탯 초기화: HP={maxHp}, Def={defense}, MoveSpd={moveSpeed}, AtkSpd={attackSpeed}");
     }
 
     private void CalculateAndSendMyStats()

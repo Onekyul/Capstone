@@ -531,4 +531,34 @@ public class DataManager : MonoBehaviour
         currentPlayer.ownedWeapons.Clear();
         currentPlayer.unlockedEnchants.Clear();
     }
+
+    // ============================
+    //  랭킹 API
+    // ============================
+
+    private string rankingUrl = "http://localhost:7200/api/Ranking";
+
+    public void FetchBossRanking(int top, Action<RankingResponseDto> onComplete)
+    {
+        StartCoroutine(CoFetchBossRanking(top, onComplete));
+    }
+
+    private IEnumerator CoFetchBossRanking(int top, Action<RankingResponseDto> onComplete)
+    {
+        string url = $"{rankingUrl}/boss?top={top}";
+        using (UnityWebRequest req = UnityWebRequest.Get(url))
+        {
+            yield return req.SendWebRequest();
+            if (req.result == UnityWebRequest.Result.Success)
+            {
+                var data = JsonUtility.FromJson<RankingResponseDto>(req.downloadHandler.text);
+                onComplete?.Invoke(data);
+            }
+            else
+            {
+                Debug.LogError($"[Ranking] 조회 실패: {req.error}");
+                onComplete?.Invoke(null);
+            }
+        }
+    }
 }
