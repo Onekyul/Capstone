@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64c660a6774105149aeb178ea5565fe2, type: 3}
+  m_Name: Spear_Iron
+  m_EditorClassIdentifier: 
+  weaponId: spear_iron
+  weaponName: "\uCCA0 \uCC3D"
+  description: "\uB0A0\uCE74\uB85C\uC6B4 \uCCA0 \uCC3D\uC774\uB2E4."
+  icon: {fileID: -8299965986819772185, guid: 4436910fee1944b4894d7e8e28d73900, type: 3}
+  baseAtk: 40
+  atkPerLevel: 4
+  upgradeTable: {fileID: 11400000, guid: 6d75a732216d216429fa4c899b449d57, type: 2}

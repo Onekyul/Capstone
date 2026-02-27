@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 194a9fc380cafbd4b91d3085b41db2e4, type: 3}
+  m_Name: Armor_Gold
+  m_EditorClassIdentifier: 
+  armorType: 1
+  armorId: armor_gold
+  armorName: "\uAE08 \uAC11\uC637"
+  description: 
+  icon: {fileID: 4263111921449292217, guid: 4436910fee1944b4894d7e8e28d73900, type: 3}
+  bonusDef: 0
+  bonusHp: 65
+  bonusAttackSpeed: 0
+  modelprefab: {fileID: 0}
+  defPerLevel: 0
+  hpPerLevel: 4
+  attackSpeedPerLevel: 0
+  upgradeTable: {fileID: 11400000, guid: 2ceb47a820f821a49bf12c65feb7de6f, type: 2}

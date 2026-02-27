@@ -20,22 +20,22 @@ MonoBehaviour:
     nextTierArmor: {fileID: 0}
   - successRate: 80
     requiredMaterial: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
-    materialCount: 5
-    nextTierWeapon: {fileID: 0}
-    nextTierArmor: {fileID: 0}
-  - successRate: 70
-    requiredMaterial: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
-    materialCount: 5
+    materialCount: 10
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}
   - successRate: 60
     requiredMaterial: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
+    materialCount: 15
+    nextTierWeapon: {fileID: 0}
+    nextTierArmor: {fileID: 0}
+  - successRate: 40
+    requiredMaterial: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
     materialCount: 20
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}
-  - successRate: 50
+  - successRate: 20
     requiredMaterial: {fileID: 11400000, guid: a6b305274f0a1794ea144652d22a1446, type: 2}
-    materialCount: 30
+    materialCount: 25
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}
   - successRate: 10

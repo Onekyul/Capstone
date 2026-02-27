@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 3166880201529586006}
   - component: {fileID: 2530604871420806504}
   m_Layer: 7
-  m_Name: BigEnemyExample
+  m_Name: IceBigEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
