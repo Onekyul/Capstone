@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 3166880201529586006}
   - component: {fileID: 2530604871420806504}
   m_Layer: 7
-  m_Name: WaterEnemyExample
+  m_Name: ThunderBigEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -430,11 +430,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 0
-  contactDamage: 85
-  MaxHP: 500
+  contactDamage: 25
+  MaxHP: 120
   CurHP: 0
   moveSpeed: 2
-  poolTag: WaterBig
+  poolTag: ThunderBig
   expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
   usePooling: 1
   hpSlider: {fileID: 6768769806740092862}

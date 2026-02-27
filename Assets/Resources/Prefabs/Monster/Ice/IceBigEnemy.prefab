@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 3166880201529586006}
   - component: {fileID: 2530604871420806504}
   m_Layer: 7
-  m_Name: PoisonEnemyExample
+  m_Name: IceBigEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -333,15 +333,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -738572095297613877, guid: b13d23c2f1ac0184d91e8232cfdebe35, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 6770984376772214698, guid: 40be55772633648df84f249ba8acc71d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.37, y: 2.82}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &6586884628226778607
@@ -382,8 +382,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.93, y: 6.76}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 4.39, y: 5.310188}
+    newSize: {x: 2.37, y: 2.82}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -430,11 +430,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 0
-  contactDamage: 48
-  MaxHP: 250
+  contactDamage: 12
+  MaxHP: 60
   CurHP: 0
   moveSpeed: 2
-  poolTag: PoisonBig
+  poolTag: IceBig
   expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
   usePooling: 1
   hpSlider: {fileID: 6768769806740092862}
