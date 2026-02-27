@@ -328,6 +328,14 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
         float clearTime = Time.time - _sessionStartTime;
         Debug.Log($"[DediServer] 보스 처치! 클리어 시간: {clearTime:F1}초");
 
+        // 모든 클라이언트에게 결과 알림 RPC 전송
+        foreach (var kvp in _spawnedPlayers)
+        {
+            var stats = kvp.Value.GetComponent<DungeonPlayerStats>();
+            if (stats != null)
+                stats.RPC_ShowBossResult(true, clearTime);
+        }
+
         await SendDungeonResult(true, clearTime);
     }
 

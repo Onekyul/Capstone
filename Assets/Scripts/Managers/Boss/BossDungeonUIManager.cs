@@ -10,6 +10,8 @@ public class BossDungeonUIManager : MonoBehaviour
     [SerializeField] private Slider expSlider;          // 경험치 게이지
     [SerializeField] private TextMeshProUGUI stackText; // 현재 누적 스택 표시 (예: "x3 Damage!")
     [SerializeField] private GameObject resultPanel;    // 클리어 결과창
+    [SerializeField] private TextMeshProUGUI resultText;    // 결과 텍스트 (성공/실패)
+    [SerializeField] private TextMeshProUGUI clearTimeText; // 클리어 시간 표시
 
     void Awake()
     {
@@ -35,12 +37,25 @@ public class BossDungeonUIManager : MonoBehaviour
         }
     }
 
-    public void ShowResultPanel(bool isSuccess)
+    public void ShowResultPanel(bool isSuccess, float clearTime = 0f)
     {
         if (resultPanel != null)
         {
             resultPanel.SetActive(true);
-            // 결과창 텍스트 설정 등 추가 로직
+
+            if (resultText != null)
+                resultText.text = isSuccess ? "보스 클리어!" : "실패...";
+
+            if (clearTimeText != null && isSuccess)
+            {
+                int min = (int)(clearTime / 60f);
+                float sec = clearTime % 60f;
+                clearTimeText.text = min > 0 ? $"클리어 시간: {min}:{sec:00.0}" : $"클리어 시간: {sec:F1}초";
+            }
+            else if (clearTimeText != null)
+            {
+                clearTimeText.text = "";
+            }
         }
     }
 }

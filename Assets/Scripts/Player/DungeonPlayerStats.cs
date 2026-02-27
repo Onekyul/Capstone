@@ -96,6 +96,19 @@ public class DungeonPlayerStats : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// 서버 → 클라이언트: 보스 사망 시 결과 알림.
+    /// BossDungeonServer.OnBossDefeated()에서 호출.
+    /// </summary>
+    [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
+    public void RPC_ShowBossResult(NetworkBool cleared, float clearTime)
+    {
+        if (HasInputAuthority && BossDungeonUIManager.instance != null)
+        {
+            BossDungeonUIManager.instance.ShowResultPanel(cleared, clearTime);
+        }
+    }
+
     public void OnHPChanged()
     {
         if (HasInputAuthority) OnHealthChangedLocal?.Invoke(NetCurHP);

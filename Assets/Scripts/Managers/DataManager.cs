@@ -538,6 +538,10 @@ public class DataManager : MonoBehaviour
 
     private string rankingUrl = "http://localhost:7200/api/Ranking";
 
+    // ============================
+    //  랭킹 API
+    // ============================
+
     public void FetchBossRanking(int top, Action<RankingResponseDto> onComplete)
     {
         StartCoroutine(CoFetchBossRanking(top, onComplete));
