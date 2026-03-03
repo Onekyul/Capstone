@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8931507868021410677}
   - component: {fileID: 947862734441829881}
   m_Layer: 0
-  m_Name: IceCluster
+  m_Name: BossIceCluster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,7 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   warningObject: {fileID: 4192441278285790912}
   iceBodyObject: {fileID: 7459429565500713067}
-  iceShardPrefab: {fileID: 8735303094944432895, guid: 1bfda553e5e3fb4459a058d42ccf3f63, type: 3}
+  iceShardPrefab: {fileID: 8735303094944432895, guid: ea2f81bf17f6e4f28beb9945e99c3ae5, type: 3}
   bodyCollider: {fileID: 8931507868021410677}
 --- !u!1 &4192441278285790912
 GameObject:

@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 2756004146269281816}
   - component: {fileID: 7642495733352915376}
   m_Layer: 0
-  m_Name: IceProjectile
+  m_Name: BossIceProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
