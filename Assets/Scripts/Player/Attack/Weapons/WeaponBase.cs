@@ -22,15 +22,20 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
     [SerializeField] protected Transform attackPoint;         // 효과 생성 기준 위치치
 
     [Header("Enchantment Settings")]
-    [SerializeField] protected float enchantChancePerLevel = 6f; // 강화 레벨당 적용 확률 (6% × 최대 5레벨 = 30%)
-    [SerializeField] protected int maxEnchantmentLevel = 5; // 인챈트 최대 레벨 (5레벨까지만 가능)
-    [SerializeField] protected int[] enchantmentLevels = new int[4]; // [불, 얼음, 번개, 독] 인챈트 강화 수치
+      [SerializeField] protected int maxEnchantmentLevel = 5; // 인챈트 최대 레벨 (5레벨까지만 가능)
+    [SerializeField] protected int[] enchantmentLevels = new int[5]; // [불, 얼음, 번개, 독, 물] 인챈트 강화 수치
+
+    // SO 캐시 (0=불, 1=얼음, 2=번개, 3=독, 4=물)
+    private EnchantData[] enchantSOCache = new EnchantData[5];
+    // 인챈트별 마지막 발동 시각 (쿨타임 추적용)
+    private float[] enchantLastTriggerTime = new float[5];
     
     [Header("Enchantment Debug Info (Read Only)")]
     [ReadOnly] [SerializeField] private int debugFireLevel = 0; // 불 인챈트 레벨 (읽기 전용)
     [ReadOnly] [SerializeField] private int debugIceLevel = 0; // 얼음 인챈트 레벨 (읽기 전용)
     [ReadOnly] [SerializeField] private int debugLightningLevel = 0; // 번개 인챈트 레벨 (읽기 전용)
     [ReadOnly] [SerializeField] private int debugPoisonLevel = 0; // 독 인챈트 레벨 (읽기 전용)
+    [ReadOnly] [SerializeField] private int debugWaterLevel = 0; // 물 인챈트 레벨 (읽기 전용)
 
     protected float lastAttackTime;
     protected bool bIsAttacking = false;
@@ -112,28 +117,32 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
             Debug.LogWarning($"{gameObject.name}: DataManager가 없습니다. 인챈트를 로드할 수 없습니다.");
             return;
         }
-        
-        // 인챈트 확률 설정 강제 적용 (Inspector 값 무시)
-        enchantChancePerLevel = 6f; // 6% per level (최대 5레벨 = 30%)
-        maxEnchantmentLevel = 5;    // 최대 5레벨
-        
-        // 4가지 인챈트 레벨 로드 (불, 얼음, 번개, 독) - 최대 레벨 제한 적용
-        enchantmentLevels[0] = Mathf.Clamp(DataManager.instance.GetEnchantLevel("ent_fire"), 0, maxEnchantmentLevel);
-        enchantmentLevels[1] = Mathf.Clamp(DataManager.instance.GetEnchantLevel("ent_ice"), 0, maxEnchantmentLevel);
-        enchantmentLevels[2] = Mathf.Clamp(DataManager.instance.GetEnchantLevel("ent_lightning"), 0, maxEnchantmentLevel);
-        enchantmentLevels[3] = Mathf.Clamp(DataManager.instance.GetEnchantLevel("ent_poison"), 0, maxEnchantmentLevel);
-        
+
+        maxEnchantmentLevel = 5;
+
+        string[] enchantIds = { "ent_fire", "ent_ice", "ent_lightning", "ent_poison", "ent_water" };
+
+        for (int i = 0; i < 5; i++)
+        {
+            enchantmentLevels[i] = Mathf.Clamp(DataManager.instance.GetEnchantLevel(enchantIds[i]), 0, maxEnchantmentLevel);
+            enchantSOCache[i] = DataManager.instance.GetEnchantData(enchantIds[i]);
+        }
+
         // 디버그 필드에도 즉시 반영
         debugFireLevel = enchantmentLevels[0];
         debugIceLevel = enchantmentLevels[1];
         debugLightningLevel = enchantmentLevels[2];
         debugPoisonLevel = enchantmentLevels[3];
-        
+        debugWaterLevel = enchantmentLevels[4];
+
         Debug.Log($"=== 인챈트 데이터 로드 ===");
-        Debug.Log($"불 인챈트: Lv.{enchantmentLevels[0]} (발동 확률: {enchantmentLevels[0] * enchantChancePerLevel}%)");
-        Debug.Log($"얼음 인챈트: Lv.{enchantmentLevels[1]} (발동 확률: {enchantmentLevels[1] * enchantChancePerLevel}%)");
-        Debug.Log($"번개 인챈트: Lv.{enchantmentLevels[2]} (발동 확률: {enchantmentLevels[2] * enchantChancePerLevel}%)");
-        Debug.Log($"독 인챈트: Lv.{enchantmentLevels[3]} (발동 확률: {enchantmentLevels[3] * enchantChancePerLevel}%)");
+        for (int i = 0; i < 5; i++)
+        {
+            float chance = GetChanceFromSO(i);
+            float cooldown = GetCooldownFromSO(i);
+            string cdText = cooldown > 0f ? $", 쿨타임: {cooldown}초" : "";
+            Debug.Log($"{GetEnchantmentName(i)} 인챈트: Lv.{enchantmentLevels[i]} (발동 확률: {chance}%{cdText})");
+        }
         Debug.Log($"======================");
     }
     
@@ -157,6 +166,7 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
             debugIceLevel = enchantmentLevels[1];
             debugLightningLevel = enchantmentLevels[2];
             debugPoisonLevel = enchantmentLevels[3];
+            debugWaterLevel = enchantmentLevels[4];
         }
     }
     
@@ -221,61 +231,92 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
     // 인챈트 적용 여부를 확률로 계산하는 메서드
     protected virtual int[] CalculateAppliedEnchants()
     {
-        int[] result = new int[4]; // [불, 얼음, 번개, 독]
+        int[] result = new int[5]; // [불, 얼음, 번개, 독, 물]
         
         // 속성 공격 능력 체크 (10번째 공격인지)
         bool isElementalMasteryTrigger = false;
         if (playerStats != null && playerStats.HasElementalMastery())
         {
-            // 10번째 공격인지 확인 (내부에서 카운터 증가도 처리됨)
             isElementalMasteryTrigger = playerStats.ShouldTriggerElementalMastery();
         }
         
         if (isElementalMasteryTrigger)
         {
-            // 속성 공격 발동: 모든 인챈트를 100% 확률로 적용
-            Debug.Log("★★★ [속성 공격] 모든 인챈트 강제 발동! ★★★");
-            for (int i = 0; i < 4; i++)
+            // 속성 공격 발동: 모든 인챈트를 100% 확률로 적용 (쿨타임 무시)
+            Debug.Log("[속성 공격] 모든 인챈트 강제 발동!");
+            for (int i = 0; i < 5; i++)
             {
                 if (enchantmentLevels[i] > 0)
                 {
                     result[i] = enchantmentLevels[i];
-                    string enchantName = GetEnchantmentName(i);
-                    Debug.Log($"✓✓✓ {enchantName} 인챈트 강제 발동! (레벨: {enchantmentLevels[i]})");
+                    enchantLastTriggerTime[i] = Time.time; // 쿨타임 갱신
+                    Debug.Log($"✓✓✓ {GetEnchantmentName(i)} 인챈트 강제 발동! (레벨: {enchantmentLevels[i]})");
                 }
             }
         }
         else
         {
-            // 일반 확률 계산
-            //Debug.Log("=== 인챈트 적용 계산 ===");
-            
-            // 무기 자체의 인챈트 레벨을 사용 (PlayerStats가 아닌 this.enchantmentLevels 사용)
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
             {
-                if (enchantmentLevels[i] > 0)
+                if (enchantmentLevels[i] <= 0) continue;
+
+                // 쿨타임 체크 (쿨타임이 0이면 매 공격마다 확률 발동)
+                float cooldown = GetCooldownFromSO(i);
+                if (cooldown > 0f && Time.time - enchantLastTriggerTime[i] < cooldown) continue;
+
+                // SO에서 읽어온 발동 확률로 계산
+                float chance = GetChanceFromSO(i);
+                float randomValue = Random.Range(0f, 100f);
+
+                if (randomValue < chance)
                 {
-                    // 강화 레벨에 따른 확률 계산 (레벨 * 확률)
-                    float chance = enchantmentLevels[i] * enchantChancePerLevel;
-                    float randomValue = Random.Range(0f, 100f);
-                    
-                    string enchantName = GetEnchantmentName(i);
-                    
-                    if (randomValue < chance)
-                    {
-                        // 확률에 성공하면 해당 인챈트의 강화 수치를 적용
-                        result[i] = enchantmentLevels[i];
-                        //Debug.Log($"✓ {enchantName} 인챈트 발동! (레벨: {enchantmentLevels[i]}, 확률: {chance}%, 랜덤: {randomValue:F1})");
-                    }
-                    else
-                    {
-                        //Debug.Log($"✗ {enchantName} 인챈트 미발동 (레벨: {enchantmentLevels[i]}, 확률: {chance}%, 랜덤: {randomValue:F1})");
-                    }
+                    result[i] = enchantmentLevels[i];
+                    enchantLastTriggerTime[i] = Time.time; // 발동 시각 기록 (쿨타임 시작)
                 }
             }
         }
         
         return result;
+    }
+
+    // SO에서 현재 레벨의 발동 확률(ChancePercent) 읽기
+    private float GetChanceFromSO(int index)
+    {
+        int level = enchantmentLevels[index];
+        if (level <= 0) return 0f;
+
+        EnchantData so = enchantSOCache[index];
+        if (so == null) return 0f;
+
+        EnchantData.EnchantLevelInfo info = so.GetCurrentLevelInfo(level);
+        if (info == null) return 0f;
+
+        foreach (var param in info.parameters)
+        {
+            if (param.type == EnchantData.EnchantStatType.ChancePercent)
+                return param.value;
+        }
+        return 0f;
+    }
+
+    // SO에서 현재 레벨의 쿨타임(Cooldown) 읽기 (없으면 0 = 쿨타임 없음)
+    private float GetCooldownFromSO(int index)
+    {
+        int level = enchantmentLevels[index];
+        if (level <= 0) return 0f;
+
+        EnchantData so = enchantSOCache[index];
+        if (so == null) return 0f;
+
+        EnchantData.EnchantLevelInfo info = so.GetCurrentLevelInfo(level);
+        if (info == null) return 0f;
+
+        foreach (var param in info.parameters)
+        {
+            if (param.type == EnchantData.EnchantStatType.Cooldown)
+                return param.value;
+        }
+        return 0f;
     }
 
     // ===== 무기별 인챈트 관리 메서드 =====
@@ -285,7 +326,7 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
     // 설정할 레벨
     public void SetEnchantmentLevel(int enchantIndex, int level)
     {
-        if (enchantIndex >= 0 && enchantIndex < 4)
+        if (enchantIndex >= 0 && enchantIndex < 5)
         {
             enchantmentLevels[enchantIndex] = Mathf.Clamp(level, 0, maxEnchantmentLevel);
             Debug.Log($"{gameObject.name}: {GetEnchantmentName(enchantIndex)} 인챈트 레벨 {enchantmentLevels[enchantIndex]}로 설정 (최대 {maxEnchantmentLevel})");
@@ -303,7 +344,7 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
     //증가량 (기본값 1)
     public void IncreaseEnchantmentLevel(int enchantIndex, int amount = 1)
     {
-        if (enchantIndex >= 0 && enchantIndex < 4)
+        if (enchantIndex >= 0 && enchantIndex < 5)
         {
             int newLevel = enchantmentLevels[enchantIndex] + amount;
             enchantmentLevels[enchantIndex] = Mathf.Clamp(newLevel, 0, maxEnchantmentLevel);
@@ -327,13 +368,13 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
     // 4개의 인챈트 레벨 배열 [불, 얼음, 번개, 독]
     public void SetAllEnchantmentLevels(int[] levels)
     {
-        if (levels == null || levels.Length != 4)
+        if (levels == null || levels.Length != 5)
         {
-            Debug.LogError("인챈트 레벨 배열은 4개의 요소를 가져야 합니다!");
+            Debug.LogError("인챈트 레벨 배열은 5개의 요소를 가져야 합니다!");
             return;
         }
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 5; i++)
         {
             enchantmentLevels[i] = Mathf.Clamp(levels[i], 0, maxEnchantmentLevel);
         }
@@ -346,7 +387,7 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
     /// 인챈트 인덱스 (0: 불, 1: 얼음, 2: 번개, 3: 독)
     public int GetEnchantmentLevel(int enchantIndex)
     {
-        if (enchantIndex >= 0 && enchantIndex < 4)
+        if (enchantIndex >= 0 && enchantIndex < 5)
         {
             return enchantmentLevels[enchantIndex];
         }
@@ -369,6 +410,7 @@ public abstract class WeaponBase : MonoBehaviour // 모든 무기들의 설계�
             case 1: return "얼음";
             case 2: return "번개";
             case 3: return "독";
+            case 4: return "물";
             default: return "알 수 없음";
         }
     }

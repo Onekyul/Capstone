@@ -76,6 +76,12 @@ public class PlayerStats : MonoBehaviour
     private bool hasContagion = false; // 전염 보유 여부
     private float contagionChance = 0.05f; // 전염 발동 확률 (5%)
 
+    // ── 물 인챈트: 피격 방어막 ──
+    private bool waterShieldActive = false;       // 방어막 활성 여부
+    private float waterShieldAmount = 0f;         // 현재 방어막 잔여량
+    private float waterShieldEndTime = 0f;        // 방어막 만료 시간
+    private float waterShieldCooldownEnd = 0f;    // 방어막 쿨타임 만료 시간
+
     [Header("Victory State")]
     private float victoryInvincibilityEndTime = 0f; // 승리 무적 종료 시간 (스테이지 클리어 시)
 
@@ -523,11 +529,32 @@ public class PlayerStats : MonoBehaviour
                 DataManager.instance.SetEnchantLevel("ent_ice", 0);
                 DataManager.instance.SetEnchantLevel("ent_lightning", 0);
                 DataManager.instance.SetEnchantLevel("ent_poison", 0);
+                DataManager.instance.SetEnchantLevel("ent_water", 0);
                 
                 // 무기에 인챈트 레벨 재적용
                 RefreshWeaponEnchants();
                 
                 Debug.Log("★★★ [치트키] 모든 인챈트 레벨 리셋 완료 (0으로 초기화) ★★★");
+            }
+            else
+            {
+                Debug.LogError("[치트키] DataManager.instance가 null입니다!");
+            }
+        }
+
+        // Numpad 5: 물 인챈트 레벨 +1
+        if (Input.GetKeyDown(KeyCode.Keypad5))
+        {
+            Debug.Log("★★★ [치트키] Numpad 5 눌림! 물 인챈트 레벨 증가 시도 ★★★");
+
+            if (DataManager.instance != null)
+            {
+                int currentLevel = DataManager.instance.GetEnchantLevel("ent_water");
+                DataManager.instance.SetEnchantLevel("ent_water", currentLevel + 1);
+
+                RefreshWeaponEnchants();
+
+                Debug.Log($"★★★ [치트키] 물 인챈트 레벨 증가: {currentLevel} → {currentLevel + 1} ★★★");
             }
             else
             {
@@ -583,6 +610,27 @@ public class PlayerStats : MonoBehaviour
         // 공식: 데미지 감소율 = 방어력 / (방어력 + 100)
         float damageReduction = totalDefense / (totalDefense + 100f);
         float finalDamage = damage * (1f - damageReduction);
+
+        // 물 인챈트 방어막 흡수
+        if (waterShieldActive && Time.time < waterShieldEndTime && waterShieldAmount > 0f)
+        {
+            float absorbed = Mathf.Min(waterShieldAmount, finalDamage);
+            waterShieldAmount -= absorbed;
+            finalDamage -= absorbed;
+            Debug.Log($"[물 인챈트] 방어막이 {absorbed:F1} 흡수! (잔여: {waterShieldAmount:F1})");
+
+            if (waterShieldAmount <= 0f)
+            {
+                waterShieldActive = false;
+                Debug.Log("[물 인챈트] 방어막 소진!");
+            }
+
+            if (finalDamage <= 0f)
+            {
+                lastHitTime = Time.time;
+                return; // 방어막이 모두 흡수한 경우
+            }
+        }
 
         playerCurHP -= finalDamage;
         lastHitTime = Time.time; // 피격 시간 기록
@@ -1443,23 +1491,78 @@ public class PlayerStats : MonoBehaviour
     // 무적 상태에 따라 플레이어 투명도 조정 (깜빡임 효과)
     private void UpdateInvincibilityVisual()
     {
-        if (playerSprite == null) return;
-        
-        Color color = playerSprite.color;
-        
-        if (IsInvincible())
-        {
-            // 무적 상태: 깜빡임 효과 (0.1초마다 alpha 0.3 ↔ 1.0 전환)
-            float blinkCycle = Time.time % 0.2f; // 0.2초 주기
-            color.a = (blinkCycle < 0.1f) ? 0.3f : 1.0f;
-        }
-        else
-        {
-            // 일반 상태: 불투명 (알파 1.0)
-            color.a = 1.0f;
-        }
-        
-        playerSprite.color = color;
+        // ...existing code...
     }
 
+    // ===== 물 인챈트: 피격 방어막 =====
+
+    // 공격 명중 시 WeaponBase → MonsterController → 여기로 호출됨
+    // 방어막이 없고 쿨타임이 끝났을 때만 발동
+    public void TriggerWaterEnchantShield(int level)
+    {
+        // 이미 방어막이 활성화 중이면 무시
+        if (waterShieldActive && Time.time < waterShieldEndTime) return;
+
+        // 쿨타임 체크
+        if (Time.time < waterShieldCooldownEnd) return;
+
+        // SO에서 해당 레벨의 파라미터 읽기
+        EnchantData data = DataManager.instance?.GetEnchantData("ent_water");
+        if (data == null)
+        {
+            Debug.LogWarning("[물 인챈트] ent_water SO를 찾을 수 없습니다!");
+            return;
+        }
+
+        EnchantData.EnchantLevelInfo levelInfo = data.GetCurrentLevelInfo(level);
+        if (levelInfo == null)
+        {
+            Debug.LogWarning($"[물 인챈트] 레벨 {level}의 정보가 없습니다!");
+            return;
+        }
+
+        // 파라미터 파싱 (ValueAmount=방어막량, Duration=지속시간, Cooldown=쿨타임)
+        float shieldAmount = 0f;
+        float duration = 5f;
+        float cooldown = 30f;
+
+        foreach (var param in levelInfo.parameters)
+        {
+            switch (param.type)
+            {
+                case EnchantData.EnchantStatType.ValueAmount:
+                    shieldAmount = param.value;
+                    break;
+                case EnchantData.EnchantStatType.Duration:
+                    duration = param.value;
+                    break;
+                case EnchantData.EnchantStatType.Cooldown:
+                    cooldown = param.value;
+                    break;
+            }
+        }
+
+        // 방어막 활성화
+        waterShieldActive = true;
+        waterShieldAmount = shieldAmount;
+        waterShieldEndTime = Time.time + duration;
+        waterShieldCooldownEnd = Time.time + cooldown;
+
+        Debug.Log($"[물 인챈트] 방어막 발동! 수치: {shieldAmount}, 지속: {duration}초, 쿨타임: {cooldown}초 (Lv.{level})");
+    }
+
+    // 현재 방어막 수치 반환 (UI용)
+    public float GetWaterShieldAmount() => (waterShieldActive && Time.time < waterShieldEndTime) ? waterShieldAmount : 0f;
+
+    // 방어막 활성 여부 반환 (UI용)
+    public bool IsWaterShieldActive() => waterShieldActive && Time.time < waterShieldEndTime && waterShieldAmount > 0f;
+
+    // 방어막 쿨타임 남은 시간 반환 (UI용)
+    public float GetWaterShieldCooldownRemaining() => Mathf.Max(0f, waterShieldCooldownEnd - Time.time);
+
 }
+
+
+
+
+
