@@ -103,19 +103,19 @@ TextureImporter:
       name: altar_0
       rect:
         serializedVersion: 2
-        x: 311
-        y: 89
-        width: 246
-        height: 861
+        x: 128
+        y: 35
+        width: 99
+        height: 346
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d882d7559972f6690800000000000000
+      spriteID: 70403f0761b084a47815f5c695730b01
       internalID: -7606817706087733107
       vertices: []
       indices: 
