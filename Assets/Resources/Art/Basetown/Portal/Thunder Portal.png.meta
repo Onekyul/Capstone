@@ -1,0 +1,387 @@
+fileFormatVersion: 2
+guid: 53d60de9aa7404269b2ef8b142c98a56
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3041084988712946922
+    second: Thunder Portal_0
+  - first:
+      213: -5989723247233441924
+    second: Thunder Portal_1
+  - first:
+      213: 7856496952054399897
+    second: Thunder Portal_2
+  - first:
+      213: 650367410859686597
+    second: Thunder Portal_3
+  - first:
+      213: -1261872983729918487
+    second: Thunder Portal_4
+  - first:
+      213: 8844503762671733830
+    second: Thunder Portal_5
+  - first:
+      213: 7952807416390793882
+    second: Thunder Portal_6
+  - first:
+      213: -7686484491334893198
+    second: Thunder Portal_7
+  - first:
+      213: -3360654195710796787
+    second: Thunder Portal_8
+  - first:
+      213: 7948895173604793316
+    second: Thunder Portal_9
+  - first:
+      213: -8566174997679738478
+    second: Thunder Portal_10
+  - first:
+      213: 2500704804777023494
+    second: Thunder Portal_11
+  - first:
+      213: -8580027829574406863
+    second: Thunder Portal_12
+  - first:
+      213: -7624744076840146038
+    second: Thunder Portal_13
+  - first:
+      213: -1489494273736266988
+    second: Thunder Portal_14
+  - first:
+      213: -3855708058848206954
+    second: Thunder Portal_15
+  - first:
+      213: -4027633492352836277
+    second: Thunder Portal_16
+  - first:
+      213: -3670693899388744222
+    second: Thunder Portal_17
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Thunder Portal_0
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 703
+        width: 169
+        height: 299
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 613fdfba055ebc5d0800000000000000
+      internalID: -3041084988712946922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Thunder Portal_2
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 696
+        width: 183
+        height: 319
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99344263a52e70d60800000000000000
+      internalID: 7856496952054399897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Thunder Portal_3
+      rect:
+        serializedVersion: 2
+        x: 761
+        y: 688
+        width: 188
+        height: 331
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ca38c1e6b1960900800000000000000
+      internalID: 650367410859686597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Thunder Portal_4
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 347
+        width: 181
+        height: 331
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9edad1df43dec7ee0800000000000000
+      internalID: -1261872983729918487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Thunder Portal_5
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 345
+        width: 185
+        height: 332
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64c87acdf4dfdba70800000000000000
+      internalID: 8844503762671733830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Thunder Portal_6
+      rect:
+        serializedVersion: 2
+        x: 761
+        y: 346
+        width: 179
+        height: 325
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9ab01d953c0e5e60800000000000000
+      internalID: 7952807416390793882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Thunder Portal_9
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 23
+        width: 173
+        height: 302
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ebd78b9b06205e60800000000000000
+      internalID: 7948895173604793316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Thunder Portal_10
+      rect:
+        serializedVersion: 2
+        x: 425
+        y: 20
+        width: 174
+        height: 307
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2917773a935de1980800000000000000
+      internalID: -8566174997679738478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Thunder Portal_11
+      rect:
+        serializedVersion: 2
+        x: 761
+        y: 22
+        width: 181
+        height: 302
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 608d8d845c944b220800000000000000
+      internalID: 2500704804777023494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: f6d3a4ba09cf44078927c94a2dace9d9
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Thunder Portal_0: -3041084988712946922
+      Thunder Portal_1: -5989723247233441924
+      Thunder Portal_10: -8566174997679738478
+      Thunder Portal_11: 2500704804777023494
+      Thunder Portal_12: -8580027829574406863
+      Thunder Portal_13: -7624744076840146038
+      Thunder Portal_14: -1489494273736266988
+      Thunder Portal_15: -3855708058848206954
+      Thunder Portal_16: -4027633492352836277
+      Thunder Portal_17: -3670693899388744222
+      Thunder Portal_2: 7856496952054399897
+      Thunder Portal_3: 650367410859686597
+      Thunder Portal_4: -1261872983729918487
+      Thunder Portal_5: 8844503762671733830
+      Thunder Portal_6: 7952807416390793882
+      Thunder Portal_7: -7686484491334893198
+      Thunder Portal_8: -3360654195710796787
+      Thunder Portal_9: 7948895173604793316
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
