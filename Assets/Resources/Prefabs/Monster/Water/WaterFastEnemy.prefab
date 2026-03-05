@@ -644,7 +644,7 @@ MonoBehaviour:
   contactDamage: 100
   MaxHP: 140
   CurHP: 0
-  moveSpeed: 20
+  moveSpeed: 18
   poolTag: WaterFast
   expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
   usePooling: 1

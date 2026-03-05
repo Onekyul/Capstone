@@ -15,9 +15,379 @@ MonoBehaviour:
   phases:
   - timestamp: 0
     spawnGroups:
-    - monsterTag: IceChasing
+    - monsterTag: WaterChasing
       count: 300
       spawnPattern: 1
-      spawnRadius: 0
+      spawnRadius: 20
       spawnInterval: 1
-      groupSpread: 3
+      groupSpread: 0
+  - timestamp: 5
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 20
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 21
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 24
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 40
+    spawnGroups:
+    - monsterTag: WaterBig
+      count: 25
+      spawnPattern: 1
+      spawnRadius: 0
+      spawnInterval: 0.3
+      groupSpread: 0
+  - timestamp: 43
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 44
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 47
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 47.5
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 48
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 49
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 49.5
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 49.5
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 77
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 77.5
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 78
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 120
+    spawnGroups:
+    - monsterTag: WaterBig
+      count: 200
+      spawnPattern: 1
+      spawnRadius: 15
+      spawnInterval: 1
+      groupSpread: 0
+  - timestamp: 154
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 154.5
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 78
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+    - monsterTag: WaterFast
+      count: 5
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 210
+    spawnGroups:
+    - monsterTag: 'WaterChasing '
+      count: 100
+      spawnPattern: 1
+      spawnRadius: 15
+      spawnInterval: 1
+      groupSpread: 0
+  - timestamp: 220
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 0
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 0
+  - timestamp: 240
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 0
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 0
+  - timestamp: 260
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 0
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 0
+  - timestamp: 260
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 2
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 2
+  - timestamp: 263
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 2
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 2
+  - timestamp: 265
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 2
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 2
+  - timestamp: 280
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 2
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 2
+  - timestamp: 283
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 2
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 2
+  - timestamp: 287
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 2
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 2
+  - timestamp: 290
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 2
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 2
+  - timestamp: 291
+    spawnGroups:
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 2
+    - monsterTag: WaterFast
+      count: 15
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 2

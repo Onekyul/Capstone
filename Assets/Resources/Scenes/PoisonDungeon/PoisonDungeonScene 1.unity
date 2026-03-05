@@ -956,6 +956,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -6604301485312488701, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+      propertyPath: baseMaxHP
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: -6604301485312488701, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+      propertyPath: baseDefense
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: -6604301485312488701, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: moveSpeedMultiplier
       value: 1
       objectReference: {fileID: 0}
@@ -1062,6 +1070,22 @@ PrefabInstance:
     - target: {fileID: 7057338916876114614, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: m_SortingOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7805422558023164546, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+      propertyPath: baseDamage
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7805422558023164546, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+      propertyPath: 'enchantmentLevels.Array.data[0]'
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7805422558023164546, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+      propertyPath: 'enchantmentLevels.Array.data[1]'
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7805422558023164546, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
+      propertyPath: 'enchantmentLevels.Array.data[2]'
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8747429518043073597, guid: c70abc746c9305d459de1289d93f5cda, type: 3}
       propertyPath: m_Interpolate
