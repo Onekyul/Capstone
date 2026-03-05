@@ -52,4 +52,9 @@ public class Shield : MonoBehaviour
             Debug.LogWarning($"[방패] {collision.name}은 Enemy 태그가 아닙니다. 현재 태그: {collision.tag}");
         }
     }
+
+    void LateUpdate()
+    {
+        transform.rotation = Quaternion.identity;
+    }
 }

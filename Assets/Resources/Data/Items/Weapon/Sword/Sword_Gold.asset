@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64c660a6774105149aeb178ea5565fe2, type: 3}
+  m_Name: Sword_Gold
+  m_EditorClassIdentifier: 
+  weaponId: sword_gold
+  weaponName: "\uAE08 \uAC80"
+  description: "\uAC15\uB825\uD55C \uAE08 \uAC80\uC774\uB2E4."
+  icon: {fileID: 7845792552773134118, guid: 4436910fee1944b4894d7e8e28d73900, type: 3}
+  baseAtk: 80
+  atkPerLevel: 5
+  upgradeTable: {fileID: 11400000, guid: 67d0911fe00a7cd4bbe1a2dfbafd4b18, type: 2}

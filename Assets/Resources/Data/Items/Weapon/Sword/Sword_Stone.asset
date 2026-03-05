@@ -17,4 +17,5 @@ MonoBehaviour:
   description: "\uB2E8\uB2E8\uD55C \uB3CC \uAC80\uC774\uB2E4."
   icon: {fileID: 3805019278545810699, guid: 6191a2dce5930ce4a927d49f243e8ba6, type: 3}
   baseAtk: 20
+  atkPerLevel: 3
   upgradeTable: {fileID: 11400000, guid: 473d6438b45120b439308bd9cd18d318, type: 2}

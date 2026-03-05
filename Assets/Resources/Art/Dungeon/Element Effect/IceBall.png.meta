@@ -1,0 +1,199 @@
+fileFormatVersion: 2
+guid: 94d7a78d1197e4a138982fe1f0694412
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4317225593958605249
+    second: IceBall_0
+  - first:
+      213: 6442034976420787749
+    second: IceBall_1
+  - first:
+      213: -7982208848175930298
+    second: IceBall_2
+  - first:
+      213: -3470203532461513274
+    second: IceBall_3
+  - first:
+      213: -1368284749649280049
+    second: IceBall_4
+  - first:
+      213: 6233746320227637282
+    second: IceBall_5
+  - first:
+      213: 71939616254409513
+    second: IceBall_6
+  - first:
+      213: 5218158564975973636
+    second: IceBall_7
+  - first:
+      213: -2867477212537660944
+    second: IceBall_8
+  - first:
+      213: -8372795971195683631
+    second: IceBall_9
+  - first:
+      213: -2184637664993033862
+    second: IceBall_10
+  - first:
+      213: 7157178577431834150
+    second: IceBall_11
+  - first:
+      213: 6580930748355736738
+    second: IceBall_12
+  - first:
+      213: -3082572128873024242
+    second: IceBall_13
+  - first:
+      213: 460552076529087546
+    second: IceBall_14
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: IceBall_1
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 96
+        width: 502
+        height: 483
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 526f3300ea4b66950800000000000000
+      internalID: 6442034976420787749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 41ce61201e5a9477dbfc5852ca64940a
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      IceBall_0: 4317225593958605249
+      IceBall_1: 6442034976420787749
+      IceBall_10: -2184637664993033862
+      IceBall_11: 7157178577431834150
+      IceBall_12: 6580930748355736738
+      IceBall_13: -3082572128873024242
+      IceBall_14: 460552076529087546
+      IceBall_2: -7982208848175930298
+      IceBall_3: -3470203532461513274
+      IceBall_4: -1368284749649280049
+      IceBall_5: 6233746320227637282
+      IceBall_6: 71939616254409513
+      IceBall_7: 5218158564975973636
+      IceBall_8: -2867477212537660944
+      IceBall_9: -8372795971195683631
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
