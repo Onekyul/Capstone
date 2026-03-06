@@ -103,12 +103,12 @@ TextureImporter:
       name: sahagin-Photoroom_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 877
-        height: 639
+        x: 434
+        y: 76
+        width: 443
+        height: 563
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 4157e65561a184491aed9fecf6669d1e
     internalID: 0
     vertices: []
     indices: 
