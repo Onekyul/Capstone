@@ -108,10 +108,10 @@ TextureImporter:
         serializedVersion: 2
         x: 450
         y: 117
-        width: 381
-        height: 447
+        width: 379
+        height: 444
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -124,33 +124,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Spark Hopper-Photoroom_1
-      rect:
-        serializedVersion: 2
-        x: 818
-        y: 461
-        width: 28
-        height: 22
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 08fc707e9428d02b0800000000000000
-      internalID: -5616689906340868224
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 6f94581c35dc9408f8aacdd82553b50b
     internalID: 0
     vertices: []
     indices: 

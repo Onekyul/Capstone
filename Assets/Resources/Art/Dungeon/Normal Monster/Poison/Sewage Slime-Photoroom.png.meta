@@ -106,37 +106,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Sewage Slime-Photoroom_0
-      rect:
-        serializedVersion: 2
-        x: 131
-        y: 120
-        width: 68
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ae3b5782b5ef4b420800000000000000
-      internalID: 2645018548647605226
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Sewage Slime-Photoroom_1
       rect:
         serializedVersion: 2
-        x: 222
-        y: 82
-        width: 874
-        height: 496
+        x: 182
+        y: 72
+        width: 878
+        height: 506
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -149,33 +127,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Sewage Slime-Photoroom_2
-      rect:
-        serializedVersion: 2
-        x: 312
-        y: 72
-        width: 117
-        height: 37
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 70e0a29e1448b6190800000000000000
-      internalID: -7968129697082372601
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e326e0dde059f4574a830cc1fc61d52c
     internalID: 0
     vertices: []
     indices: 
