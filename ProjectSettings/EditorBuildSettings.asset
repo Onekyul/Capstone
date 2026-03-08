@@ -4,27 +4,6 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Resources/Scenes/MainMenu.unity
-    guid: 30e86aff7cbc746cdb2f55e06587ced3
-  - enabled: 0
-    path: Assets/Resources/Scenes/BattelTestScene.unity
-    guid: b16e077acb4a848488db04635ac30111
-  - enabled: 1
-    path: Assets/Resources/Scenes/BaseArea/BaseArea 1.unity
-    guid: 4cdbd80ed3e3afb47aaa78113f8f6194
-  - enabled: 1
-    path: Assets/Resources/Scenes/BaseArea/BaseArea.unity
-    guid: fcf5ea48010a8e749851a31e72c7f597
-  - enabled: 0
-    path: Assets/Resources/Scenes/LoadingScene.unity
-    guid: e58c2024ea36644cc964c4e44c9513a0
-  - enabled: 1
-    path: Assets/Resources/Scenes/FireDungeon/FireDungeonScene1.unity
-    guid: b52ea716478683f47b8757ab476634f9
-  - enabled: 0
-    path: Assets/Resources/Scenes/FireDungeon/FireDungeonScene1.unity
-    guid: b52ea716478683f47b8757ab476634f9
+  m_Scenes: []
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

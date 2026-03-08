@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 194a9fc380cafbd4b91d3085b41db2e4, type: 3}
-  m_Name: helmet_wood
+  m_Name: Helmet_Wood
   m_EditorClassIdentifier: 
   armorType: 0
   armorId: helmet_wood
@@ -21,6 +21,7 @@ MonoBehaviour:
   bonusHp: 0
   bonusAttackSpeed: 0
   modelprefab: {fileID: 0}
+  defPerLevel: 1
+  hpPerLevel: 0
+  attackSpeedPerLevel: 0
   upgradeTable: {fileID: 11400000, guid: 7398c8f01a420eb49af6815e14ee9c9a, type: 2}
-
-

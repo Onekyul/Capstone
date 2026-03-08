@@ -41,5 +41,5 @@ MonoBehaviour:
   - successRate: 100
     requiredMaterial: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
     materialCount: 5
-    nextTierWeapon: {fileID: 0}
+    nextTierWeapon: {fileID: 11400000, guid: 9f4b569d08fec8e4690b4bf1436e7ab2, type: 2}
     nextTierArmor: {fileID: 0}

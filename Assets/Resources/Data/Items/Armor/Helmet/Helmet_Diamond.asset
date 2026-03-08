@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 194a9fc380cafbd4b91d3085b41db2e4, type: 3}
-  m_Name: helmet_diamond
+  m_Name: Helmet_Diamond
   m_EditorClassIdentifier: 
   armorType: 0
   armorId: helmet_diamond
   armorName: "\uB2E4\uC774\uC544\uBAAC\uB4DC \uD22C\uAD6C"
   description: 
   icon: {fileID: 3707413750030145313, guid: 4436910fee1944b4894d7e8e28d73900, type: 3}
-  bonusDef: 40
+  bonusDef: 50
   bonusHp: 0
   bonusAttackSpeed: 0
   modelprefab: {fileID: 0}
+  defPerLevel: 1
+  hpPerLevel: 0
+  attackSpeedPerLevel: 0
   upgradeTable: {fileID: 11400000, guid: e04fccce7aaeef74fa31e3cce322c191, type: 2}
-
-

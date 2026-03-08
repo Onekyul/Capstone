@@ -1,0 +1,371 @@
+fileFormatVersion: 2
+guid: 5f23be5808461440887d8a54758d0371
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6427506474798369331
+    second: Poison Portal_0
+  - first:
+      213: -6924308616069893563
+    second: Poison Portal_1
+  - first:
+      213: -1787413383574539514
+    second: Poison Portal_2
+  - first:
+      213: 6620756372497733194
+    second: Poison Portal_3
+  - first:
+      213: 2695456402427945644
+    second: Poison Portal_4
+  - first:
+      213: 169148160954720958
+    second: Poison Portal_5
+  - first:
+      213: -2603697739480088869
+    second: Poison Portal_6
+  - first:
+      213: 6350971174529590438
+    second: Poison Portal_7
+  - first:
+      213: -4165581395843376687
+    second: Poison Portal_8
+  - first:
+      213: 4983425037621854749
+    second: Poison Portal_9
+  - first:
+      213: -4183695475343396088
+    second: Poison Portal_10
+  - first:
+      213: 6595752424987605070
+    second: Poison Portal_11
+  - first:
+      213: 286057658363620081
+    second: Poison Portal_12
+  - first:
+      213: 1891794516275352370
+    second: Poison Portal_13
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Poison Portal_0
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 705
+        width: 159
+        height: 299
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33a41ed9517133950800000000000000
+      internalID: 6427506474798369331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Poison Portal_1
+      rect:
+        serializedVersion: 2
+        x: 425
+        y: 693
+        width: 168
+        height: 317
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5423aff000ae7ef90800000000000000
+      internalID: -6924308616069893563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Poison Portal_2
+      rect:
+        serializedVersion: 2
+        x: 771
+        y: 689
+        width: 169
+        height: 323
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 603b24d6ff4d137e0800000000000000
+      internalID: -1787413383574539514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Poison Portal_3
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 347
+        width: 172
+        height: 331
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a46912fa7d6a1eb50800000000000000
+      internalID: 6620756372497733194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Poison Portal_6
+      rect:
+        serializedVersion: 2
+        x: 425
+        y: 352
+        width: 169
+        height: 323
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bde3dcf63becddbd0800000000000000
+      internalID: -2603697739480088869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Poison Portal_8
+      rect:
+        serializedVersion: 2
+        x: 760
+        y: 351
+        width: 175
+        height: 323
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d997c96ac1e036c0800000000000000
+      internalID: -4165581395843376687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Poison Portal_9
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 21
+        width: 161
+        height: 295
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d120d3c1baea82540800000000000000
+      internalID: 4983425037621854749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Poison Portal_11
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 27
+        width: 162
+        height: 292
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e48becd72e1d88b50800000000000000
+      internalID: 6595752424987605070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Poison Portal_12
+      rect:
+        serializedVersion: 2
+        x: 773
+        y: 21
+        width: 156
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fa2b08bce748f300800000000000000
+      internalID: 286057658363620081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5d27ffa36eb294e3f91ba1d5f5e935ea
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Poison Portal_0: 6427506474798369331
+      Poison Portal_1: -6924308616069893563
+      Poison Portal_10: -4183695475343396088
+      Poison Portal_11: 6595752424987605070
+      Poison Portal_12: 286057658363620081
+      Poison Portal_13: 1891794516275352370
+      Poison Portal_2: -1787413383574539514
+      Poison Portal_3: 6620756372497733194
+      Poison Portal_4: 2695456402427945644
+      Poison Portal_5: 169148160954720958
+      Poison Portal_6: -2603697739480088869
+      Poison Portal_7: 6350971174529590438
+      Poison Portal_8: -4165581395843376687
+      Poison Portal_9: 4983425037621854749
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

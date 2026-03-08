@@ -108,7 +108,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -578443658361345570, guid: 162400ea16494d6498ca0f1660e93b46, type: 3}
+  m_Sprite: {fileID: -578443658361345570, guid: 162400ea16494d6498ca0f1660e93b46,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -137,7 +138,8 @@ MonoBehaviour:
   attackDuration: 0.3
   finalTotalDamage: 0
   finalCooldown: 0
-  attackEffectPrefab: {fileID: 2003877883920826118, guid: 393775aaa01b1444db5037270bd929f2, type: 3}
+  attackEffectPrefab: {fileID: 2003877883920826118, guid: 393775aaa01b1444db5037270bd929f2,
+    type: 3}
   attackPoint: {fileID: 0}
   enchantChancePerLevel: 10
   maxEnchantmentLevel: 5
@@ -149,7 +151,7 @@ MonoBehaviour:
   attackAngle: 90
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   swordRange: 5
   effectOffsetDistance: 0.8
 --- !u!1 &2581213020333824419
@@ -379,7 +381,8 @@ MonoBehaviour:
   debugIceLevel: 0
   debugLightningLevel: 0
   debugPoisonLevel: 0
-  arrowPrefab: {fileID: 1493290291005291568, guid: bbeb226d02dcd094296a10b6125561ce, type: 3}
+  arrowPrefab: {fileID: 1493290291005291568, guid: bbeb226d02dcd094296a10b6125561ce,
+    type: 3}
 --- !u!1 &4159818528927673757
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,7 +578,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4334783836991956000, guid: 44ea89cd05b6c6c499a1ac0d2dcc1a22, type: 3}
+  m_Sprite: {fileID: 4334783836991956000, guid: 44ea89cd05b6c6c499a1ac0d2dcc1a22,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -598,7 +602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0cb60f25a15bb4a86be00086f978e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 4
+  playerSpeed: 3
   movementInput: {x: 0, y: 0}
   attackManager: {fileID: 6614344249973979373}
   spriteRenderer: {fileID: 0}
@@ -726,7 +730,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 86d96e4e0de842a46a6038393235655e, type: 2}
   - {fileID: 11400000, guid: b451c006d3714084ea9f42a8bc502af0, type: 2}
   - {fileID: 11400000, guid: 4a3cca0ad5e623548abfb9f1a8bce16e, type: 2}
-  shieldAbilityPrefab: {fileID: 8083260392662848310, guid: 955b7f8ae9870314e9dd3e21e8625dc3, type: 3}
+  shieldAbilityPrefab: {fileID: 8083260392662848310, guid: 955b7f8ae9870314e9dd3e21e8625dc3,
+    type: 3}
 --- !u!114 &-6604301485312488701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -768,7 +773,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf9e8117cb00450ebc05b75f85d523ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowPrefab: {fileID: 2126468013485138666, guid: 8d01e6db47ee7414291f8950b8cb0bbd, type: 3}
+  arrowPrefab: {fileID: 2126468013485138666, guid: 8d01e6db47ee7414291f8950b8cb0bbd,
+    type: 3}
   distanceFromPlayer: 2.5
   arrowColor: {r: 1, g: 0.6499092, b: 0.015686274, a: 1}
   arrowScale: 1
@@ -956,13 +962,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6300785288541835649}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4752057, y: 0.4752057, z: 0.4752057}
+  m_LocalScale: {x: 0.2235, y: 0.2235, z: 0.2235}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4290561966624896383}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1909110261594232956
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1006,8 +1012,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
-  m_Sprite: {fileID: 6108012597462862368, guid: 861fd562340da42f9ab5a218dd931c3e, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1045,10 +1052,10 @@ MonoBehaviour:
   debugIceLevel: 0
   debugLightningLevel: 0
   debugPoisonLevel: 0
-  spearRange: 6
+  spearRange: 6.5
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   attackWidth: 0.5
 --- !u!1 &7512561020032831321
 GameObject:

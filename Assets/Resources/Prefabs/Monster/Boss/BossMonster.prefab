@@ -233,7 +233,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: be89da7a31b074efe988cee9c3223d2b, type: 3}
+  m_Sprite: {fileID: -6248741079362886434, guid: cb0f209fa06dd4793901e98d013b082a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -282,7 +282,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 12.055555, y: 9.333333}
+    oldSize: {x: 7.27, y: 8.51}
     newSize: {x: 4.34, y: 3.36}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -361,7 +361,7 @@ MonoBehaviour:
   fieldExpandSpeed: 3
   fieldDamageInterval: 0.5
   fieldDamage: 5
-  iceClusterPrefab: {fileID: 3852665186636552438, guid: 2df235d15654da646aa643b91ec24384, type: 3}
+  iceClusterPrefab: {fileID: 3852665186636552438, guid: 562ab9542e2844996847d92e59d82392, type: 3}
   iceWarningDuration: 1
   bodyDuration: 1
   iceContactDamage: 10
