@@ -109,12 +109,12 @@ TextureImporter:
       name: Volt Raptor-Photoroom_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 936
-        height: 683
+        x: 344
+        y: 117
+        width: 771
+        height: 402
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -127,55 +127,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Volt Raptor-Photoroom_1
-      rect:
-        serializedVersion: 2
-        x: 168
-        y: 380
-        width: 22
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7ba2411ab427c72c0800000000000000
-      internalID: -4432542264088843593
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Volt Raptor-Photoroom_2
-      rect:
-        serializedVersion: 2
-        x: 179
-        y: 343
-        width: 10
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 904b98a13b832fe50800000000000000
-      internalID: 6841593125824738313
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f833d9c7724924c11bf636e99583bea8
     internalID: 0
     vertices: []
     indices: 

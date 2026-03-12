@@ -106,10 +106,10 @@ TextureImporter:
       name: piranha-Photoroom_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1280
-        height: 706
+        x: 444
+        y: 222
+        width: 406
+        height: 289
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,10 +128,10 @@ TextureImporter:
       name: piranha-Photoroom_1
       rect:
         serializedVersion: 2
-        x: 839
-        y: 346
-        width: 7
-        height: 6
+        x: 435
+        y: 347
+        width: 5
+        height: 4
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: de68cdc12b40e4fa3bcf54231338f7dc
     internalID: 0
     vertices: []
     indices: 

@@ -267,6 +267,15 @@ public class MonsterController : MonoBehaviour
         {
             ApplyPoison(enchants[3]);
         }
+
+        // [4] 물 (피격 방어막) - 플레이어에게 방어막 부여
+        if (enchants.Length > 4 && enchants[4] > 0)
+        {
+            if (PlayerStats.Instance != null)
+            {
+                PlayerStats.Instance.TriggerWaterEnchantShield(enchants[4]);
+            }
+        }
         
         // 전염 능력 체크 (5% 확률)
         if (PlayerStats.Instance != null && 

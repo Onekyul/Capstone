@@ -246,8 +246,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1380387399677518399, guid: 3c942d9c3727f7e439ec9606f68f3067, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: -8357158624077902210, guid: 6317bc29ccc1844a29ac14078aa3a0cf,
+    type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -295,7 +296,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.34, y: 1.06}
+    oldSize: {x: 3.79, y: 4.44}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -348,14 +349,17 @@ MonoBehaviour:
   CurHP: 0
   moveSpeed: 2
   poolTag: ThunderChasing
-  expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
+  expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5,
+    type: 3}
   usePooling: 1
   hpSlider: {fileID: 8157593141099731280}
-  lightningFieldPrefab: {fileID: 4767905910849374279, guid: 297f71522dc1b3c4497e60d2cd7ff014, type: 3}
+  lightningFieldPrefab: {fileID: 4767905910849374279, guid: 297f71522dc1b3c4497e60d2cd7ff014,
+    type: 3}
   burnEffectObject: {fileID: 9186822902535204999}
   poisonEffectObject: {fileID: 6886918388319957408}
   storedLastDamage: 0
-  eliteChestPrefab: {fileID: -7302594443989870516, guid: ace7d39784493df4692014cc8d62bfb3, type: 3}
+  eliteChestPrefab: {fileID: -7302594443989870516, guid: ace7d39784493df4692014cc8d62bfb3,
+    type: 3}
   IsElite: 0
   eliteSpawnChance: 5
 --- !u!1 &6752427310582545182

@@ -333,15 +333,16 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -738572095297613877, guid: b13d23c2f1ac0184d91e8232cfdebe35, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 6373798577730397960, guid: 70c0bb9871f7e4c48b12144e25803323,
+    type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 7.71, y: 4.02}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &6586884628226778607
@@ -378,17 +379,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.012802243}
+  m_Offset: {x: -0.08914375, y: 0.040644884}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.93, y: 6.76}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 7.71, y: 4.02}
+    newSize: {x: 7.71, y: 4.02}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.9383135, y: 6.760968}
+  m_Size: {x: 7.612624, y: 4.1313415}
   m_EdgeRadius: 0
 --- !u!50 &3166880201529586006
 Rigidbody2D:
@@ -435,14 +436,16 @@ MonoBehaviour:
   CurHP: 0
   moveSpeed: 2
   poolTag: ThunderBig
-  expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
+  expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5,
+    type: 3}
   usePooling: 1
   hpSlider: {fileID: 6768769806740092862}
   lightningFieldPrefab: {fileID: 0}
   burnEffectObject: {fileID: 4563594035020285612}
   poisonEffectObject: {fileID: 1833419039739331658}
   storedLastDamage: 0
-  eliteChestPrefab: {fileID: -7302594443989870516, guid: ace7d39784493df4692014cc8d62bfb3, type: 3}
+  eliteChestPrefab: {fileID: -7302594443989870516, guid: ace7d39784493df4692014cc8d62bfb3,
+    type: 3}
   IsElite: 0
   eliteSpawnChance: 5
 --- !u!1 &4563594035020285612

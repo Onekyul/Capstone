@@ -37,6 +37,13 @@ public class WaterWaveController : MonoBehaviour
         float angle = Mathf.Atan2(moveDir.y, moveDir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
+        // 파도 뒤집힘 해결 코드 추가
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            sr.flipY = (moveDir.x < 0); 
+        }
+
         // 크기 연출 초기화 (작게 시작해서 커짐)
         startScale = transform.localScale * startScaleMultiplier;
         targetScale = transform.localScale * targetScaleMultiplier;

@@ -277,7 +277,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.010878563, y: 0.06526208}
+  m_Offset: {x: -0.071146965, y: 0.06526184}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -287,7 +287,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 9.853857, y: 8.613201}
+  m_Size: {x: 9.974394, y: 8.613201}
   m_EdgeRadius: 0
 --- !u!50 &6521329764967539173
 Rigidbody2D:
@@ -345,6 +345,13 @@ MonoBehaviour:
   attackCooldown: 2
   elementChestPrefab: {fileID: -507466460373292382, guid: d2dc02d0d702dd149a5f462dabbaf9fe, type: 3}
   iceClusterPrefab: {fileID: 3852665186636552438, guid: 4489e040f564e044fa34788a9292c7a2, type: 3}
+  warningDuration: 1.5
+  bodyDuration: 2
+  iceContactDamage: 10
+  shardDamage: 5
+  shardSpeed: 5
+  shardCount: 6
+  shardLifetime: 3
 --- !u!1 &3033014908612539654
 GameObject:
   m_ObjectHideFlags: 0

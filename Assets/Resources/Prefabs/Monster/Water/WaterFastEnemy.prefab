@@ -544,8 +544,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 170313271620987468, guid: 9c7d49024568d384ab8f25b6ea7b8277, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: -3646375606399234883, guid: 31a16d04f8d34493e9de7bf8ad3fe0c1,
+    type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -593,7 +594,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 9.46, y: 4}
+    oldSize: {x: 4.06, y: 2.89}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -646,7 +647,8 @@ MonoBehaviour:
   CurHP: 0
   moveSpeed: 18
   poolTag: WaterFast
-  expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
+  expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5,
+    type: 3}
   usePooling: 1
   hpSlider: {fileID: 290604266879168962}
   lightningFieldPrefab: {fileID: 0}

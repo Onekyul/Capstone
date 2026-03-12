@@ -106,12 +106,12 @@ TextureImporter:
       name: Dron-Photoroom_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 119
-        width: 851
-        height: 564
+        x: 399
+        y: 114
+        width: 451
+        height: 474
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -124,33 +124,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Dron-Photoroom_1
-      rect:
-        serializedVersion: 2
-        x: 642
-        y: 113
-        width: 17
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3f392421cacc00230800000000000000
-      internalID: 3603104741309191155
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 781a7e0c550614c8cb156e292a0d009d
     internalID: 0
     vertices: []
     indices: 
