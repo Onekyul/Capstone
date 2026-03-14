@@ -512,6 +512,10 @@ public class MonsterController : MonoBehaviour
     // --- 유틸리티 ---
     protected bool IsDead() => CurHP <= 0;
 
+    // 네트워크 래퍼에서 접근할 수 있도록 public getter 제공
+    public float GetCurrentHP() => CurHP;
+    public float GetMaxHP() => MaxHP;
+
     protected Transform GetClosestPlayer()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");

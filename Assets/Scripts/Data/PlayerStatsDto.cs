@@ -16,10 +16,3 @@ public class PlayerStatsDto
     public string equippedBoots;
     public List<EquipItemDto> equipments = new List<EquipItemDto>();
 }
-
-[Serializable]
-public class EquipItemDto
-{
-    public string id;
-    public int level;
-}

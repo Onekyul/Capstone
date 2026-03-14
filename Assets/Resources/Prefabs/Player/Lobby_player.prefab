@@ -84,7 +84,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 4334783836991956000, guid: 44ea89cd05b6c6c499a1ac0d2dcc1a22, type: 3}
+  m_Sprite: {fileID: 4334783836991956000, guid: 44ea89cd05b6c6c499a1ac0d2dcc1a22,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -406,10 +407,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ddd
+  m_text: "\uB2C9\uB124\uC784"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ef3263b2cc8e24a4fb2e1f0f09e99bdf, type: 2}
-  m_sharedMaterial: {fileID: -1700465337636256926, guid: ef3263b2cc8e24a4fb2e1f0f09e99bdf, type: 2}
+  m_sharedMaterial: {fileID: -1700465337636256926, guid: ef3263b2cc8e24a4fb2e1f0f09e99bdf,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

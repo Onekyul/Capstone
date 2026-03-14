@@ -79,7 +79,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -3809233051643409127, guid: a6a77d8dd61b6914fab51a9e01cd3a60, type: 3}
+  m_Sprite: {fileID: -3809233051643409127, guid: a6a77d8dd61b6914fab51a9e01cd3a60,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -150,6 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 5334316867812812060}
   dialogue: 
+  tradeTable: {fileID: 11400000, guid: b82fd4ffdb7c23d4ca38b2b4e09f6e44, type: 2}
 --- !u!1 &4818047698526556036
 GameObject:
   m_ObjectHideFlags: 0

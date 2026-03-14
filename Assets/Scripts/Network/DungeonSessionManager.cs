@@ -20,7 +20,7 @@ public class DungeonSessionManager : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkRunner runnerPrefab;
 
     [Header("씬 이름")]
-    [SerializeField] private string bossDungeonSceneName = "BossTestScene";
+    [SerializeField] private string bossDungeonSceneName = "BossTestScene 1";
     [SerializeField] private string lobbySceneName = "BaseArea 1";
 
     private NetworkRunner _currentRunner;
@@ -72,7 +72,35 @@ public class DungeonSessionManager : MonoBehaviour, INetworkRunnerCallbacks
     }
 
     // ============================
-    //  보스던전 → 로비 복귀
+    //  파밍 던전 진입 (Shared 세션 종료 → 로컬 씬 로드)
+    // ============================
+
+    /// <summary>
+    /// 파밍 던전 진입: Shared 세션을 완전 종료한 뒤 로컬 던전 씬을 로드.
+    /// DontDestroyOnLoad 오브젝트에서 실행하므로 씬 전환 중에도 코루틴이 유지됨.
+    /// </summary>
+    public void EnterFarmingDungeon(string sceneName)
+    {
+        if (_isTransitioning) return;
+        StartCoroutine(CoEnterFarmingDungeon(sceneName));
+    }
+
+    private IEnumerator CoEnterFarmingDungeon(string sceneName)
+    {
+        _isTransitioning = true;
+        Debug.Log($"[DungeonSession] 파밍 던전 진입: {sceneName}");
+
+        // 1. 로비 Shared 세션 완전 종료
+        yield return CoShutdownAllRunners();
+
+        // 2. 로컬 던전 씬 로드 (Fusion 비활성 상태이므로 SceneManager 직접 사용 가능)
+        SceneManager.LoadScene(sceneName);
+
+        _isTransitioning = false;
+    }
+
+    // ============================
+    //  파밍/보스 던전 → 로비 복귀
     // ============================
 
     public void ReturnToLobby()
@@ -86,13 +114,19 @@ public class DungeonSessionManager : MonoBehaviour, INetworkRunnerCallbacks
         _isTransitioning = true;
         Debug.Log("[DungeonSession] 로비로 복귀 중...");
 
-        // 1. 현재 러너 종료
+        // 1. 활성 러너 모두 종료 + GameObject 제거
         yield return CoShutdownAllRunners();
 
-        // 2. 로비 씬 로드 (FusionBootstrap이 자동으로 Shared 세션 재연결)
-        SceneManager.LoadScene(lobbySceneName);
+        // 2. 로비 씬 로드
+        //    "Prototype Network Start"의 FusionBootstrap이 Awake()에서 자동으로
+        //    Shared 세션("LobbyRoom")에 재접속 → IPlayerJoined → LobbySpawner 스폰
+        //    CoStartLobbyRunner()를 별도로 호출하면 Runner가 2개가 되어 플레이어 중복 스폰됨
+        var loadOp = SceneManager.LoadSceneAsync(lobbySceneName);
+        while (!loadOp.isDone)
+            yield return null;
 
         _isTransitioning = false;
+        Debug.Log("[DungeonSession] 로비 씬 로드 완료 - FusionBootstrap이 세션 재접속 처리");
     }
 
     // ============================
@@ -225,4 +259,5 @@ public class DungeonSessionManager : MonoBehaviour, INetworkRunnerCallbacks
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
+    public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
 }

@@ -70,7 +70,7 @@ public class BossStageManager : MonoBehaviour
             yield return new WaitForSeconds(SpawnInterval); // SpawnInterval 초마다 스폰
 
             //잡몹 스폰 위치 중 랜덤 선택
-            Vector2 spawnPos = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
+            Vector2 spawnPos = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].position;
 
             // 풀링 매니저 사용
             MonsterPool.Instance.GetFromPool("BossChasing", spawnPos, Quaternion.identity);
@@ -124,7 +124,7 @@ public class BossStageManager : MonoBehaviour
             return;
         }
 
-        Vector3 altarPos = boss.transform.position + (Vector3)Random.insideUnitCircle * 5f;
+        Vector3 altarPos = boss.transform.position + (Vector3)UnityEngine.Random.insideUnitCircle * 5f;
         GameObject altarObj = Instantiate(altarPrefab, altarPos, Quaternion.identity);
         AltarController altarController = altarObj.GetComponent<AltarController>();
         if (altarController == null)

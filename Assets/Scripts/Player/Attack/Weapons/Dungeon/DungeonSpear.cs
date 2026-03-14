@@ -6,7 +6,7 @@ public class DungeonSpear : DungeonWeaponBase
     [Header("Spear Specific")]
     [SerializeField] private float spearRange = 3f;   
     [SerializeField] private float attackWidth = 0.5f;
-    [SerializeField] private LayerMask enemyLayer; 
+    [SerializeField] private LayerMask enemyLayer = 128; // Layer 7 (Enemy) - 2^7 = 128
     [SerializeField] private GameObject attackEffectPrefab; // 시각 이펙트 프리팹
 
     // ★ 오직 서버(데디케이티드)에서만 실행되는 진짜 타격 판정

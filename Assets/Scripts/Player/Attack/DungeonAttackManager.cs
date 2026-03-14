@@ -3,7 +3,7 @@ using Fusion;
 
 public class DungeonAttackManager : NetworkBehaviour
 {
-    private WeaponBase currentWeapon;
+    private DungeonWeaponBase currentWeapon;
     private DungeonPlayerStats stats; // ★ 스탯 스크립트 참조 추가
     
     [Header("Weapon Objects")]
@@ -34,6 +34,10 @@ public class DungeonAttackManager : NetworkBehaviour
             }
             RPC_SetAutoAttack(true);
         }
+
+        // 데디서버가 NetWeaponType을 이미 0으로 설정한 경우 OnChangedRender가 안 불리므로
+        // 클라이언트에서 현재 값으로 직접 초기화
+        SwitchWeaponVisuals(NetWeaponType, "");
 #endif
         // 데디서버에서는 BossDungeonServer가 InitWeaponFromServer()를 호출함
     }
@@ -75,15 +79,20 @@ public class DungeonAttackManager : NetworkBehaviour
             NetLookDir = data.lookDirection; 
         }
 
-        if (bowObject != null && currentWeapon is BowWeapon)
+        if (bowObject != null && currentWeapon is DungeonBow)
         {
             bowObject.transform.position = (Vector2)transform.position + (NetLookDir * bowOrbitDistance);
             bowObject.transform.rotation = Quaternion.LookRotation(Vector3.forward, NetLookDir);
         }
 
+        if (Runner.Tick % 60 == 0) // 1초마다 한 번 로그
+        {
+            Debug.Log($"[AttackManager] IsAutoAttacking={IsAutoAttacking}, currentWeapon={currentWeapon != null}, NetLookDir={NetLookDir}, HasStateAuth={HasStateAuthority}, HasInputAuth={HasInputAuthority}");
+        }
+
         if (IsAutoAttacking && currentWeapon != null && NetLookDir.sqrMagnitude > 0)
         {
-            currentWeapon.Attack(NetLookDir); 
+            currentWeapon.Attack(NetLookDir);
         }
     }
 
@@ -117,19 +126,39 @@ public class DungeonAttackManager : NetworkBehaviour
 
     private void SwitchWeaponVisuals(int weaponType, string weaponId)
     {
-        HideAllWeapons(); 
+        HideAllWeapons();
 
         switch (weaponType)
         {
-            case 0: 
-                if (swordObject != null) { swordObject.SetActive(true); currentWeapon = swordObject.GetComponent<SwordWeapon>(); }
+            case 0:
+                if (swordObject != null)
+                {
+                    swordObject.SetActive(true);
+                    currentWeapon = swordObject.GetComponent<DungeonSword>();
+                    if (currentWeapon == null)
+                        Debug.LogError("[DungeonAttackManager] swordObject에 DungeonSword 컴포넌트가 없습니다!");
+                }
                 break;
-            case 1: 
-                if (spearObject != null) { spearObject.SetActive(true); currentWeapon = spearObject.GetComponent<SpearWeapon>(); }
+            case 1:
+                if (spearObject != null)
+                {
+                    spearObject.SetActive(true);
+                    currentWeapon = spearObject.GetComponent<DungeonSpear>();
+                    if (currentWeapon == null)
+                        Debug.LogError("[DungeonAttackManager] spearObject에 DungeonSpear 컴포넌트가 없습니다!");
+                }
                 break;
-            case 2: 
-                if (bowObject != null) { bowObject.SetActive(true); currentWeapon = bowObject.GetComponent<BowWeapon>(); }
+            case 2:
+                if (bowObject != null)
+                {
+                    bowObject.SetActive(true);
+                    currentWeapon = bowObject.GetComponent<DungeonBow>();
+                    if (currentWeapon == null)
+                        Debug.LogError("[DungeonAttackManager] bowObject에 DungeonBow 컴포넌트가 없습니다!");
+                }
                 break;
         }
+
+        Debug.Log($"[DungeonAttackManager] SwitchWeaponVisuals: type={weaponType}, currentWeapon={currentWeapon}");
     }
 }

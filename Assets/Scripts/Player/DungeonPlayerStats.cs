@@ -1,14 +1,15 @@
 using Fusion;
+using TMPro;
 using UnityEngine;
 using System;
 
-public class DungeonPlayerStats : NetworkBehaviour
+public class DungeonPlayerStats : NetworkBehaviour, IDamageable
 {
     [Networked, OnChangedRender(nameof(OnHPChanged))]
     public float NetCurHP { get; set; }
-    
+
     [Networked, OnChangedRender(nameof(OnDeadStateChanged))]
-    public NetworkBool IsDead { get; set; } 
+    public NetworkBool IsDead { get; set; }
 
     [Header("Base Stats")]
     public float baseMaxHP = 100f;
@@ -19,8 +20,14 @@ public class DungeonPlayerStats : NetworkBehaviour
     [Networked] public float MoveSpeedMultiplier { get; set; } = 1.0f;
     [Networked] public float AttackSpeedMultiplier { get; set; } = 1.0f;
 
-    public event Action<float> OnHealthChangedLocal; 
-    public event Action OnPlayerDiedLocal; 
+    [Header("닉네임 UI")]
+    [SerializeField] private TMP_Text nicknameText;
+
+    [Networked, OnChangedRender(nameof(UpdateNicknameUI))]
+    public NetworkString<_32> Nickname { get; set; }
+
+    public event Action<float> OnHealthChangedLocal;
+    public event Action OnPlayerDiedLocal;
 
     public override void Spawned()
     {
@@ -28,9 +35,32 @@ public class DungeonPlayerStats : NetworkBehaviour
         if (HasInputAuthority)
         {
             CalculateAndSendMyStats();
+
+            string myNickname = "Unknown";
+            if (SessionManager.Instance != null)
+                myNickname = SessionManager.Instance.Nickname;
+            RPC_SetNickname(myNickname);
+
+            // HP바 초기화 (자신의 플레이어에서만)
+            DungeonHpBarSlider hpBar = GetComponentInChildren<DungeonHpBarSlider>(true);
+            if (hpBar != null)
+                hpBar.Init(this);
         }
 #endif
+        UpdateNicknameUI();
         // 데디서버에서는 BossDungeonServer.OnPlayerJoined()가 InitFromServerData()를 호출함
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_SetNickname(NetworkString<_32> newNickname)
+    {
+        Nickname = newNickname;
+    }
+
+    private void UpdateNicknameUI()
+    {
+        if (nicknameText == null) return;
+        nicknameText.text = Nickname.ToString();
     }
 
     /// <summary>
@@ -78,10 +108,36 @@ public class DungeonPlayerStats : NetworkBehaviour
         IsDead = false; 
     }
 
+    // 피격 체크: Fusion FixedUpdateNetwork에서 수동 충돌 체크
+    private int _lastDamageTick;
+    private const int DamageTickInterval = 60; // 60틱 = 약 1초 쿨다운
+    private const float ContactRadius = 0.6f;
+
+    public override void FixedUpdateNetwork()
+    {
+        if (!HasStateAuthority) return;
+        if (IsDead || NetCurHP <= 0) return;
+        if (Runner.Tick - _lastDamageTick < DamageTickInterval) return;
+
+        // 주변 Enemy 태그 오브젝트 탐색
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, ContactRadius);
+        foreach (var col in colliders)
+        {
+            if (!col.CompareTag("Enemy")) continue;
+            MonsterController monster = col.GetComponent<MonsterController>();
+            if (monster == null) continue;
+
+            _lastDamageTick = Runner.Tick;
+            TakeDamage(monster.normalDamage);
+            Debug.Log($"[서버] 플레이어 피격: {col.name}, 데미지={monster.normalDamage}, 남은HP={NetCurHP}");
+            break;
+        }
+    }
+
     public void TakeDamage(float rawDamage)
     {
-        if (!HasStateAuthority) return; 
-        if (IsDead || NetCurHP <= 0) return; 
+        if (!HasStateAuthority) return;
+        if (IsDead || NetCurHP <= 0) return;
 
         float damageReduction = TotalDefense / (TotalDefense + 100f);
         float finalDamage = rawDamage * (1f - damageReduction);
@@ -91,8 +147,12 @@ public class DungeonPlayerStats : NetworkBehaviour
         if (NetCurHP <= 0)
         {
             NetCurHP = 0;
-            IsDead = true; // ★ 체력이 0이 되면 서버가 사망 상태로 만듦
+            IsDead = true;
             Debug.Log("[서버] 플레이어 사망 판정!");
+
+#if UNITY_SERVER
+            BossDungeonServer.Instance?.OnPlayerDied();
+#endif
         }
     }
 

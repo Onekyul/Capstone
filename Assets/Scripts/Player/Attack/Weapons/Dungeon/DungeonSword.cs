@@ -5,7 +5,7 @@ public class DungeonSword : DungeonWeaponBase
 {
     [Header("Sword Specific")]
     [SerializeField] private float attackAngle = 90f;   
-    [SerializeField] private LayerMask enemyLayer; // 데디케이티드 몬스터 레이어 할당
+    [SerializeField] private LayerMask enemyLayer = 128; // Layer 7 (Enemy) - 2^7 = 128
     [SerializeField] private float swordRange = 2.0f; 
 
     [Header("Effect Settings")]

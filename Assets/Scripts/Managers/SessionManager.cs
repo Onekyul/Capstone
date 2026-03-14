@@ -13,7 +13,7 @@ public class SessionManager : MonoBehaviour
     public string Nickname { get; private set; }
     public int MaxClearedStage { get; private set; }
     
-    private string baseUrl = "http://localhost:7200/api"; 
+    private string BaseUrl = "http://localhost:7200/api";
     private const string DEVICE_ID_KEY = "Capstone_DeviceID";
     
     void Awake()
@@ -43,7 +43,7 @@ public class SessionManager : MonoBehaviour
         // 서버의 GuestLoginReq 모델에 맞춤
         string json = $"{{\"DeviceId\":\"{deviceId}\"}}";
         
-        using (UnityWebRequest req = CreatePostRequest(baseUrl + "/Auth/guest-login", json))
+        using (UnityWebRequest req = CreatePostRequest(BaseUrl + "/Auth/guest-login", json))
         {
             yield return req.SendWebRequest();
 
@@ -81,7 +81,7 @@ public class SessionManager : MonoBehaviour
         
         string json = $"{{\"DeviceId\":\"{deviceId}\", \"Nickname\":\"{nickname}\"}}";
         
-        using (UnityWebRequest req = CreatePostRequest(baseUrl + "/Auth/register", json))
+        using (UnityWebRequest req = CreatePostRequest(BaseUrl + "/Auth/register", json))
         {
             yield return req.SendWebRequest();
 
@@ -121,7 +121,7 @@ public class SessionManager : MonoBehaviour
     private IEnumerator CoCheckNicknameDuplicate(string nickname, Action<bool> onAvailable)
     {
         // GET 요청이므로 URL 파라미터로 닉네임을 보냅니다.
-        string requestUrl = $"{baseUrl}/Auth/check-nickname?nickname={UnityWebRequest.EscapeURL(nickname)}";
+        string requestUrl = $"{BaseUrl}/Auth/check-nickname?nickname={UnityWebRequest.EscapeURL(nickname)}";
 
         using (UnityWebRequest req = UnityWebRequest.Get(requestUrl))
         {
