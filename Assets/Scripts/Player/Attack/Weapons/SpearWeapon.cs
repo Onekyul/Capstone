@@ -100,11 +100,12 @@ public class SpearWeapon : WeaponBase
 
         float angle = Vector2.SignedAngle(Vector2.right, lastAttackDir);
 
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(boxCenter, boxSize, angle, enemyLayer);
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(boxCenter, boxSize, angle);
 
         foreach (Collider2D col in colliders)
         {
-            enemiesInRange.Add(col.gameObject);
+            if (col.CompareTag("Enemy"))
+                enemiesInRange.Add(col.gameObject);
         }
     }
     

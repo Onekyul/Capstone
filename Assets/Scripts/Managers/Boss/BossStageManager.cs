@@ -16,6 +16,12 @@ public class BossStageManager : MonoBehaviour
     [SerializeField] private BossMonsterController boss;
     [SerializeField] private GameObject chasingMonsterPrefab;
     [SerializeField] private GameObject altarPrefab;
+
+    // 잡몹 위치 동기화용 (MinionSyncManager가 읽어감)
+    public List<MonsterController> ActiveMinions { get; private set; } = new List<MonsterController>();
+
+    // 재단 동기화용 (AltarSyncManager가 읽어감)
+    public AltarController ActiveAltar { get; private set; }
     [SerializeField] private float rageModeCycle = 120f; // 120초마다 레이지
     [SerializeField] private Transform[] spawnPoints; // 잡몹 스폰 위치들 
     [SerializeField] private float SpawnInterval = 2f;
@@ -30,6 +36,11 @@ public class BossStageManager : MonoBehaviour
 
     void Start()
     {
+#if !UNITY_SERVER
+        // 클라이언트: 서버 전용 로직 실행 안 함
+        enabled = false;
+        return;
+#endif
         // 보스 사망 이벤트 구독
         if (boss != null)
             boss.OnDeath += () => OnBossDefeated?.Invoke();
@@ -67,13 +78,24 @@ public class BossStageManager : MonoBehaviour
     {
         while (!isRageMode)
         {
-            yield return new WaitForSeconds(SpawnInterval); // SpawnInterval 초마다 스폰
+            yield return new WaitForSeconds(SpawnInterval);
 
-            //잡몹 스폰 위치 중 랜덤 선택
+            if (MonsterPool.Instance == null) continue;
+            if (spawnPoints == null || spawnPoints.Length == 0)
+            {
+                Debug.LogWarning("[BossStageManager] spawnPoints가 비어있어 잡몹 스폰을 건너뜁니다.");
+                continue;
+            }
+
             Vector2 spawnPos = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].position;
+            // 동기화 슬롯 한도 초과 시 스폰 생략
+            if (ActiveMinions.Count >= MinionSyncManager.MaxMinions) continue;
 
-            // 풀링 매니저 사용
-            MonsterPool.Instance.GetFromPool("BossChasing", spawnPos, Quaternion.identity);
+            MonsterController minion = MonsterPool.Instance.GetFromPool("BossChasing", spawnPos, Quaternion.identity);
+            if (minion == null) continue;
+
+            ActiveMinions.Add(minion);
+            minion.OnDeath += () => ActiveMinions.Remove(minion);
         }
     }
 
@@ -115,6 +137,7 @@ public class BossStageManager : MonoBehaviour
             }
         }
 
+        ActiveMinions.Clear(); // 풀 반납된 몬스터 stale 참조 제거
         Debug.Log($"보스가 {count}마리의 하수인을 흡수했습니다!");
 
         // B. 재단 설치 (보스 근처 랜덤 위치)
@@ -133,11 +156,37 @@ public class BossStageManager : MonoBehaviour
             return;
         }
         altarController.Setup(count); // 체력 설정
+        ActiveAltar = altarController;
+    }
+
+    // --- 보스 사망 시 잡몹 전체 제거 ---
+    public void ClearAllMinions()
+    {
+        if (spawnRoutine != null)
+        {
+            StopCoroutine(spawnRoutine);
+            spawnRoutine = null;
+        }
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (var enemy in enemies)
+        {
+            if (boss != null && enemy == boss.gameObject) continue;
+            MonsterController mc = enemy.GetComponent<MonsterController>();
+            if (mc != null && MonsterPool.Instance != null)
+                MonsterPool.Instance.ReturnToPool("BossChasing", mc);
+            else
+                Destroy(enemy);
+        }
+
+        ActiveMinions.Clear();
+        Debug.Log("[BossStageManager] 보스 사망 — 잡몹 전체 제거 완료");
     }
 
     // --- 3. 그로기 모드 (재단 파괴 시 호출) ---
     public void OnAltarDestroyed()
     {
+        ActiveAltar = null;
         // 보스를 그로기 상태로 만듦
         boss.SetGroggyMode();
 

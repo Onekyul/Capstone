@@ -2026,6 +2026,78 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 536670621}
   m_CullTransparentMesh: 1
+--- !u!1 &599580615
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 599580618}
+  - component: {fileID: 599580617}
+  - component: {fileID: 599580616}
+  m_Layer: 0
+  m_Name: AltarSyncManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &599580616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599580615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 877aebb902ed294439957e28d4babcbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _AltarActive:
+    _value: 0
+  _AltarPosition: {x: 0, y: 0}
+  _AltarHpRatio: 0
+  _BossPhase: 0
+  altarVisualPrefab: {fileID: 7023070610143357254, guid: 30a2623f69c4a6a46a2e62c43dd2b54a,
+    type: 3}
+  boss: {fileID: 393414799}
+--- !u!114 &599580617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599580615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 584391417
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 599580616}
+  ForceRemoteRenderTimeframe: 0
+--- !u!4 &599580618
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599580615}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 507.73956, y: 261.3191, z: 0.820601}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &601231934
 GameObject:
   m_ObjectHideFlags: 0
@@ -3290,6 +3362,80 @@ Transform:
   m_Children: []
   m_Father: {fileID: 940986497}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1048119607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1048119610}
+  - component: {fileID: 1048119609}
+  - component: {fileID: 1048119608}
+  m_Layer: 0
+  m_Name: BossSkillSyncManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1048119608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048119607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 1284606034
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1048119609}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &1048119609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048119607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43cebd06543c3cc4aab941d79db05129, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireProjectilePrefab: {fileID: 4112673328808351943, guid: 810d81c5f3c56524ab845af4752bff1b,
+    type: 3}
+  iceClusterPrefab: {fileID: 8735303094944432895, guid: ea2f81bf17f6e4f28beb9945e99c3ae5,
+    type: 3}
+  thunderPatternPrefab: {fileID: 7514980896785833416, guid: 938f8e659192d824ba243be6e2297fe0,
+    type: 3}
+  poisonSporePrefab: {fileID: 6073129539226835410, guid: 1b53ffc01a679744fa8f501eb02a1112,
+    type: 3}
+  waterWavePrefab: {fileID: 5580880485800441195, guid: 8796090208f53634c928186d39679e0f,
+    type: 3}
+--- !u!4 &1048119610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048119607}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 507.73956, y: 261.3191, z: 0.820601}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1067074691
 GameObject:
   m_ObjectHideFlags: 0
@@ -3506,6 +3652,94 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074843242}
   m_CullTransparentMesh: 1
+--- !u!1 &1092054586
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1092054589}
+  - component: {fileID: 1092054588}
+  - component: {fileID: 1092054587}
+  - component: {fileID: 1092054590}
+  m_Layer: 0
+  m_Name: MinionSyncManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1092054587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092054586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 715c61605294dc5459c3ad2753954372, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minionVisualPrefab: {fileID: 6559308928904149116, guid: ef463ea2f09c1274d9f194d370963109,
+    type: 3}
+  _MinionPositions: []
+  _MinionActive: []
+  _MinionFlipped: []
+  _MinionHpRatio: []
+--- !u!114 &1092054588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092054586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2601242648
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1092054587}
+  - {fileID: 1092054590}
+  ForceRemoteRenderTimeframe: 0
+--- !u!4 &1092054589
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092054586}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 507.73956, y: 261.3191, z: 0.820601}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1092054590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092054586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4acc602e1e4bf0149af07d56a8996927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jewelVisualPrefab: {fileID: 6293056728098284098, guid: 87e43aed75fc0f34ca176e4a4b89071f,
+    type: 3}
+  _JewelPositions: []
+  _JewelActive: []
 --- !u!1 &1154466650
 GameObject:
   m_ObjectHideFlags: 0
@@ -7033,3 +7267,6 @@ SceneRoots:
   - {fileID: 1509929382}
   - {fileID: 774049182}
   - {fileID: 644196512}
+  - {fileID: 1092054589}
+  - {fileID: 599580618}
+  - {fileID: 1048119610}

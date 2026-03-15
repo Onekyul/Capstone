@@ -77,7 +77,7 @@ public class ThunderPatternController : MonoBehaviour
 
         if (hit != null && hit.CompareTag("Player"))
         {
-            hit.GetComponent<PlayerStats>()?.TakeDamage(strikeDamage);
+            PlayerDamageHelper.TakeDamage(hit.gameObject, strikeDamage);
             Debug.Log($"콰광! 번개 {strikeDamage} 데미지!");
         }
     }

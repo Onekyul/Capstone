@@ -105,6 +105,16 @@ public class PartyWaitingRoomUI : MonoBehaviour
                 yield break;
             }
             if (res.members == null) res.members = new System.Collections.Generic.List<PartyMemberDto>();
+
+            // 파티원: 방장이 입장 확정하면 sessionName이 내려옴 → 자동 입장
+            if (!_isLeader && res.status == "InGame" && !string.IsNullOrEmpty(res.sessionName))
+            {
+                Debug.Log($"[WaitingRoom] 파티원 자동 입장: sessionName={res.sessionName}");
+                Close();
+                DungeonSessionManager.Instance.EnterBossDungeon(res.sessionName);
+                yield break;
+            }
+
             RefreshUI(res);
         }
         else

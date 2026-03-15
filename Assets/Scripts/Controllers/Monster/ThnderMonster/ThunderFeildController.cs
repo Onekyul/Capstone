@@ -29,7 +29,7 @@ public class ThunderFieldController : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             // 플레이어 스크립트에 "틱 데미지"를 주는 방식이 있다면 호출
-            collision.GetComponent<PlayerStats>()?.TakeDamage(damagePerTick);
+            PlayerDamageHelper.TakeDamage(collision.gameObject, damagePerTick);
             Debug.Log("찌릿! 전기 장판 데미지!");
         }
     }

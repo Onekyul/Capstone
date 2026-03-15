@@ -63,12 +63,8 @@ public class FireMortarProjectile : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            PlayerStats pc = other.GetComponent<PlayerStats>();
-            if (pc != null)
-            {
-                pc.TakeDamage(impactDamage);
-                Debug.Log("투사체 직격! 데미지: " + impactDamage);
-            }
+            PlayerDamageHelper.TakeDamage(other.gameObject, impactDamage);
+            Debug.Log("투사체 직격! 데미지: " + impactDamage);
 
             Explode();
         }

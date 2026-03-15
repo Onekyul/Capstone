@@ -246,7 +246,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 5143351978180197634, guid: 42426f0f117c54e98b8f80509a15badc, type: 3}
+  m_Sprite: {fileID: 5143351978180197634, guid: 42426f0f117c54e98b8f80509a15badc,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -348,14 +349,17 @@ MonoBehaviour:
   CurHP: 0
   moveSpeed: 2
   poolTag: BossChasing
-  expJewelPrefab: {fileID: 6293056728098284098, guid: 87e43aed75fc0f34ca176e4a4b89071f, type: 3}
+  expJewelPrefab: {fileID: 6293056728098284098, guid: 87e43aed75fc0f34ca176e4a4b89071f,
+    type: 3}
   usePooling: 1
   hpSlider: {fileID: 8157593141099731280}
-  lightningFieldPrefab: {fileID: 4767905910849374279, guid: 297f71522dc1b3c4497e60d2cd7ff014, type: 3}
+  lightningFieldPrefab: {fileID: 4767905910849374279, guid: 297f71522dc1b3c4497e60d2cd7ff014,
+    type: 3}
   burnEffectObject: {fileID: 9186822902535204999}
   poisonEffectObject: {fileID: 6886918388319957408}
   storedLastDamage: 0
-  eliteChestPrefab: {fileID: -7302594443989870516, guid: ace7d39784493df4692014cc8d62bfb3, type: 3}
+  eliteChestPrefab: {fileID: -7302594443989870516, guid: ace7d39784493df4692014cc8d62bfb3,
+    type: 3}
   IsElite: 0
   eliteSpawnChance: 0
 --- !u!1 &6752427310582545182

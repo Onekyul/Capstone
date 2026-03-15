@@ -31,13 +31,7 @@ public class IceProjectile : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            // 플레이어 피격 처리
-            PlayerStats player = collision.GetComponent<PlayerStats>();
-            if (player != null)
-            {
-                // 플레이어에게 데미지 주기 (구현된 함수 사용)
-                player.TakeDamage(damage);
-            }
+            PlayerDamageHelper.TakeDamage(collision.gameObject, damage);
             Debug.Log($"플레이어가 얼음 조각에 맞음! 데미지: {damage}");
 
             // 맞추면 사라짐

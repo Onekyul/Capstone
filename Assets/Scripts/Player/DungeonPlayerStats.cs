@@ -11,6 +11,9 @@ public class DungeonPlayerStats : NetworkBehaviour, IDamageable
     [Networked, OnChangedRender(nameof(OnDeadStateChanged))]
     public NetworkBool IsDead { get; set; }
 
+    [Networked]
+    public NetworkBool IsFrozen { get; set; }
+
     [Header("Base Stats")]
     public float baseMaxHP = 100f;
     public float baseDefense = 0f;
@@ -57,10 +60,23 @@ public class DungeonPlayerStats : NetworkBehaviour, IDamageable
         Nickname = newNickname;
     }
 
+    private string _cachedNickname;
+
     private void UpdateNicknameUI()
     {
         if (nicknameText == null) return;
         nicknameText.text = Nickname.ToString();
+        _cachedNickname = nicknameText.text;
+    }
+
+    public override void Render()
+    {
+#if !UNITY_SERVER
+        // OnChangedRender 누락 방지: 값이 달라졌으면 직접 갱신
+        string current = Nickname.ToString();
+        if (current != _cachedNickname)
+            UpdateNicknameUI();
+#endif
     }
 
     /// <summary>
@@ -117,6 +133,22 @@ public class DungeonPlayerStats : NetworkBehaviour, IDamageable
     {
         if (!HasStateAuthority) return;
         if (IsDead || NetCurHP <= 0) return;
+
+        // 보석 획득 체크
+        if (JewelSyncManager.Instance != null)
+        {
+            for (int i = 0; i < JewelSyncManager.MaxJewels; i++)
+            {
+                if (!JewelSyncManager.Instance.JewelActive[i]) continue;
+                if (Vector2.Distance(transform.position, JewelSyncManager.Instance.JewelPositions[i]) < JewelSyncManager.PickupRadius)
+                {
+                    JewelSyncManager.Instance.PickupJewel(i);
+                    RPC_GainExp(JewelSyncManager.JewelExpAmount);
+                    break;
+                }
+            }
+        }
+
         if (Runner.Tick - _lastDamageTick < DamageTickInterval) return;
 
         // 주변 Enemy 태그 오브젝트 탐색
@@ -126,6 +158,7 @@ public class DungeonPlayerStats : NetworkBehaviour, IDamageable
             if (!col.CompareTag("Enemy")) continue;
             MonsterController monster = col.GetComponent<MonsterController>();
             if (monster == null) continue;
+            if (monster.monsterType == MonsterType.Boss) continue; // 보스 충돌 데미지 없음
 
             _lastDamageTick = Runner.Tick;
             TakeDamage(monster.normalDamage);
@@ -154,6 +187,17 @@ public class DungeonPlayerStats : NetworkBehaviour, IDamageable
             BossDungeonServer.Instance?.OnPlayerDied();
 #endif
         }
+    }
+
+    /// <summary>
+    /// 서버 → 모든 클라이언트: 잡몹 처치 exp 지급.
+    /// BossDungeonServer.GrantExpToAllPlayers()에서 호출.
+    /// </summary>
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_GainExp(float amount)
+    {
+        if (BossDungeonLevelManager.instance != null)
+            BossDungeonLevelManager.instance.GainExperience(amount);
     }
 
     /// <summary>

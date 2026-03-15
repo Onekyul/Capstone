@@ -42,6 +42,8 @@ public class PartyDetailRes
     public int dungeonId;
     public int maxCount;
     public List<PartyMemberDto> members = new List<PartyMemberDto>();
+    public string status;       // "Waiting" | "InGame"
+    public string sessionName;  // status == "InGame"일 때 세팅
 }
 
 // ============================

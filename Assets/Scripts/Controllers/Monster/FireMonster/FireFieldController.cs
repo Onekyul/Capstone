@@ -58,13 +58,8 @@ public class FireFieldController : MonoBehaviour
             {
                 if (hit.CompareTag("Player"))
                 {
-                    PlayerStats player = hit.GetComponent<PlayerStats>();
-                    if (player != null)
-                    {
-                        // 플레이어에게 데미지 주기 (구현된 함수 사용)
-                        player.TakeDamage(damage); 
-                        Debug.Log("앗 뜨거! 장판 데미지!");
-                    }
+                    PlayerDamageHelper.TakeDamage(hit.gameObject, damage);
+                    Debug.Log("앗 뜨거! 장판 데미지!");
                 }
             }
             yield return new WaitForSeconds(damageInterval);

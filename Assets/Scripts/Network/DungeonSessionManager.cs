@@ -156,43 +156,55 @@ public class DungeonSessionManager : MonoBehaviour, INetworkRunnerCallbacks
 
     private IEnumerator CoStartClientRunner(string sessionName)
     {
-        _currentRunner = Instantiate(runnerPrefab);
-        DontDestroyOnLoad(_currentRunner.gameObject);
-        _currentRunner.AddCallbacks(this);
-
-        // INetworkSceneManager 확보
-        var sceneManager = _currentRunner.GetComponent<INetworkSceneManager>();
-        if (sceneManager == null)
-            sceneManager = _currentRunner.gameObject.AddComponent<NetworkSceneManagerDefault>();
-
-        // ConnectionToken으로 userId 전달 (서버가 플레이어 식별용)
         byte[] connectionToken = null;
         if (SessionManager.Instance != null)
-        {
             connectionToken = Encoding.UTF8.GetBytes(SessionManager.Instance.UserId.ToString());
+
+        int maxRetries = 5;
+        float retryDelay = 3f;
+
+        for (int attempt = 1; attempt <= maxRetries; attempt++)
+        {
+            _currentRunner = Instantiate(runnerPrefab);
+            DontDestroyOnLoad(_currentRunner.gameObject);
+            _currentRunner.AddCallbacks(this);
+
+            var sceneManager = _currentRunner.GetComponent<INetworkSceneManager>();
+            if (sceneManager == null)
+                sceneManager = _currentRunner.gameObject.AddComponent<NetworkSceneManagerDefault>();
+
+            var startTask = _currentRunner.StartGame(new StartGameArgs
+            {
+                GameMode = GameMode.Client,
+                SessionName = sessionName,
+                SceneManager = sceneManager,
+                ConnectionToken = connectionToken,
+            });
+
+            while (!startTask.IsCompleted)
+                yield return null;
+
+            if (startTask.Result.Ok)
+            {
+                Debug.Log($"[DungeonSession] 보스던전 접속 성공: {sessionName}");
+                yield break;
+            }
+
+            Debug.LogWarning($"[DungeonSession] 접속 실패 (시도 {attempt}/{maxRetries}): {startTask.Result.ShutdownReason}");
+
+            // 러너 정리 후 재시도
+            if (_currentRunner != null)
+            {
+                Destroy(_currentRunner.gameObject);
+                _currentRunner = null;
+            }
+
+            if (attempt < maxRetries)
+                yield return new WaitForSeconds(retryDelay);
         }
 
-        var startTask = _currentRunner.StartGame(new StartGameArgs
-        {
-            GameMode = GameMode.Client,
-            SessionName = sessionName,
-            SceneManager = sceneManager,
-            ConnectionToken = connectionToken,
-        });
-
-        // Task 완료 대기
-        while (!startTask.IsCompleted)
-            yield return null;
-
-        if (startTask.Result.Ok)
-        {
-            Debug.Log($"[DungeonSession] 보스던전 접속 성공: {sessionName}");
-        }
-        else
-        {
-            Debug.LogError($"[DungeonSession] 접속 실패: {startTask.Result.ShutdownReason}");
-            ReturnToLobby();
-        }
+        Debug.LogError($"[DungeonSession] {maxRetries}회 시도 후 접속 실패 — 로비로 복귀");
+        ReturnToLobby();
     }
 
     // ============================

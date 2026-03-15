@@ -25,10 +25,10 @@ public class DungeonPlayerController : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        if (stats != null && stats.IsDead)
+        if (stats != null && (stats.IsDead || stats.IsFrozen))
         {
             rb.linearVelocity = Vector2.zero;
-            return; 
+            return;
         }
 
         if (GetInput(out NetworkInputData data))

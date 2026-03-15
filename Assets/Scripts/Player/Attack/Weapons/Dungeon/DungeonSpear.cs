@@ -17,11 +17,12 @@ public class DungeonSpear : DungeonWeaponBase
         Vector2 boxSize = new Vector2(spearRange, attackWidth);
         float angle = Vector2.SignedAngle(Vector2.right, direction);
 
-        // 2. 범위 내 적 찾기 (서버 물리엔진)
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(boxCenter, boxSize, angle, enemyLayer);
+        // 2. 범위 내 적 찾기 (태그 기반 - 레이어 설정 무관하게 동작)
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(boxCenter, boxSize, angle);
 
         foreach (Collider2D col in colliders)
         {
+            if (!col.CompareTag("Enemy")) continue;
             MonsterController monster = col.GetComponent<MonsterController>();
             if (monster != null)
             {

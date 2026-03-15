@@ -221,8 +221,7 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
         if (_spawnedPlayers.Count == 0)
         {
             Debug.Log("[DediServer] 모든 플레이어 퇴장 — 세션 종료 후 씬 재로드");
-            runner.Shutdown();
-            StartCoroutine(CoReloadScene());
+            StartCoroutine(CoShutdownAndReload(runner));
         }
     }
 
@@ -340,6 +339,20 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
     // ============================
 
     /// <summary>
+    /// 잡몹 사망 시 MonsterController에서 호출.
+    /// 접속 중인 모든 플레이어에게 exp RPC 전송.
+    /// </summary>
+    public void GrantExpToAllPlayers(float amount)
+    {
+        foreach (var kvp in _spawnedPlayers)
+        {
+            var stats = kvp.Value.GetComponent<DungeonPlayerStats>();
+            if (stats != null)
+                stats.RPC_GainExp(amount);
+        }
+    }
+
+    /// <summary>
     /// 플레이어 사망 시 DungeonPlayerStats에서 호출.
     /// 모든 플레이어가 사망하면 실패 처리.
     /// </summary>
@@ -384,12 +397,18 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
         float clearTime = Time.time - _sessionStartTime;
         Debug.Log($"[DediServer] 보스 처치! 클리어 시간: {clearTime:F1}초");
 
-        // 모든 클라이언트에게 결과 알림 RPC 전송
+        // 잡몹 전체 제거
+        BossStageManager.instance?.ClearAllMinions();
+
+        // 플레이어 이동 동결 + 결과 패널 표시
         foreach (var kvp in _spawnedPlayers)
         {
             var stats = kvp.Value.GetComponent<DungeonPlayerStats>();
             if (stats != null)
+            {
+                stats.IsFrozen = true;
                 stats.RPC_ShowBossResult(true, clearTime);
+            }
         }
 
         await SendDungeonResult(true, clearTime);
@@ -443,8 +462,17 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
         return 0;
     }
 
-    private System.Collections.IEnumerator CoReloadScene()
+    private System.Collections.IEnumerator CoShutdownAndReload(NetworkRunner runner)
     {
+        var shutdownTask = runner.Shutdown();
+        while (!shutdownTask.IsCompleted)
+            yield return null;
+
+        // 러너 GameObject 제거 (DontDestroyOnLoad로 남아있는 것 정리)
+        if (runner != null)
+            Destroy(runner.gameObject);
+        _runner = null;
+
         yield return new WaitForSeconds(0.5f);
         int sceneIndex = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneIndex);
