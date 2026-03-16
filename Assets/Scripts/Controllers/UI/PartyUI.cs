@@ -12,7 +12,7 @@ using System.Text;
 /// </summary>
 public class PartyUI : MonoBehaviour
 {
-    private string serverUrl = "http://localhost:7200/api/Party";
+    private string serverUrl = $"{ServerConfig.BackendBaseUrl}/Party";
 
     [Header("대기실 패널")]
     [SerializeField] private PartyWaitingRoomUI waitingRoomUI;

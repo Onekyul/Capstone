@@ -169,7 +169,12 @@ public class BossMonsterController : MonsterController
         Collider2D[] all = Physics2D.OverlapCircleAll(transform.position, attackRange);
         System.Collections.Generic.List<Collider2D> players = new System.Collections.Generic.List<Collider2D>();
         foreach (var col in all)
-            if (col.CompareTag("Player")) players.Add(col);
+        {
+            if (!col.CompareTag("Player")) continue;
+            var dungeonStats = col.GetComponent<DungeonPlayerStats>();
+            if (dungeonStats != null && dungeonStats.IsDead) continue;
+            players.Add(col);
+        }
 
         if (players.Count == 0) return; // 플레이어 없으면 스킬 실행 안 함
 
@@ -325,6 +330,19 @@ public class BossMonsterController : MonsterController
     }
 
 
+
+    /// <summary>
+    /// 서버 전용: 플레이어 수에 맞춰 보스 HP 스케일링.
+    /// </summary>
+    public void ScaleHP(int playerCount, float hpMultiplierPerPlayer = 0.5f)
+    {
+        // 1명 기준 1배, 추가 1명당 hpMultiplierPerPlayer 배씩 증가
+        // 예: 1명→1x, 2명→1.5x, 3명→2x, 4명→2.5x
+        float multiplier = 1f + (playerCount - 1) * hpMultiplierPerPlayer;
+        MaxHP = MaxHP * multiplier;
+        CurHP = MaxHP;
+        Debug.Log($"[Boss] HP 스케일링 완료: {playerCount}명 → 배율 {multiplier:F1}x, MaxHP={MaxHP:F0}");
+    }
 
     // --- 클라이언트 전용 비주얼 페이즈 전환 (AltarSyncManager가 호출) ---
 

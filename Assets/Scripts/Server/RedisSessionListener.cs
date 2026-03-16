@@ -5,20 +5,16 @@ using UnityEngine;
 using StackExchange.Redis;
 
 /// <summary>
-/// Redis Pub/Sub으로 백엔드의 세션 생성 요청을 수신하는 리스너.
-/// 채널 "boss-dungeon:create"를 구독하며,
-/// 메시지 형식: "세션이름|최대인원" (예: "boss_party_abc123|4")
-///
-/// 세션이 준비되면 "boss-dungeon:ready" 채널로 알림.
-///
-/// Linux Headless 빌드 전용 (#if UNITY_SERVER).
+/// Redis Pub/Sub으로 백엔드의 세션 할당 메시지를 수신.
+/// 채널: "boss-dungeon:assign:{serverId}" (서버 전용 채널)
+/// 메시지 형식: { "sessionName": "boss-xxx", "memberUserIds": [123, 456] }
 /// </summary>
 public class RedisSessionListener : MonoBehaviour
 {
     public static RedisSessionListener Instance { get; private set; }
 
-    /// <summary>세션 생성 요청 이벤트. (sessionName, maxPlayers)</summary>
-    public event Action<string, int> OnSessionRequested;
+    /// <summary>세션 할당 이벤트. (sessionName, memberUserIds)</summary>
+    public event Action<string, int[], int> OnSessionRequested;
 
     [Header("Redis 설정")]
     [SerializeField] private string redisConnectionString = "localhost:6379";
@@ -26,9 +22,15 @@ public class RedisSessionListener : MonoBehaviour
     private ConnectionMultiplexer _redis;
     private ISubscriber _subscriber;
     private SynchronizationContext _mainThread;
+    private string _assignChannel;
 
-    private const string CHANNEL_CREATE = "boss-dungeon:create";
-    private const string CHANNEL_READY = "boss-dungeon:ready";
+    [System.Serializable]
+    private class AssignMessage
+    {
+        public string sessionName;
+        public int[] memberUserIds;
+        public int partyId;
+    }
 
     void Awake()
     {
@@ -36,6 +38,16 @@ public class RedisSessionListener : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            // Awake에서 파싱해야 BossDungeonServer.Start()의 Subscribe() 호출 전에 주소가 세팅됨
+            string[] args = Environment.GetCommandLineArgs();
+            for (int i = 0; i < args.Length - 1; i++)
+            {
+                if (args[i] == "-redis")
+                    redisConnectionString = args[i + 1];
+            }
+
+            Debug.Log($"[RedisSession] Redis 주소: {redisConnectionString}");
         }
         else
         {
@@ -46,18 +58,15 @@ public class RedisSessionListener : MonoBehaviour
     void Start()
     {
         _mainThread = SynchronizationContext.Current;
+        // serverId는 BossDungeonServer가 설정한 뒤 Subscribe() 호출
+    }
 
-        // 커맨드라인에서 Redis 주소 오버라이드 가능
-        string[] args = Environment.GetCommandLineArgs();
-        for (int i = 0; i < args.Length - 1; i++)
-        {
-            if (args[i] == "-redis")
-            {
-                redisConnectionString = args[i + 1];
-                break;
-            }
-        }
-
+    /// <summary>
+    /// BossDungeonServer.Start()에서 serverId 확정 후 호출.
+    /// </summary>
+    public void Subscribe(string serverId)
+    {
+        _assignChannel = $"boss-dungeon:assign:{serverId}";
         ConnectRedis();
     }
 
@@ -69,15 +78,11 @@ public class RedisSessionListener : MonoBehaviour
             _subscriber = _redis.GetSubscriber();
 
             await _subscriber.SubscribeAsync(
-                RedisChannel.Literal(CHANNEL_CREATE),
-                (channel, message) =>
-                {
-                    string msg = message.ToString();
-                    ParseAndDispatch(msg);
-                }
+                RedisChannel.Literal(_assignChannel),
+                (channel, message) => ParseAndDispatch(message.ToString())
             );
 
-            Debug.Log($"[RedisSession] Redis 연결 성공, '{CHANNEL_CREATE}' 채널 구독 중 ({redisConnectionString})");
+            Debug.Log($"[RedisSession] Redis 연결 성공, '{_assignChannel}' 채널 구독 중");
         }
         catch (Exception e)
         {
@@ -87,32 +92,23 @@ public class RedisSessionListener : MonoBehaviour
 
     private void ParseAndDispatch(string message)
     {
-        // 메시지 형식: "sessionName|maxPlayers"
-        string[] parts = message.Split('|');
-        string sessionName = parts[0];
-        int maxPlayers = parts.Length > 1 && int.TryParse(parts[1], out int mp) ? mp : 4;
+        AssignMessage data = null;
+        try { data = JsonUtility.FromJson<AssignMessage>(message); }
+        catch (Exception e) { Debug.LogError($"[RedisSession] 메시지 파싱 실패: {e.Message}\n{message}"); return; }
 
-        // Unity 메인 스레드로 마셜링
+        if (data == null || string.IsNullOrEmpty(data.sessionName)) return;
+
         _mainThread.Post(_ =>
         {
-            Debug.Log($"[RedisSession] 세션 생성 요청 수신: {sessionName} (최대 {maxPlayers}명)");
-            OnSessionRequested?.Invoke(sessionName, maxPlayers);
+            Debug.Log($"[RedisSession] 세션 할당 수신: {data.sessionName} ({data.memberUserIds?.Length ?? 0}명)");
+            OnSessionRequested?.Invoke(data.sessionName, data.memberUserIds ?? new int[0], data.partyId);
         }, null);
     }
 
-    /// <summary>
-    /// 세션이 준비되었음을 Redis를 통해 백엔드에 알림.
-    /// </summary>
+    /// <summary>세션 준비 완료 알림 (기존 호환용)</summary>
     public void NotifySessionReady(string sessionName)
     {
-        if (_subscriber == null)
-        {
-            Debug.LogWarning("[RedisSession] Redis 미연결 — ready 알림 불가");
-            return;
-        }
-
-        _subscriber.PublishAsync(RedisChannel.Literal(CHANNEL_READY), sessionName);
-        Debug.Log($"[RedisSession] 세션 준비 알림 전송: {sessionName}");
+        _subscriber?.PublishAsync(RedisChannel.Literal("boss-dungeon:ready"), sessionName);
     }
 
     void OnDestroy()

@@ -124,6 +124,8 @@ public class DungeonAttackManager : NetworkBehaviour
         if (bowObject != null) bowObject.SetActive(false);
     }
 
+    public DungeonWeaponBase GetCurrentWeapon() => currentWeapon;
+
     private void SwitchWeaponVisuals(int weaponType, string weaponId)
     {
         HideAllWeapons();

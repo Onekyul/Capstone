@@ -12,9 +12,8 @@ public class DataManager : MonoBehaviour
     public PlayerData currentPlayer;
     
     // 게임 데이터 관련 API 주소
-    private string baseUrl = "http://localhost:7200/api/Game"; 
-    //강화 관련 API 주소
-    private string upgradeUrl = "http://localhost:7200/api/Upgrade/attempt";
+    private string baseUrl = $"{ServerConfig.BackendBaseUrl}/Game";
+    private string upgradeUrl = $"{ServerConfig.BackendBaseUrl}/Upgrade/attempt";
     
     public int MyUserId => SessionManager.Instance != null ? SessionManager.Instance.UserId : 0;
 
@@ -36,25 +35,33 @@ public class DataManager : MonoBehaviour
     // ==================================================================================
     // [server] 초기화: 로그인(Session) -> 데이터로드(Data) 순차 실행
     // ==================================================================================
-    public void InitializeNetwork(Action onComplete)
+    public void InitializeNetwork(Action onComplete, Action onFail = null)
     {
         // 1. SessionManager가 있는지 확인
         if (SessionManager.Instance == null)
         {
             Debug.LogError(" No SessionManager");
+            onFail?.Invoke();
             return;
         }
 
         // 2. 로그인 요청 위임
-        SessionManager.Instance.Login((isSuccess) => 
+        SessionManager.Instance.Login((isSuccess, isNotFound) =>
         {
             if (isSuccess)
             {
                 // 3. 로그인 성공 시 내 데이터 로드 시작
                 StartCoroutine(CoLoadGame(onComplete));
             }
+            else if (isNotFound)
+            {
+                // 404 미등록 기기 → 회원가입 필요
+                Debug.Log("[DataManager] 미등록 기기 — 회원가입 필요");
+                onFail?.Invoke();
+            }
             else
             {
+                // 서버 오류, 네트워크 오류 등 → 그냥 로그만
                 Debug.LogError("로그인 실패로 인해 게임 데이터를 로드하지 못했습니다.");
             }
         });
@@ -219,13 +226,13 @@ public class DataManager : MonoBehaviour
         return slot != null && slot.count >= amount;
     }
     
-    public bool UseInventory(string id, int amount)
+    public bool UseInventory(string id, int amount, bool save = true)
     {
         var slot = currentPlayer.Inventory.Find(x => x.itemId == id);
-        if (slot == null || slot.count < amount) return false; 
+        if (slot == null || slot.count < amount) return false;
         slot.count -= amount;
         if (slot.count <= 0) currentPlayer.Inventory.Remove(slot);
-        SaveGame();
+        if (save) SaveGame();
         return true;
     }
     
@@ -423,10 +430,10 @@ public class DataManager : MonoBehaviour
         float rate = nextStep.successRate / 100f; 
         string matInfo = $"{matId} {matCount}개";
 
-        StartCoroutine(CoSendUpgradeRequest(id, matInfo, rate, (isSuccess, msg) => 
+        StartCoroutine(CoSendUpgradeRequest(id, matInfo, rate, (isSuccess, msg) =>
         {
-            // 통신이 끝난 후 무조건 재료 깎음
-            UseInventory(matId, matCount);
+            // save=false: 레벨업 적용 후 마지막에 한 번만 SaveGame 호출
+            UseInventory(matId, matCount, save: false);
 
             if (isSuccess) 
             {
@@ -484,10 +491,10 @@ public class DataManager : MonoBehaviour
         
         StartCoroutine(CoSendUpgradeRequest(enchantId, matInfo, rate, (isSuccess, msg) => 
         {
-            // 통신 끝난 후 모든 재료 차감
+            // save=false: 레벨업 적용 후 마지막에 한 번만 SaveGame 호출
             foreach (var matCost in nextStep.requiredMaterials)
             {
-                UseInventory(matCost.material.itemId, matCost.count);
+                UseInventory(matCost.material.itemId, matCost.count, save: false);
             }
 
             if (isSuccess)
@@ -536,7 +543,7 @@ public class DataManager : MonoBehaviour
     //  랭킹 API
     // ============================
 
-    private string rankingUrl = "http://localhost:7200/api/Ranking";
+    private string rankingUrl = $"{ServerConfig.BackendBaseUrl}/Ranking";
 
     // ============================
     //  랭킹 API

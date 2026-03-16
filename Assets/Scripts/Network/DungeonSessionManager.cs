@@ -160,8 +160,8 @@ public class DungeonSessionManager : MonoBehaviour, INetworkRunnerCallbacks
         if (SessionManager.Instance != null)
             connectionToken = Encoding.UTF8.GetBytes(SessionManager.Instance.UserId.ToString());
 
-        int maxRetries = 5;
-        float retryDelay = 3f;
+        int maxRetries = 10;
+        float retryDelay = 5f;
 
         for (int attempt = 1; attempt <= maxRetries; attempt++)
         {

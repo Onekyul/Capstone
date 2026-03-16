@@ -1361,7 +1361,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_GlobalFontAsset: {fileID: 11400000, guid: ef3263b2cc8e24a4fb2e1f0f09e99bdf, type: 2}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_KeepTextSelectionVisible: 0
@@ -2861,6 +2861,7 @@ GameObject:
   - component: {fileID: 140748579}
   - component: {fileID: 140748578}
   - component: {fileID: 140748580}
+  - component: {fileID: 140748581}
   m_Layer: 5
   m_Name: Inven
   m_TagString: Untagged
@@ -2942,6 +2943,50 @@ MonoBehaviour:
   iconImage: {fileID: 1580858561}
   countText: {fileID: 831121227}
   emptyIcon: {fileID: 0}
+--- !u!114 &140748581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140748576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 140748578}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &148484000
 GameObject:
   m_ObjectHideFlags: 0
@@ -5799,7 +5844,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 7845792552773134118, guid: 4436910fee1944b4894d7e8e28d73900,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6625,7 +6671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 1}
+  m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7274,7 +7320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 1}
+  m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8890,7 +8936,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 7845792552773134118, guid: 4436910fee1944b4894d7e8e28d73900,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9003,9 +9050,9 @@ MonoBehaviour:
   swordButton: {fileID: 1498126724}
   spearButton: {fileID: 1289751923}
   bowButton: {fileID: 451678600}
-  swordIcon: {fileID: 290516128}
-  spearIcon: {fileID: 1970779266}
-  bowIcon: {fileID: 205875482}
+  swordIcon: {fileID: 360837546}
+  spearIcon: {fileID: 645989346}
+  bowIcon: {fileID: 179297991}
   swordNameText: {fileID: 1800052804}
   spearNameText: {fileID: 928779182}
   bowNameText: {fileID: 1232033357}
@@ -13287,7 +13334,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 7845792552773134118, guid: 4436910fee1944b4894d7e8e28d73900,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13853,8 +13901,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ef3263b2cc8e24a4fb2e1f0f09e99bdf, type: 2}
+  m_sharedMaterial: {fileID: -1700465337636256926, guid: ef3263b2cc8e24a4fb2e1f0f09e99bdf,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -15054,7 +15103,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000015258789}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &700991121
@@ -19231,16 +19280,23 @@ MonoBehaviour:
   - {fileID: 425619213}
   preMaterialIcon: {fileID: 1880025158}
   preMaterialNameText: {fileID: 0}
+  preMaterialCountText: {fileID: 1652425434}
+  disassemblePanel: {fileID: 655917712}
   disassembleModeButton: {fileID: 453726979}
-  compoundModeButton: {fileID: 1151895919}
   disassembleResultIcon: {fileID: 1359386645}
+  disassembleResultCountText: {fileID: 325899489}
+  disassembleCountText: {fileID: 1200186325}
+  disassemblePlusButton: {fileID: 1971580427}
+  disassembleMinusButton: {fileID: 1686505189}
+  disassembleTradeButton: {fileID: 1111182534}
+  compoundPanel: {fileID: 208374888}
+  compoundModeButton: {fileID: 1151895919}
   compoundResultIcon: {fileID: 747506153}
-  actionArea: {fileID: 0}
-  tradeInfoText: {fileID: 0}
-  countText: {fileID: 2117451697}
-  plusButton: {fileID: 167773764}
-  minusButton: {fileID: 2054646297}
-  tradeButton: {fileID: 1358325410}
+  compoundResultCountText: {fileID: 1070814638}
+  compoundCountText: {fileID: 2117451697}
+  compoundPlusButton: {fileID: 167773764}
+  compoundMinusButton: {fileID: 2054646297}
+  compoundTradeButton: {fileID: 1358325410}
   statusText: {fileID: 0}
 --- !u!1 &966543651
 GameObject:
@@ -19322,8 +19378,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter text...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ef3263b2cc8e24a4fb2e1f0f09e99bdf, type: 2}
+  m_sharedMaterial: {fileID: -1700465337636256926, guid: ef3263b2cc8e24a4fb2e1f0f09e99bdf,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -20446,50 +20503,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1070814636}
   m_CullTransparentMesh: 1
---- !u!1 &1072329926
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1072329928}
-  - component: {fileID: 1072329927}
-  m_Layer: 0
-  m_Name: mock
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1072329927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1072329926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 042d2a426ba297742bab5f7982abccce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1072329928
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1072329926}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 355.46228, y: 123.66009, z: 1.7332835}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1083743964
 GameObject:
   m_ObjectHideFlags: 0
@@ -36109,7 +36122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 1}
+  m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -39677,16 +39690,23 @@ MonoBehaviour:
   inventorySlots: []
   preMaterialIcon: {fileID: 0}
   preMaterialNameText: {fileID: 0}
+  preMaterialCountText: {fileID: 0}
+  disassemblePanel: {fileID: 0}
   disassembleModeButton: {fileID: 0}
-  compoundModeButton: {fileID: 0}
   disassembleResultIcon: {fileID: 0}
+  disassembleResultCountText: {fileID: 0}
+  disassembleCountText: {fileID: 0}
+  disassemblePlusButton: {fileID: 0}
+  disassembleMinusButton: {fileID: 0}
+  disassembleTradeButton: {fileID: 0}
+  compoundPanel: {fileID: 0}
+  compoundModeButton: {fileID: 0}
   compoundResultIcon: {fileID: 0}
-  actionArea: {fileID: 0}
-  tradeInfoText: {fileID: 0}
-  countText: {fileID: 0}
-  plusButton: {fileID: 0}
-  minusButton: {fileID: 0}
-  tradeButton: {fileID: 0}
+  compoundResultCountText: {fileID: 0}
+  compoundCountText: {fileID: 0}
+  compoundPlusButton: {fileID: 0}
+  compoundMinusButton: {fileID: 0}
+  compoundTradeButton: {fileID: 0}
   statusText: {fileID: 0}
 --- !u!1001 &5147090497707894965
 PrefabInstance:
@@ -40151,7 +40171,6 @@ SceneRoots:
   - {fileID: 7595832284135312858}
   - {fileID: 339029682}
   - {fileID: 366459577}
-  - {fileID: 1072329928}
   - {fileID: 149259225}
   - {fileID: 308777408}
   - {fileID: 6861932386803533786}

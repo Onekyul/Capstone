@@ -28,6 +28,8 @@ public class BossStageManager : MonoBehaviour
 
     private float timer = 0f;
     private bool isRageMode = false;
+    private bool _phaseStarted = false; // StartNormalPhase() 호출 전까지 타이머 차단
+    private int _playerCount = 1;
 
     // 잡몹 스폰 코루틴 제어용
     private Coroutine spawnRoutine;
@@ -45,12 +47,13 @@ public class BossStageManager : MonoBehaviour
         if (boss != null)
             boss.OnDeath += () => OnBossDefeated?.Invoke();
 
-        // 통상 모드 시작
-        StartNormalPhase();
+        // 통상 모드는 BossDungeonServer.CoInitBossSession()에서 플레이어 입장 후 호출
     }
 
     void Update()
     {
+        if (!_phaseStarted) return; // 플레이어 입장 전에는 타이머 미동작
+
         if (!isRageMode)
         {
             timer += Time.deltaTime;
@@ -63,9 +66,22 @@ public class BossStageManager : MonoBehaviour
         }
     }
 
+    /// <summary>서버 전용: 플레이어 수 설정 (HP 스케일링에 사용)</summary>
+    public void SetPlayerCount(int count)
+    {
+        _playerCount = Mathf.Max(1, count);
+
+        // 보스 HP 스케일링
+        if (boss != null)
+            boss.ScaleHP(_playerCount);
+
+        Debug.Log($"[BossStageManager] 플레이어 {_playerCount}명 — 보스/재단 HP 스케일링 적용");
+    }
+
     // --- 1. 통상 모드 ---
     public void StartNormalPhase()
     {
+        _phaseStarted = true;
         isRageMode = false;
         timer = 0f;
 
@@ -155,7 +171,7 @@ public class BossStageManager : MonoBehaviour
             Debug.LogError("[BossStageManager] Altar prefab does not have AltarController component.");
             return;
         }
-        altarController.Setup(count); // 체력 설정
+        altarController.Setup(count, _playerCount); // 잡몹 수 + 플레이어 수 기반 체력 설정
         ActiveAltar = altarController;
     }
 

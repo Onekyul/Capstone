@@ -12,7 +12,7 @@ using System.Text;
 /// </summary>
 public class PartyWaitingRoomUI : MonoBehaviour
 {
-    private string serverUrl = "http://localhost:7200/api/Party";
+    private string serverUrl = $"{ServerConfig.BackendBaseUrl}/Party";
 
     [Header("파티 목록 패널 (뒤로가기용)")]
     [SerializeField] private PartyUI partyListUI;
@@ -37,6 +37,7 @@ public class PartyWaitingRoomUI : MonoBehaviour
     private bool _isReady;
     private bool _isLeader;
     private Coroutine _pollCoroutine;
+    private PartyDetailRes _lastDetail; // 최신 파티 정보 캐시 (입장 시 memberUserIds 사용)
 
     private static readonly float PollInterval = 1.5f;
 
@@ -115,6 +116,7 @@ public class PartyWaitingRoomUI : MonoBehaviour
                 yield break;
             }
 
+            _lastDetail = res;
             RefreshUI(res);
         }
         else
@@ -225,14 +227,23 @@ public class PartyWaitingRoomUI : MonoBehaviour
         enterButton.interactable = false;
         if (statusText != null) statusText.text = "던전 입장 중...";
 
-        var body = new PartyEnterReq
+        // 파티 멤버 userId 목록 수집
+        var memberIds = new System.Collections.Generic.List<int>();
+        if (_lastDetail?.members != null)
+            foreach (var m in _lastDetail.members) memberIds.Add(m.userId);
+        else
+            memberIds.Add(SessionManager.Instance.UserId);
+
+        var body = new DungeonEnterReq
         {
             partyId = _partyId,
-            userId = SessionManager.Instance.UserId
+            partyLeaderUserId = SessionManager.Instance.UserId,
+            memberUserIds = memberIds.ToArray()
         };
 
         string json = JsonUtility.ToJson(body);
-        using var req = new UnityWebRequest($"{serverUrl}/enter", "POST");
+        string dungeonEnterUrl = serverUrl.Replace("/Party", "/Dungeon") + "/enter";
+        using var req = new UnityWebRequest(dungeonEnterUrl, "POST");
         req.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(json));
         req.downloadHandler = new DownloadHandlerBuffer();
         req.SetRequestHeader("Content-Type", "application/json");
@@ -240,16 +251,25 @@ public class PartyWaitingRoomUI : MonoBehaviour
 
         if (req.result == UnityWebRequest.Result.Success)
         {
-            var res = JsonUtility.FromJson<PartyEnterRes>(req.downloadHandler.text);
-            Debug.Log($"[WaitingRoom] 던전 입장: sessionName={res.sessionName}");
-            Close();
-            DungeonSessionManager.Instance.EnterBossDungeon(res.sessionName);
+            var res = JsonUtility.FromJson<DungeonEnterRes>(req.downloadHandler.text);
+            if (res.status == "ok")
+            {
+                Debug.Log($"[WaitingRoom] 던전 입장: sessionName={res.sessionName}");
+                Close();
+                DungeonSessionManager.Instance.EnterBossDungeon(res.sessionName);
+            }
+            else
+            {
+                Debug.LogWarning($"[WaitingRoom] 서버 혼잡: {res.message}");
+                if (statusText != null) statusText.text = res.message ?? "서버가 혼잡합니다. 잠시 후 다시 시도해주세요.";
+                enterButton.interactable = true;
+            }
         }
         else
         {
             string errorMsg = req.downloadHandler?.text ?? req.error;
             Debug.LogWarning($"[WaitingRoom] 입장 실패: {errorMsg}");
-            if (statusText != null) statusText.text = errorMsg;
+            if (statusText != null) statusText.text = "입장 실패. 다시 시도해주세요.";
             enterButton.interactable = true;
         }
     }

@@ -43,12 +43,12 @@ public class DungeonPlayerStats : NetworkBehaviour, IDamageable
             if (SessionManager.Instance != null)
                 myNickname = SessionManager.Instance.Nickname;
             RPC_SetNickname(myNickname);
-
-            // HP바 초기화 (자신의 플레이어에서만)
-            DungeonHpBarSlider hpBar = GetComponentInChildren<DungeonHpBarSlider>(true);
-            if (hpBar != null)
-                hpBar.Init(this);
         }
+
+        // HP바 초기화: 모든 플레이어 오브젝트에서 실행 (원격 플레이어 HP바도 표시)
+        DungeonHpBarSlider hpBar = GetComponentInChildren<DungeonHpBarSlider>(true);
+        if (hpBar != null)
+            hpBar.Init(this);
 #endif
         UpdateNicknameUI();
         // 데디서버에서는 BossDungeonServer.OnPlayerJoined()가 InitFromServerData()를 호출함
@@ -183,6 +183,10 @@ public class DungeonPlayerStats : NetworkBehaviour, IDamageable
             IsDead = true;
             Debug.Log("[서버] 플레이어 사망 판정!");
 
+            // 서버에서도 Collider 비활성화 (몬스터 타겟팅 차단)
+            Collider2D col = GetComponent<Collider2D>();
+            if (col != null) col.enabled = false;
+
 #if UNITY_SERVER
             BossDungeonServer.Instance?.OnPlayerDied();
 #endif
@@ -198,6 +202,17 @@ public class DungeonPlayerStats : NetworkBehaviour, IDamageable
     {
         if (BossDungeonLevelManager.instance != null)
             BossDungeonLevelManager.instance.GainExperience(amount);
+    }
+
+    /// <summary>
+    /// 서버 → 클라이언트: 페이즈 타이머 시작 (120초 카운트다운 동기화).
+    /// BossDungeonServer.CoInitBossSession() 및 그로기 종료 시 호출.
+    /// </summary>
+    [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
+    public void RPC_StartPhaseTimer()
+    {
+        if (HasInputAuthority && BossDungeonUIManager.instance != null)
+            BossDungeonUIManager.instance.StartTimer();
     }
 
     /// <summary>

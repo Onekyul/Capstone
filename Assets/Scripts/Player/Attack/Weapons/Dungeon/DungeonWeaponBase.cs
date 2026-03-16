@@ -38,18 +38,22 @@ public abstract class DungeonWeaponBase : NetworkBehaviour
     private void LoadAndSendWeaponData()
     {
         float calcDamage = 10f;
-        float calcCooldown = 1f; 
+        float calcCooldown = 1f;
         int fire = 0, ice = 0, lightning = 0, poison = 0;
 
-        if (DataManager.instance != null && !string.IsNullOrEmpty(weaponId))
+        if (DataManager.instance != null)
         {
-            WeaponData data = DataManager.instance.GetWeaponData(weaponId);
-            if (data != null)
+            if (!string.IsNullOrEmpty(weaponId))
             {
-                int level = DataManager.instance.GetItemLevel(weaponId);
-                calcDamage = data.baseAtk + (data.atkPerLevel * level);
+                WeaponData data = DataManager.instance.GetWeaponData(weaponId);
+                if (data != null)
+                {
+                    int level = DataManager.instance.GetItemLevel(weaponId);
+                    calcDamage = data.baseAtk + (data.atkPerLevel * level);
+                }
             }
 
+            // 인챈트는 weaponId 유무와 무관하게 항상 읽음
             fire = DataManager.instance.GetEnchantLevel("ent_fire");
             ice = DataManager.instance.GetEnchantLevel("ent_ice");
             lightning = DataManager.instance.GetEnchantLevel("ent_lightning");

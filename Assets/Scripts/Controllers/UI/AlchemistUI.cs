@@ -3,52 +3,50 @@ using UnityEngine.UI;
 using TMPro;
 
 /// <summary>
-/// Controller for the Alchemist NPC's material exchange UI.
+/// 연금술사 재료 교환 UI.
 ///
-/// State Machine:
-///   None        — No item selected or no recipe available in active direction
-///   Compound    — > button selected: costItem → rewardItem (higher tier)
-///   Disassemble — < button selected: rewardItem → costItem (lower tier, recipe reversed)
-///
-/// Flow:
-///   Inventory slot click  → SelectMaterial()  → renders center + mode buttons
-///   < or > button click   → SetMode()         → renders action area
-///   +/- button            → AdjustCount()     → renders count + trade button
-///   Trade button          → ExecuteTrade()    → PostTradeRefresh()
+/// 흐름:
+///   인벤토리 슬롯 클릭  → SelectMaterial() → 패널 표시, 컨트롤 숨김
+///   화살표 클릭         → SetMode()        → 해당 패널 컨트롤 표시, 수량 세팅
+///   +/- 클릭            → AdjustCount()    → 수량 갱신
+///   분해/합성하기 클릭   → ExecuteTrade()   → 교환 실행
 /// </summary>
 public class AlchemistUI : MonoBehaviour
 {
-    // ─── State Definition ───────────────────────────────────────────────────
-
-    private enum TradeMode { None, Compound, Disassemble }
+    private enum TradeMode { None, Disassemble, Compound }
 
     // ─── Inspector References ────────────────────────────────────────────────
 
     [Header("Alchemist Reference")]
     [SerializeField] private Alchemist alchemist;
 
-    [Header("Inventory Slots — Inven ~ Inven(14), size = 15")]
+    [Header("Inventory Slots")]
     [SerializeField] private InventorySlotUI[] inventorySlots;
 
-    [Header("Center — Selected Material")]
-    [SerializeField] private Image preMaterialIcon;
-    [SerializeField] private TextMeshProUGUI preMaterialNameText;
+    [Header("Center — 선택 재료")]
+    [SerializeField] private Image            preMaterialIcon;
+    [SerializeField] private TextMeshProUGUI  preMaterialNameText;   // 없으면 비워도 됨
+    [SerializeField] private TextMeshProUGUI  preMaterialCountText;  // 모드 선택 전 숨김
 
-    [Header("Mode Select Buttons")]
-    [SerializeField] private Button disassembleModeButton;  // < (분해 모드 선택)
-    [SerializeField] private Button compoundModeButton;     // > (합성 모드 선택)
+    [Header("분해 패널")]
+    [SerializeField] private GameObject       disassemblePanel;          // 레시피 없으면 숨김
+    [SerializeField] private Button           disassembleModeButton;     // 왼쪽 화살표
+    [SerializeField] private Image            disassembleResultIcon;     // Aft_Dis_Material 아이콘
+    [SerializeField] private TextMeshProUGUI  disassembleResultCountText;// Aft_Dis_Material 수량 (모드 선택 후 표시)
+    [SerializeField] private TextMeshProUGUI  disassembleCountText;      // 교환 횟수 (모드 선택 후 표시)
+    [SerializeField] private Button           disassemblePlusButton;     // (모드 선택 후 표시)
+    [SerializeField] private Button           disassembleMinusButton;    // (모드 선택 후 표시)
+    [SerializeField] private Button           disassembleTradeButton;    // 분해하기 (모드 선택 후 표시)
 
-    [Header("Mode Select — Result Preview Icons")]
-    [SerializeField] private Image disassembleResultIcon;   // < 버튼 옆 결과 아이콘
-    [SerializeField] private Image compoundResultIcon;      // > 버튼 옆 결과 아이콘
-
-    [Header("Action Area — Shared Controls")]
-    [SerializeField] private GameObject actionArea;          // +/- 와 교환 버튼을 묶는 부모
-    [SerializeField] private TextMeshProUGUI tradeInfoText;  // "철광석 x10 → 강철 x1" 형태
-    [SerializeField] private TextMeshProUGUI countText;
-    [SerializeField] private Button plusButton;
-    [SerializeField] private Button minusButton;
-    [SerializeField] private Button tradeButton;
+    [Header("합성 패널")]
+    [SerializeField] private GameObject       compoundPanel;             // 레시피 없으면 숨김
+    [SerializeField] private Button           compoundModeButton;        // 오른쪽 화살표
+    [SerializeField] private Image            compoundResultIcon;        // Aft_Com_Material 아이콘
+    [SerializeField] private TextMeshProUGUI  compoundResultCountText;   // Aft_Com_Material 수량 (모드 선택 후 표시)
+    [SerializeField] private TextMeshProUGUI  compoundCountText;         // 교환 횟수 (모드 선택 후 표시)
+    [SerializeField] private Button           compoundPlusButton;        // (모드 선택 후 표시)
+    [SerializeField] private Button           compoundMinusButton;       // (모드 선택 후 표시)
+    [SerializeField] private Button           compoundTradeButton;       // 합성하기 (모드 선택 후 표시)
 
     [Header("Status")]
     [SerializeField] private TextMeshProUGUI statusText;
@@ -56,8 +54,8 @@ public class AlchemistUI : MonoBehaviour
     // ─── Runtime State ───────────────────────────────────────────────────────
 
     private ItemData    _selectedItem;
-    private TradeRecipe _nextRecipe;      // costItem == _selectedItem  (합성)
-    private TradeRecipe _prevRecipe;      // rewardItem == _selectedItem (분해)
+    private TradeRecipe _nextRecipe;   // costItem == _selectedItem  (합성)
+    private TradeRecipe _prevRecipe;   // rewardItem == _selectedItem (분해)
     private TradeMode   _activeMode = TradeMode.None;
     private int         _tradeCount = 1;
 
@@ -67,9 +65,14 @@ public class AlchemistUI : MonoBehaviour
     {
         disassembleModeButton.onClick.AddListener(() => SetMode(TradeMode.Disassemble));
         compoundModeButton.onClick.AddListener(()    => SetMode(TradeMode.Compound));
-        plusButton.onClick.AddListener(OnPlus);
-        minusButton.onClick.AddListener(OnMinus);
-        tradeButton.onClick.AddListener(ExecuteTrade);
+
+        disassemblePlusButton.onClick.AddListener(()  => AdjustCount(+1));
+        disassembleMinusButton.onClick.AddListener(() => AdjustCount(-1));
+        disassembleTradeButton.onClick.AddListener(() => ExecuteTrade());
+
+        compoundPlusButton.onClick.AddListener(()  => AdjustCount(+1));
+        compoundMinusButton.onClick.AddListener(() => AdjustCount(-1));
+        compoundTradeButton.onClick.AddListener(() => ExecuteTrade());
     }
 
     private void OnEnable()
@@ -82,9 +85,7 @@ public class AlchemistUI : MonoBehaviour
         if (statusText != null) statusText.text = string.Empty;
 
         RefreshInventorySlots();
-        RenderCenter();
-        RenderModeButtons();
-        RenderActionArea();
+        RenderAll();
     }
 
     // ─── Inventory Panel ────────────────────────────────────────────────────
@@ -106,13 +107,17 @@ public class AlchemistUI : MonoBehaviour
                 {
                     inventorySlots[i].SetMaterial(data, count);
 
-                    // 슬롯에 Button 컴포넌트가 있으면 클릭 이벤트 연결
-                    Button btn = inventorySlots[i].GetComponentInChildren<Button>();
+                    Button btn = inventorySlots[i].GetComponent<Button>()
+                              ?? inventorySlots[i].GetComponentInChildren<Button>(true);
                     if (btn != null)
                     {
                         var captured = data;
                         btn.onClick.RemoveAllListeners();
                         btn.onClick.AddListener(() => SelectMaterial(captured));
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[AlchemistUI] 슬롯 {i} ({data.itemId}) 에 Button 없음");
                     }
                 }
                 else
@@ -129,133 +134,154 @@ public class AlchemistUI : MonoBehaviour
 
     // ─── State Transitions ──────────────────────────────────────────────────
 
-    /// <summary>
-    /// Called when an inventory slot is clicked.
-    /// Looks up available recipes in both directions and resets mode to None.
-    /// </summary>
     private void SelectMaterial(ItemData item)
     {
         _selectedItem = item;
         _activeMode   = TradeMode.None;
         _tradeCount   = 1;
 
-        _nextRecipe = alchemist.TradeTable.recipes.Find(r => r.costItem   == item);
-        _prevRecipe = alchemist.TradeTable.recipes.Find(r => r.rewardItem == item);
+        _nextRecipe = alchemist.TradeTable.recipes.Find(r => r.costItem   != null && r.costItem.itemId   == item.itemId);
+        _prevRecipe = alchemist.TradeTable.recipes.Find(r => r.rewardItem != null && r.rewardItem.itemId == item.itemId);
 
         if (statusText != null) statusText.text = string.Empty;
 
-        RenderCenter();
-        RenderModeButtons();
-        RenderActionArea();
+        RenderAll();
     }
 
-    /// <summary>
-    /// Called when < or > mode button is clicked.
-    /// Switches active mode and resets trade count.
-    /// </summary>
     private void SetMode(TradeMode mode)
     {
-        _activeMode = mode;
+        // 같은 화살표 재클릭 시 모드 해제
+        _activeMode = (_activeMode == mode) ? TradeMode.None : mode;
         _tradeCount = 1;
-        RenderActionArea();
+        RenderAll();
     }
 
-    // ─── Render Methods ──────────────────────────────────────────────────────
+    private void AdjustCount(int delta)
+    {
+        int max = MaxCount();
+        _tradeCount = Mathf.Clamp(_tradeCount + delta, 1, Mathf.Max(1, max));
+        RenderAll();
+    }
 
-    /// <summary>Updates the center Pre_Material slot.</summary>
+    // ─── Render ──────────────────────────────────────────────────────────────
+
+    private void RenderAll()
+    {
+        RenderCenter();
+        RenderDisassemblePanel();
+        RenderCompoundPanel();
+    }
+
     private void RenderCenter()
     {
         bool has = _selectedItem != null;
-        if (preMaterialIcon != null)    { preMaterialIcon.sprite = has ? _selectedItem.icon : null; preMaterialIcon.enabled = has; }
-        if (preMaterialNameText != null)  preMaterialNameText.text = has ? _selectedItem.itemName : string.Empty;
+
+        if (preMaterialIcon != null)
+        {
+            preMaterialIcon.sprite  = has ? _selectedItem.icon : null;
+            preMaterialIcon.enabled = has;
+        }
+
+        if (preMaterialNameText != null)
+            preMaterialNameText.text = has ? _selectedItem.itemName : string.Empty;
+
+        // 수량: 모드 선택 후에만 표시, 소모량 = costPerOp * tradeCount
+        bool showCount = has && _activeMode != TradeMode.None;
+        if (preMaterialCountText != null)
+        {
+            preMaterialCountText.gameObject.SetActive(showCount);
+            if (showCount)
+            {
+                int costPerOp  = CostPerOp();
+                preMaterialCountText.text = (costPerOp * _tradeCount).ToString();
+            }
+        }
     }
 
-    /// <summary>
-    /// Updates the two mode-select buttons and their result preview icons.
-    /// Disables a button if no recipe exists in that direction.
-    /// </summary>
-    private void RenderModeButtons()
+    private void RenderDisassemblePanel()
     {
-        // Disassemble (<)
-        bool canDis = _selectedItem != null && _prevRecipe != null;
-        disassembleModeButton.interactable = canDis;
+        bool hasRecipe = _selectedItem != null && _prevRecipe != null;
+        if (disassemblePanel != null) disassemblePanel.SetActive(hasRecipe);
+        if (!hasRecipe) return;
+
+        // 결과 아이콘 (항상 표시)
         if (disassembleResultIcon != null)
         {
-            disassembleResultIcon.sprite  = canDis ? _prevRecipe.costItem.icon : null;
-            disassembleResultIcon.enabled = canDis;
+            disassembleResultIcon.sprite  = _prevRecipe.costItem.icon;
+            disassembleResultIcon.enabled = true;
         }
 
-        // Compound (>)
-        bool canCom = _selectedItem != null && _nextRecipe != null;
-        compoundModeButton.interactable = canCom;
+        bool active = _activeMode == TradeMode.Disassemble;
+        int  max    = active ? MaxCount() : 0;
+
+        // 결과 수량 (모드 선택 후 표시)
+        if (disassembleResultCountText != null)
+        {
+            disassembleResultCountText.gameObject.SetActive(active);
+            if (active)
+                disassembleResultCountText.text = (_prevRecipe.costAmount * _tradeCount).ToString();
+        }
+
+        // 교환 횟수 텍스트
+        if (disassembleCountText != null)
+        {
+            disassembleCountText.gameObject.SetActive(active);
+            if (active) disassembleCountText.text = _tradeCount.ToString();
+        }
+
+        // 컨트롤 버튼
+        SetButtonVisible(disassemblePlusButton,  active, active && _tradeCount < max);
+        SetButtonVisible(disassembleMinusButton, active, active && _tradeCount > 1);
+        SetButtonVisible(disassembleTradeButton, active, active && max > 0);
+    }
+
+    private void RenderCompoundPanel()
+    {
+        bool hasRecipe = _selectedItem != null && _nextRecipe != null;
+        if (compoundPanel != null) compoundPanel.SetActive(hasRecipe);
+        if (!hasRecipe) return;
+
+        // 결과 아이콘 (항상 표시)
         if (compoundResultIcon != null)
         {
-            compoundResultIcon.sprite  = canCom ? _nextRecipe.rewardItem.icon : null;
-            compoundResultIcon.enabled = canCom;
+            compoundResultIcon.sprite  = _nextRecipe.rewardItem.icon;
+            compoundResultIcon.enabled = true;
         }
-    }
 
-    /// <summary>
-    /// Updates the shared action area (info text, count, +/-, trade button).
-    /// Hides the area entirely when no mode is active.
-    /// </summary>
-    private void RenderActionArea()
-    {
-        TradeRecipe active = ActiveRecipe();
+        bool active = _activeMode == TradeMode.Compound;
+        int  max    = active ? MaxCount() : 0;
 
-        if (actionArea != null)
-            actionArea.SetActive(active != null);
-
-        if (active == null) return;
-
-        // Trade info line
-        if (tradeInfoText != null)
+        // 결과 수량 (모드 선택 후 표시)
+        if (compoundResultCountText != null)
         {
-            if (_activeMode == TradeMode.Compound)
-                tradeInfoText.text = $"{active.costItem.itemName} x{active.costAmount} → {active.rewardItem.itemName} x{active.rewardAmount}";
-            else
-                tradeInfoText.text = $"{active.rewardItem.itemName} x{active.rewardAmount} → {active.costItem.itemName} x{active.costAmount}";
+            compoundResultCountText.gameObject.SetActive(active);
+            if (active)
+                compoundResultCountText.text = (_nextRecipe.rewardAmount * _tradeCount).ToString();
         }
 
-        // Max count
-        int costPerOp = CostPerOperation(active);
-        int owned     = DataManager.instance.GetInventoryCount(_selectedItem.itemId);
-        int maxCount  = costPerOp > 0 ? Mathf.FloorToInt((float)owned / costPerOp) : 0;
+        // 교환 횟수 텍스트
+        if (compoundCountText != null)
+        {
+            compoundCountText.gameObject.SetActive(active);
+            if (active) compoundCountText.text = _tradeCount.ToString();
+        }
 
-        _tradeCount = Mathf.Clamp(_tradeCount, 1, Mathf.Max(1, maxCount));
-
-        if (countText != null) countText.text = _tradeCount.ToString();
-
-        tradeButton.interactable  = maxCount > 0;
-        plusButton.interactable   = _tradeCount < maxCount;
-        minusButton.interactable  = _tradeCount > 1;
-    }
-
-    // ─── Count Buttons ───────────────────────────────────────────────────────
-
-    private void OnPlus()
-    {
-        _tradeCount++;
-        RenderActionArea();
-    }
-
-    private void OnMinus()
-    {
-        _tradeCount = Mathf.Max(1, _tradeCount - 1);
-        RenderActionArea();
+        // 컨트롤 버튼
+        SetButtonVisible(compoundPlusButton,  active, active && _tradeCount < max);
+        SetButtonVisible(compoundMinusButton, active, active && _tradeCount > 1);
+        SetButtonVisible(compoundTradeButton, active, active && max > 0);
     }
 
     // ─── Trade Execution ─────────────────────────────────────────────────────
 
     private void ExecuteTrade()
     {
-        if (DataManager.instance == null) return;
+        if (DataManager.instance == null || _selectedItem == null) return;
+        if (_activeMode == TradeMode.None) return;
 
-        TradeRecipe active = ActiveRecipe();
-        if (active == null) return;
-
-        int costPerOp  = CostPerOperation(active);
-        int totalCost  = costPerOp * _tradeCount;
+        TradeRecipe recipe    = ActiveRecipe();
+        int         costPerOp = CostPerOp();
+        int         totalCost = costPerOp * _tradeCount;
 
         if (!DataManager.instance.HasInventory(_selectedItem.itemId, totalCost))
         {
@@ -263,48 +289,42 @@ public class AlchemistUI : MonoBehaviour
             return;
         }
 
-        // Consume source item
         DataManager.instance.UseInventory(_selectedItem.itemId, totalCost);
 
-        // Grant result item
         string rewardId;
         int    rewardPerOp;
+        string rewardName;
 
         if (_activeMode == TradeMode.Compound)
         {
-            rewardId    = active.rewardItem.itemId;
-            rewardPerOp = active.rewardAmount;
+            rewardId    = recipe.rewardItem.itemId;
+            rewardPerOp = recipe.rewardAmount;
+            rewardName  = recipe.rewardItem.itemName;
         }
-        else // Disassemble — recipe reversed
+        else
         {
-            rewardId    = active.costItem.itemId;
-            rewardPerOp = active.costAmount;
+            rewardId    = recipe.costItem.itemId;
+            rewardPerOp = recipe.costAmount;
+            rewardName  = recipe.costItem.itemName;
         }
 
         int totalReward = rewardPerOp * _tradeCount;
         DataManager.instance.AddInventory(rewardId, totalReward);
 
-        string rewardName = _activeMode == TradeMode.Compound
-            ? active.rewardItem.itemName
-            : active.costItem.itemName;
-
         if (statusText != null)
-            statusText.text = $"{rewardName} x{totalReward} 획득!";
+            statusText.text = $"{rewardName} {totalReward}개 획득!";
 
         Debug.Log($"[AlchemistUI] {_activeMode}: {_selectedItem.itemName} x{totalCost} → {rewardName} x{totalReward}");
 
         PostTradeRefresh();
     }
 
-    // ─── Post-Trade ──────────────────────────────────────────────────────────
-
     private void PostTradeRefresh()
     {
         _tradeCount = 1;
-
         RefreshInventorySlots();
 
-        // Deselect if source material is fully consumed
+        // 재료를 다 소모했으면 선택 해제
         if (_selectedItem != null &&
             DataManager.instance.GetInventoryCount(_selectedItem.itemId) <= 0)
         {
@@ -312,35 +332,42 @@ public class AlchemistUI : MonoBehaviour
             _nextRecipe   = null;
             _prevRecipe   = null;
             _activeMode   = TradeMode.None;
-            RenderCenter();
-            RenderModeButtons();
         }
 
-        RenderActionArea();
+        RenderAll();
     }
 
     // ─── Helpers ─────────────────────────────────────────────────────────────
 
-    /// <summary>Returns the recipe for the currently active mode, or null.</summary>
-    private TradeRecipe ActiveRecipe()
+    private TradeRecipe ActiveRecipe() => _activeMode switch
     {
-        return _activeMode switch
-        {
-            TradeMode.Compound    => _nextRecipe,
-            TradeMode.Disassemble => _prevRecipe,
-            _                     => null,
-        };
+        TradeMode.Compound    => _nextRecipe,
+        TradeMode.Disassemble => _prevRecipe,
+        _                     => null
+    };
+
+    /// <summary>현재 모드에서 1회 교환 시 소모되는 선택 재료 수량</summary>
+    private int CostPerOp()
+    {
+        if (_activeMode == TradeMode.Compound)
+            return _nextRecipe?.costAmount ?? 0;
+        else
+            return Mathf.Max(1, _prevRecipe?.rewardAmount ?? 0);
     }
 
-    /// <summary>
-    /// How many of _selectedItem are consumed per single trade operation.
-    /// Compound:    costAmount of selectedItem
-    /// Disassemble: rewardAmount of selectedItem (recipe reversal)
-    /// </summary>
-    private int CostPerOperation(TradeRecipe recipe)
+    /// <summary>보유량 기준 최대 교환 가능 횟수</summary>
+    private int MaxCount()
     {
-        return _activeMode == TradeMode.Compound
-            ? recipe.costAmount
-            : Mathf.Max(1, recipe.rewardAmount);
+        if (_selectedItem == null) return 0;
+        int costPerOp = CostPerOp();
+        int owned     = DataManager.instance.GetInventoryCount(_selectedItem.itemId);
+        return costPerOp > 0 ? Mathf.FloorToInt((float)owned / costPerOp) : 0;
+    }
+
+    private void SetButtonVisible(Button btn, bool visible, bool interactable)
+    {
+        if (btn == null) return;
+        btn.gameObject.SetActive(visible);
+        btn.interactable = interactable;
     }
 }

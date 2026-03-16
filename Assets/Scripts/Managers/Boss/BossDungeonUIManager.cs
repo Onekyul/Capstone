@@ -22,6 +22,9 @@ public class BossDungeonUIManager : MonoBehaviour
     [SerializeField] private Button returnToLobbyButton; // 결과창의 로비로 돌아가기 버튼
     [SerializeField] private float autoReturnDelay = 10f; // 버튼 없을 때 자동 복귀 시간 (초)
 
+    [Header("사망 대기 오버레이")]
+    [SerializeField] private GameObject deadOverlay; // 사망 시 표시되는 반투명 패널
+
     [Header("타이머")]
     [SerializeField] private TextMeshProUGUI timerText; // 남은 시간 표시
     [SerializeField] private float timeLimit = 180f;    // 3분
@@ -39,7 +42,7 @@ public class BossDungeonUIManager : MonoBehaviour
 
     void Start()
     {
-        StartTimer();
+        // 타이머는 서버 신호(RPC_StartPhaseTimer)를 받아야 시작됨
     }
 
     public void StartTimer()

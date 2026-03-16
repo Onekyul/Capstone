@@ -8,7 +8,8 @@ public class DungeonPlayerController : NetworkBehaviour
     private SpriteRenderer spriteRenderer;
     private DungeonPlayerStats stats; // 스탯 스크립트 가져오기
 
-    [Networked] public NetworkBool IsFacingLeft { get; set; }
+    [Networked, OnChangedRender(nameof(ApplyFlip))]
+    public NetworkBool IsFacingLeft { get; set; }
 
     public override void Spawned()
     {
@@ -20,6 +21,10 @@ public class DungeonPlayerController : NetworkBehaviour
         {
             Camera.main.transform.SetParent(this.transform);
             Camera.main.transform.localPosition = new Vector3(0, 0, -10);
+
+            // lookOrigin을 자신으로 설정해야 마우스 방향 계산이 올바름
+            if (InputManager.instance != null)
+                InputManager.instance.lookOrigin = this.transform;
         }
     }
 
@@ -48,10 +53,16 @@ public class DungeonPlayerController : NetworkBehaviour
                 IsFacingLeft = data.lookDirection.x < 0;
             }
         }
-        
-        if (spriteRenderer != null && spriteRenderer.enabled)
-        {
+    }
+
+    public override void Render()
+    {
+        ApplyFlip();
+    }
+
+    private void ApplyFlip()
+    {
+        if (spriteRenderer != null)
             spriteRenderer.flipX = IsFacingLeft;
-        }
     }
 }

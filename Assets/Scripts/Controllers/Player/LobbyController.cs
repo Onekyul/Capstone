@@ -6,6 +6,9 @@ public class LobbyController : NetworkBehaviour
     private SpriteRenderer _renderer;
     private Animator _animator;
 
+    [Networked, OnChangedRender(nameof(ApplyFlip))]
+    private NetworkBool IsFacingLeft { get; set; }
+
     [Header("Settings")]
     public float moveSpeed = 5f;
 
@@ -33,6 +36,17 @@ public class LobbyController : NetworkBehaviour
         HandleMovement();
     }
 
+    public override void Render()
+    {
+        ApplyFlip();
+    }
+
+    private void ApplyFlip()
+    {
+        if (_renderer != null)
+            _renderer.flipX = IsFacingLeft;
+    }
+
     void HandleMovement()
     {
         
@@ -47,10 +61,10 @@ public class LobbyController : NetworkBehaviour
             // 이동
             transform.Translate(inputDir * moveSpeed * Runner.DeltaTime);
 
-            // 좌우 반전 (Sprite Flip)
+            // 좌우 반전 (networked)
             if (inputDir.x != 0)
             {
-                _renderer.flipX = (inputDir.x < 0);
+                IsFacingLeft = inputDir.x < 0;
             }
 
             // 애니메이션

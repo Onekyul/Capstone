@@ -32,6 +32,13 @@ public class DungeonHpBarSlider : MonoBehaviour
     {
         // 월드 스페이스 캔버스에서 회전 고정
         transform.rotation = Quaternion.identity;
+
+        // NetCurHP 직접 폴링 (원격 플레이어 포함 모든 HP바 갱신)
+        if (dungeonStats != null && hpSlider != null && dungeonStats.MaxHP > 0)
+        {
+            hpSlider.maxValue = dungeonStats.MaxHP;
+            hpSlider.value = dungeonStats.NetCurHP;
+        }
     }
 
     void OnDestroy()
