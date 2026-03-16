@@ -435,18 +435,36 @@ public class DataManager : MonoBehaviour
             // save=false: 레벨업 적용 후 마지막에 한 번만 SaveGame 호출
             UseInventory(matId, matCount, save: false);
 
-            if (isSuccess) 
+            if (isSuccess)
             {
-                ApplyLevelUpInternal(id);
-                Debug.Log($"[강화 성공] {itemName} (+{currentLevel + 1})");
+                // 상위 티어 무기/방어구로 전환
+                if (nextStep.nextTierWeapon != null)
+                {
+                    string newId = nextStep.nextTierWeapon.weaponId;
+                    if (!currentPlayer.ownedWeapons.Exists(w => w.itemId == newId))
+                        currentPlayer.ownedWeapons.Add(new EquipmentState(newId, 0));
+                    Debug.Log($"[강화 성공] {itemName} → {nextStep.nextTierWeapon.weaponName} (+0)");
+                }
+                else if (nextStep.nextTierArmor != null)
+                {
+                    string newId = nextStep.nextTierArmor.armorId;
+                    if (!currentPlayer.ownedArmors.Exists(a => a.itemId == newId))
+                        currentPlayer.ownedArmors.Add(new EquipmentState(newId, 0));
+                    Debug.Log($"[강화 성공] {itemName} → {nextStep.nextTierArmor.armorName} (+0)");
+                }
+                else
+                {
+                    ApplyLevelUpInternal(id);
+                    Debug.Log($"[강화 성공] {itemName} (+{currentLevel + 1})");
+                }
             }
-            else 
+            else
             {
                 Debug.Log($"[강화 실패] {itemName}...");
             }
 
             // ★ 결과 적용 후 한 번만 SaveGame 호출 (인벤토리 깎인 거 + 레벨업 덮어쓰기)
-            SaveGame(); 
+            SaveGame();
             onComplete?.Invoke(isSuccess, msg);
         }));
     }
