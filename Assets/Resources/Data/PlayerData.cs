@@ -11,6 +11,7 @@ public enum EquipmentType
 
 public class PlayerData
 {
+    public string nickname = "Unknown";
     //장착 장비
     // 기존 단일 필드는 하위 호환성을 위해 유지 (활 기본값)
     public string equippedWeaponId = "bow_wood";

@@ -53,6 +53,16 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
+        if (ChatManager.IsChatting)
+        {
+            
+            if (playerMoveInput != Vector2.zero)
+            {
+                playerMoveInput = Vector2.zero;
+                OnMove?.Invoke(playerMoveInput);
+            }
+            return; 
+        }
         // lookOrigin이 없으면 Player 태그를 찾아서 자동 할당 
         if (lookOrigin == null)
         {

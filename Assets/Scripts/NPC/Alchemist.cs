@@ -4,14 +4,12 @@ public class Alchemist : NPCController
 {
     private string npcName = "연금술사";
     [TextArea(3, 10)] public string dialogue;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-   
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [Header("교환 테이블")]
+    [SerializeField] private TradeTableData tradeTable;
+
+    public TradeTableData TradeTable => tradeTable;
+
     public override void Interact()
     {
         if (UIManager.instance.IsDialogueOpen)
@@ -28,9 +26,8 @@ public class Alchemist : NPCController
             {
                 interactionPrompt.SetActive(false);
             }
-            UIManager.instance.OpenDialoguePanel(npcName, dialogue);
+            UIManager.instance.OpenDialoguePanel(npcName, dialogue,
+                () => UIManager.instance.OpenAlchemistUI(), "교환");
         }
     }
-    
-    
 }

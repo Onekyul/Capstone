@@ -243,27 +243,44 @@ public class WizardUI : MonoBehaviour
         enhance_Button.interactable = false;
     }
 
+    // 해금/강화 버튼 클릭 시 실행
     public void OnClickAction()
     {
-        bool isSuccess = DataManager.instance.TryEnhanceEnchant(currentSelectedId);
-        if (isSuccess) 
-        {
-            // 2. UI 갱신
-            UpdateUI();
+        // ★ [핵심 1] 연타 방지: 해금 버튼과 강화 버튼을 둘 다 잠시 끕니다.
+        if (open_Button != null) open_Button.interactable = false;
+        if (enhance_Button != null) enhance_Button.interactable = false;
 
-            // 3. ★ 추가: 플레이어의 무기에 즉시 반영 ★
-            // Wizard.cs에 있던 로직을 여기에 넣어주어야 합니다.
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
+        Debug.Log("[WizardUI] 서버에 인챈트 해금/강화 요청 중...");
+
+        // ★ [핵심 2] 비동기 콜백 형식으로 변경
+        DataManager.instance.TryEnhanceEnchant(currentSelectedId, (isSuccess, message) => 
+        {
+            // -----------------------------------------------------------------
+            // 이 중괄호 안의 코드는 서버에서 주사위를 굴리고 응답이 오면 실행됩니다!
+            // -----------------------------------------------------------------
+            if (isSuccess) 
             {
-                // 비활성화된 무기까지 포함해서 찾기 위해 true 전달
-                WeaponBase[] weapons = player.GetComponentsInChildren<WeaponBase>(true);
-                foreach (var weapon in weapons)
+                Debug.Log($"[WizardUI] 성공! 서버 메시지: {message}");
+
+                // 플레이어 무기에 즉시 반영
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if (player != null)
                 {
-                    weapon.UpgradeEnchantLevels();
-                    Debug.Log($"{weapon.gameObject.name}의 인챈트 수치를 갱신했습니다.");
+                    WeaponBase[] weapons = player.GetComponentsInChildren<WeaponBase>(true);
+                    foreach (var weapon in weapons)
+                    {
+                        weapon.UpgradeEnchantLevels();
+                        Debug.Log($"[WizardUI] {weapon.gameObject.name}의 인챈트 수치를 갱신했습니다.");
+                    }
                 }
             }
-        }
+            else
+            {
+                // 실패 처리
+                Debug.Log($"[WizardUI] 실패: {message}");
+            }
+            
+            UpdateUI();
+        });
     }
 }

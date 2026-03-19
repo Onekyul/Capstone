@@ -20,9 +20,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI actionButtonText;
     
     [Header("NPC 기능 패널")]
-    public GameObject blacksmithPanel; 
-    public GameObject enchantPanel;    
-    public GameObject inventoryPanel; 
+    public GameObject blacksmithPanel;
+    public GameObject enchantPanel;
+    public GameObject inventoryPanel;
+    public GameObject swapWeaponPanel;
+    public GameObject alchemistPanel;
 
     [Header("던전 UI")]
     [SerializeField]
@@ -55,6 +57,8 @@ public class UIManager : MonoBehaviour
         if(inventoryPanel != null) inventoryPanel.SetActive(false);
         if(blacksmithPanel != null) blacksmithPanel.SetActive(false);
         if(enchantPanel != null) enchantPanel.SetActive(false);
+        if(swapWeaponPanel != null) swapWeaponPanel.SetActive(false);
+        if(alchemistPanel != null) alchemistPanel.SetActive(false);
     }
     // Update is called once per frame
     void Update()
@@ -112,6 +116,22 @@ public class UIManager : MonoBehaviour
             return;
         }
         
+        // 무기 변경 닫기
+        if (swapWeaponPanel != null && swapWeaponPanel.activeSelf)
+        {
+            swapWeaponPanel.SetActive(false);
+            currentDialoguePanel = null;
+            return;
+        }
+
+        // 연금술사 닫기
+        if (alchemistPanel != null && alchemistPanel.activeSelf)
+        {
+            alchemistPanel.SetActive(false);
+            currentDialoguePanel = null;
+            return;
+        }
+
         // 인벤토리 닫기
         if (inventoryPanel != null && inventoryPanel.activeSelf)
         {
@@ -195,6 +215,8 @@ public class UIManager : MonoBehaviour
     public void OpenBlacksmithUI() => OpenPanel(blacksmithPanel);
     public void OpenEnchantUI() => OpenPanel(enchantPanel);
     public void OpenInventoryUI() => OpenPanel(inventoryPanel);
+    public void OpenSwapWeaponUI() => OpenPanel(swapWeaponPanel);
+    public void OpenAlchemistUI() => OpenPanel(alchemistPanel);
     
     // 각 UI의 X(닫기) 버튼에 연결할 때는 이 함수들을 쓰거나, CloseCurrentPanel()을 직접 연결해도 됨
     public void CloseBlacksmithUI() => CloseCurrentPanel();

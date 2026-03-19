@@ -1,10 +1,16 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 public class BossStageManager : MonoBehaviour
 {
     public static BossStageManager instance;
+
+    /// <summary>
+    /// 보스 사망 시 발행. 데디서버(BossDungeonServer)가 구독하여 결과 전송.
+    /// </summary>
+    public event Action OnBossDefeated;
 
     [Header("Settings")]
     [SerializeField] private BossMonsterController boss;
@@ -24,6 +30,10 @@ public class BossStageManager : MonoBehaviour
 
     void Start()
     {
+        // 보스 사망 이벤트 구독
+        if (boss != null)
+            boss.OnDeath += () => OnBossDefeated?.Invoke();
+
         // 통상 모드 시작
         StartNormalPhase();
     }
