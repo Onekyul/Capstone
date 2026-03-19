@@ -1,12 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class DungeonSelectPanelController : MonoBehaviour
 {
     [SerializeField] private Button floor1Button;
     [SerializeField] private Button enterButton;
-    [SerializeField] private Button closeButton; 
+    [SerializeField] private Button closeButton;
 
     private int selectedFloor = 0;
 
@@ -15,21 +14,18 @@ public class DungeonSelectPanelController : MonoBehaviour
     {
         ResetSelection();
     }
-    
+
     // 이 패널을 열고 닫는 public 함수
     public void OpenPanel()
     {
         gameObject.SetActive(true);
-     
     }
 
     public void ClosePanel()
     {
         gameObject.SetActive(false);
-      
     }
-    
-    // 이제 이 스크립트가 자신의 버튼들을 직접 관리
+
     public void SelectFloor(int floorNumber)
     {
         selectedFloor = floorNumber;
@@ -44,8 +40,17 @@ public class DungeonSelectPanelController : MonoBehaviour
         if (selectedFloor > 0)
         {
             ClosePanel();
-            SceneManager.LoadScene("FireDungeonScene1");
-
+            if (DungeonSessionManager.Instance != null)
+            {
+                // 씬 전환 코루틴은 DontDestroyOnLoad인 DungeonSessionManager에서 실행
+                DungeonSessionManager.Instance.EnterFarmingDungeon("FireDungeonScene1");
+            }
+            else
+            {
+                // DungeonSessionManager가 없으면 직접 로드 (Fusion 미사용 환경)
+                Debug.LogWarning("[DungeonSelect] DungeonSessionManager 없음 - SceneManager 직접 사용");
+                UnityEngine.SceneManagement.SceneManager.LoadScene("FireDungeonScene1");
+            }
         }
     }
 

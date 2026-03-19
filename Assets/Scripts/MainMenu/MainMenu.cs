@@ -47,10 +47,20 @@ public class MainMenu : MonoBehaviour
             // [기존 유저] 로그인 + 데이터 로드 후 로비 이동
             if (DataManager.instance != null)
             {
-                DataManager.instance.InitializeNetwork(() => 
-                {
-                    SceneLoader.Instance.LoadSceneByButton("BaseArea 1");
-                });
+                DataManager.instance.InitializeNetwork(
+                    () =>
+                    {
+                        SceneLoader.Instance.LoadSceneByButton("BaseArea 1");
+                    },
+                    () =>
+                    {
+                        // 로그인 실패 (EC2에 없는 deviceId 등) → 닉네임 패널 열기
+                        PlayerPrefs.DeleteKey(DEVICE_ID_KEY);
+                        PlayerPrefs.Save();
+                        if (panelText != null) panelText.text = "환영합니다!\n사용하실 닉네임을 입력해주세요.";
+                        nicknamePanel.SetActive(true);
+                    }
+                );
             }
         }
     }

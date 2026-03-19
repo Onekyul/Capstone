@@ -38,18 +38,22 @@ public abstract class DungeonWeaponBase : NetworkBehaviour
     private void LoadAndSendWeaponData()
     {
         float calcDamage = 10f;
-        float calcCooldown = 1f; 
+        float calcCooldown = 1f;
         int fire = 0, ice = 0, lightning = 0, poison = 0;
 
-        if (DataManager.instance != null && !string.IsNullOrEmpty(weaponId))
+        if (DataManager.instance != null)
         {
-            WeaponData data = DataManager.instance.GetWeaponData(weaponId);
-            if (data != null)
+            if (!string.IsNullOrEmpty(weaponId))
             {
-                int level = DataManager.instance.GetItemLevel(weaponId);
-                calcDamage = data.baseAtk + (data.atkPerLevel * level);
+                WeaponData data = DataManager.instance.GetWeaponData(weaponId);
+                if (data != null)
+                {
+                    int level = DataManager.instance.GetItemLevel(weaponId);
+                    calcDamage = data.baseAtk + (data.atkPerLevel * level);
+                }
             }
 
+            // 인챈트는 weaponId 유무와 무관하게 항상 읽음
             fire = DataManager.instance.GetEnchantLevel("ent_fire");
             ice = DataManager.instance.GetEnchantLevel("ent_ice");
             lightning = DataManager.instance.GetEnchantLevel("ent_lightning");
@@ -80,24 +84,24 @@ public abstract class DungeonWeaponBase : NetworkBehaviour
         // 쿨타임이 끝났다면 공격 실행
         if (AttackCooldownTimer.ExpiredOrNotRunning(Runner))
         {
-            // 1. 공격 시각 효과는 모든 클라이언트가 각자 그림 (RPC 호출)
-            RPC_PlayAttackVisuals(direction);
-
-            // 2. ★ 실제 데미지 판정은 서버만 실행!
             if (HasStateAuthority)
             {
-                ExecuteServerAttack(direction);
-            }
+                // 1. 서버에서 이펙트 RPC 전송 (All 수신 → 중복 방지)
+                RPC_PlayAttackVisuals(direction);
 
-            // 3. 쿨타임 재설정
-            float speedMult = playerStats != null ? playerStats.AttackSpeedMultiplier : 1.0f;
-            float finalCooldown = NetAttackCooldown / speedMult;
-            AttackCooldownTimer = TickTimer.CreateFromSeconds(Runner, finalCooldown);
+                // 2. 실제 데미지 판정
+                ExecuteServerAttack(direction);
+
+                // 3. 쿨타임 재설정 (서버가 [Networked] 타이머 관리)
+                float speedMult = playerStats != null ? playerStats.AttackSpeedMultiplier : 1.0f;
+                float finalCooldown = NetAttackCooldown / speedMult;
+                AttackCooldownTimer = TickTimer.CreateFromSeconds(Runner, finalCooldown);
+            }
         }
     }
 
     // [RPC] 나 공격했으니까 너희들 화면에도 이펙트 띄워줘!
-    [Rpc(RpcSources.StateAuthority | RpcSources.InputAuthority, RpcTargets.All)]
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     private void RPC_PlayAttackVisuals(Vector2 direction)
     {
         CreateAttackEffect(direction);

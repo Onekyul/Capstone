@@ -21,13 +21,18 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
 {
     public static BossDungeonServer Instance { get; private set; }
 
-    [Header("프리팹")]
-    [SerializeField] private NetworkRunner runnerPrefab;
-    [SerializeField] private NetworkObject dungeonPlayerPrefab;
-
     [Header("서버 설정")]
     [SerializeField] private int maxPlayers = 4;
-    [SerializeField] private string backendBaseUrl = "http://localhost:7200/api";
+    [SerializeField] private string backendBaseUrl = ServerConfig.BackendBaseUrl;
+    [SerializeField] private string serverId = "server-1";
+    [SerializeField] private int serverPort = 27015;
+
+    // Resources/Prefabs/ 경로에서 로드
+    private const string RunnerPrefabPath = "Prefabs/NetwrokRunner";
+    private const string PlayerPrefabPath = "Prefabs/Player/DungeonPlayer";
+
+    private NetworkRunner runnerPrefab;
+    private NetworkObject dungeonPlayerPrefab;
 
     private NetworkRunner _runner;
     private readonly Dictionary<PlayerRef, NetworkObject> _spawnedPlayers = new();
@@ -35,6 +40,7 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
 
     // 던전 결과 전송용
     private string _currentSessionName;
+    private int _currentPartyId;
     private float _sessionStartTime;
     private readonly Dictionary<PlayerRef, int> _playerUserIds = new();
     private bool _resultSent;
@@ -45,6 +51,7 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            LoadPrefabs();
         }
         else
         {
@@ -52,23 +59,69 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
         }
     }
 
+    private void LoadPrefabs()
+    {
+        runnerPrefab = Resources.Load<NetworkRunner>(RunnerPrefabPath);
+        if (runnerPrefab == null)
+            Debug.LogError($"[DediServer] NetworkRunner 프리팹 로드 실패: Resources/{RunnerPrefabPath}");
+
+        dungeonPlayerPrefab = Resources.Load<NetworkObject>(PlayerPrefabPath);
+        if (dungeonPlayerPrefab == null)
+            Debug.LogError($"[DediServer] DungeonPlayer 프리팹 로드 실패: Resources/{PlayerPrefabPath}");
+
+        Debug.Log($"[DediServer] 프리팹 로드 완료 - Runner:{runnerPrefab != null}, Player:{dungeonPlayerPrefab != null}");
+    }
+
     void Start()
     {
-        // Redis Pub/Sub 리스너가 있으면 연결
+        // 커맨드라인 인자로 설정 오버라이드
+        string argBackend = GetCommandLineArg("-backend");
+        if (!string.IsNullOrEmpty(argBackend)) backendBaseUrl = argBackend;
+
+        string argServerId = GetCommandLineArg("-serverId");
+        if (!string.IsNullOrEmpty(argServerId)) serverId = argServerId;
+
+        string argPort = GetCommandLineArg("-port");
+        if (!string.IsNullOrEmpty(argPort) && int.TryParse(argPort, out int p)) serverPort = p;
+
+        // Redis 구독 시작 (서버 전용 채널)
         if (RedisSessionListener.Instance != null)
         {
+            RedisSessionListener.Instance.Subscribe(serverId);
             RedisSessionListener.Instance.OnSessionRequested += OnSessionRequested;
         }
 
-        // 커맨드라인 인자로 즉시 시작 (-session 세션이름)
-        string sessionName = GetCommandLineArg("-session");
-        if (!string.IsNullOrEmpty(sessionName))
-        {
-            string backendUrl = GetCommandLineArg("-backend");
-            if (!string.IsNullOrEmpty(backendUrl))
-                backendBaseUrl = backendUrl;
+        // 백엔드에 유휴 서버로 등록
+        RegisterWithBackend();
+    }
 
-            CreateSession(sessionName);
+    private async void RegisterWithBackend()
+    {
+        try
+        {
+            string json = $"{{\"serverId\":\"{serverId}\",\"port\":{serverPort}}}";
+            var content = new System.Net.Http.StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync($"{backendBaseUrl}/Server/register", content);
+            Debug.Log($"[DediServer] 백엔드 등록 완료: serverId={serverId}, port={serverPort}, status={response.StatusCode}");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[DediServer] 백엔드 등록 실패: {e.Message}");
+        }
+    }
+
+    private async void NotifyIdle()
+    {
+        try
+        {
+            string json = $"{{\"serverId\":\"{serverId}\"}}";
+            var content = new System.Net.Http.StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync($"{backendBaseUrl}/Server/idle", content);
+            Debug.Log($"[DediServer] 유휴 복귀 알림: serverId={serverId}, status={response.StatusCode}");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[DediServer] 유휴 복귀 알림 실패: {e.Message}");
         }
     }
 
@@ -76,9 +129,10 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
     //  세션 생성
     // ============================
 
-    private void OnSessionRequested(string sessionName, int playerCount)
+    private void OnSessionRequested(string sessionName, int[] memberUserIds, int partyId)
     {
-        maxPlayers = playerCount;
+        maxPlayers = memberUserIds.Length > 0 ? memberUserIds.Length : 4;
+        _currentPartyId = partyId;
         CreateSession(sessionName);
     }
 
@@ -97,12 +151,16 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
         if (sceneManager == null)
             sceneManager = _runner.gameObject.AddComponent<NetworkSceneManagerDefault>();
 
+        // 현재 씬(BossTestScene 1)을 Fusion에 등록해야 씬의 NetworkObject가 Spawned()를 받음
+        int currentSceneIndex = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
+
         var result = await _runner.StartGame(new StartGameArgs
         {
             GameMode = GameMode.Server,
             SessionName = sessionName,
             PlayerCount = maxPlayers,
             SceneManager = sceneManager,
+            Scene = SceneRef.FromIndex(currentSceneIndex),
         });
 
         if (result.Ok)
@@ -182,6 +240,70 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
         }
 
         Debug.Log($"[DediServer] 플레이어 초기화 완료: userId={userId}, weapon={stats.equippedWeapon}, HP={calculated.maxHp}, Def={calculated.defense}");
+
+        // 모든 플레이어가 준비되면 인챈트 동기화 및 HP 스케일링 시작
+        if (_spawnedPlayers.Count == maxPlayers)
+        {
+            Debug.Log($"[DediServer] 전원 입장 완료 ({maxPlayers}명) — 보스씬 초기화 시작");
+            StartCoroutine(CoInitBossSession());
+        }
+    }
+
+    private System.Collections.IEnumerator CoInitBossSession()
+    {
+        // 클라이언트의 RPC_InitWeaponStats가 서버에 도달할 때까지 대기
+        yield return new UnityEngine.WaitForSeconds(2f);
+
+        int playerCount = _spawnedPlayers.Count;
+
+        // 1. 플레이어 수에 따른 보스/재단 HP 스케일링
+        if (BossStageManager.instance != null)
+            BossStageManager.instance.SetPlayerCount(playerCount);
+
+        // 2. 인챈트 평균(올림) 계산 후 전체 적용
+        SyncAveragedEnchants();
+
+        // 3. 모든 플레이어 입장 확인 후 타이머/스폰 시작
+        if (BossStageManager.instance != null)
+        {
+            BossStageManager.instance.StartNormalPhase();
+            Debug.Log("[DediServer] 보스 스테이지 통상 모드 시작 (120초 타이머)");
+        }
+
+        // 4. 클라이언트 UI 타이머 시작 신호
+        BroadcastPhaseTimer();
+    }
+
+    private void SyncAveragedEnchants()
+    {
+        var weapons = new System.Collections.Generic.List<DungeonWeaponBase>();
+        foreach (var kvp in _spawnedPlayers)
+        {
+            var attackMgr = kvp.Value.GetComponent<DungeonAttackManager>();
+            var weapon = attackMgr?.GetCurrentWeapon();
+            if (weapon != null) weapons.Add(weapon);
+        }
+
+        if (weapons.Count == 0)
+        {
+            Debug.LogWarning("[DediServer] 인챈트 동기화 실패: 무기 없음");
+            return;
+        }
+
+        int avgFire      = Mathf.CeilToInt(weapons.Average(w => (float)w.EnchantFire));
+        int avgIce       = Mathf.CeilToInt(weapons.Average(w => (float)w.EnchantIce));
+        int avgLightning = Mathf.CeilToInt(weapons.Average(w => (float)w.EnchantLightning));
+        int avgPoison    = Mathf.CeilToInt(weapons.Average(w => (float)w.EnchantPoison));
+
+        foreach (var weapon in weapons)
+        {
+            weapon.EnchantFire      = avgFire;
+            weapon.EnchantIce       = avgIce;
+            weapon.EnchantLightning = avgLightning;
+            weapon.EnchantPoison    = avgPoison;
+        }
+
+        Debug.Log($"[DediServer] 인챈트 동기화 완료 — 불:{avgFire} 얼음:{avgIce} 번개:{avgLightning} 독:{avgPoison}");
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -196,11 +318,11 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
 
         _playerUserIds.Remove(player);
 
-        // 모든 플레이어가 나가면 세션 종료
+        // 모든 플레이어가 나가면 세션 종료 후 씬 재로드 (다음 세션 대비)
         if (_spawnedPlayers.Count == 0)
         {
-            Debug.Log("[DediServer] 모든 플레이어 퇴장 — 세션 종료");
-            runner.Shutdown();
+            Debug.Log("[DediServer] 모든 플레이어 퇴장 — 세션 종료 후 씬 재로드");
+            StartCoroutine(CoShutdownAndReload(runner));
         }
     }
 
@@ -318,6 +440,64 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
     // ============================
 
     /// <summary>
+    /// 잡몹 사망 시 MonsterController에서 호출.
+    /// 접속 중인 모든 플레이어에게 exp RPC 전송.
+    /// </summary>
+    public void BroadcastPhaseTimer()
+    {
+        foreach (var kvp in _spawnedPlayers)
+        {
+            var stats = kvp.Value.GetComponent<DungeonPlayerStats>();
+            if (stats != null)
+                stats.RPC_StartPhaseTimer();
+        }
+    }
+
+    public void GrantExpToAllPlayers(float amount)
+    {
+        foreach (var kvp in _spawnedPlayers)
+        {
+            var stats = kvp.Value.GetComponent<DungeonPlayerStats>();
+            if (stats != null)
+                stats.RPC_GainExp(amount);
+        }
+    }
+
+    /// <summary>
+    /// 플레이어 사망 시 DungeonPlayerStats에서 호출.
+    /// 모든 플레이어가 사망하면 실패 처리.
+    /// </summary>
+    public void OnPlayerDied()
+    {
+        if (_resultSent) return;
+
+        bool allDead = true;
+        foreach (var kvp in _spawnedPlayers)
+        {
+            var stats = kvp.Value.GetComponent<DungeonPlayerStats>();
+            if (stats != null && !stats.IsDead)
+            {
+                allDead = false;
+                break;
+            }
+        }
+
+        if (!allDead) return;
+
+        _resultSent = true;
+        Debug.Log("[DediServer] 파티 전멸 — 보스 던전 실패");
+
+        foreach (var kvp in _spawnedPlayers)
+        {
+            var stats = kvp.Value.GetComponent<DungeonPlayerStats>();
+            if (stats != null)
+                stats.RPC_ShowBossResult(false, 0f);
+        }
+
+        _ = SendDungeonResult(false, 0f);
+    }
+
+    /// <summary>
     /// 보스 사망 시 BossStageManager에서 호출.
     /// </summary>
     public async void OnBossDefeated()
@@ -328,12 +508,18 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
         float clearTime = Time.time - _sessionStartTime;
         Debug.Log($"[DediServer] 보스 처치! 클리어 시간: {clearTime:F1}초");
 
-        // 모든 클라이언트에게 결과 알림 RPC 전송
+        // 잡몹 전체 제거
+        BossStageManager.instance?.ClearAllMinions();
+
+        // 플레이어 이동 동결 + 결과 패널 표시
         foreach (var kvp in _spawnedPlayers)
         {
             var stats = kvp.Value.GetComponent<DungeonPlayerStats>();
             if (stats != null)
+            {
+                stats.IsFrozen = true;
                 stats.RPC_ShowBossResult(true, clearTime);
+            }
         }
 
         await SendDungeonResult(true, clearTime);
@@ -344,6 +530,7 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
         var resultDto = new DungeonResultDto
         {
             sessionName = _currentSessionName,
+            partyId = _currentPartyId,
             results = new List<PlayerResultDto>()
         };
 
@@ -385,6 +572,26 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
                 return userId;
         }
         return 0;
+    }
+
+    private System.Collections.IEnumerator CoShutdownAndReload(NetworkRunner runner)
+    {
+        var shutdownTask = runner.Shutdown();
+        while (!shutdownTask.IsCompleted)
+            yield return null;
+
+        // 러너 GameObject 제거 (DontDestroyOnLoad로 남아있는 것 정리)
+        if (runner != null)
+            Destroy(runner.gameObject);
+        _runner = null;
+
+        yield return new WaitForSeconds(0.5f);
+        int sceneIndex = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneIndex);
+        Debug.Log("[DediServer] 씬 재로드 완료 — 다음 세션 대기");
+
+        // 백엔드에 유휴 복귀 알림
+        NotifyIdle();
     }
 
     private string GetCommandLineArg(string name)
@@ -431,5 +638,6 @@ public class BossDungeonServer : MonoBehaviour, INetworkRunnerCallbacks
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
+    public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
 }
 #endif

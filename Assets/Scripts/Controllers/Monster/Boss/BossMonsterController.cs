@@ -67,25 +67,35 @@ public class BossMonsterController : MonsterController
 
     private float attackTimer;
     private bool isInvincible = false; // 무적 상태
+    private float _baseSpeed; // 레이지 속도 배율 계산용
 
     protected override void Start()
     {
         base.Start();
+        monsterType = MonsterType.Boss;
+        if (RageShield != null) RageShield.SetActive(false);
+
+#if UNITY_SERVER
+        _baseSpeed = moveSpeed;
+        attackTimer = attackCooldownNormal; // 서버 시작 직후 즉시 공격 방지
         StartCoroutine(TeleportRoutine());
-        monsterType = MonsterType.Boss; // 필요하다면 MonsterType에 Boss 추가
-        RageShield.SetActive(false);
+#endif
     }
 
     protected override void Update()
     {
+#if !UNITY_SERVER
+        // 클라이언트: 이동/공격 로직 실행 안 함 (AltarSyncManager가 페이즈 비주얼만 제어)
+        return;
+#endif
         // 그로기 상태면 아무것도 안 함
         if (CurrentPhase == BossPhase.Groggy) return;
 
         // 레이지 모드일 때만 플레이어 추격
         if (CurrentPhase == BossPhase.Rage)
         {
-            moveSpeed *= 2; // 레이지 모드에서 속도 2배
-            base.Update(); // MonsterController의 이동 로직 사용
+            moveSpeed = _baseSpeed * 2f; // 레이지 모드에서 속도 2배 (매 프레임 누적 방지)
+            base.Update();
         }
 
         if(CurrentPhase == BossPhase.Normal)
@@ -99,7 +109,8 @@ public class BossMonsterController : MonsterController
 
         if (attackTimer <= 0)
         {
-            PerformRandomAttack();
+            try { PerformRandomAttack(); }
+            catch (System.Exception e) { Debug.LogError("[Boss] 공격 중 오류: " + e.Message); }
             attackTimer = currentCooldown;
         }
     }
@@ -154,8 +165,20 @@ public class BossMonsterController : MonsterController
         // 5가지 중 랜덤 선택
         int rand = Random.Range(0, 5);
 
-        // 주변 플레이어 모두 찾기 (범위 15f 예시)
-        Collider2D[] players = Physics2D.OverlapCircleAll(transform.position, attackRange, LayerMask.GetMask("Player"));
+        // 주변 플레이어 모두 찾기 (레이어 대신 태그로 검색)
+        Collider2D[] all = Physics2D.OverlapCircleAll(transform.position, attackRange);
+        System.Collections.Generic.List<Collider2D> players = new System.Collections.Generic.List<Collider2D>();
+        foreach (var col in all)
+        {
+            if (!col.CompareTag("Player")) continue;
+            var dungeonStats = col.GetComponent<DungeonPlayerStats>();
+            if (dungeonStats != null && dungeonStats.IsDead) continue;
+            players.Add(col);
+        }
+
+        if (players.Count == 0) return; // 플레이어 없으면 스킬 실행 안 함
+
+        Debug.Log($"[Boss] 공격 시도 - 범위 내 플레이어: {players.Count}명, 스킬: {rand}");
 
         foreach (var p in players)
         {
@@ -200,6 +223,10 @@ public class BossMonsterController : MonsterController
                 fieldDamage
             );
         }
+
+        BossSkillSyncManager.Instance?.SyncFireAttack(
+            transform.position, target.position, fireDamage, mortarSpeed,
+            fireFieldDuration, fieldMaxScale, fieldExpandSpeed, fieldDamageInterval, fieldDamage);
     }
 
     private void PerformIceAttack(Transform target)
@@ -220,6 +247,10 @@ public class BossMonsterController : MonsterController
                 shardLifetime
             );
         }
+
+        BossSkillSyncManager.Instance?.SyncIceAttack(
+            target.position, iceWarningDuration, bodyDuration, iceContactDamage,
+            shardDamage, shardSpeed, shardCount, shardLifetime);
     }
 
     private void PerformThunderAttack(Transform target)
@@ -248,6 +279,10 @@ public class BossMonsterController : MonsterController
                 );
             }
 
+            BossSkillSyncManager.Instance?.SyncThunderAttack(
+                targetPos, thunderWarningDuration, strikeDamage, strikeRadius,
+                strikeVfxDuration, thunderFieldDuration, fieldDamagePerTick);
+
             if (i < burstCount - 1)
             {
                 yield return new WaitForSeconds(burstInterval);
@@ -265,6 +300,9 @@ public class BossMonsterController : MonsterController
         {
             spore.Setup(target, sporeSpeed, explosionDamage, sporeLife, explosionRadius);
         }
+
+        BossSkillSyncManager.Instance?.SyncPoisonAttack(
+            transform.position, target.position, sporeSpeed, explosionDamage, sporeLife, explosionRadius);
     }
 
     private void PerformWaterAttack(Transform target)
@@ -285,9 +323,46 @@ public class BossMonsterController : MonsterController
                 targetScaleMultiplier
             );
         }
+
+        BossSkillSyncManager.Instance?.SyncWaterAttack(
+            transform.position, targetDir, waveSpeed, waveDamage,
+            waveLifetime, startScaleMultiplier, targetScaleMultiplier);
     }
 
 
+
+    /// <summary>
+    /// 서버 전용: 플레이어 수에 맞춰 보스 HP 스케일링.
+    /// </summary>
+    public void ScaleHP(int playerCount, float hpMultiplierPerPlayer = 0.5f)
+    {
+        // 1명 기준 1배, 추가 1명당 hpMultiplierPerPlayer 배씩 증가
+        // 예: 1명→1x, 2명→1.5x, 3명→2x, 4명→2.5x
+        float multiplier = 1f + (playerCount - 1) * hpMultiplierPerPlayer;
+        MaxHP = MaxHP * multiplier;
+        CurHP = MaxHP;
+        Debug.Log($"[Boss] HP 스케일링 완료: {playerCount}명 → 배율 {multiplier:F1}x, MaxHP={MaxHP:F0}");
+    }
+
+    // --- 클라이언트 전용 비주얼 페이즈 전환 (AltarSyncManager가 호출) ---
+
+    public void ClientSetNormal()
+    {
+        CurrentPhase = BossPhase.Normal;
+        if (RageShield != null) RageShield.SetActive(false);
+    }
+
+    public void ClientSetRage()
+    {
+        CurrentPhase = BossPhase.Rage;
+        if (RageShield != null) RageShield.SetActive(true);
+    }
+
+    public void ClientSetGroggy()
+    {
+        CurrentPhase = BossPhase.Groggy;
+        if (RageShield != null) RageShield.SetActive(false);
+    }
 
     // --- 페이즈 전환 함수 (매니저가 호출) ---
 
@@ -297,7 +372,7 @@ public class BossMonsterController : MonsterController
         {
             CurrentPhase = BossPhase.Rage;
             isInvincible = true;
-            RageShield.SetActive(true);
+            if (RageShield != null) RageShield.SetActive(true);
             // 스프라이트 붉게 변하기 등 연출
         }
     }
@@ -314,7 +389,7 @@ public class BossMonsterController : MonsterController
 
         // 보스 멈춤, 애니메이션 변경 등
         Debug.Log("보스 그로기 상태! 극딜 타이밍!");
-        RageShield.SetActive(false);
+        if (RageShield != null) RageShield.SetActive(false);
 
         yield return new WaitForSeconds(groggyDuration);
 
@@ -324,6 +399,7 @@ public class BossMonsterController : MonsterController
         Debug.Log("보스 그로기 종료, 통상 모드 복귀.");
 
         // 레벨 매니저 리셋 요청
-        BossDungeonLevelManager.instance.ResetBossLevelStack();
+        if (BossDungeonLevelManager.instance != null)
+            BossDungeonLevelManager.instance.ResetBossLevelStack();
     }
 }

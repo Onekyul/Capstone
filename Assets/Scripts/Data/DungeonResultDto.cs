@@ -10,6 +10,7 @@ using System.Collections.Generic;
 public class DungeonResultDto
 {
     public string sessionName;
+    public int partyId;
     public List<PlayerResultDto> results = new List<PlayerResultDto>();
 }
 

@@ -15,7 +15,7 @@ public class ChatManager : MonoBehaviour
     public GameObject messagePrefab;
     public ScrollRect scrollRect;
     
-    private string baseUrl = "http://localhost:7200/api/chat"; 
+    private string baseUrl = $"{ServerConfig.BackendBaseUrl}/chat";
     
     private bool isPolling = false;
     public static bool IsChatting = false;

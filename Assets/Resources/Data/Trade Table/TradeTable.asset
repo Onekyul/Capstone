@@ -38,11 +38,6 @@ MonoBehaviour:
     costAmount: 1
     rewardItem: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
     rewardAmount: 10
-  - recipeName: stone2wood
-    costItem: {fileID: 11400000, guid: d633889817e5ee74cac67c1c310df24c, type: 2}
-    costAmount: 1
-    rewardItem: {fileID: 11400000, guid: ad7a8e1991b266649b180d0f3a319f05, type: 2}
-    rewardAmount: 10
   - recipeName: p2s_fire
     costItem: {fileID: 11400000, guid: 2df8083dd1a44fc4c907b85cfc7d7fb1, type: 2}
     costAmount: 10

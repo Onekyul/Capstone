@@ -3,7 +3,7 @@ using UnityEngine;
 public class BossExpJewelController : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private float expAmount = 1f; // 이 보석이 주는 경험치 양
+    [SerializeField] public float expAmount = 1f; // 이 보석이 주는 경험치 양
 
     private void OnTriggerEnter2D(Collider2D other)
     {

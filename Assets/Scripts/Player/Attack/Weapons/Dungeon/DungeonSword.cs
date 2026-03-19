@@ -5,7 +5,7 @@ public class DungeonSword : DungeonWeaponBase
 {
     [Header("Sword Specific")]
     [SerializeField] private float attackAngle = 90f;   
-    [SerializeField] private LayerMask enemyLayer; // 데디케이티드 몬스터 레이어 할당
+    [SerializeField] private LayerMask enemyLayer = 128; // Layer 7 (Enemy) - 2^7 = 128
     [SerializeField] private float swordRange = 2.0f; 
 
     [Header("Effect Settings")]
@@ -15,11 +15,13 @@ public class DungeonSword : DungeonWeaponBase
     // ★ 오직 서버에서만 실행되는 진짜 타격 판정
     protected override void ExecuteServerAttack(Vector2 direction)
     {
-        // 1. 범위 내 적 찾기 (물리 엔진)
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, swordRange, enemyLayer);
+        // 1. 범위 내 적 찾기 (태그 기반 - 레이어 설정 무관하게 동작)
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, swordRange);
 
         foreach (Collider2D col in colliders)
         {
+            if (!col.CompareTag("Enemy")) continue;
+
             // 2. 각도(부채꼴) 안에 있는지 검사
             Vector2 enemyDirection = (col.transform.position - transform.position).normalized;
             float angle = Vector2.Angle(direction, enemyDirection);
