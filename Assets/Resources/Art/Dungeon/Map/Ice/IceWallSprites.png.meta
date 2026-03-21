@@ -1,0 +1,470 @@
+fileFormatVersion: 2
+guid: 9432dedf9a0920b4585bc0b6f228ef30
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1693470743309637651
+    second: IceWallSprites_0
+  - first:
+      213: -9041690766341632144
+    second: IceWallSprites_1
+  - first:
+      213: -152474429251722264
+    second: IceWallSprites_2
+  - first:
+      213: 87704993729133913
+    second: IceWallSprites_3
+  - first:
+      213: 7794113426031830569
+    second: IceWallSprites_4
+  - first:
+      213: 5932012158084966356
+    second: IceWallSprites_5
+  - first:
+      213: 7687715495386089047
+    second: IceWallSprites_6
+  - first:
+      213: 2779372412243018360
+    second: IceWallSprites_7
+  - first:
+      213: 8619465888528357495
+    second: IceWallSprites_8
+  - first:
+      213: -4824694201690019698
+    second: IceWallSprites_9
+  - first:
+      213: 7428940224778605363
+    second: IceWallSprites_10
+  - first:
+      213: -7347232904788938228
+    second: IceWallSprites_11
+  - first:
+      213: 5840240759823895613
+    second: IceWallSprites_12
+  - first:
+      213: 583112553515699800
+    second: IceWallSprites_13
+  - first:
+      213: -6275116361682654921
+    second: IceWallSprites_14
+  - first:
+      213: -5781790252998591774
+    second: IceWallSprites_15
+  - first:
+      213: 1265379301309391001
+    second: IceWallSprites_16
+  - first:
+      213: 8544521845403896598
+    second: IceWallSprites_17
+  - first:
+      213: -7947419249719296902
+    second: IceWallSprites_18
+  - first:
+      213: 7299284146893107101
+    second: IceWallSprites_19
+  - first:
+      213: -4399901447111386872
+    second: IceWallSprites_20
+  - first:
+      213: 1905829270242187240
+    second: IceWallSprites_21
+  - first:
+      213: 3442798885801333071
+    second: IceWallSprites_22
+  - first:
+      213: -6968233731132050856
+    second: IceWallSprites_23
+  - first:
+      213: -4327157035222726025
+    second: IceWallSprites_24
+  - first:
+      213: -1440713167842373206
+    second: IceWallSprites_25
+  - first:
+      213: 102625916692162565
+    second: IceWallSprites_26
+  - first:
+      213: -4554832969505235142
+    second: IceWallSprites_27
+  - first:
+      213: 334836519237068085
+    second: IceWallSprites_28
+  - first:
+      213: -7768154998932697125
+    second: IceWallSprites_29
+  - first:
+      213: -7063979098850122246
+    second: IceWallSprites_30
+  - first:
+      213: 4750009307542258502
+    second: IceWallSprites_31
+  - first:
+      213: -6304560518726525773
+    second: IceWallSprites_32
+  - first:
+      213: 5720493238803402909
+    second: IceWallSprites_33
+  - first:
+      213: 5328633470752863773
+    second: IceWallSprites_34
+  - first:
+      213: 8356260484938620118
+    second: IceWallSprites_35
+  - first:
+      213: 2292132732065073591
+    second: IceWallSprites_36
+  - first:
+      213: -4694340499650232918
+    second: IceWallSprites_37
+  - first:
+      213: 2630901369408406171
+    second: IceWallSprites_38
+  - first:
+      213: 8814187868067889477
+    second: IceWallSprites_39
+  - first:
+      213: -5051015605612123155
+    second: IceWallSprites_40
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: IceWallSprites_0
+      rect:
+        serializedVersion: 2
+        x: 563
+        y: 80
+        width: 155
+        height: 287
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 318dc7c2baa608710800000000000000
+      internalID: 1693470743309637651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceWallSprites_2
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 80
+        width: 157
+        height: 273
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e3ee1f705d42edf0800000000000000
+      internalID: -152474429251722264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceWallSprites_6
+      rect:
+        serializedVersion: 2
+        x: 915
+        y: 64
+        width: 171
+        height: 277
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75601c4038040ba60800000000000000
+      internalID: 7687715495386089047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceWallSprites_7
+      rect:
+        serializedVersion: 2
+        x: 1103
+        y: 76
+        width: 154
+        height: 245
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8720442bb70529620800000000000000
+      internalID: 2779372412243018360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceWallSprites_11
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 84
+        width: 141
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c027ef3b992690a90800000000000000
+      internalID: -7347232904788938228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceWallSprites_17
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 89
+        width: 105
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61b4ddaf85d349670800000000000000
+      internalID: 8544521845403896598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceWallSprites_26
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 101
+        width: 86
+        height: 123
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5086f2d3ab99c6100800000000000000
+      internalID: 102625916692162565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceWallSprites_28
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 101
+        width: 56
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53524fa4a0495a400800000000000000
+      internalID: 334836519237068085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: b866a4b97a816674ea8392ccc0932d39
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      IceWallSprites_0: 1693470743309637651
+      IceWallSprites_1: -9041690766341632144
+      IceWallSprites_10: 7428940224778605363
+      IceWallSprites_11: -7347232904788938228
+      IceWallSprites_12: 5840240759823895613
+      IceWallSprites_13: 583112553515699800
+      IceWallSprites_14: -6275116361682654921
+      IceWallSprites_15: -5781790252998591774
+      IceWallSprites_16: 1265379301309391001
+      IceWallSprites_17: 8544521845403896598
+      IceWallSprites_18: -7947419249719296902
+      IceWallSprites_19: 7299284146893107101
+      IceWallSprites_2: -152474429251722264
+      IceWallSprites_20: -4399901447111386872
+      IceWallSprites_21: 1905829270242187240
+      IceWallSprites_22: 3442798885801333071
+      IceWallSprites_23: -6968233731132050856
+      IceWallSprites_24: -4327157035222726025
+      IceWallSprites_25: -1440713167842373206
+      IceWallSprites_26: 102625916692162565
+      IceWallSprites_27: -4554832969505235142
+      IceWallSprites_28: 334836519237068085
+      IceWallSprites_29: -7768154998932697125
+      IceWallSprites_3: 87704993729133913
+      IceWallSprites_30: -7063979098850122246
+      IceWallSprites_31: 4750009307542258502
+      IceWallSprites_32: -6304560518726525773
+      IceWallSprites_33: 5720493238803402909
+      IceWallSprites_34: 5328633470752863773
+      IceWallSprites_35: 8356260484938620118
+      IceWallSprites_36: 2292132732065073591
+      IceWallSprites_37: -4694340499650232918
+      IceWallSprites_38: 2630901369408406171
+      IceWallSprites_39: 8814187868067889477
+      IceWallSprites_4: 7794113426031830569
+      IceWallSprites_40: -5051015605612123155
+      IceWallSprites_5: 5932012158084966356
+      IceWallSprites_6: 7687715495386089047
+      IceWallSprites_7: 2779372412243018360
+      IceWallSprites_8: 8619465888528357495
+      IceWallSprites_9: -4824694201690019698
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
