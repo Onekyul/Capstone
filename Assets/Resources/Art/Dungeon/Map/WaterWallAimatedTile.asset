@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
-  m_Name: LightningWallAnimatedTile
+  m_Name: WaterWallAimatedTile
   m_EditorClassIdentifier: 
   m_AnimatedSprites:
-  - {fileID: 2191657795054045521, guid: 709da1c24f01bf740836013244813c29, type: 3}
-  - {fileID: -6856003573653728391, guid: 709da1c24f01bf740836013244813c29, type: 3}
-  - {fileID: -7422462744094825117, guid: 709da1c24f01bf740836013244813c29, type: 3}
-  - {fileID: -5384226035976633953, guid: 709da1c24f01bf740836013244813c29, type: 3}
-  - {fileID: -8898728692725468157, guid: 709da1c24f01bf740836013244813c29, type: 3}
+  - {fileID: -1779363283734743261, guid: 292e050ae44de754a94919c1265532f8, type: 3}
+  - {fileID: -6556609412213045762, guid: 292e050ae44de754a94919c1265532f8, type: 3}
+  - {fileID: 3383706768995394460, guid: 292e050ae44de754a94919c1265532f8, type: 3}
+  - {fileID: 5340810120035627739, guid: 292e050ae44de754a94919c1265532f8, type: 3}
+  - {fileID: -7381672231077647460, guid: 292e050ae44de754a94919c1265532f8, type: 3}
   m_MinSpeed: 2
   m_MaxSpeed: 2
   m_AnimationStartTime: 0
