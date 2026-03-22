@@ -144,22 +144,52 @@ public class AttackManager : MonoBehaviour
         return false;
     }
     
+    // private IEnumerator AutoAttackCoroutine()
+    // {
+    //     Debug.Log("AttackManager: Auto attack started");
+    //     while (bIsAutoAttacking)
+    //     {
+    //         if (currentWeapon != null)
+    //         {
+                
+    //             currentWeapon.Attack(curLookDir);
+    //         }
+    //         else
+    //         {
+    //             Debug.LogWarning("AttackManager: No current weapon assigned!");
+    //         }
+
+    //         yield return null;
+    //     }
+    // }
+
     private IEnumerator AutoAttackCoroutine()
     {
         Debug.Log("AttackManager: Auto attack started");
+        Animator animator = GetComponentInChildren<Animator>();
+
         while (bIsAutoAttacking)
         {
             if (currentWeapon != null)
             {
-                
+                // 1. 공격 애니메이션 실행
+                if (animator != null)
+                {
+                    animator.SetTrigger("2_Attack");
+                }
+
+                // 2. 실제 데미지 판정 실행
                 currentWeapon.Attack(curLookDir);
+
+                // 3. [핵심] 다음 공격까지 쉴 시간을 넉넉히 줍니다.
+                // 예를 들어 1초에 한 번씩 공격하게 하고 싶다면:
+                // 애니메이션 재생 시간(약 0.3초) + 쉴 시간(0.7초) = 1.0초
+                yield return new WaitForSeconds(1.0f); 
             }
             else
             {
-                Debug.LogWarning("AttackManager: No current weapon assigned!");
+                yield return null;
             }
-
-            yield return null;
         }
     }
 
