@@ -113,9 +113,6 @@ public class SwordWeapon : WeaponBase
 
             // 3. 검기 생성 (위치와 회전 적용)
             GameObject effect = Instantiate(attackEffectPrefab, spawnPosition, rotation);
-
-            // 4. 중요: attackDuration(공격 지속 시간) 뒤에 자동으로 사라지게 함
-            Destroy(effect, attackDuration); 
         }
     }
 
