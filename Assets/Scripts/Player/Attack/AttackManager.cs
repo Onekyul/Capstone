@@ -6,7 +6,7 @@ public class AttackManager : MonoBehaviour
 {
     // currentWeapon은 런타임에 자동 설정되므로 Inspector 노출 불필요
     private WeaponBase currentWeapon;
-    
+    private Animator animator;
     
     [Header("Weapon Objects")]
     [SerializeField] private GameObject swordObject;
@@ -24,6 +24,8 @@ public class AttackManager : MonoBehaviour
     
     void Start()
     {
+        animator = GetComponentInChildren<Animator>();
+
         // DataManager에서 장착된 무기 ID를 읽어와서 해당 무기로 자동 장착
         if (DataManager.instance != null)
         {
@@ -54,14 +56,14 @@ public class AttackManager : MonoBehaviour
     void Update()
     {
         // 활을 장착하고 있을 때만 회전하도록 처리
-        if (bowObject != null && currentWeapon is BowWeapon)
-        {
-            // 1. 위치 설정: curLookDir 방향으로 bowOrbitDistance 만큼 떨어진 위치로 이동
-            bowObject.transform.position = (Vector2)transform.position + (curLookDir * bowOrbitDistance);
+        // if (bowObject != null && currentWeapon is BowWeapon)
+        // {
+        //     // 1. 위치 설정: curLookDir 방향으로 bowOrbitDistance 만큼 떨어진 위치로 이동
+        //     bowObject.transform.position = (Vector2)transform.position + (curLookDir * bowOrbitDistance);
         
-            // 2. 회전 설정: curLookDir 방향을 바라보도록 회전
-            bowObject.transform.rotation = Quaternion.LookRotation(Vector3.forward, curLookDir);
-        }
+        //     // 2. 회전 설정: curLookDir 방향을 바라보도록 회전
+        //     bowObject.transform.rotation = Quaternion.LookRotation(Vector3.forward, curLookDir);
+        // }
         
         // ===== 치트키: 무기 교체 =====
         // 1 키: 검으로 교체
@@ -166,7 +168,7 @@ public class AttackManager : MonoBehaviour
     private IEnumerator AutoAttackCoroutine()
     {
         Debug.Log("AttackManager: Auto attack started");
-        Animator animator = GetComponentInChildren<Animator>();
+        // Animator animator = GetComponentInChildren<Animator>();
 
         while (bIsAutoAttacking)
         {
@@ -265,6 +267,11 @@ public class AttackManager : MonoBehaviour
             DataManager.instance.currentPlayer.equippedWeaponId = equippedWeaponId;
             DataManager.instance.SaveGame();
             Debug.Log($"AttackManager: 무기 변경 저장 완료 - {equippedWeaponId}");
+        }
+        // 👈 추가: 애니메이터에게 현재 무기 타입(0:검, 1:창, 2:활)을 알려줌
+        if (animator != null)
+        {
+            animator.SetInteger("WeaponType", (int)weaponType);
         }
     }
 

@@ -1635,7 +1635,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -15
+  m_SortingOrder: 15
   m_Sprite: {fileID: 21300000, guid: 463785b38a7c98f4eb9970a553bead34, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -6347,6 +6347,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   attackWidth: 0.5
+  effectOffsetDistance: 0.8
 --- !u!1 &6245498542024998529
 GameObject:
   m_ObjectHideFlags: 0
@@ -7850,7 +7851,8 @@ MonoBehaviour:
   attackDuration: 0.3
   finalTotalDamage: 0
   finalCooldown: 0
-  attackEffectPrefab: {fileID: 0}
+  attackEffectPrefab: {fileID: 2003877883920826118, guid: 393775aaa01b1444db5037270bd929f2,
+    type: 3}
   attackPoint: {fileID: 0}
   maxEnchantmentLevel: 5
   enchantmentLevels: 00000000000000000000000000000000
