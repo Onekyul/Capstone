@@ -22,7 +22,6 @@ public class DungeonPlayerController : NetworkBehaviour
             Camera.main.transform.SetParent(this.transform);
             Camera.main.transform.localPosition = new Vector3(0, 0, -10);
 
-            // lookOrigin을 자신으로 설정해야 마우스 방향 계산이 올바름
             if (InputManager.instance != null)
                 InputManager.instance.lookOrigin = this.transform;
         }

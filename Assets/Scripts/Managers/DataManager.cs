@@ -152,23 +152,9 @@ public class DataManager : MonoBehaviour
             if (enchantSO != null) currentPlayer.unlockedEnchants.Add(new EnchantState(enchantDto.id, enchantDto.level));
         }
 
-        if (serverData.equip != null)
-        {
-            currentPlayer.equippedWeaponId = serverData.equip.weapon;
-            currentPlayer.equippedHelmetId = serverData.equip.helmet;
-            currentPlayer.equippedArmorId = serverData.equip.armor;
-            currentPlayer.equippedBootsId = serverData.equip.boots;
-
-            if (!string.IsNullOrEmpty(currentPlayer.equippedWeaponId))
-            {
-                int type = GetWeaponTypeFromId(currentPlayer.equippedWeaponId);
-                EquipWeaponByType(currentPlayer.equippedWeaponId, type);
-            }
-        }
-        
         currentPlayer.ownedWeapons.Clear();
         currentPlayer.ownedArmors.Clear();
-        
+
         foreach(var equipDto in serverData.equipments)
         {
             WeaponData wData = GetWeaponData(equipDto.id);
@@ -181,6 +167,26 @@ public class DataManager : MonoBehaviour
             if(aData != null)
             {
                 currentPlayer.ownedArmors.Add(new EquipmentState(equipDto.id, equipDto.level));
+            }
+        }
+
+        // 장착 정보는 ownedWeapons/ownedArmors 복원 후에 설정 (SaveGame 호출 없이)
+        if (serverData.equip != null)
+        {
+            currentPlayer.equippedWeaponId = serverData.equip.weapon;
+            currentPlayer.equippedHelmetId = serverData.equip.helmet;
+            currentPlayer.equippedArmorId  = serverData.equip.armor;
+            currentPlayer.equippedBootsId  = serverData.equip.boots;
+
+            if (!string.IsNullOrEmpty(currentPlayer.equippedWeaponId))
+            {
+                int type = GetWeaponTypeFromId(currentPlayer.equippedWeaponId);
+                switch (type)
+                {
+                    case 0: currentPlayer.equippedSwordId = currentPlayer.equippedWeaponId; break;
+                    case 1: currentPlayer.equippedSpearId = currentPlayer.equippedWeaponId; break;
+                    case 2: currentPlayer.equippedBowId   = currentPlayer.equippedWeaponId; break;
+                }
             }
         }
     }
@@ -443,6 +449,15 @@ public class DataManager : MonoBehaviour
                     string newId = nextStep.nextTierWeapon.weaponId;
                     if (!currentPlayer.ownedWeapons.Exists(w => w.itemId == newId))
                         currentPlayer.ownedWeapons.Add(new EquipmentState(newId, 0));
+                    // 장착 무기 ID를 새 티어로 갱신
+                    currentPlayer.equippedWeaponId = newId;
+                    int wType = GetWeaponTypeFromId(newId);
+                    switch (wType)
+                    {
+                        case 0: currentPlayer.equippedSwordId = newId; break;
+                        case 1: currentPlayer.equippedSpearId = newId; break;
+                        case 2: currentPlayer.equippedBowId = newId; break;
+                    }
                     Debug.Log($"[강화 성공] {itemName} → {nextStep.nextTierWeapon.weaponName} (+0)");
                 }
                 else if (nextStep.nextTierArmor != null)
@@ -450,6 +465,13 @@ public class DataManager : MonoBehaviour
                     string newId = nextStep.nextTierArmor.armorId;
                     if (!currentPlayer.ownedArmors.Exists(a => a.itemId == newId))
                         currentPlayer.ownedArmors.Add(new EquipmentState(newId, 0));
+                    // 장착 방어구 ID를 새 티어로 갱신
+                    switch (nextStep.nextTierArmor.armorType)
+                    {
+                        case ArmorType.Helmet: currentPlayer.equippedHelmetId = newId; break;
+                        case ArmorType.Armor:  currentPlayer.equippedArmorId = newId; break;
+                        case ArmorType.Boots:  currentPlayer.equippedBootsId = newId; break;
+                    }
                     Debug.Log($"[강화 성공] {itemName} → {nextStep.nextTierArmor.armorName} (+0)");
                 }
                 else

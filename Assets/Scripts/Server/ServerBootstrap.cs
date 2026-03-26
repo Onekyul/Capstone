@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 
 /// <summary>
@@ -6,6 +7,22 @@ using UnityEngine;
 /// </summary>
 public class ServerBootstrap : MonoBehaviour
 {
+#if UNITY_SERVER
+    // Application.targetFrameRate은 헤드리스 서버에서 무시됨 → Thread.Sleep으로 직접 제한
+    private const int TargetFps = 30;
+    private float _lastFrameTime;
+
+    void Update()
+    {
+        float elapsed = Time.realtimeSinceStartup - _lastFrameTime;
+        float target = 1f / TargetFps;
+        int sleepMs = (int)((target - elapsed) * 1000f);
+        if (sleepMs > 1)
+            Thread.Sleep(sleepMs);
+        _lastFrameTime = Time.realtimeSinceStartup;
+    }
+#endif
+
     void Awake()
     {
 #if UNITY_SERVER

@@ -85,11 +85,6 @@ public class DungeonAttackManager : NetworkBehaviour
             bowObject.transform.rotation = Quaternion.LookRotation(Vector3.forward, NetLookDir);
         }
 
-        if (Runner.Tick % 60 == 0) // 1초마다 한 번 로그
-        {
-            Debug.Log($"[AttackManager] IsAutoAttacking={IsAutoAttacking}, currentWeapon={currentWeapon != null}, NetLookDir={NetLookDir}, HasStateAuth={HasStateAuthority}, HasInputAuth={HasInputAuthority}");
-        }
-
         if (IsAutoAttacking && currentWeapon != null && NetLookDir.sqrMagnitude > 0)
         {
             currentWeapon.Attack(NetLookDir);

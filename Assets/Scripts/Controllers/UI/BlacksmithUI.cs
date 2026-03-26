@@ -224,34 +224,25 @@ public class BlacksmithUI : MonoBehaviour
                         Debug.Log("[BlacksmithUI] 방어구 강화 → 플레이어 스탯 재적용 완료");
                     }
                 }
-                // 무기 강화 시 무기 데이터 재적용
+                // 무기 강화 시 무기 데이터 재적용 (던전 씬에서만 WeaponBase 컴포넌트 존재)
                 else
                 {
+                    string equippedWeaponId = DataManager.instance.GetEquippedItemId(EquipmentType.Weapon);
+
                     GameObject player = GameObject.FindGameObjectWithTag("Player");
                     if (player != null)
                     {
-                        // 현재 장착된 무기 ID 가져오기
-                        string equippedWeaponId = DataManager.instance.GetEquippedItemId(EquipmentType.Weapon);
-                        
-                        // 모든 무기를 찾아서 장착된 무기만 업데이트
                         WeaponBase[] weapons = player.GetComponentsInChildren<WeaponBase>(true);
-                        int updatedCount = 0;
                         foreach (var weapon in weapons)
                         {
-                            // 이 무기가 현재 장착된 무기인지 확인
                             if (weapon.GetWeaponId() == equippedWeaponId)
                             {
                                 weapon.UpgradeWeaponDamage();
-                                updatedCount++;
                                 Debug.Log($"[BlacksmithUI] 장착된 무기({equippedWeaponId}) 강화 완료!");
                             }
                         }
-                        
-                        if (updatedCount == 0)
-                        {
-                            Debug.LogWarning($"[BlacksmithUI] 장착된 무기({equippedWeaponId})를 찾을 수 없습니다!");
-                        }
                     }
+                    // 로비에서는 WeaponBase 컴포넌트가 없으므로 저장된 데이터 갱신으로 충분
                 }
             }
             else

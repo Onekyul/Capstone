@@ -65,7 +65,7 @@ public class DungeonSessionManager : MonoBehaviour, INetworkRunnerCallbacks
         SceneManager.LoadScene(bossDungeonSceneName);
         yield return null; // 씬 로드 1프레임 대기
 
-        // 3. 새 러너 생성 → GameMode.Client로 데디서버 접속
+        // 4. 새 러너 생성 → GameMode.Client로 데디서버 접속
         yield return CoStartClientRunner(sessionName);
 
         _isTransitioning = false;
@@ -160,8 +160,11 @@ public class DungeonSessionManager : MonoBehaviour, INetworkRunnerCallbacks
         if (SessionManager.Instance != null)
             connectionToken = Encoding.UTF8.GetBytes(SessionManager.Instance.UserId.ToString());
 
+        // 데디서버가 Redis 메시지 수신 후 Fusion 세션을 생성할 시간 확보
+        yield return new WaitForSeconds(2f);
+
         int maxRetries = 10;
-        float retryDelay = 5f;
+        float retryDelay = 2f;
 
         for (int attempt = 1; attempt <= maxRetries; attempt++)
         {
