@@ -101,8 +101,8 @@ Transform:
   m_GameObject: {fileID: 1833419039739331658}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.64, y: 3.74, z: 0}
-  m_LocalScale: {x: 0.94176584, y: 1.0163746, z: 2.540225}
+  m_LocalPosition: {x: 0.2953, y: 2.114799, z: 0}
+  m_LocalScale: {x: 0.713827, y: 0.77037793, z: 1.9234278}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7345676790788449708}
@@ -280,8 +280,8 @@ Transform:
   m_GameObject: {fileID: 4198262339682879849}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.3591, y: 7.5721, z: 0}
-  m_LocalScale: {x: 0.44172338, y: 0.4092979, z: 0.16376501}
+  m_LocalPosition: {x: -2.2885, y: 7.0548, z: 0}
+  m_LocalScale: {x: 0.71946126, y: 0.66664803, z: 0.26673388}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3330129117386857913}
@@ -379,7 +379,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.08914375, y: 0.040644884}
+  m_Offset: {x: -0.02726531, y: 0.040644884}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -389,7 +389,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 7.612624, y: 4.1313415}
+  m_Size: {x: 7.736381, y: 4.1313415}
   m_EdgeRadius: 0
 --- !u!50 &3166880201529586006
 Rigidbody2D:
@@ -474,8 +474,8 @@ Transform:
   m_GameObject: {fileID: 4563594035020285612}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.95, y: 3.76, z: 0}
-  m_LocalScale: {x: 0.273, y: 0.273, z: 0.273}
+  m_LocalPosition: {x: -0.91, y: 2.13, z: 0}
+  m_LocalScale: {x: 0.20692486, y: 0.20692486, z: 0.20671232}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7345676790788449708}
@@ -682,8 +682,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -4.17}
-  m_SizeDelta: {x: 300, y: 150}
+  m_AnchoredPosition: {x: -0, y: -2.42}
+  m_SizeDelta: {x: 555.7648, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3628643926856135545
 Canvas:

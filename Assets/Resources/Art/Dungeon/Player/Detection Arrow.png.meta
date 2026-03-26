@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 42426f0f117c54e98b8f80509a15badc
+guid: dea238c09f6434c5299f7118957642b5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5143351978180197634
-    second: Salamander-Photoroom_0
-  - first:
-      213: 7123724400234774247
-    second: Salamander-Photoroom_1
-  - first:
-      213: 4989821902293014998
-    second: Salamander-Photoroom_2
+      213: -4762016410269857863
+    second: Detection Arrow_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -106,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Salamander-Photoroom_0
+      name: Detection Arrow_0
       rect:
         serializedVersion: 2
-        x: 399
-        y: 227
-        width: 565
-        height: 221
+        x: 44
+        y: 64
+        width: 111
+        height: 65
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -121,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 20dbb3e9f5bd06740800000000000000
-      internalID: 5143351978180197634
+      spriteID: 9b7c84b1e4be9edb0800000000000000
+      internalID: -4762016410269857863
       vertices: []
       indices: 
       edges: []
@@ -131,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: bf46886a5c1e5454ab9d510b0738f4d5
+    spriteID: ec6a884a493e24f9aac161cf9e299b21
     internalID: 0
     vertices: []
     indices: 
@@ -141,9 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Salamander-Photoroom_0: 5143351978180197634
-      Salamander-Photoroom_1: 7123724400234774247
-      Salamander-Photoroom_2: 4989821902293014998
+      Detection Arrow_0: -4762016410269857863
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
