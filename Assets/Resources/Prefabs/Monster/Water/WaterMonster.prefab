@@ -277,7 +277,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.010878563, y: 0.06526208}
+  m_Offset: {x: -0.010878563, y: 0.4592073}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -287,7 +287,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 9.853857, y: 8.613201}
+  m_Size: {x: 9.853857, y: 9.0859375}
   m_EdgeRadius: 0
 --- !u!50 &6521329764967539173
 Rigidbody2D:
@@ -334,17 +334,21 @@ MonoBehaviour:
   CurHP: 0
   moveSpeed: 0
   poolTag: 
-  expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
+  expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5,
+    type: 3}
   usePooling: 1
   hpSlider: {fileID: 6491672787607431554}
-  lightningFieldPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
+  lightningFieldPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5,
+    type: 3}
   burnEffectObject: {fileID: 7429438609889924654}
   poisonEffectObject: {fileID: 3033014908612539654}
   storedLastDamage: 0
   attackRange: 10
   attackCooldown: 1
-  elementChestPrefab: {fileID: -507466460373292382, guid: d2dc02d0d702dd149a5f462dabbaf9fe, type: 3}
-  waterWavePrefab: {fileID: 5580880485800441195, guid: da48056210984834397acbcf0cd56cec, type: 3}
+  elementChestPrefab: {fileID: -507466460373292382, guid: d2dc02d0d702dd149a5f462dabbaf9fe,
+    type: 3}
+  waterWavePrefab: {fileID: 5580880485800441195, guid: da48056210984834397acbcf0cd56cec,
+    type: 3}
   waveSpeed: 10
   damage: 40
   waveLifetime: 2
@@ -376,7 +380,7 @@ Transform:
   m_GameObject: {fileID: 3033014908612539654}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.2325, y: 5.4, z: 0}
+  m_LocalPosition: {x: 1.07, y: 5.37, z: 0}
   m_LocalScale: {x: 0.92746305, y: 0.92746305, z: 0.92746305}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -473,8 +477,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.02, y: -4.51}
-  m_SizeDelta: {x: 489.42856, y: 275}
+  m_AnchoredPosition: {x: -0.02, y: -4.38}
+  m_SizeDelta: {x: 750, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2441107646212364714
 Canvas:
@@ -601,7 +605,7 @@ Transform:
   m_GameObject: {fileID: 7429438609889924654}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.925, y: 5.2563, z: 0}
+  m_LocalPosition: {x: -1.0875001, y: 5.2263, z: 0}
   m_LocalScale: {x: 0.26802558, y: 0.2389921, z: 0.07015905}
   m_ConstrainProportionsScale: 0
   m_Children: []

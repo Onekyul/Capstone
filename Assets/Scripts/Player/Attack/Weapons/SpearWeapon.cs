@@ -8,6 +8,10 @@ public class SpearWeapon : WeaponBase
     [SerializeField] private float spearRange = 3f;   // 공격 각도
     [SerializeField] private LayerMask enemyLayer = 128; // Layer 7 (Enemy) - 2^7 = 128
     [SerializeField] private float attackWidth = 0.5f;
+
+    [Header("Effect Settings")]
+    // 플레이어 중심에서 검기가 얼마나 떨어져서 나타날지 (0.5 ~ 1.0 추천)
+    [SerializeField] private float effectOffsetDistance = 0.8f;
     
     private Vector2 lastAttackDir;
 
@@ -83,9 +87,16 @@ public class SpearWeapon : WeaponBase
     {
         if (attackEffectPrefab != null)
         {
-            GameObject effect = Instantiate(attackEffectPrefab, attackPoint.position, 
-                Quaternion.LookRotation(Vector3.forward, direction));
-            Destroy(effect, attackDuration);
+            // 1. 회전값 계산 (마우스 방향대로 이미지를 회전시킴)
+            // *주의: 검기 스프라이트 원본은 반드시 '오른쪽(->)'을 보고 있어야 함
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+            // 2. 위치 계산 (플레이어 위치 + 방향 * 거리)
+            Vector3 spawnPosition = transform.position + (Vector3)(direction * effectOffsetDistance);
+
+            // 3. 검기 생성 (위치와 회전 적용)
+            GameObject effect = Instantiate(attackEffectPrefab, spawnPosition, rotation);
         }
     }
 

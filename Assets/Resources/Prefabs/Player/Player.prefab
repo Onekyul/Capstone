@@ -141,13 +141,13 @@ MonoBehaviour:
   attackEffectPrefab: {fileID: 2003877883920826118, guid: 393775aaa01b1444db5037270bd929f2,
     type: 3}
   attackPoint: {fileID: 0}
-  enchantChancePerLevel: 10
   maxEnchantmentLevel: 5
   enchantmentLevels: 00000000000000000000000000000000
   debugFireLevel: 0
   debugIceLevel: 0
   debugLightningLevel: 0
   debugPoisonLevel: 0
+  debugWaterLevel: 0
   attackAngle: 90
   enemyLayer:
     serializedVersion: 2
@@ -374,13 +374,13 @@ MonoBehaviour:
   finalCooldown: 0
   attackEffectPrefab: {fileID: 0}
   attackPoint: {fileID: 2682603067172822643}
-  enchantChancePerLevel: 10
   maxEnchantmentLevel: 5
   enchantmentLevels: 00000000000000000000000000000000
   debugFireLevel: 0
   debugIceLevel: 0
   debugLightningLevel: 0
   debugPoisonLevel: 0
+  debugWaterLevel: 0
   arrowPrefab: {fileID: 1493290291005291568, guid: bbeb226d02dcd094296a10b6125561ce,
     type: 3}
 --- !u!1 &4159818528927673757
@@ -1045,13 +1045,13 @@ MonoBehaviour:
   finalCooldown: 0
   attackEffectPrefab: {fileID: 0}
   attackPoint: {fileID: 0}
-  enchantChancePerLevel: 10
   maxEnchantmentLevel: 5
   enchantmentLevels: 00000000000000000000000000000000
   debugFireLevel: 0
   debugIceLevel: 0
   debugLightningLevel: 0
   debugPoisonLevel: 0
+  debugWaterLevel: 0
   spearRange: 6.5
   enemyLayer:
     serializedVersion: 2
@@ -1141,7 +1141,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &7809700905343194499
 MonoBehaviour:
   m_ObjectHideFlags: 0

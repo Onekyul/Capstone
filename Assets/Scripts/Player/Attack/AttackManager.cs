@@ -6,7 +6,7 @@ public class AttackManager : MonoBehaviour
 {
     // currentWeapon은 런타임에 자동 설정되므로 Inspector 노출 불필요
     private WeaponBase currentWeapon;
-    
+    private Animator animator;
     
     [Header("Weapon Objects")]
     [SerializeField] private GameObject swordObject;
@@ -24,6 +24,8 @@ public class AttackManager : MonoBehaviour
     
     void Start()
     {
+        animator = GetComponentInChildren<Animator>();
+
         // DataManager에서 장착된 무기 ID를 읽어와서 해당 무기로 자동 장착
         if (DataManager.instance != null)
         {
@@ -54,14 +56,14 @@ public class AttackManager : MonoBehaviour
     void Update()
     {
         // 활을 장착하고 있을 때만 회전하도록 처리
-        if (bowObject != null && currentWeapon is BowWeapon)
-        {
-            // 1. 위치 설정: curLookDir 방향으로 bowOrbitDistance 만큼 떨어진 위치로 이동
-            bowObject.transform.position = (Vector2)transform.position + (curLookDir * bowOrbitDistance);
+        // if (bowObject != null && currentWeapon is BowWeapon)
+        // {
+        //     // 1. 위치 설정: curLookDir 방향으로 bowOrbitDistance 만큼 떨어진 위치로 이동
+        //     bowObject.transform.position = (Vector2)transform.position + (curLookDir * bowOrbitDistance);
         
-            // 2. 회전 설정: curLookDir 방향을 바라보도록 회전
-            bowObject.transform.rotation = Quaternion.LookRotation(Vector3.forward, curLookDir);
-        }
+        //     // 2. 회전 설정: curLookDir 방향을 바라보도록 회전
+        //     bowObject.transform.rotation = Quaternion.LookRotation(Vector3.forward, curLookDir);
+        // }
         
         // ===== 치트키: 무기 교체 =====
         // 1 키: 검으로 교체
@@ -144,22 +146,52 @@ public class AttackManager : MonoBehaviour
         return false;
     }
     
+    // private IEnumerator AutoAttackCoroutine()
+    // {
+    //     Debug.Log("AttackManager: Auto attack started");
+    //     while (bIsAutoAttacking)
+    //     {
+    //         if (currentWeapon != null)
+    //         {
+                
+    //             currentWeapon.Attack(curLookDir);
+    //         }
+    //         else
+    //         {
+    //             Debug.LogWarning("AttackManager: No current weapon assigned!");
+    //         }
+
+    //         yield return null;
+    //     }
+    // }
+
     private IEnumerator AutoAttackCoroutine()
     {
         Debug.Log("AttackManager: Auto attack started");
+        // Animator animator = GetComponentInChildren<Animator>();
+
         while (bIsAutoAttacking)
         {
             if (currentWeapon != null)
             {
-                
+                // 1. 공격 애니메이션 실행
+                if (animator != null)
+                {
+                    animator.SetTrigger("2_Attack");
+                }
+
+                // 2. 실제 데미지 판정 실행
                 currentWeapon.Attack(curLookDir);
+
+                // 3. [핵심] 다음 공격까지 쉴 시간을 넉넉히 줍니다.
+                // 예를 들어 1초에 한 번씩 공격하게 하고 싶다면:
+                // 애니메이션 재생 시간(약 0.3초) + 쉴 시간(0.7초) = 1.0초
+                yield return new WaitForSeconds(1.0f); 
             }
             else
             {
-                Debug.LogWarning("AttackManager: No current weapon assigned!");
+                yield return null;
             }
-
-            yield return null;
         }
     }
 
@@ -235,6 +267,11 @@ public class AttackManager : MonoBehaviour
             DataManager.instance.currentPlayer.equippedWeaponId = equippedWeaponId;
             DataManager.instance.SaveGame();
             Debug.Log($"AttackManager: 무기 변경 저장 완료 - {equippedWeaponId}");
+        }
+        // 👈 추가: 애니메이터에게 현재 무기 타입(0:검, 1:창, 2:활)을 알려줌
+        if (animator != null)
+        {
+            animator.SetInteger("WeaponType", (int)weaponType);
         }
     }
 
