@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.22, y: -3.92}
-  m_SizeDelta: {x: 489.42856, y: 275}
+  m_AnchoredPosition: {x: 0.215, y: -3.4}
+  m_SizeDelta: {x: 289.29, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3057805525031014648
 Canvas:
@@ -239,8 +239,8 @@ Transform:
   m_GameObject: {fileID: 3161669611923837453}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.2, y: 4.5, z: 0}
-  m_LocalScale: {x: 2.6530612, y: 2.6530612, z: 2.6530612}
+  m_LocalPosition: {x: 1.3880013, y: 3.9989996, z: 0}
+  m_LocalScale: {x: 1.4083722, y: 1.4083722, z: 1.4083722}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9198231133139814233}
@@ -326,8 +326,8 @@ Transform:
   m_GameObject: {fileID: 5633199905882819245}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2, y: 4.2, z: 0}
-  m_LocalScale: {x: 0.76906884, y: 0.7126276, z: 0.2851403}
+  m_LocalPosition: {x: -0.84, y: 3.84, z: 0}
+  m_LocalScale: {x: 0.40825865, y: 0.3782969, z: 0.15136614}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9198231133139814233}
@@ -491,8 +491,8 @@ Transform:
   m_GameObject: {fileID: 8106847201219958441}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.55, y: 4.82, z: 0}
-  m_LocalScale: {x: 0.1568, y: 0.1568, z: 0.1568}
+  m_LocalPosition: {x: 7.7858, y: 4.5722, z: 0}
+  m_LocalScale: {x: 0.26136994, y: 0.26136994, z: 0.26136994}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3304933316864628979}
@@ -590,7 +590,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.11203003, y: -0.0339247}
+  m_Offset: {x: 0.0008369684, y: -0.03392458}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -600,7 +600,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.859022, y: 4.9393606}
+  m_Size: {x: 4.636636, y: 4.9393606}
   m_EdgeRadius: 0
 --- !u!50 &8421027505408655106
 Rigidbody2D:
