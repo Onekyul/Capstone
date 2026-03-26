@@ -1,8 +1,8 @@
 using UnityEngine;
 using TMPro;
-using System.Collections;     // IEnumerator 사용
-using System.Collections.Generic; // List 사용
-using UnityEngine.SceneManagement; // 씬 전환용
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour
 {
@@ -346,13 +346,11 @@ public class StageManager : MonoBehaviour
     // ★ 버튼에 연결할 함수
     public void ReturnToBase()
     {
-        // 1. 멈췄던 시간을 다시 흐르게 함 (이거 안 하면 다음 씬에서도 멈춰있음!)
         Time.timeScale = 1.0f;
-
-        // 2. 'BaseArea' 씬으로 이동
-        SceneManager.LoadScene("BaseArea");
-
-        Debug.Log("[StageManager] 거점으로 이동 (플레이어는 씬에서 새로 생성됨)");
+        // 씬 전환 코루틴은 DontDestroyOnLoad인 DungeonSessionManager에서 실행
+        // (씬 언로드 시 StageManager가 파괴되면 코루틴이 중단되는 것을 방지)
+        DungeonSessionManager.Instance.ReturnToLobby();
+        Debug.Log("[StageManager] 거점으로 이동");
     }
 
     public void SetRewardMultiplier(float multiplier)

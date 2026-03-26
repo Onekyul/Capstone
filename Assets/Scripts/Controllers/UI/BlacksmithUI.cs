@@ -199,59 +199,61 @@ public class BlacksmithUI : MonoBehaviour
     public void OnClickUpgrade()
     {
         string targetId = DataManager.instance.GetEquippedItemId(currentType);
-        bool isSuccess = DataManager.instance.TryUpgradeItem(targetId);
+        
+        upgradeButton.interactable = false;
+        
+        Debug.Log("[BlacksmithUI] 서버에 강화 요청 중...");
 
-        if (isSuccess)
+        // 비동기 콜백 형식으로 변경 (람다식 => 사용)
+        DataManager.instance.TryUpgradeItem(targetId, (isSuccess, message) => 
         {
-            Debug.Log($"[BlacksmithUI] 강화 시도 완료. 플레이어 스탯 및 무기 업데이트 중...");
-            
-            // 방어구 강화 시 플레이어 스탯 재적용
-            if (currentType != EquipmentType.Weapon)
+            // -----------------------------------------------------------------
+            // 이 중괄호 안의 코드는 서버 통신이 완전히 끝난 후에 실행됩니다!
+            // -----------------------------------------------------------------
+
+            if (isSuccess)
             {
-                if (PlayerStats.Instance != null)
+                Debug.Log($"[BlacksmithUI] 강화 성공 메시지: {message}");
+                
+                // 방어구 강화 시 플레이어 스탯 재적용
+                if (currentType != EquipmentType.Weapon)
                 {
-                    PlayerStats.Instance.UpgradeEquipmentStats();
-                    Debug.Log("[BlacksmithUI] 방어구 강화 → 플레이어 스탯 재적용 완료");
-                }
-            }
-            // 무기 강화 시 무기 데이터 재적용
-            else
-            {
-                GameObject player = GameObject.FindGameObjectWithTag("Player");
-                if (player != null)
-                {
-                    // 현재 장착된 무기 ID 가져오기
-                    string equippedWeaponId = DataManager.instance.GetEquippedItemId(EquipmentType.Weapon);
-                    
-                    // 모든 무기를 찾아서 장착된 무기만 업데이트
-                    WeaponBase[] weapons = player.GetComponentsInChildren<WeaponBase>(true);
-                    int updatedCount = 0;
-                    foreach (var weapon in weapons)
+                    if (PlayerStats.Instance != null)
                     {
-                        // 이 무기가 현재 장착된 무기인지 확인
-                        if (weapon.GetWeaponId() == equippedWeaponId)
+                        PlayerStats.Instance.UpgradeEquipmentStats();
+                        Debug.Log("[BlacksmithUI] 방어구 강화 → 플레이어 스탯 재적용 완료");
+                    }
+                }
+                // 무기 강화 시 무기 데이터 재적용 (던전 씬에서만 WeaponBase 컴포넌트 존재)
+                else
+                {
+                    string equippedWeaponId = DataManager.instance.GetEquippedItemId(EquipmentType.Weapon);
+
+                    GameObject player = GameObject.FindGameObjectWithTag("Player");
+                    if (player != null)
+                    {
+                        WeaponBase[] weapons = player.GetComponentsInChildren<WeaponBase>(true);
+                        foreach (var weapon in weapons)
                         {
-                            weapon.UpgradeWeaponDamage();
-                            updatedCount++;
-                            Debug.Log($"[BlacksmithUI] 장착된 무기({equippedWeaponId}) 강화 완료!");
+                            if (weapon.GetWeaponId() == equippedWeaponId)
+                            {
+                                weapon.UpgradeWeaponDamage();
+                                Debug.Log($"[BlacksmithUI] 장착된 무기({equippedWeaponId}) 강화 완료!");
+                            }
                         }
                     }
-                    
-                    if (updatedCount == 0)
-                    {
-                        Debug.LogWarning($"[BlacksmithUI] 장착된 무기({equippedWeaponId})를 찾을 수 없습니다!");
-                    }
+                    // 로비에서는 WeaponBase 컴포넌트가 없으므로 저장된 데이터 갱신으로 충분
                 }
             }
+            else
+            {
+                // 실패 (확률 실패, 혹은 재료 부족)
+                Debug.Log($"[BlacksmithUI] 강화 실패: {message}");
+            }
             
-            // UI 갱신
-            UpdateUI();
-        }
-        else
-        {
-            // 실패
-            Debug.Log("재료가 부족하여 강화할 수 없습니다.");
-        }
+            UpdateUI(); 
+            
+        });
     }
 
     public void RefreshAllSlotIcons()

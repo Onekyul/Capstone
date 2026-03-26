@@ -83,7 +83,7 @@ public class PoisonSporeController : MonoBehaviour
         if (hit != null && hit.CompareTag("Player"))
         {
             // 플레이어에게 데미지 전달
-            hit.GetComponent<PlayerStats>()?.TakeDamage(damage);
+            PlayerDamageHelper.TakeDamage(hit.gameObject, damage);
             Debug.Log($"독 포자 폭발! 플레이어에게 {damage} 데미지");
         }
 

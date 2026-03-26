@@ -15,7 +15,7 @@ public enum MonsterType
 public class MonsterController : MonoBehaviour
 {
     [Header("Monster Type")]
-    [SerializeField] protected MonsterType monsterType = MonsterType.Normal; // 몬스터 타입
+    [SerializeField] public MonsterType monsterType = MonsterType.Normal; // 몬스터 타입
     public MonsterType GetMonsterType() => monsterType; // 외부에서 타입 확인용
 
     [Header("Basic Stats")]
@@ -95,6 +95,7 @@ public class MonsterController : MonoBehaviour
 
     protected virtual void OnEnable()
     {
+        OnDeath = null; // 풀 재사용 시 이전 구독자 누적 방지
         ResetStatus();
     }
 
@@ -512,6 +513,10 @@ public class MonsterController : MonoBehaviour
     // --- 유틸리티 ---
     protected bool IsDead() => CurHP <= 0;
 
+    // 네트워크 래퍼에서 접근할 수 있도록 public getter 제공
+    public float GetCurrentHP() => CurHP;
+    public float GetMaxHP() => MaxHP;
+
     protected Transform GetClosestPlayer()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -522,6 +527,9 @@ public class MonsterController : MonoBehaviour
         foreach (GameObject p in players)
         {
             if (!p.activeInHierarchy) continue;
+            // 사망한 플레이어는 추격/공격 대상에서 제외
+            var dungeonStats = p.GetComponent<DungeonPlayerStats>();
+            if (dungeonStats != null && dungeonStats.IsDead) continue;
             float sqr = (p.transform.position - myPos).sqrMagnitude;
             if (sqr < minSqrDist) { minSqrDist = sqr; closest = p.transform; }
         }
@@ -571,7 +579,15 @@ public class MonsterController : MonoBehaviour
         // 3. 아이템 드랍
         if (expJewelPrefab != null)
         {
+#if UNITY_SERVER
+            // 보스 던전 데디서버: JewelSyncManager에 위치 등록 → 클라이언트에 보석 표시
+            if (JewelSyncManager.Instance != null)
+                JewelSyncManager.Instance.AddJewel(transform.position);
+            else
+                Instantiate(expJewelPrefab, transform.position, Quaternion.identity);
+#else
             Instantiate(expJewelPrefab, transform.position, Quaternion.identity);
+#endif
         }
 
         if (usePooling)

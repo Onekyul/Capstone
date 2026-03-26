@@ -75,7 +75,7 @@ public class WaterWaveController : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             // 1. 데미지 처리
-            collision.gameObject.GetComponent<PlayerStats>()?.TakeDamage(damage);
+            PlayerDamageHelper.TakeDamage(collision.gameObject, damage);
             Debug.Log($"플레이어가 파도에 휩쓸림! 데미지: {damage}");
 
             // 3. 플래그 설정 (이제 이 파도는 더 이상 플레이어를 아프게 하지 않음)

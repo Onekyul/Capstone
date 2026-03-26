@@ -3,11 +3,12 @@ using UnityEngine.UI;
 using TMPro;
 
 public class InventorySlotUI : MonoBehaviour
-{public Image iconImage;
-    public TextMeshProUGUI countText; 
-    public GameObject emptyIcon; 
+{
+    public Image iconImage;
+    public TextMeshProUGUI countText;
+    public GameObject emptyIcon;
 
-    //재료용 
+    //재료용
     public void SetMaterial(ItemData data, int count)
     {
         if (data == null) { ClearSlot(); return; }
@@ -22,17 +23,17 @@ public class InventorySlotUI : MonoBehaviour
     //장비용
     public void SetEquipment(Sprite icon)
     {
-        if (icon == null) 
-        { 
-            ClearSlot(); 
-            return; 
+        if (icon == null)
+        {
+            ClearSlot();
+            return;
         }
 
         ShowIcon(icon);
         if (countText != null)
         {
             countText.text = "";
-        } 
+        }
     }
 
     // 인챈트용
@@ -55,7 +56,7 @@ public class InventorySlotUI : MonoBehaviour
             iconImage.sprite = sprite;
             iconImage.gameObject.SetActive(true);
         }
-        
+
         if (emptyIcon != null) emptyIcon.SetActive(false);
     }
 
@@ -63,9 +64,9 @@ public class InventorySlotUI : MonoBehaviour
     public void ClearSlot()
     {
         if (iconImage != null) iconImage.gameObject.SetActive(false);
-        
+
         if (countText != null) countText.text = "";
-        
+
         if (emptyIcon != null) emptyIcon.SetActive(true);
     }
 }

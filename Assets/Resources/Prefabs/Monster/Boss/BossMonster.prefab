@@ -163,6 +163,8 @@ GameObject:
   - component: {fileID: 792262538225106608}
   - component: {fileID: 6521329764967539173}
   - component: {fileID: 8996085724625941435}
+  - component: {fileID: -6611836878566249857}
+  - component: {fileID: -306875215273859714}
   m_Layer: 7
   m_Name: BossMonster
   m_TagString: Enemy
@@ -233,7 +235,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -6248741079362886434, guid: cb0f209fa06dd4793901e98d013b082a, type: 3}
+  m_Sprite: {fileID: -6248741079362886434, guid: cb0f209fa06dd4793901e98d013b082a,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -347,13 +350,15 @@ MonoBehaviour:
   attackCooldownRage: 0.5
   groggyDuration: 8
   attackRange: 23
-  waterWavePrefab: {fileID: 5580880485800441195, guid: 8796090208f53634c928186d39679e0f, type: 3}
+  waterWavePrefab: {fileID: 5580880485800441195, guid: 8796090208f53634c928186d39679e0f,
+    type: 3}
   waveSpeed: 8
   waveDamage: 15
   waveLifetime: 2
   startScaleMultiplier: 0.5
   targetScaleMultiplier: 1.5
-  fireProjectilePrefab: {fileID: 4112673328808351943, guid: 810d81c5f3c56524ab845af4752bff1b, type: 3}
+  fireProjectilePrefab: {fileID: 4112673328808351943, guid: 810d81c5f3c56524ab845af4752bff1b,
+    type: 3}
   mortarSpeed: 10
   fireDamage: 10
   fireFieldDuration: 3
@@ -361,7 +366,8 @@ MonoBehaviour:
   fieldExpandSpeed: 3
   fieldDamageInterval: 0.5
   fieldDamage: 5
-  iceClusterPrefab: {fileID: 3852665186636552438, guid: 562ab9542e2844996847d92e59d82392, type: 3}
+  iceClusterPrefab: {fileID: 3852665186636552438, guid: 562ab9542e2844996847d92e59d82392,
+    type: 3}
   iceWarningDuration: 1
   bodyDuration: 1
   iceContactDamage: 10
@@ -369,12 +375,14 @@ MonoBehaviour:
   shardSpeed: 6.5
   shardCount: 6
   shardLifetime: 3
-  poisonSporePrefab: {fileID: 6073129539226835410, guid: 1b53ffc01a679744fa8f501eb02a1112, type: 3}
+  poisonSporePrefab: {fileID: 6073129539226835410, guid: 1b53ffc01a679744fa8f501eb02a1112,
+    type: 3}
   sporeSpeed: 2.8
   sporeLife: 5
   explosionRadius: 2
   explosionDamage: 10
-  thunderPatternPrefab: {fileID: 7514980896785833416, guid: 938f8e659192d824ba243be6e2297fe0, type: 3}
+  thunderPatternPrefab: {fileID: 7514980896785833416, guid: 938f8e659192d824ba243be6e2297fe0,
+    type: 3}
   burstCount: 3
   burstInterval: 0.2
   thunderWarningDuration: 0.7
@@ -384,6 +392,43 @@ MonoBehaviour:
   thunderFieldDuration: 3
   fieldDamagePerTick: 2
   RageShield: {fileID: 6870784140432899903}
+--- !u!114 &-6611836878566249857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1755479332552780768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2827971394
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: -306875215273859714}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &-306875215273859714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1755479332552780768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d29eedd853b01c247b3425f441a1e90c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NetBossHP: 0
+  _NetBossMaxHP: 0
+  _NetBossPhase: 0
+  _NetBossPosition: {x: 0, y: 0}
+  _NetBossDead:
+    _value: 0
 --- !u!1 &3033014908612539654
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,7 +730,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b,
+    type: 3}
   m_Color: {r: 0.113058, g: 0.30270046, b: 0.89433956, a: 0.34117648}
   m_FlipX: 0
   m_FlipY: 0

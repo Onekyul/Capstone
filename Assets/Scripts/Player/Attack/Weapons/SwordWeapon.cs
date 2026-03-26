@@ -122,21 +122,18 @@ public class SwordWeapon : WeaponBase
     {
         enemiesInRange.Clear();
 
-        // 부채꼴 범위 내의 모든 콜라이더 감지 (모든 레이어)
-        Collider2D[] allColliders = Physics2D.OverlapCircleAll(transform.position, swordRange);
-
-        // Enemy 레이어만 필터링
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, swordRange, enemyLayer);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, swordRange);
 
         foreach (Collider2D col in colliders)
         {
+            if (!col.CompareTag("Enemy")) continue;
+
             Vector2 enemyDirection = (col.transform.position - transform.position).normalized;
             float angle = Vector2.Angle(lastAttackDir, enemyDirection);
 
             if (angle <= attackAngle / 2f)
             {
                 enemiesInRange.Add(col.gameObject);
-
             }
         }
 

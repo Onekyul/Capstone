@@ -539,7 +539,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7606817706087733107, guid: 116d9d9faa18f4dd5ac6c34736448eab, type: 3}
+  m_Sprite: {fileID: -7606817706087733107, guid: 116d9d9faa18f4dd5ac6c34736448eab,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -610,18 +611,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterType: 0
   contactDamage: 0
-  MaxHP: 3000
+  MaxHP: 100
   CurHP: 0
   moveSpeed: 0
   poolTag: 
-  expJewelPrefab: {fileID: 6293056728098284098, guid: 87e43aed75fc0f34ca176e4a4b89071f, type: 3}
+  expJewelPrefab: {fileID: 6293056728098284098, guid: 87e43aed75fc0f34ca176e4a4b89071f,
+    type: 3}
   usePooling: 1
   hpSlider: {fileID: 5264735209820101341}
   lightningFieldPrefab: {fileID: 0}
   burnEffectObject: {fileID: 6705894146347802947}
   poisonEffectObject: {fileID: 1862478549447371295}
   storedLastDamage: 0
-  hpPerMinion: 100
+  hpPerMinion: 1
 --- !u!1 &7065695153112284541
 GameObject:
   m_ObjectHideFlags: 0
