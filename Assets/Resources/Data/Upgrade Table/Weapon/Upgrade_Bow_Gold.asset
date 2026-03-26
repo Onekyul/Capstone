@@ -23,17 +23,17 @@ MonoBehaviour:
     materialCount: 10
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}
-  - successRate: 70
+  - successRate: 60
     requiredMaterial: {fileID: 11400000, guid: 3fc992bf48b65314facf9ca69d8f9e4d, type: 2}
     materialCount: 15
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}
-  - successRate: 60
+  - successRate: 40
     requiredMaterial: {fileID: 11400000, guid: 3fc992bf48b65314facf9ca69d8f9e4d, type: 2}
     materialCount: 20
     nextTierWeapon: {fileID: 0}
     nextTierArmor: {fileID: 0}
-  - successRate: 50
+  - successRate: 20
     requiredMaterial: {fileID: 11400000, guid: 3fc992bf48b65314facf9ca69d8f9e4d, type: 2}
     materialCount: 30
     nextTierWeapon: {fileID: 0}
