@@ -68,8 +68,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: 0.29113865, y: -0.25683248}
+  m_Radius: 0.7140274
 --- !u!114 &947862734441829881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,7 +84,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   warningObject: {fileID: 4192441278285790912}
   iceBodyObject: {fileID: 7459429565500713067}
-  iceShardPrefab: {fileID: 8735303094944432895, guid: ea2f81bf17f6e4f28beb9945e99c3ae5, type: 3}
+  iceShardPrefab: {fileID: 8735303094944432895, guid: ea2f81bf17f6e4f28beb9945e99c3ae5,
+    type: 3}
   bodyCollider: {fileID: 8931507868021410677}
 --- !u!1 &4192441278285790912
 GameObject:
@@ -112,8 +113,8 @@ Transform:
   m_GameObject: {fileID: 4192441278285790912}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalPosition: {x: 0.3039, y: -0.2482, z: 0}
+  m_LocalScale: {x: 0.5746805, y: 0.5746805, z: 1.4367012}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4873515834848125636}
@@ -199,8 +200,8 @@ Transform:
   m_GameObject: {fileID: 7459429565500713067}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.074, y: -0.03, z: 0}
-  m_LocalScale: {x: 0.24772796, y: 0.24772796, z: 0.6193199}
+  m_LocalPosition: {x: 0.1976, y: -0.2912, z: 0}
+  m_LocalScale: {x: 0.35591108, y: 0.35591108, z: 0.88977766}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4873515834848125636}
@@ -249,7 +250,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 6442034976420787749, guid: 94d7a78d1197e4a138982fe1f0694412, type: 3}
+  m_Sprite: {fileID: 6442034976420787749, guid: 94d7a78d1197e4a138982fe1f0694412,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

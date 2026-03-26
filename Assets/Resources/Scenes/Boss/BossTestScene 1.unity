@@ -659,6 +659,7 @@ MonoBehaviour:
   bossHpText: {fileID: 0}
   returnToLobbyButton: {fileID: 275936994}
   autoReturnDelay: 10
+  deadOverlay: {fileID: 0}
   timerText: {fileID: 1293363641}
   timeLimit: 180
 --- !u!1 &275936992
@@ -2060,6 +2061,7 @@ MonoBehaviour:
     _value: 0
   _AltarPosition: {x: 0, y: 0}
   _AltarHpRatio: 0
+  _BossHpRatio: 0
   _BossPhase: 0
   altarVisualPrefab: {fileID: 7023070610143357254, guid: 30a2623f69c4a6a46a2e62c43dd2b54a,
     type: 3}

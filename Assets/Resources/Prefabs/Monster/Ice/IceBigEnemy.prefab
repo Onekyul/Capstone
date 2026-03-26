@@ -101,7 +101,7 @@ Transform:
   m_GameObject: {fileID: 1833419039739331658}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.64, y: 3.74, z: 0}
+  m_LocalPosition: {x: 0.7299999, y: 4.3299985, z: 0}
   m_LocalScale: {x: 0.94176584, y: 1.0163746, z: 2.540225}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -197,8 +197,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 12}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.000038146973}
+  m_SizeDelta: {x: 0, y: 122.73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6768769806740092862
 MonoBehaviour:
@@ -280,8 +280,8 @@ Transform:
   m_GameObject: {fileID: 4198262339682879849}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.3591, y: 7.5721, z: 0}
-  m_LocalScale: {x: 0.44172338, y: 0.4092979, z: 0.16376501}
+  m_LocalPosition: {x: -2.9044, y: 7.0648, z: 0}
+  m_LocalScale: {x: 0.5915118, y: 0.5480908, z: 0.21929774}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3330129117386857913}
@@ -333,7 +333,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 6770984376772214698, guid: 40be55772633648df84f249ba8acc71d, type: 3}
+  m_Sprite: {fileID: 6770984376772214698, guid: 40be55772633648df84f249ba8acc71d,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -378,7 +379,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.00000023841858, y: 0.006598592}
+  m_Offset: {x: 0.00000047683716, y: -0.009592056}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -388,7 +389,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 6.0529046, y: 7.3042116}
+  m_Size: {x: 6.1429167, y: 7.3365927}
   m_EdgeRadius: 0
 --- !u!50 &3166880201529586006
 Rigidbody2D:
@@ -435,14 +436,16 @@ MonoBehaviour:
   CurHP: 0
   moveSpeed: 2
   poolTag: IceBig
-  expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
+  expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5,
+    type: 3}
   usePooling: 1
   hpSlider: {fileID: 6768769806740092862}
   lightningFieldPrefab: {fileID: 0}
   burnEffectObject: {fileID: 4563594035020285612}
   poisonEffectObject: {fileID: 1833419039739331658}
   storedLastDamage: 0
-  eliteChestPrefab: {fileID: -7302594443989870516, guid: ace7d39784493df4692014cc8d62bfb3, type: 3}
+  eliteChestPrefab: {fileID: -7302594443989870516, guid: ace7d39784493df4692014cc8d62bfb3,
+    type: 3}
   IsElite: 0
   eliteSpawnChance: 5
 --- !u!1 &4563594035020285612
@@ -471,7 +474,7 @@ Transform:
   m_GameObject: {fileID: 4563594035020285612}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.95, y: 3.76, z: 0}
+  m_LocalPosition: {x: -0.86, y: 4.35, z: 0}
   m_LocalScale: {x: 0.273, y: 0.273, z: 0.273}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -679,8 +682,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -4.17}
-  m_SizeDelta: {x: 300, y: 150}
+  m_AnchoredPosition: {x: 0, y: -4.13}
+  m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3628643926856135545
 Canvas:

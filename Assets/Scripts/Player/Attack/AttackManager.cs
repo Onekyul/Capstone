@@ -168,25 +168,23 @@ public class AttackManager : MonoBehaviour
     private IEnumerator AutoAttackCoroutine()
     {
         Debug.Log("AttackManager: Auto attack started");
-        // Animator animator = GetComponentInChildren<Animator>();
 
         while (bIsAutoAttacking)
         {
             if (currentWeapon != null)
             {
-                // 1. 공격 애니메이션 실행
+                // 1. 쿨타임이 돌 때마다 정확히 한 번씩 공격 애니메이션 실행!
                 if (animator != null)
                 {
                     animator.SetTrigger("2_Attack");
                 }
 
-                // 2. 실제 데미지 판정 실행
+                // 2. 실제 데미지 판정 및 검강 발사
                 currentWeapon.Attack(curLookDir);
 
-                // 3. [핵심] 다음 공격까지 쉴 시간을 넉넉히 줍니다.
-                // 예를 들어 1초에 한 번씩 공격하게 하고 싶다면:
-                // 애니메이션 재생 시간(약 0.3초) + 쉴 시간(0.7초) = 1.0초
-                yield return new WaitForSeconds(1.0f); 
+                // 3. 무기 쿨타임만큼 대기
+                float actualCooldown = currentWeapon.GetAttackCooldown();
+                yield return new WaitForSeconds(actualCooldown); 
             }
             else
             {

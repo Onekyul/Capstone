@@ -179,8 +179,8 @@ Transform:
   m_GameObject: {fileID: 1755479332552780768}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.4808, y: -4.2104, z: 0}
-  m_LocalScale: {x: 0.42028257, y: 0.42028257, z: 0.42028257}
+  m_LocalPosition: {x: -8.0647, y: -4.5325, z: 0}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4279628219642429752}
@@ -277,9 +277,9 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.071146965, y: 0.06526184}
+  m_Offset: {x: -0.044170856, y: 0.36224878}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 1, y: 1.0277778, z: 1.0833334, w: 0.3888889}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 12.055555, y: 9.333333}
     newSize: {x: 4.34, y: 3.36}
@@ -287,7 +287,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 9.974394, y: 8.613201}
+  m_Size: {x: 10.028346, y: 8.019227}
   m_EdgeRadius: 0
 --- !u!50 &6521329764967539173
 Rigidbody2D:
@@ -334,7 +334,8 @@ MonoBehaviour:
   CurHP: 0
   moveSpeed: 0
   poolTag: 
-  expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
+  expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5,
+    type: 3}
   usePooling: 1
   hpSlider: {fileID: 6491672787607431554}
   lightningFieldPrefab: {fileID: 0}
@@ -343,8 +344,10 @@ MonoBehaviour:
   storedLastDamage: 0
   attackRange: 10
   attackCooldown: 2
-  elementChestPrefab: {fileID: -507466460373292382, guid: d2dc02d0d702dd149a5f462dabbaf9fe, type: 3}
-  iceClusterPrefab: {fileID: 3852665186636552438, guid: 4489e040f564e044fa34788a9292c7a2, type: 3}
+  elementChestPrefab: {fileID: -507466460373292382, guid: d2dc02d0d702dd149a5f462dabbaf9fe,
+    type: 3}
+  iceClusterPrefab: {fileID: 3852665186636552438, guid: 4489e040f564e044fa34788a9292c7a2,
+    type: 3}
   warningDuration: 1.5
   bodyDuration: 2
   iceContactDamage: 10
@@ -378,7 +381,7 @@ Transform:
   m_GameObject: {fileID: 3033014908612539654}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.2325, y: 5.4, z: 0}
+  m_LocalPosition: {x: 1.0975006, y: 5.0737, z: 0}
   m_LocalScale: {x: 0.92746305, y: 0.92746305, z: 0.92746305}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -475,8 +478,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.02, y: -4.51}
-  m_SizeDelta: {x: 489.42856, y: 275}
+  m_AnchoredPosition: {x: 0, y: -4.03}
+  m_SizeDelta: {x: 800, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2441107646212364714
 Canvas:
@@ -603,7 +606,7 @@ Transform:
   m_GameObject: {fileID: 7429438609889924654}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.925, y: 5.2563, z: 0}
+  m_LocalPosition: {x: -1.06, y: 4.93, z: 0}
   m_LocalScale: {x: 0.26802558, y: 0.2389921, z: 0.07015905}
   m_ConstrainProportionsScale: 0
   m_Children: []
