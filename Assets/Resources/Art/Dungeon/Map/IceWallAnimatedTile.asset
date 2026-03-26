@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: IceWallAnimatedTile
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: 1693470743309637651, guid: 9432dedf9a0920b4585bc0b6f228ef30, type: 3}
+  - {fileID: -152474429251722264, guid: 9432dedf9a0920b4585bc0b6f228ef30, type: 3}
+  - {fileID: 7687715495386089047, guid: 9432dedf9a0920b4585bc0b6f228ef30, type: 3}
+  - {fileID: 2779372412243018360, guid: 9432dedf9a0920b4585bc0b6f228ef30, type: 3}
+  - {fileID: -7347232904788938228, guid: 9432dedf9a0920b4585bc0b6f228ef30, type: 3}
+  - {fileID: 8544521845403896598, guid: 9432dedf9a0920b4585bc0b6f228ef30, type: 3}
+  - {fileID: 102625916692162565, guid: 9432dedf9a0920b4585bc0b6f228ef30, type: 3}
+  - {fileID: 334836519237068085, guid: 9432dedf9a0920b4585bc0b6f228ef30, type: 3}
+  m_MinSpeed: 2
+  m_MaxSpeed: 2
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 2
+  m_TileAnimationFlags: 0

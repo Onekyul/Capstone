@@ -15,9 +15,181 @@ MonoBehaviour:
   phases:
   - timestamp: 0
     spawnGroups:
-    - monsterTag: IceChasing
+    - monsterTag: ThunderChasing
       count: 300
       spawnPattern: 1
       spawnRadius: 0
       spawnInterval: 1
       groupSpread: 3
+  - timestamp: 10
+    spawnGroups:
+    - monsterTag: ThunderBig
+      count: 4
+      spawnPattern: 0
+      spawnRadius: 10
+      spawnInterval: 0
+      groupSpread: 0
+  - timestamp: 10
+    spawnGroups:
+    - monsterTag: ThunderBig
+      count: 4
+      spawnPattern: 0
+      spawnRadius: 10
+      spawnInterval: 0
+      groupSpread: 0
+  - timestamp: 20
+    spawnGroups:
+    - monsterTag: ThunderBig
+      count: 6
+      spawnPattern: 0
+      spawnRadius: 10
+      spawnInterval: 0
+      groupSpread: 0
+  - timestamp: 40
+    spawnGroups:
+    - monsterTag: ThunderBig
+      count: 10
+      spawnPattern: 0
+      spawnRadius: 10
+      spawnInterval: 0
+      groupSpread: 0
+  - timestamp: 60
+    spawnGroups:
+    - monsterTag: ThunderBig
+      count: 15
+      spawnPattern: 0
+      spawnRadius: 10
+      spawnInterval: 0
+      groupSpread: 0
+  - timestamp: 65
+    spawnGroups:
+    - monsterTag: ThunderFast
+      count: 4
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+    - monsterTag: ThunderFast
+      count: 4
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 90
+    spawnGroups:
+    - monsterTag: ThunderFast
+      count: 4
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+    - monsterTag: ThunderFast
+      count: 4
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 90
+    spawnGroups:
+    - monsterTag: ThunderFast
+      count: 4
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+    - monsterTag: ThunderFast
+      count: 4
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 110
+    spawnGroups:
+    - monsterTag: ThunderFast
+      count: 4
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+    - monsterTag: ThunderFast
+      count: 4
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 130
+    spawnGroups:
+    - monsterTag: ThunderFast
+      count: 4
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+    - monsterTag: ThunderFast
+      count: 4
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 130
+    spawnGroups:
+    - monsterTag: ThunderFast
+      count: 4
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+    - monsterTag: ThunderFast
+      count: 4
+      spawnPattern: 2
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 150
+    spawnGroups:
+    - monsterTag: ThunderChasing
+      count: 30
+      spawnPattern: 1
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 170
+    spawnGroups:
+    - monsterTag: ThunderChasing
+      count: 30
+      spawnPattern: 1
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 200
+    spawnGroups:
+    - monsterTag: ThunderChasing
+      count: 80
+      spawnPattern: 1
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 230
+    spawnGroups:
+    - monsterTag: ThunderBig
+      count: 120
+      spawnPattern: 1
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 250
+    spawnGroups:
+    - monsterTag: ThunderBig
+      count: 120
+      spawnPattern: 1
+      spawnRadius: 20
+      spawnInterval: 0
+      groupSpread: 1
+  - timestamp: 280
+    spawnGroups:
+    - monsterTag: ThunderBig
+      count: 100
+      spawnPattern: 0
+      spawnRadius: 15
+      spawnInterval: 0
+      groupSpread: 0
