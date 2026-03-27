@@ -17031,7 +17031,7 @@ MonoBehaviour:
       type: 3}
     size: 500
   - tag: ThunderBig
-    prefab: {fileID: 2530604871420806504, guid: 048fa93bceeca1f44b94d8b647ac42bd,
+    prefab: {fileID: 2530604871420806504, guid: a15d74d406f391d4e85aee2661cffa57,
       type: 3}
     size: 500
   - tag: ThunderFast
