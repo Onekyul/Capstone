@@ -16,12 +16,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AttackManager attackManager;
     
     [Header("Sprite Flip")]
-    [SerializeField] private SpriteRenderer spriteRenderer; 
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    
+    [Header("UI")]
+    [SerializeField] private Transform healthBarTransform;
     
     [Header("Animation")]
     [SerializeField] private Animator animator; // 애니메이터 참조 추가
     // 만약 특정 씬(거점)에서만 작동하게 하려면 씬 이름을 지정할 수 있습니다.
-    [SerializeField] private string baseSceneName = "BaseArea"; 
+    [SerializeField] private string baseSceneName = "BaseArea 1"; 
 
     private PlayerStats playerStats; 
 
@@ -95,7 +98,16 @@ public class PlayerController : MonoBehaviour
                 currentScale.x = Mathf.Abs(currentScale.x);
             }
 
+            // 플레이어 좌우 반전
             transform.localScale = currentScale;
+
+            // ★ 추가된 부분: 체력바가 같이 뒤집히는 것을 방지
+            if (healthBarTransform != null)
+            {
+                Vector3 hpScale = healthBarTransform.localScale;
+                hpScale.x = (currentScale.x < 0) ? -Mathf.Abs(hpScale.x) : Mathf.Abs(hpScale.x);
+                healthBarTransform.localScale = hpScale;
+            }
         }
     }
 
@@ -130,15 +142,17 @@ public class PlayerController : MonoBehaviour
     {
         if (animator == null) return;
 
-        // "거점일 때에만" 적용하고 싶다면 현재 씬을 체크합니다.
-        // (모든 씬에서 공통 적용하려면 if문 검사를 빼시면 됩니다)
-        // if (SceneManager.GetActiveScene().name == baseSceneName)
-        // {
-            // 움직임 입력 벡터의 크기가 0보다 크면 true (MOVE), 아니면 false (IDLE)
+        // 현재 씬이 거점(baseSceneName)일 때만 이동/대기 애니메이션 작동
+        if (SceneManager.GetActiveScene().name == baseSceneName)
+        {
             bool isMoving = movementInput.sqrMagnitude > 0;
-            
-            // Animator Controller의 "isMoving" 파라미터 값을 변경
             animator.SetBool("1_Move", isMoving);
-        // }
+        }
+        else
+        {
+            // 전투 지역(던전)에서는 이동 애니메이션 파라미터를 강제로 끕니다.
+            // 이렇게 하면 이동 키를 눌러도 걷는 모션으로 강제 전환되지 않습니다.
+            animator.SetBool("1_Move", false);
+        }
     }
 }

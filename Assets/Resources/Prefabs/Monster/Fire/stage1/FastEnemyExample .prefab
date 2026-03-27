@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.22, y: -3.92}
-  m_SizeDelta: {x: 489.42856, y: 275}
+  m_AnchoredPosition: {x: 0, y: -3.76}
+  m_SizeDelta: {x: 300, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3057805525031014648
 Canvas:
@@ -239,8 +239,8 @@ Transform:
   m_GameObject: {fileID: 3161669611923837453}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.2, y: 4.5, z: 0}
-  m_LocalScale: {x: 2.6530612, y: 2.6530612, z: 2.6530612}
+  m_LocalPosition: {x: 0.69800043, y: 4.0180006, z: 0}
+  m_LocalScale: {x: 1.6718372, y: 1.6718372, z: 1.6718372}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9198231133139814233}
@@ -326,8 +326,8 @@ Transform:
   m_GameObject: {fileID: 5633199905882819245}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2, y: 4.2, z: 0}
-  m_LocalScale: {x: 0.76906884, y: 0.7126276, z: 0.2851403}
+  m_LocalPosition: {x: -1.95, y: 3.83, z: 0}
+  m_LocalScale: {x: 0.48463184, y: 0.44906515, z: 0.17968231}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9198231133139814233}
@@ -491,8 +491,8 @@ Transform:
   m_GameObject: {fileID: 8106847201219958441}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.55, y: 4.82, z: 0}
-  m_LocalScale: {x: 0.1568, y: 0.1568, z: 0.1568}
+  m_LocalPosition: {x: 7.8713, y: 4.601, z: 0}
+  m_LocalScale: {x: 0.23404141, y: 0.23404141, z: 0.23404141}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3304933316864628979}
@@ -544,7 +544,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -6243389845678072464, guid: 222bc25f33cb444aa878b5c433128f64, type: 3}
+  m_Sprite: {fileID: -6243389845678072464, guid: 222bc25f33cb444aa878b5c433128f64,
+    type: 3}
   m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -589,17 +590,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.061146736, y: -0.0000019073486}
+  m_Offset: {x: 0.020058393, y: 0.04108429}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.95, y: 2.7}
+    oldSize: {x: 8.32, y: 5.6711144}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 9.438423, y: 4.0574007}
+  m_Size: {x: 8.781055, y: 5.947324}
   m_EdgeRadius: 0
 --- !u!50 &8421027505408655106
 Rigidbody2D:
@@ -646,7 +647,8 @@ MonoBehaviour:
   CurHP: 0
   moveSpeed: 20
   poolTag: Fast
-  expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5, type: 3}
+  expJewelPrefab: {fileID: 6293056728098284098, guid: a70168c1895a0bc4a8b6965da6a141c5,
+    type: 3}
   usePooling: 1
   hpSlider: {fileID: 290604266879168962}
   lightningFieldPrefab: {fileID: 0}
@@ -688,8 +690,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.00005340576}
+  m_SizeDelta: {x: 0, y: 122.73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &290604266879168962
 MonoBehaviour:

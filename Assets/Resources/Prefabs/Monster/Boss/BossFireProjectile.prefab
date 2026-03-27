@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2020142966791954842}
   - component: {fileID: 1991918773186124353}
   - component: {fileID: 5370928833900234795}
-  - component: {fileID: 6062120862240592089}
   - component: {fileID: -2973485676572028671}
+  - component: {fileID: 4120185709759286398}
   m_Layer: 0
   m_Name: BossFireProjectile
   m_TagString: Untagged
@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d17e6e4a4dd807489c415395f2c1f1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireFieldPrefab: {fileID: 7099330721747652083, guid: ab917528ee4640048ac8fed7a3561ad5, type: 3}
-  speed: 2
+  fireFieldPrefab: {fileID: 7099330721747652083, guid: ab917528ee4640048ac8fed7a3561ad5,
+    type: 3}
 --- !u!212 &5370928833900234795
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -93,7 +93,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 3471866551228921698, guid: fa80ba7386a654e90b79f84827886f98,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -104,8 +105,30 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &6062120862240592089
-CircleCollider2D:
+--- !u!95 &-2973485676572028671
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4112673328808351943}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 964dbae7f471d4e5495242c399792386, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!70 &4120185709759286398
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -138,27 +161,6 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.08
---- !u!95 &-2973485676572028671
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4112673328808351943}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 964dbae7f471d4e5495242c399792386, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_Offset: {x: 0.02582296, y: 0.0033319765}
+  m_Size: {x: 0.4950164, y: 0.22333282}
+  m_Direction: 1

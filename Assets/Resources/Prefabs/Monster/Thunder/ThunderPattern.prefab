@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 358875210001795207}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalPosition: {x: 0.2373, y: -0.2373, z: 0}
+  m_LocalScale: {x: 1.466751, y: 1.466751, z: 1.1545}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5601066484023312009}
@@ -113,7 +113,7 @@ Transform:
   m_GameObject: {fileID: 627374794237206862}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.68, z: 0}
+  m_LocalPosition: {x: 0.14, y: 1.55, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -252,11 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be72c049dfedc084c8aa92b5252c8824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warningDuration: 1
-  strikeCount: 3
-  strikeInterval: 0.1
-  strikeDamage: 70
-  strikeRadius: 1.5
   warningObject: {fileID: 358875210001795207}
   strikeVfxObject: {fileID: 627374794237206862}
-  thunderFieldPrefab: {fileID: 3911983857052381362, guid: fa3d7df9c5cdf1343b37cf2ca8d7ab22, type: 3}
+  thunderFieldPrefab: {fileID: 3911983857052381362, guid: fa3d7df9c5cdf1343b37cf2ca8d7ab22,
+    type: 3}

@@ -180,7 +180,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.4808, y: -4.2104, z: 0}
-  m_LocalScale: {x: 0.42028257, y: 0.42028257, z: 0.42028257}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4279628219642429752}
@@ -279,7 +279,7 @@ BoxCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.010878563, y: 0.06526208}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 0.5217391, y: 0.86956525, z: 0.6956522, w: 0.6956522}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 11.130435, y: 11.130435}
     newSize: {x: 4.34, y: 3.36}
@@ -476,7 +476,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0.01, y: -5.17}
-  m_SizeDelta: {x: 750, y: 400}
+  m_SizeDelta: {x: 800, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2441107646212364714
 Canvas:
