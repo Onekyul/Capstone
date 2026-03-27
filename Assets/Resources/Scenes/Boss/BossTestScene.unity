@@ -4880,6 +4880,16 @@ PrefabInstance:
       propertyPath: SortKey
       value: 3767229746
       objectReference: {fileID: 0}
+    - target: {fileID: -6611836878566249857, guid: fc94e43a9c7d47241907e9815fdfec61,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -306875215273859714, guid: fc94e43a9c7d47241907e9815fdfec61,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 792262538225106608, guid: fc94e43a9c7d47241907e9815fdfec61,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
