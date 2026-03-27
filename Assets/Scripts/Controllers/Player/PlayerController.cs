@@ -16,12 +16,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AttackManager attackManager;
     
     [Header("Sprite Flip")]
-    [SerializeField] private SpriteRenderer spriteRenderer; 
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    
+    [Header("UI")]
+    [SerializeField] private Transform healthBarTransform;
     
     [Header("Animation")]
     [SerializeField] private Animator animator; // 애니메이터 참조 추가
     // 만약 특정 씬(거점)에서만 작동하게 하려면 씬 이름을 지정할 수 있습니다.
-    [SerializeField] private string baseSceneName = "BaseArea"; 
+    [SerializeField] private string baseSceneName = "BaseArea 1"; 
 
     private PlayerStats playerStats; 
 
@@ -95,7 +98,16 @@ public class PlayerController : MonoBehaviour
                 currentScale.x = Mathf.Abs(currentScale.x);
             }
 
+            // 플레이어 좌우 반전
             transform.localScale = currentScale;
+
+            // ★ 추가된 부분: 체력바가 같이 뒤집히는 것을 방지
+            if (healthBarTransform != null)
+            {
+                Vector3 hpScale = healthBarTransform.localScale;
+                hpScale.x = (currentScale.x < 0) ? -Mathf.Abs(hpScale.x) : Mathf.Abs(hpScale.x);
+                healthBarTransform.localScale = hpScale;
+            }
         }
     }
 

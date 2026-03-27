@@ -5328,8 +5328,9 @@ MonoBehaviour:
   movementInput: {x: 0, y: 0}
   attackManager: {fileID: 0}
   spriteRenderer: {fileID: 0}
+  healthBarTransform: {fileID: 7689657432853410122}
   animator: {fileID: 6201205976528084976}
-  baseSceneName: BaseArea
+  baseSceneName: BaseArea 1
 --- !u!50 &7710912631785964097
 Rigidbody2D:
   serializedVersion: 5
@@ -6345,10 +6346,9 @@ MonoBehaviour:
   debugLightningLevel: 0
   debugPoisonLevel: 0
   debugWaterLevel: 0
+  projectileSpeed: 18
+  projectileLifeTime: 0.2
   spearRange: 6.5
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
   attackWidth: 0.5
   effectOffsetDistance: 0.8
 --- !u!1 &6245498542024998529
@@ -7864,11 +7864,8 @@ MonoBehaviour:
   debugLightningLevel: 0
   debugPoisonLevel: 0
   debugWaterLevel: 0
-  attackAngle: 90
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  swordRange: 5
+  projectileSpeed: 13
+  projectileLifeTime: 0.3
   effectOffsetDistance: 0.8
 --- !u!1 &7493344427610260794
 GameObject:
@@ -8283,7 +8280,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &6393767314454425737
 MonoBehaviour:
   m_ObjectHideFlags: 0
