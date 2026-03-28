@@ -23,7 +23,7 @@ public class SceneLoader : MonoBehaviour
     public void LoadSceneByButton(string targetSceneName) 
     {
         nextSceneName = targetSceneName; 
-        SceneManager.LoadScene("BaseArea 1");
+        SceneManager.LoadScene("BaseArea 1 2");
     }
 
     public string GetNextSceneName()

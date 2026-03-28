@@ -76,40 +76,29 @@ public abstract class DungeonWeaponBase : NetworkBehaviour
         AttackCooldownTimer = TickTimer.None; 
     }
 
-    // DungeonAttackManager에서 매 프레임 호출
-    public void Attack(Vector2 direction)
+    /// <summary>
+    /// 서버 전용: 쿨타임 체크 → 데미지 판정. 시각 효과 없음.
+    /// 공격 발동 시 true 반환.
+    /// </summary>
+    public bool TryServerAttack(Vector2 direction)
     {
-        if (playerStats != null && playerStats.IsDead) return;
+        if (!HasStateAuthority) return false;
+        if (playerStats != null && playerStats.IsDead) return false;
+        if (!AttackCooldownTimer.ExpiredOrNotRunning(Runner)) return false;
 
-        // 쿨타임이 끝났다면 공격 실행
-        if (AttackCooldownTimer.ExpiredOrNotRunning(Runner))
-        {
-            if (HasStateAuthority)
-            {
-                // 1. 서버에서 이펙트 RPC 전송 (All 수신 → 중복 방지)
-                RPC_PlayAttackVisuals(direction);
+        Debug.Log($"[Server] {GetType().Name}.TryServerAttack() 발동");
 
-                // 2. 실제 데미지 판정
-                ExecuteServerAttack(direction);
+        ExecuteServerAttack(direction);
 
-                // 3. 쿨타임 재설정 (서버가 [Networked] 타이머 관리)
-                float speedMult = playerStats != null ? playerStats.AttackSpeedMultiplier : 1.0f;
-                float finalCooldown = NetAttackCooldown / speedMult;
-                AttackCooldownTimer = TickTimer.CreateFromSeconds(Runner, finalCooldown);
-            }
-        }
-    }
+        float speedMult = playerStats != null ? playerStats.AttackSpeedMultiplier : 1.0f;
+        AttackCooldownTimer = TickTimer.CreateFromSeconds(Runner, NetAttackCooldown / speedMult);
 
-    // [RPC] 나 공격했으니까 너희들 화면에도 이펙트 띄워줘!
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    private void RPC_PlayAttackVisuals(Vector2 direction)
-    {
-        CreateAttackEffect(direction);
+        return true;
     }
 
     // 자식 클래스에서 구현할 내용들
     protected abstract void ExecuteServerAttack(Vector2 direction); // 서버 타격 판정
-    protected abstract void CreateAttackEffect(Vector2 direction); // 시각 효과
+    public abstract void CreateAttackEffect(Vector2 direction);     // 시각 효과 (DungeonAttackManager에서 호출)
 
     // 스탯 계산 유틸
     public float GetTotalDamage() => NetBaseDamage; // 엘리트 킬러 등은 여기서 추가 계산 가능

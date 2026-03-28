@@ -5330,7 +5330,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   healthBarTransform: {fileID: 7689657432853410122}
   animator: {fileID: 6201205976528084976}
-  baseSceneName: BaseArea 1
+  baseSceneName: BaseArea 1 2
 --- !u!50 &7710912631785964097
 Rigidbody2D:
   serializedVersion: 5

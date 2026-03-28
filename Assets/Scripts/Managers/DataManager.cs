@@ -378,9 +378,13 @@ public class DataManager : MonoBehaviour
     private IEnumerator CoSendUpgradeRequest(string targetId, string matInfo, float successRate, Action<bool, string> onComplete)
     {
         // 서버로 보낼 DTO
+        string nick = (SessionManager.Instance != null && !string.IsNullOrEmpty(SessionManager.Instance.Nickname))
+            ? SessionManager.Instance.Nickname : "Guest";
+
         var reqDto = new UpgradeReqDto
         {
             userId = MyUserId,
+            nickname = nick,
             targetId = targetId,
             materialInfo = matInfo,
             successRate = successRate
@@ -433,10 +437,11 @@ public class DataManager : MonoBehaviour
         if (!HasInventory(matId, matCount)) { onComplete?.Invoke(false, "재료가 부족합니다."); return; }
 
         // 2. 서버 통신 (확률을 0.0 ~ 1.0 형태로 변환해서 보냄)
-        float rate = nextStep.successRate / 100f; 
+        float rate = nextStep.successRate / 100f;
         string matInfo = $"{matId} {matCount}개";
+        string targetLabel = $"{itemName} +{currentLevel}";
 
-        StartCoroutine(CoSendUpgradeRequest(id, matInfo, rate, (isSuccess, msg) =>
+        StartCoroutine(CoSendUpgradeRequest(targetLabel, matInfo, rate, (isSuccess, msg) =>
         {
             // save=false: 레벨업 적용 후 마지막에 한 번만 SaveGame 호출
             UseInventory(matId, matCount, save: false);

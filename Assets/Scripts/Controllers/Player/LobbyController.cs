@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class LobbyController : NetworkBehaviour
 {
-    private SpriteRenderer _renderer;
+    [SerializeField] private Transform unitRoot;
     private Animator _animator;
 
     [Networked, OnChangedRender(nameof(ApplyFlip))]
@@ -14,7 +14,6 @@ public class LobbyController : NetworkBehaviour
 
     public override void Spawned()
     {
-        _renderer = GetComponent<SpriteRenderer>();
         //_animator = GetComponent<Animator>();
         
         if (HasStateAuthority)
@@ -43,8 +42,10 @@ public class LobbyController : NetworkBehaviour
 
     private void ApplyFlip()
     {
-        if (_renderer != null)
-            _renderer.flipX = IsFacingLeft;
+        Transform target = unitRoot != null ? unitRoot : transform;
+        Vector3 scale = target.localScale;
+        scale.x = IsFacingLeft ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.x);
+        target.localScale = scale;
     }
 
     void HandleMovement()

@@ -4,10 +4,12 @@ using Fusion;
 public class DungeonSpear : DungeonWeaponBase
 {
     [Header("Spear Specific")]
-    [SerializeField] private float spearRange = 3f;   
+    [SerializeField] private float spearRange = 3f;
     [SerializeField] private float attackWidth = 0.5f;
     [SerializeField] private LayerMask enemyLayer = 128; // Layer 7 (Enemy) - 2^7 = 128
-    [SerializeField] private GameObject attackEffectPrefab; // 시각 이펙트 프리팹
+    [SerializeField] private GameObject attackEffectPrefab;
+    [SerializeField] private float projectileSpeed = 15f;
+    [SerializeField] private float projectileLifeTime = 0.15f;
 
     // ★ 오직 서버(데디케이티드)에서만 실행되는 진짜 타격 판정
     protected override void ExecuteServerAttack(Vector2 direction)
@@ -41,16 +43,24 @@ public class DungeonSpear : DungeonWeaponBase
     }
 
     // ★ 모든 클라이언트가 자기 화면에 그리는 시각 효과 (RPC)
-    protected override void CreateAttackEffect(Vector2 direction)
+    public override void CreateAttackEffect(Vector2 direction)
     {
-        if (attackEffectPrefab != null)
+        if (attackEffectPrefab == null)
         {
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            
-            // 이펙트 생성 후 attackDuration 뒤에 알아서 삭제됨
-            GameObject effect = Instantiate(attackEffectPrefab, attackPoint.position, rotation);
-            Destroy(effect, attackDuration);
+            Debug.LogWarning($"[DungeonSpear] attackEffectPrefab이 null입니다! 오브젝트: {gameObject.name}");
+            return;
         }
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        Vector3 spawnPosition = attackPoint != null ? attackPoint.position : transform.position;
+
+        GameObject effect = Instantiate(attackEffectPrefab, spawnPosition, rotation);
+
+        // 시각 효과 전용: damage=0 → 투사체가 날아가지만 데미지는 서버에서 처리
+        SpearProjectile proj = effect.GetComponent<SpearProjectile>();
+        if (proj == null)
+            proj = effect.AddComponent<SpearProjectile>();
+        proj.Initialize(direction, projectileSpeed, 0.3f, 0f, null);
     }
 }
