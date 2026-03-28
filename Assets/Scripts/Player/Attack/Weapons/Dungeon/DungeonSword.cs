@@ -10,7 +10,9 @@ public class DungeonSword : DungeonWeaponBase
 
     [Header("Effect Settings")]
     [SerializeField] private float effectOffsetDistance = 0.8f;
-    [SerializeField] private GameObject attackEffectPrefab; // [주의] 이건 그냥 GameObject로 둬도 됩니다. 
+    [SerializeField] private float projectileSpeed = 10f;
+    [SerializeField] private float projectileLifeTime = 0.15f;
+    [SerializeField] private GameObject attackEffectPrefab;
 
     // ★ 오직 서버에서만 실행되는 진짜 타격 판정
     protected override void ExecuteServerAttack(Vector2 direction)
@@ -47,8 +49,13 @@ public class DungeonSword : DungeonWeaponBase
     }
 
     // 모든 클라이언트가 자기 화면에 각자 그리는 시각 효과 (RPC로 호출됨)
-    protected override void CreateAttackEffect(Vector2 direction)
+    public override void CreateAttackEffect(Vector2 direction)
     {
+        if (attackEffectPrefab == null)
+        {
+            Debug.LogWarning($"[DungeonSword] attackEffectPrefab이 null입니다! 오브젝트: {gameObject.name}");
+            return;
+        }
         if (attackEffectPrefab != null)
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -57,8 +64,14 @@ public class DungeonSword : DungeonWeaponBase
 
             // 퓨전의 Runner.Spawn이 아니라 그냥 Instantiate를 씁니다!
             // 왜냐하면 RPC를 통해 모든 클라이언트가 이 함수를 각자 실행하므로, 알아서 자기 화면에 하나씩 그리기 때문입니다. (최적화)
+            Debug.Log($"[DungeonSword] CreateAttackEffect 실행! 위치:{spawnPosition}, 방향:{direction}");
             GameObject effect = Instantiate(attackEffectPrefab, spawnPosition, rotation);
-            Destroy(effect, attackDuration); 
+
+            // 시각 효과 전용: damage=0으로 Initialize → 투사체가 날아가지만 데미지는 서버에서 처리
+            SwordProjectile proj = effect.GetComponent<SwordProjectile>();
+            if (proj == null)
+                proj = effect.AddComponent<SwordProjectile>();
+            proj.Initialize(direction, projectileSpeed, 0.3f, 0f, null, null);
         }
     }
 }

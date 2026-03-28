@@ -52,11 +52,14 @@ public class SwordProjectile : MonoBehaviour
 
                 Debug.Log($"[검기 적중] 기본 데미지: {baseDamage}, 최종 데미지: {finalDamage:F1}, 적: {collision.name}");
 
-                // 데미지 및 인챈트 적용
-                monster.TakeDamage(finalDamage);
-                if (appliedEnchants != null && appliedEnchants.Length > 0)
+                // 데미지 및 인챈트 적용 (damage=0이면 시각 효과 전용이므로 스킵)
+                if (baseDamage > 0)
                 {
-                    monster.TakeElement(appliedEnchants);
+                    monster.TakeDamage(finalDamage);
+                    if (appliedEnchants != null && appliedEnchants.Length > 0)
+                    {
+                        monster.TakeElement(appliedEnchants);
+                    }
                 }
 
                 // 적중 시 검기를 파괴할지 여부

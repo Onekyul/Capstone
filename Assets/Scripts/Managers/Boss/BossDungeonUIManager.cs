@@ -145,7 +145,7 @@ public class BossDungeonUIManager : MonoBehaviour
         if (DungeonSessionManager.Instance != null)
             DungeonSessionManager.Instance.ReturnToLobby();
         else
-            UnityEngine.SceneManagement.SceneManager.LoadScene("BaseArea 1");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("BaseArea 1 2");
     }
 
     private IEnumerator CoAutoReturn()

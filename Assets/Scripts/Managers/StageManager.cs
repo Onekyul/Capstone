@@ -3,6 +3,8 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
+using System.Text;
 
 public class StageManager : MonoBehaviour
 {
@@ -215,10 +217,50 @@ public class StageManager : MonoBehaviour
             if (pair.Value > 0) DataManager.instance.AddInventory(pair.Key.itemId, pair.Value);
         }
 
-        // 4. UI 표시
+        // 4. 백엔드 클리어 로그
+        StartCoroutine(CoPostDungeonClearLog(isClear, finalRewards));
+
+        // 5. UI 표시
         DungeonUIManager.instance.ShowResultUI(isClear, eliteChestCount, elementChestCount, finalRewards);
 
         DataManager.instance.SaveGame();
+    }
+
+    [System.Serializable]
+    private class RewardLogEntry { public string itemName; public int count; }
+    [System.Serializable]
+    private class DungeonClearLogDto
+    {
+        public string nickname;
+        public string dungeonName;
+        public bool isClear;
+        public List<RewardLogEntry> rewards;
+    }
+
+    private IEnumerator CoPostDungeonClearLog(bool isClear, Dictionary<ItemData, int> finalRewards)
+    {
+        string nick = (SessionManager.Instance != null && !string.IsNullOrEmpty(SessionManager.Instance.Nickname))
+            ? SessionManager.Instance.Nickname : "Guest";
+
+        var dto = new DungeonClearLogDto
+        {
+            nickname = nick,
+            dungeonName = SceneManager.GetActiveScene().name,
+            isClear = isClear,
+            rewards = new List<RewardLogEntry>()
+        };
+        foreach (var pair in finalRewards)
+            if (pair.Value > 0)
+                dto.rewards.Add(new RewardLogEntry { itemName = pair.Key.itemName, count = pair.Value });
+
+        string json = JsonUtility.ToJson(dto);
+        string url = $"{ServerConfig.BackendBaseUrl}/Dungeon/clear";
+
+        using var req = new UnityWebRequest(url, "POST");
+        req.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(json));
+        req.downloadHandler = new DownloadHandlerBuffer();
+        req.SetRequestHeader("Content-Type", "application/json");
+        yield return req.SendWebRequest();
     }
 
     private Dictionary<ItemData, int> CalculateTotalRewards(bool isClear)

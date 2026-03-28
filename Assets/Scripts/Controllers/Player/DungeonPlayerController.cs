@@ -1,11 +1,12 @@
 using Fusion;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class DungeonPlayerController : NetworkBehaviour
 {
     [SerializeField] private float basePlayerSpeed = 5f;
+    [SerializeField] private Transform unitRoot;
     private Rigidbody2D rb;
-    private SpriteRenderer spriteRenderer;
     private DungeonPlayerStats stats; // 스탯 스크립트 가져오기
 
     [Networked, OnChangedRender(nameof(ApplyFlip))]
@@ -14,13 +15,12 @@ public class DungeonPlayerController : NetworkBehaviour
     public override void Spawned()
     {
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        stats = GetComponent<DungeonPlayerStats>();
+stats = GetComponent<DungeonPlayerStats>();
 
         if (HasInputAuthority)
         {
-            Camera.main.transform.SetParent(this.transform);
-            Camera.main.transform.localPosition = new Vector3(0, 0, -10);
+            var vcam = FindObjectOfType<CinemachineCamera>();
+            if (vcam != null) vcam.Follow = this.transform;
 
             if (InputManager.instance != null)
                 InputManager.instance.lookOrigin = this.transform;
@@ -61,7 +61,9 @@ public class DungeonPlayerController : NetworkBehaviour
 
     private void ApplyFlip()
     {
-        if (spriteRenderer != null)
-            spriteRenderer.flipX = IsFacingLeft;
+        Transform target = unitRoot != null ? unitRoot : transform;
+        Vector3 scale = target.localScale;
+        scale.x = IsFacingLeft ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.x);
+        target.localScale = scale;
     }
 }

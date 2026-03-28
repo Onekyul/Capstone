@@ -4,7 +4,11 @@ using Fusion;
 public class DungeonAttackManager : NetworkBehaviour
 {
     private DungeonWeaponBase currentWeapon;
-    private DungeonPlayerStats stats; // ★ 스탯 스크립트 참조 추가
+    private DungeonPlayerStats stats;
+    private Animator animator;
+
+    // 로컬 클라이언트 전용 쿨타임 추적 (즉각 이펙트/애니메이션용)
+    private float localNextAttackTime = 0f;
     
     [Header("Weapon Objects")]
     [SerializeField] private GameObject swordObject;
@@ -22,6 +26,7 @@ public class DungeonAttackManager : NetworkBehaviour
     public override void Spawned()
     {
         stats = GetComponent<DungeonPlayerStats>();
+        animator = GetComponentInChildren<Animator>();
 
 #if !UNITY_SERVER
         if (HasInputAuthority)
@@ -30,7 +35,12 @@ public class DungeonAttackManager : NetworkBehaviour
             {
                 string equippedWeaponId = DataManager.instance.currentPlayer.equippedWeaponId;
                 int weaponType = DataManager.instance.GetWeaponTypeFromId(equippedWeaponId);
+                Debug.Log($"[Client] RPC_SetWeapon 전송: weaponType={weaponType}, weaponId={equippedWeaponId}");
                 RPC_SetWeapon(weaponType, equippedWeaponId);
+            }
+            else
+            {
+                Debug.LogWarning("[Client] DataManager.instance가 null — RPC_SetWeapon 미전송!");
             }
             RPC_SetAutoAttack(true);
         }
@@ -50,11 +60,19 @@ public class DungeonAttackManager : NetworkBehaviour
     {
         if (!HasStateAuthority) return;
 
-        NetWeaponType = weaponType;
         IsAutoAttacking = true;
-        SwitchWeaponVisuals(weaponType, weaponId);
 
-        Debug.Log($"[Server] 무기 초기화: Type={weaponType}, Id={weaponId}");
+        if (currentWeapon == null)
+        {
+            // RPC_SetWeapon이 아직 미도착 → 서버 계산값으로 임시 설정 (RPC 도착 시 덮어씀)
+            SwitchWeaponVisuals(weaponType, weaponId);
+            Debug.Log($"[Server] 무기 초기화(서버 계산값 임시): Type={weaponType}, Id={weaponId}");
+        }
+        else
+        {
+            // RPC_SetWeapon이 이미 도착해 currentWeapon이 설정됨 → 건드리지 않음
+            Debug.Log($"[Server] 무기 초기화: RPC 이미 처리됨, currentWeapon={currentWeapon.GetType().Name}");
+        }
     }
 
     public override void FixedUpdateNetwork()
@@ -87,21 +105,67 @@ public class DungeonAttackManager : NetworkBehaviour
 
         if (IsAutoAttacking && currentWeapon != null && NetLookDir.sqrMagnitude > 0)
         {
-            currentWeapon.Attack(NetLookDir);
+            // 서버: 데미지 처리 + 다른 클라이언트들에게 이펙트 RPC
+            if (HasStateAuthority)
+            {
+                if (currentWeapon.TryServerAttack(NetLookDir))
+                {
+                    RPC_PlayAttackEffect(NetWeaponType, NetLookDir);
+                }
+            }
+
+#if !UNITY_SERVER
+            // 로컬 클라이언트: 즉시 이펙트 + 애니메이션 (서버 왕복 없음)
+            if (HasInputAuthority)
+            {
+                float speedMult = stats != null ? stats.AttackSpeedMultiplier : 1f;
+                float cooldown = currentWeapon.NetAttackCooldown > 0f
+                    ? currentWeapon.NetAttackCooldown / speedMult
+                    : 1f; // 초기화 전 기본값
+                float now = Runner.SimulationTime;
+
+                if (now >= localNextAttackTime)
+                {
+                    localNextAttackTime = now + cooldown;
+                    PlayAttackVisuals(NetWeaponType, NetLookDir);
+                }
+            }
+#endif
         }
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     public void RPC_SetWeapon(int weaponType, string weaponId)
     {
+        Debug.Log($"[Server] RPC_SetWeapon 수신: weaponType={weaponType}, weaponId={weaponId}, 이전NetWeaponType={NetWeaponType}");
         NetWeaponType = weaponType;
-        SwitchWeaponVisuals(weaponType, weaponId); 
+        SwitchWeaponVisuals(weaponType, weaponId);
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     public void RPC_SetAutoAttack(NetworkBool isAttacking)
     {
         IsAutoAttacking = isAttacking;
+    }
+
+    // 다른 플레이어들에게만 전송 (Proxies = InputAuthority도 StateAuthority도 아닌 클라이언트)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.Proxies)]
+    public void RPC_PlayAttackEffect(int weaponType, Vector2 direction)
+    {
+        PlayAttackVisuals(weaponType, direction);
+    }
+
+    private void PlayAttackVisuals(int weaponType, Vector2 direction)
+    {
+        if (animator != null)
+            animator.SetTrigger("2_Attack");
+
+        switch (weaponType)
+        {
+            case 0: swordObject?.GetComponent<DungeonSword>()?.CreateAttackEffect(direction); break;
+            case 1: spearObject?.GetComponent<DungeonSpear>()?.CreateAttackEffect(direction); break;
+            case 2: bowObject?.GetComponent<DungeonBow>()?.CreateAttackEffect(direction); break;
+        }
     }
 
     public void OnWeaponChanged()
@@ -155,6 +219,9 @@ public class DungeonAttackManager : NetworkBehaviour
                 }
                 break;
         }
+
+        if (animator != null)
+            animator.SetInteger("WeaponType", weaponType);
 
         Debug.Log($"[DungeonAttackManager] SwitchWeaponVisuals: type={weaponType}, currentWeapon={currentWeapon}");
     }

@@ -50,7 +50,7 @@ public class MainMenu : MonoBehaviour
                 DataManager.instance.InitializeNetwork(
                     () =>
                     {
-                        SceneLoader.Instance.LoadSceneByButton("BaseArea 1");
+                        SceneLoader.Instance.LoadSceneByButton("BaseArea 1 2");
                     },
                     () =>
                     {
@@ -122,7 +122,7 @@ public class MainMenu : MonoBehaviour
                     Debug.Log("[MainMenu] 초기 게임 데이터(나무 장비 등)를 서버에 Save 요청합니다.");
                     DataManager.instance.SaveGame(); 
 
-                    SceneLoader.Instance.LoadSceneByButton("BaseArea 1");
+                    SceneLoader.Instance.LoadSceneByButton("BaseArea 1 2");
                 }
             }
             else

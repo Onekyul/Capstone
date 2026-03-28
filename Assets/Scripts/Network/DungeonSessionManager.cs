@@ -21,7 +21,7 @@ public class DungeonSessionManager : MonoBehaviour, INetworkRunnerCallbacks
 
     [Header("씬 이름")]
     [SerializeField] private string bossDungeonSceneName = "BossTestScene 1";
-    [SerializeField] private string lobbySceneName = "BaseArea 1";
+    [SerializeField] private string lobbySceneName = "BaseArea 1 2";
 
     private NetworkRunner _currentRunner;
     private bool _isTransitioning;

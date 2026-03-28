@@ -48,8 +48,11 @@ public class SpearProjectile : MonoBehaviour
                     }
                 }
 
-                // 몬스터에게 데미지 전달
-                monster.TakeDamage(finalDamage);
+                // 몬스터에게 데미지 전달 (damage=0이면 시각 효과 전용이므로 스킵)
+                if (baseDamage > 0)
+                {
+                    monster.TakeDamage(finalDamage);
+                }
 
                 // 창이 적을 관통하지 않고 부딪힌 즉시 사라지게 하려면 아래 주석을 해제하세요.
                 // Destroy(gameObject); 

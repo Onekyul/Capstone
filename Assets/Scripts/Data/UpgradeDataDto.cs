@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class UpgradeReqDto
 {
     public int userId;
+    public string nickname;
     public string targetId;
     public string materialInfo;
     public float successRate;
