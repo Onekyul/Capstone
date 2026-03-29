@@ -30,7 +30,7 @@ public class DungeonPlayerStats : NetworkBehaviour, IDamageable
     [SerializeField] private TMP_Text nicknameText;
 
     [Networked, OnChangedRender(nameof(UpdateNicknameUI))]
-    public NetworkString<_32> Nickname { get; set; }
+    public NetworkString<_64> Nickname { get; set; }
 
     public event Action<float> OnHealthChangedLocal;
     public event Action OnPlayerDiedLocal;
@@ -62,7 +62,7 @@ public class DungeonPlayerStats : NetworkBehaviour, IDamageable
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    public void RPC_SetNickname(NetworkString<_32> newNickname)
+    public void RPC_SetNickname(NetworkString<_64> newNickname)
     {
         Nickname = newNickname;
     }

@@ -19,8 +19,6 @@ public class DungeonSword : DungeonWeaponBase
         // Physics2D 대신 transform.position 직접 비교 → 이동 중 위치 desync 방지
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        Debug.Log($"[검] 공격발동 위치:{transform.position} 범위:{swordRange} Enemy수:{enemies.Length} 데미지:{GetTotalDamage()}");
-
         foreach (var enemy in enemies)
         {
             if (!enemy.activeInHierarchy) continue;
@@ -32,14 +30,12 @@ public class DungeonSword : DungeonWeaponBase
             if (Vector2.Angle(direction, enemyDir) > attackAngle / 2f) continue;
 
             MonsterController monster = enemy.GetComponentInParent<MonsterController>();
-            Debug.Log($"[검] 범위내 Enemy:{enemy.name} dist:{dist:F1} monster:{(monster != null ? "OK" : "NULL")}");
             if (monster != null)
             {
                 float finalDamage = GetTotalDamage();
                 int[] appliedEnchants = CalculateAppliedEnchants();
                 monster.TakeDamage(finalDamage);
                 monster.TakeElement(appliedEnchants);
-                Debug.Log($"[서버] {enemy.name} 썰어버림! 데미지: {finalDamage}");
             }
         }
     }

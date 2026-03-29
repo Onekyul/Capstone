@@ -35,8 +35,7 @@ public class DungeonAttackManager : NetworkBehaviour
             {
                 string equippedWeaponId = DataManager.instance.currentPlayer.equippedWeaponId;
                 int weaponType = DataManager.instance.GetWeaponTypeFromId(equippedWeaponId);
-                Debug.Log($"[Client] RPC_SetWeapon 전송: weaponType={weaponType}, weaponId={equippedWeaponId}");
-                RPC_SetWeapon(weaponType, equippedWeaponId);
+                RPC_SetWeapon(weaponType);
             }
             else
             {
@@ -47,7 +46,7 @@ public class DungeonAttackManager : NetworkBehaviour
 
         // 데디서버가 NetWeaponType을 이미 0으로 설정한 경우 OnChangedRender가 안 불리므로
         // 클라이언트에서 현재 값으로 직접 초기화
-        SwitchWeaponVisuals(NetWeaponType, "");
+        SwitchWeaponVisuals(NetWeaponType);
 #endif
         // 데디서버에서는 BossDungeonServer가 InitWeaponFromServer()를 호출함
     }
@@ -65,7 +64,7 @@ public class DungeonAttackManager : NetworkBehaviour
         if (currentWeapon == null)
         {
             // RPC_SetWeapon이 아직 미도착 → 서버 계산값으로 임시 설정 (RPC 도착 시 덮어씀)
-            SwitchWeaponVisuals(weaponType, weaponId);
+            SwitchWeaponVisuals(weaponType);
             Debug.Log($"[Server] 무기 초기화(서버 계산값 임시): Type={weaponType}, Id={weaponId}");
         }
         else
@@ -88,7 +87,7 @@ public class DungeonAttackManager : NetworkBehaviour
             // 살았는데 무기가 안 보이면 다시 보이게 세팅
             if (currentWeapon != null && !currentWeapon.gameObject.activeSelf)
             {
-                SwitchWeaponVisuals(NetWeaponType, "");
+                SwitchWeaponVisuals(NetWeaponType);
             }
         }
 
@@ -135,11 +134,11 @@ public class DungeonAttackManager : NetworkBehaviour
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    public void RPC_SetWeapon(int weaponType, string weaponId)
+    public void RPC_SetWeapon(int weaponType)
     {
-        Debug.Log($"[Server] RPC_SetWeapon 수신: weaponType={weaponType}, weaponId={weaponId}, 이전NetWeaponType={NetWeaponType}");
+        Debug.Log($"[Server] RPC_SetWeapon 수신: weaponType={weaponType}, 이전NetWeaponType={NetWeaponType}");
         NetWeaponType = weaponType;
-        SwitchWeaponVisuals(weaponType, weaponId);
+        SwitchWeaponVisuals(weaponType);
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
@@ -170,10 +169,8 @@ public class DungeonAttackManager : NetworkBehaviour
 
     public void OnWeaponChanged()
     {
-      
         if (stats != null && stats.IsDead) return;
-        
-        SwitchWeaponVisuals(NetWeaponType, ""); 
+        SwitchWeaponVisuals(NetWeaponType);
     }
 
     private void HideAllWeapons()
@@ -185,7 +182,7 @@ public class DungeonAttackManager : NetworkBehaviour
 
     public DungeonWeaponBase GetCurrentWeapon() => currentWeapon;
 
-    private void SwitchWeaponVisuals(int weaponType, string weaponId)
+    private void SwitchWeaponVisuals(int weaponType)
     {
         HideAllWeapons();
 

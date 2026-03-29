@@ -65,10 +65,17 @@ public class DungeonSessionManager : MonoBehaviour, INetworkRunnerCallbacks
         SceneManager.LoadScene(bossDungeonSceneName);
         yield return null; // 씬 로드 1프레임 대기
 
-        // 4. 새 러너 생성 → GameMode.Client로 데디서버 접속
+        // 3. 새 러너 생성 → GameMode.Client로 데디서버 접속
         yield return CoStartClientRunner(sessionName);
 
         _isTransitioning = false;
+
+        // 접속 실패 시(_currentRunner == null) 로비로 복귀
+        if (_currentRunner == null)
+        {
+            Debug.LogError("[DungeonSession] 보스던전 접속 최종 실패 — 로비로 복귀");
+            ReturnToLobby();
+        }
     }
 
     // ============================
@@ -135,11 +142,12 @@ public class DungeonSessionManager : MonoBehaviour, INetworkRunnerCallbacks
 
     private IEnumerator CoShutdownAllRunners()
     {
-        // NetworkRunner.Instances로 활성 러너 모두 종료
+        // NetworkRunner.Instances로 모든 러너 종료
+        // IsRunning 체크 없이 항상 Shutdown() 호출 — 연결 중인 러너도 포함하여 Photon 내부 상태 정리
         var runners = new List<NetworkRunner>(NetworkRunner.Instances);
         foreach (var runner in runners)
         {
-            if (runner != null && runner.IsRunning)
+            if (runner != null)
             {
                 var task = runner.Shutdown();
                 while (!task.IsCompleted)
@@ -147,11 +155,13 @@ public class DungeonSessionManager : MonoBehaviour, INetworkRunnerCallbacks
             }
         }
 
-        if (_currentRunner != null)
+        // 종료된 모든 러너의 GameObject 제거 (ghost runner 방지)
+        foreach (var runner in runners)
         {
-            Destroy(_currentRunner.gameObject);
-            _currentRunner = null;
+            if (runner != null)
+                Destroy(runner.gameObject);
         }
+        _currentRunner = null;
     }
 
     private IEnumerator CoStartClientRunner(string sessionName)
@@ -174,7 +184,7 @@ public class DungeonSessionManager : MonoBehaviour, INetworkRunnerCallbacks
 
             var sceneManager = _currentRunner.GetComponent<INetworkSceneManager>();
             if (sceneManager == null)
-                sceneManager = _currentRunner.gameObject.AddComponent<NetworkSceneManagerDefault>();
+                sceneManager = _currentRunner.gameObject.AddComponent<DungeonClientSceneManager>();
 
             var startTask = _currentRunner.StartGame(new StartGameArgs
             {
@@ -206,8 +216,7 @@ public class DungeonSessionManager : MonoBehaviour, INetworkRunnerCallbacks
                 yield return new WaitForSeconds(retryDelay);
         }
 
-        Debug.LogError($"[DungeonSession] {maxRetries}회 시도 후 접속 실패 — 로비로 복귀");
-        ReturnToLobby();
+        Debug.LogError($"[DungeonSession] {maxRetries}회 시도 후 접속 실패");
     }
 
     // ============================
@@ -244,12 +253,18 @@ public class DungeonSessionManager : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason reason)
     {
-        Debug.Log($"[DungeonSession] 세션 종료: {reason}");
+        Debug.Log($"[DungeonSession] 세션 종료: runner={runner?.name}, reason={reason}, isCurrentRunner={runner == _currentRunner}");
+
+        // Fusion dedicated server: 서버 종료 시 클라이언트는 OnDisconnectedFromServer가 아닌
+        // OnShutdown(Ok)를 받음 → 보스던전 러너가 외부 원인으로 닫힌 경우 로비 복귀
+        if (runner == _currentRunner && !_isTransitioning)
+            ReturnToLobby();
     }
 
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
     {
-        Debug.LogWarning($"[DungeonSession] 서버 연결 끊김: {reason}");
+        Debug.LogWarning($"[DungeonSession] 서버 연결 끊김: runner={runner?.name}, reason={reason}, isCurrentRunner={runner == _currentRunner}");
+        if (runner != _currentRunner) return; // 보스던전 러너가 아니면 무시
         ReturnToLobby();
     }
 
