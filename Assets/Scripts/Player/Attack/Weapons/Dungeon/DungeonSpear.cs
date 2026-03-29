@@ -4,9 +4,8 @@ using Fusion;
 public class DungeonSpear : DungeonWeaponBase
 {
     [Header("Spear Specific")]
-    [SerializeField] private float spearRange = 3f;
-    [SerializeField] private float attackWidth = 0.5f;
-    [SerializeField] private LayerMask enemyLayer = 128; // Layer 7 (Enemy) - 2^7 = 128
+    private float spearRange = 7.0f;
+    private float attackWidth = 2.0f;
     [SerializeField] private GameObject attackEffectPrefab;
     [SerializeField] private float projectileSpeed = 15f;
     [SerializeField] private float projectileLifeTime = 0.15f;
@@ -14,30 +13,34 @@ public class DungeonSpear : DungeonWeaponBase
     // ★ 오직 서버(데디케이티드)에서만 실행되는 진짜 타격 판정
     protected override void ExecuteServerAttack(Vector2 direction)
     {
-        // 1. 박스 중심점 및 각도 계산
-        Vector2 boxCenter = (Vector2)transform.position + direction * (spearRange / 2);
-        Vector2 boxSize = new Vector2(spearRange, attackWidth);
-        float angle = Vector2.SignedAngle(Vector2.right, direction);
+        // Physics2D 대신 transform.position 직접 비교 → 이동 중 위치 desync 방지
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        // 2. 범위 내 적 찾기 (태그 기반 - 레이어 설정 무관하게 동작)
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(boxCenter, boxSize, angle);
+        Vector2 attackOrigin = transform.position;
+        Vector2 perpDir = new Vector2(-direction.y, direction.x); // 공격 방향 수직
 
-        foreach (Collider2D col in colliders)
+        foreach (var enemy in enemies)
         {
-            if (!col.CompareTag("Enemy")) continue;
-            MonsterController monster = col.GetComponent<MonsterController>();
+            if (!enemy.activeInHierarchy) continue;
+
+            Vector2 toEnemy = (Vector2)enemy.transform.position - attackOrigin;
+
+            // 전방 거리 체크 (공격 방향 기준)
+            float forwardDist = Vector2.Dot(toEnemy, direction);
+            if (forwardDist < 0f || forwardDist > spearRange) continue;
+
+            // 측면 거리 체크 (폭 기준)
+            float lateralDist = Mathf.Abs(Vector2.Dot(toEnemy, perpDir));
+            if (lateralDist > attackWidth / 2f) continue;
+
+            MonsterController monster = enemy.GetComponentInParent<MonsterController>();
             if (monster != null)
             {
                 float finalDamage = GetTotalDamage();
                 int[] appliedEnchants = CalculateAppliedEnchants();
-                
-                // 엘리트 킬러 같은 특수 능력은 여기서 playerStats.GetMonsterTypeDamageMultiplier() 등으로 추가 계산 가능
-                
-                // 서버가 몬스터 체력을 깎음
                 monster.TakeDamage(finalDamage);
                 monster.TakeElement(appliedEnchants);
-
-                Debug.Log($"[서버] 창 찌르기 적중! {col.name}에게 {finalDamage} 데미지!");
+                Debug.Log($"[서버] 창 찌르기 적중! {enemy.name}에게 {finalDamage} 데미지!");
             }
         }
     }
@@ -57,7 +60,6 @@ public class DungeonSpear : DungeonWeaponBase
 
         GameObject effect = Instantiate(attackEffectPrefab, spawnPosition, rotation);
 
-        // 시각 효과 전용: damage=0 → 투사체가 날아가지만 데미지는 서버에서 처리
         SpearProjectile proj = effect.GetComponent<SpearProjectile>();
         if (proj == null)
             proj = effect.AddComponent<SpearProjectile>();

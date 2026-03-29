@@ -4,9 +4,8 @@ using Fusion;
 public class DungeonSword : DungeonWeaponBase
 {
     [Header("Sword Specific")]
-    [SerializeField] private float attackAngle = 90f;   
-    [SerializeField] private LayerMask enemyLayer = 128; // Layer 7 (Enemy) - 2^7 = 128
-    [SerializeField] private float swordRange = 2.0f; 
+    [SerializeField] private float attackAngle = 90f;
+    private float swordRange = 5.0f;
 
     [Header("Effect Settings")]
     [SerializeField] private float effectOffsetDistance = 0.8f;
@@ -17,33 +16,30 @@ public class DungeonSword : DungeonWeaponBase
     // ★ 오직 서버에서만 실행되는 진짜 타격 판정
     protected override void ExecuteServerAttack(Vector2 direction)
     {
-        // 1. 범위 내 적 찾기 (태그 기반 - 레이어 설정 무관하게 동작)
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, swordRange);
+        // Physics2D 대신 transform.position 직접 비교 → 이동 중 위치 desync 방지
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        foreach (Collider2D col in colliders)
+        Debug.Log($"[검] 공격발동 위치:{transform.position} 범위:{swordRange} Enemy수:{enemies.Length} 데미지:{GetTotalDamage()}");
+
+        foreach (var enemy in enemies)
         {
-            if (!col.CompareTag("Enemy")) continue;
+            if (!enemy.activeInHierarchy) continue;
 
-            // 2. 각도(부채꼴) 안에 있는지 검사
-            Vector2 enemyDirection = (col.transform.position - transform.position).normalized;
-            float angle = Vector2.Angle(direction, enemyDirection);
+            float dist = Vector2.Distance(transform.position, enemy.transform.position);
+            if (dist > swordRange) continue;
 
-            if (angle <= attackAngle / 2f)
+            Vector2 enemyDir = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized;
+            if (Vector2.Angle(direction, enemyDir) > attackAngle / 2f) continue;
+
+            MonsterController monster = enemy.GetComponentInParent<MonsterController>();
+            Debug.Log($"[검] 범위내 Enemy:{enemy.name} dist:{dist:F1} monster:{(monster != null ? "OK" : "NULL")}");
+            if (monster != null)
             {
-                // TODO: 멀티플레이용 몬스터 스크립트로 변경해야 함! (예: DungeonMonsterController)
-                // 현재는 기존 스크립트 이름 사용 (나중에 에러 나면 수정)
-                MonsterController monster = col.GetComponent<MonsterController>(); 
-                if (monster != null)
-                {
-                    float finalDamage = GetTotalDamage();
-                    int[] appliedEnchants = CalculateAppliedEnchants();
-                    
-                    // 데미지 입히기 (서버가 몬스터 체력을 깎음)
-                    monster.TakeDamage(finalDamage);
-                    monster.TakeElement(appliedEnchants);
-
-                    Debug.Log($"[서버] {col.name} 썰어버림! 데미지: {finalDamage}");
-                }
+                float finalDamage = GetTotalDamage();
+                int[] appliedEnchants = CalculateAppliedEnchants();
+                monster.TakeDamage(finalDamage);
+                monster.TakeElement(appliedEnchants);
+                Debug.Log($"[서버] {enemy.name} 썰어버림! 데미지: {finalDamage}");
             }
         }
     }
@@ -56,22 +52,16 @@ public class DungeonSword : DungeonWeaponBase
             Debug.LogWarning($"[DungeonSword] attackEffectPrefab이 null입니다! 오브젝트: {gameObject.name}");
             return;
         }
-        if (attackEffectPrefab != null)
-        {
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            Vector3 spawnPosition = transform.position + (Vector3)(direction * effectOffsetDistance);
 
-            // 퓨전의 Runner.Spawn이 아니라 그냥 Instantiate를 씁니다!
-            // 왜냐하면 RPC를 통해 모든 클라이언트가 이 함수를 각자 실행하므로, 알아서 자기 화면에 하나씩 그리기 때문입니다. (최적화)
-            Debug.Log($"[DungeonSword] CreateAttackEffect 실행! 위치:{spawnPosition}, 방향:{direction}");
-            GameObject effect = Instantiate(attackEffectPrefab, spawnPosition, rotation);
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        Vector3 spawnPosition = transform.position + (Vector3)(direction * effectOffsetDistance);
 
-            // 시각 효과 전용: damage=0으로 Initialize → 투사체가 날아가지만 데미지는 서버에서 처리
-            SwordProjectile proj = effect.GetComponent<SwordProjectile>();
-            if (proj == null)
-                proj = effect.AddComponent<SwordProjectile>();
-            proj.Initialize(direction, projectileSpeed, 0.3f, 0f, null, null);
-        }
+        GameObject effect = Instantiate(attackEffectPrefab, spawnPosition, rotation);
+
+        SwordProjectile proj = effect.GetComponent<SwordProjectile>();
+        if (proj == null)
+            proj = effect.AddComponent<SwordProjectile>();
+        proj.Initialize(direction, projectileSpeed, 0.3f, 0f, null, null);
     }
 }

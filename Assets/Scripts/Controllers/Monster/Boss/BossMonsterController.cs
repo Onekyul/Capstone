@@ -68,6 +68,7 @@ public class BossMonsterController : MonsterController
     private float attackTimer;
     private bool isInvincible = false; // 무적 상태
     private float _baseSpeed; // 레이지 속도 배율 계산용
+    private bool canAttack = false; // BossStageManager가 활성화하기 전까지 공격 금지
 
     protected override void Start()
     {
@@ -77,9 +78,25 @@ public class BossMonsterController : MonsterController
 
 #if UNITY_SERVER
         _baseSpeed = moveSpeed;
-        attackTimer = attackCooldownNormal; // 서버 시작 직후 즉시 공격 방지
+        attackTimer = attackCooldownNormal;
         StartCoroutine(TeleportRoutine());
 #endif
+    }
+
+    /// <summary>
+    /// BossStageManager에서 스테이지 시작 시 호출. n초 후 공격 허용.
+    /// </summary>
+    public void StartAttackingAfterDelay(float delay = 5f)
+    {
+        StartCoroutine(CoEnableAttack(delay));
+    }
+
+    private System.Collections.IEnumerator CoEnableAttack(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        canAttack = true;
+        attackTimer = 0f; // 딜레이 끝나면 바로 첫 공격
+        Debug.Log($"[Boss] {delay}초 딜레이 후 공격 시작");
     }
 
     protected override void Update()
@@ -103,7 +120,9 @@ public class BossMonsterController : MonsterController
             base.Update(); // 기본 이동 로직
         }
 
-        // 공격 쿨타임 관리
+        // 공격 쿨타임 관리 (canAttack 허용 이후에만 실행)
+        if (!canAttack) return;
+
         attackTimer -= Time.deltaTime;
         float currentCooldown = (CurrentPhase == BossPhase.Rage) ? attackCooldownRage : attackCooldownNormal;
 
