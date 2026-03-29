@@ -529,7 +529,7 @@ public class MonsterController : MonoBehaviour
             if (!p.activeInHierarchy) continue;
             // 사망한 플레이어는 추격/공격 대상에서 제외
             var dungeonStats = p.GetComponent<DungeonPlayerStats>();
-            if (dungeonStats != null && dungeonStats.IsDead) continue;
+            if (dungeonStats != null && dungeonStats.Object != null && dungeonStats.Object.IsValid && dungeonStats.IsDead) continue;
             float sqr = (p.transform.position - myPos).sqrMagnitude;
             if (sqr < minSqrDist) { minSqrDist = sqr; closest = p.transform; }
         }

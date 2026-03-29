@@ -14,6 +14,9 @@ public class DungeonPlayerStats : NetworkBehaviour, IDamageable
     [Networked]
     public NetworkBool IsFrozen { get; set; }
 
+    private float _spawnInvincibilityEndTime = -1f;
+    private const float SpawnInvincibilityDuration = 3f; // 스폰 후 3초 무적
+
     [Header("Base Stats")]
     public float baseMaxHP = 100f;
     public float baseDefense = 0f;
@@ -34,6 +37,10 @@ public class DungeonPlayerStats : NetworkBehaviour, IDamageable
 
     public override void Spawned()
     {
+        // 스폰 즉시 무적 타이머 시작 (서버 전용) — InitFromServerData 호출 전에도 데미지 방지
+        if (HasStateAuthority)
+            _spawnInvincibilityEndTime = Time.time + SpawnInvincibilityDuration;
+
 #if !UNITY_SERVER
         if (HasInputAuthority)
         {
@@ -171,6 +178,7 @@ public class DungeonPlayerStats : NetworkBehaviour, IDamageable
     {
         if (!HasStateAuthority) return;
         if (IsDead || NetCurHP <= 0) return;
+        if (_spawnInvincibilityEndTime > 0f && Time.time < _spawnInvincibilityEndTime) return; // 스폰 무적
 
         float damageReduction = TotalDefense / (TotalDefense + 100f);
         float finalDamage = rawDamage * (1f - damageReduction);

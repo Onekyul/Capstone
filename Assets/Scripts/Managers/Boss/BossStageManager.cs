@@ -85,6 +85,10 @@ public class BossStageManager : MonoBehaviour
         isRageMode = false;
         timer = 0f;
 
+        // 보스 공격 5초 딜레이 후 시작
+        if (boss != null)
+            boss.StartAttackingAfterDelay(5f);
+
         // 잡몹 스폰 시작
         if (spawnRoutine != null) StopCoroutine(spawnRoutine);
         spawnRoutine = StartCoroutine(SpawnMinionRoutine());
