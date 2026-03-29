@@ -84,6 +84,7 @@ public abstract class DungeonWeaponBase : NetworkBehaviour
     {
         if (!HasStateAuthority) return false;
         if (playerStats != null && playerStats.IsDead) return false;
+        if (NetAttackCooldown <= 0f) return false; // 쿨타임 초기화 전 공격 차단
         if (!AttackCooldownTimer.ExpiredOrNotRunning(Runner)) return false;
 
         Debug.Log($"[Server] {GetType().Name}.TryServerAttack() 발동");
