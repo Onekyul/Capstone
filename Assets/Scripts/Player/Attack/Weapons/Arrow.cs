@@ -56,7 +56,7 @@ public class Arrow : MonoBehaviour
                 monster.TakeDamage(finalDamage);
                 
                 // ★ 그 다음 인챈트 적용 (storedLastDamage 기반 계산)
-                if (enchantLevels != null && enchantLevels.Length == 4)
+                if (enchantLevels != null && enchantLevels.Length >= 4)
                 {
                     monster.TakeElement(enchantLevels);
                 }

@@ -18,7 +18,7 @@ public class DungeonArrow : NetworkBehaviour
     public void InitNetworkData(float damage, int[] enchants)
     {
         DamageValue = damage;
-        if (enchants != null && enchants.Length == 4)
+        if (enchants != null && enchants.Length >= 4)
         {
             EnchantFire = enchants[0];
             EnchantIce = enchants[1];
