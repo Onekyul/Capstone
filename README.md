@@ -20,7 +20,7 @@
 ### 보스 레이드
 
 <p align="center">
-  <img src="docs/gif/boss_raid.gif" width="80%" alt="보스 레이드"/>
+  <img src="Docs/gif/Raid.gif" width="80%" alt="보스 레이드"/>
 </p>
 
 ### 속성 인챈트 시스템
@@ -28,9 +28,9 @@
 아이템 파밍을 통해 무기에 속성 인챈트를 적용, 다양한 전투 스타일 구현
 
 <p align="center">
-  <img src="docs/gif/fire.gif" width="30%" alt="불 속성 인챈트"/>
-  <img src="docs/gif/ice.gif" width="30%" alt="얼음 속성 인챈트"/>
-  <img src="docs/gif/thunder.gif" width="30%" alt="번개 속성 인챈트"/>
+  <img src="Docs/gif/Enchant_F.gif" width="30%" alt="불 속성 인챈트"/>
+  <img src="Docs/gif/Enchant_I.gif" width="30%" alt="얼음 속성 인챈트"/>
+  <img src="Docs/gif/Enchant_T.gif" width="30%" alt="번개 속성 인챈트"/>
 </p>
 
 <p align="center">
