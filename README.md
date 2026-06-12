@@ -17,6 +17,11 @@
 
 ## 게임 플레이
 
+### 싱글 플레이
+<p align="center">
+  <img src="Docs/gif/play.gif" width="80%" alt="싱글 플레이"/>
+</p>
+
 ### 보스 레이드
 
 <p align="center">
